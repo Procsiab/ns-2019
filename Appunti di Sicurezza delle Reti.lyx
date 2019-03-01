@@ -246,20 +246,167 @@ LatexCommand tableofcontents
 
 \end_layout
 
-\begin_layout Chapter
-Capitolo bello
-\end_layout
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\mcd}[2]{\mathrm{{\scriptstyle MCD}}\left(#1,\,#2\right)}
+\end_inset
 
-\begin_layout Section
-Sezione interessante
-\end_layout
 
-\begin_layout Subsection
-Sottosezione illuminante
 \end_layout
 
 \begin_layout Standard
-Testo incredibilmente comprensibile.
+\begin_inset FormulaMacro
+\newcommand{\cgm}[3]{#1\equiv#2\left(\text{mod}\,#3\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\mod}[2]{#1\,\text{mod}\,#2}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\tc}{\,:\,}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Part
+Crittografia
+\end_layout
+
+\begin_layout Chapter
+Teoria dei numeri
+\end_layout
+
+\begin_layout Section
+Proprietà degli interi
+\end_layout
+
+\begin_layout Standard
+Da ora in avanti parleremo di numeri interi, positivi o negativi, operando
+ all'interno dell'insieme 
+\begin_inset Formula $\mathbb{Z}$
+\end_inset
+
+; enunciamo la proprietà di divisione nel modo seguente: presi due interi
+ 
+\begin_inset Formula $a,\,b\in\mathbb{Z}$
+\end_inset
+
+ non uguali (
+\begin_inset Formula $a\neq b$
+\end_inset
+
+) si dice che 
+\begin_inset Formula $a$
+\end_inset
+
+ divide 
+\begin_inset Formula $b$
+\end_inset
+
+ quando 
+\begin_inset Formula $a$
+\end_inset
+
+ è un divisore di 
+\begin_inset Formula $b$
+\end_inset
+
+, ovvero
+\begin_inset Formula 
+\[
+a\backslash b\implies\exists k\tc b=k\cdot a
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dalla precedente deduciamo che 
+\begin_inset Formula $b$
+\end_inset
+
+ dovrà essere un multiplo di 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ Inoltre, otteniamo anche che:
+\begin_inset Formula 
+\[
+\forall a\in\mathbb{Z}\,:\,a\backslash0;\;\nexists a\in\mathbb{Z}\tc0\backslash a;\;\forall a\in\mathbb{Z}\,:\,a\backslash a
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La relazione di divisione introdotta ammette la proprietà transitiva:
+\begin_inset Formula 
+\[
+\forall a,b,c\in\mathbb{Z}\,\land\,a\neq b\neq c\tc a\backslash b\,\land\,b\backslash c\implies a\backslash c
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Numeri primi
+\end_layout
+
+\begin_layout Subsection
+Definizione e proprietà
+\end_layout
+
+\begin_layout Standard
+Un numero 
+\begin_inset Formula $a$
+\end_inset
+
+ si dice primo quando è divisibile solo per 1 e per sé stesso (ovvero se
+ vale 
+\begin_inset Formula $\forall b\in\mathbb{Z}\tc b\backslash a\iff b=1\,\lor\,b=a$
+\end_inset
+
+); un numero composto è scomponibile in un numero finito di fattori, e questa
+ scomposizione è unica.
+ Determinare la primalità di un numero tuttavia non è cosa facile; introduciamo
+ il seguente teorema:
+\end_layout
+
+\begin_layout Theorem
+Sia 
+\begin_inset Formula $\pi\left(n\right)\coloneqq$
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+numero di numeri primi fino a 
+\begin_inset Formula $n$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, allora vale
 \begin_inset Marginal
 status collapsed
 
@@ -279,7 +426,7 @@ height "1pt"
 \begin_inset Newline newline
 \end_inset
 
-Teorema fondamentale
+Teorema dei numeri primi
 \series default
 
 \begin_inset Index idx
@@ -288,7 +435,483 @@ status open
 \begin_layout Plain Layout
 
 \size footnotesize
-Teorema fondamentale
+Numeri primi, teorema
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Numeri-primi"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.1cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\pi\left(n\right)\sim\dfrac{n}{\ln\left(n\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Alcuni algoritmi crittografici usano i numeri primi come 
+\begin_inset Quotes eld
+\end_inset
+
+ingredienti
+\begin_inset Quotes erd
+\end_inset
+
+ per creare le chiavi: in questi casi il teorema introdotto si dimostra
+ molto utile per determinare la quantità di numeri primi che è possibile
+ ottenere con una data quantità di cifre.
+\end_layout
+
+\begin_layout Example
+Determinare una stima della quantità di numeri primi che è possibile ottenere
+ a partire da 100 cifre.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Usando il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Numeri-primi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ possiamo scrivere la quantità di numeri primi con 100 cifre come
+\begin_inset Formula 
+\[
+\pi\left(10^{100}\right)-\pi\left(10^{99}\right)=\frac{10^{100}}{100\ln\left(10\right)}-\frac{10^{99}}{99\ln\left(10\right)}\simeq\boxed{10^{97}}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se fossimo nel contesto di un algoritmo di cifratura, pur sapendo che la
+ chiave sia un numero primo di 100 cifre, dovremmo analizzare in ogni caso
+ 
+\begin_inset Formula $10^{97}$
+\end_inset
+
+ possibili candidati.
+\end_layout
+
+\begin_layout Standard
+Prendiamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La funzione 
+\begin_inset Formula $\mcd ab$
+\end_inset
+
+ indica il massimo comune divisore tra 
+\begin_inset Formula $a$
+\end_inset
+
+ e 
+\begin_inset Formula $b$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ ora 
+\begin_inset Formula $a,\,b\in\mathbb{Z}$
+\end_inset
+
+ tali che 
+\begin_inset Formula $\mcd ab=1$
+\end_inset
+
+: in tal caso diremo che 
+\begin_inset Formula $e$
+\end_inset
+
+ e 
+\begin_inset Formula $b$
+\end_inset
+
+ sono 
+\emph on
+coprimi
+\emph default
+ o 
+\emph on
+primi relativi
+\emph default
+, indicando la loro relazione come 
+\begin_inset Formula $a\perp b$
+\end_inset
+
+; da questa relazione segue che due numeri coprimi non hanno fattori in
+ comune.
+\end_layout
+
+\begin_layout Standard
+Escluso il numero 2, tutti i primi sono dispari, e sono divisi in due classi:
+ preso un numero primo 
+\begin_inset Formula $p$
+\end_inset
+
+, esso appartiene a una delle seguenti classi:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm p14$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm p34$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'operatore 
+\begin_inset Formula $\equiv$
+\end_inset
+
+ indica la congruenza in modulo: si dice che un numero 
+\begin_inset Formula $a\in\mathbb{Z}$
+\end_inset
+
+ è 
+\emph on
+congruente a 1 modulo 
+\begin_inset Formula $n$
+\end_inset
+
+
+\emph default
+ (e si scrive 
+\begin_inset Formula $\cgm a1n$
+\end_inset
+
+) se il resto della divisione di 
+\begin_inset Formula $a$
+\end_inset
+
+ per 
+\begin_inset Formula $n$
+\end_inset
+
+ è 1.
+\end_layout
+
+\begin_layout Standard
+Componendo le due classi osserviamo che tutti i numeri primi 
+\begin_inset Formula $p$
+\end_inset
+
+ possono essere indicati come 
+\begin_inset Formula 
+\begin{equation}
+p=6k\pm1\implies\cgm p{\pm1}6,\,k\in\mathbb{Z}\label{eq:Successione-primi-classi}
+\end{equation}
+
+\end_inset
+
+Troveremo per esempio 
+\begin_inset Formula $p_{k=1}=6\pm1=\left\{ 5,\,7\right\} ,\,p_{k=2}=12\pm1=\left\{ 11,\,13\right\} ,\,p_{k=3}=18\pm1=\left\{ 17,\,19\right\} ,\,\ldots\,$
+\end_inset
+
+; osserviamo che tutti i numeri della successione appena definita sono primi,
+ tuttavia non tutti i primi appartengono a questa successione.
+\end_layout
+
+\begin_layout Subsection
+Test di primalità con classi
+\end_layout
+
+\begin_layout Standard
+Possiamo usare la successione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-primi-classi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ per testare la primalità di un numero intero: sia 
+\begin_inset Formula $n>0$
+\end_inset
+
+ un numero del quale si vuole conoscere la primalità; allora definiamo un
+ algoritmo iterativo che costruisce la successione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-primi-classi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ incrementando 
+\begin_inset Formula $k$
+\end_inset
+
+, e per ogni primo 
+\begin_inset Formula $p_{k}$
+\end_inset
+
+ ottenuto, se non vale 
+\begin_inset Formula $p_{k}\backslash n$
+\end_inset
+
+ fino a che 
+\begin_inset Formula $6k+1\leq\sqrt{n}$
+\end_inset
+
+, allora 
+\begin_inset Formula $n$
+\end_inset
+
+ è primo.
+\end_layout
+
+\begin_layout Section
+Algoritmo di Euclide
+\end_layout
+
+\begin_layout Subsection
+Definizione della successione
+\end_layout
+
+\begin_layout Standard
+La funzione principale di questo algoritmo, è calcolare il massimo comune
+ divisore di due numeri; presi due interi 
+\begin_inset Formula $m$
+\end_inset
+
+ e 
+\begin_inset Formula $n$
+\end_inset
+
+ tali che 
+\begin_inset Formula $m<n$
+\end_inset
+
+, vogliamo calcolare 
+\begin_inset Formula $\mcd mn$
+\end_inset
+
+.
+ Tramite questo algoritmo otteniamo il risultato desiderato, senza passare
+ per la scomposizione in fattori primi di 
+\begin_inset Formula $m$
+\end_inset
+
+ e 
+\begin_inset Formula $n$
+\end_inset
+
+; definendo la seguente successione:
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\mcd mn=\mcd{\mod nm}n=\mcd{\mod{\left(\mod nm\right)}n}n=\\
+\ldots=\mcd 0n=n
+\end{array}\label{eq:Successione-Euclide}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Osserviamo come calcolare questa successione con un esempio.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Calcolare il massimo comune divisore tra 482 e 1180
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Procediamo applicando la definizione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-Euclide"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: per farlo dovremo scomporre il numero maggiore (
+\begin_inset Formula $n$
+\end_inset
+
+ dalla definizione) usando il suo modulo rispetto al minore (
+\begin_inset Formula $m$
+\end_inset
+
+); in pratica prendiamo 1180 e lo dividiamo per 482, conservando il residuo
+ dell'operazione da usare nel termine successivo della successione
+\begin_inset Formula 
+\[
+\mcd{482}{1180}\rightarrow1180=2\cdot482+216
+\]
+
+\end_inset
+
+proseguiamo lavorando col resto del passo precedente (216) e col valore
+ precedentemente usato per calcolare il modulo (482)
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\mcd{216}{482}\rightarrow482=2\cdot216+50\\
+\mcd{50}{216}\rightarrow216=4\cdot50+16\\
+\mcd{16}{50}\rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
+\mcd 2{16}\rightarrow8\cdot2+\boxed{0}
+\end{array}
+\]
+
+\end_inset
+
+La successione termina quando si ottiene resto zero; il resto chiamato 
+\begin_inset Formula $d$
+\end_inset
+
+, ottenuto alla penultima riga (sopra a quella con resto 0, vale 2 in questo
+ caso) è effettivamente il risultato della richiesta: 
+\begin_inset Formula $\mcd{482}{1180}=2$
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Algoritmo in forma simbolica
+\end_layout
+
+\begin_layout Standard
+Presi 
+\begin_inset Formula $a,\,b\in\mathbb{Z}$
+\end_inset
+
+ tali che 
+\begin_inset Formula $a<b$
+\end_inset
+
+, otteniamo 
+\begin_inset Formula $\mcd ab=d$
+\end_inset
+
+ applicando 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-Euclide"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ nel seguente modo:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Algoritmo di Euclide
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Euclide, algoritmo di
 \end_layout
 
 \end_inset
@@ -304,12 +927,807 @@ status open
 
 \begin_layout Plain Layout
 
-[0cm]
+[1.8cm]
 \end_layout
 
 \end_inset
 
 
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+b=q_{1}\cdot a+r_{1}\\
+a=q_{2}\cdot r_{1}+r_{2}\\
+r_{1}=q_{3}\cdot r_{2}+r_{3}\\
+\vdots\\
+r_{k-2}=q_{k}\cdot r_{k-1}+r_{k}\\
+r_{k-1}=q_{k+1}\cdot r_{k}+0\\
+\boxed{r_{k}=d}
+\end{array}\label{eq:Algoritmo-Euclide}
+\end{equation}
+
+\end_inset
+
+dove 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ è l'
+\begin_inset Formula $i$
+\end_inset
+
+-esimo quoziente e 
+\begin_inset Formula $r_{i}$
+\end_inset
+
+ è l'
+\begin_inset Formula $i$
+\end_inset
+
+-esimo resto; dall'algoritmo si può dedurre che, presi 
+\begin_inset Formula $a,\,b\neq0$
+\end_inset
+
+ e sia 
+\begin_inset Formula $d=\mcd ab$
+\end_inset
+
+, allora è vero che 
+\begin_inset Formula $\exists x,\,y\in\mathbb{Z}\tc a\cdot x+b\cdot y=d$
+\end_inset
+
+.
+ Questo risulta chiaro se immaginiamo che i due interi cercati siano anche
+ negativi; per trovare tali interi è necessario utilizzare una estensione
+ del 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Algoritmo esteso
+\end_layout
+
+\begin_layout Standard
+L'algoritmo di Euclide presentato nella sottosezione precedente può essere
+ esteso, impiegando nel suo svolgimento due successioni 
+\begin_inset Formula $\left\{ x_{k}\right\} $
+\end_inset
+
+ e 
+\begin_inset Formula $\left\{ y_{k}\right\} $
+\end_inset
+
+: esse avranno i primi due valori ben definiti, come
+\begin_inset Formula 
+\begin{equation}
+x_{0}=,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Facendo corrispondere ai passi 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ gli elementi delle successioni 
+\begin_inset Formula $\left\{ x_{k}\right\} $
+\end_inset
+
+ e 
+\begin_inset Formula $\left\{ y_{k}\right\} $
+\end_inset
+
+, possiamo ottenere gli elementi dal secondo in poi come:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Algoritmo di Euclide esteso
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Euclide, algoritmo esteso di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[1.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{cc}
+x_{2}=-q_{1}\cdot x_{1}+x_{0} & y_{2}=-q_{1}\cdot y_{1}+y_{0}\\
+x_{3}=-q_{2}\cdot x_{2}+x_{1} & y_{3}=-q_{2}\cdot y_{2}+y_{1}\\
+x_{4}=-q_{3}\cdot x_{3}+x_{2} & y_{4}=-q_{3}\cdot y_{3}+y_{2}\\
+\vdots & \vdots\\
+\boxed{x_{k+1}}=-q_{k}\cdot x_{k}+x_{k-1} & \boxed{y_{k+1}}=-q_{k}\cdot y_{k}+y_{k-1}
+\end{array}\label{eq:Algoritmo-Euclide-esteso}
+\end{equation}
+
+\end_inset
+
+Osserviamo che gli elementi delle successioni in 
+\begin_inset Formula $x$
+\end_inset
+
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+ si ottengono in modo analogo, tuttavia le due successioni sono inizializzate
+ in modo differente 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Premessa-successioni-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ Euclide Esteso ci permette di affermare che
+\begin_inset Formula 
+\[
+\mcd ab=d=a\cdot x_{k+1}+b\cdot y_{k+1}
+\]
+
+\end_inset
+
+dove gli interi 
+\begin_inset Formula $x_{k+1}$
+\end_inset
+
+ e 
+\begin_inset Formula $y_{k+1}$
+\end_inset
+
+ sono ottenuti dalle successioni 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; normalmente uno dei due è positivo e l'altro è negativo.
+\end_layout
+
+\begin_layout Part
+Protocolli e sistemi per la comunicazione sicura
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Introduzione alla crittografia
+\end_layout
+
+\begin_layout Subsection*
+Cenni storici
+\end_layout
+
+\begin_layout Standard
+Il termine crittografia deriva dal greco 
+\begin_inset Formula $\kappa\rho\nu\pi\tau\acute{o}\zeta$
+\end_inset
+
+ (krypt
+\begin_inset Formula $\acute{\text{o}}$
+\end_inset
+
+s - segreto) e 
+\begin_inset Formula $\gamma\rho\alpha\varphi\acute{\eta}$
+\end_inset
+
+ (grafi - scrittura); tra gli esempi di crittografia dal passato il più
+ famoso è il cifrario di Cesare: si tratta di un cifrario a scorrimento
+ ciclico, che consisteva nello scrivere le lettere dell'alfabeto su due
+ anelli per poi ruotarne uno rispetto all'altro di 
+\begin_inset Formula $k=+3$
+\end_inset
+
+ posizioni; in questo modo si ottiene 
+\begin_inset Formula $A\rightarrow D,\,B\rightarrow E,\,\ldots Z\rightarrow C$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Non si trattava di un cifrario robusto, ma veniva usato quando gli avversari
+ dell'Impero Romano erano i Galli: si rivelò un metodo più che sufficiente.
+\end_layout
+
+\begin_layout Subsection*
+Comunicazione sicura
+\end_layout
+
+\begin_layout Standard
+In generale una comunicazione sicura tra due parti si svolge nel modo seguente:
+ sia 
+\begin_inset Formula $A$
+\end_inset
+
+ il mittente del messaggio, 
+\begin_inset Formula $B$
+\end_inset
+
+ il destinatario, ed 
+\begin_inset Formula $E$
+\end_inset
+
+ un intruso che abbia accesso al canale di comunicazione.
+ L'intruso può essere 
+\emph on
+passivo
+\emph default
+ (intercetta i messaggi senza modificarne il flusso) oppure 
+\emph on
+attivo
+\emph default
+ (modifica il contenuto dei messaggi).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Illustrazioni/A_1 Scenario fondamentale di comunicazione.pdf
+	display false
+	scale 130
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Scenario fondamentale di comunicazione
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Scenario-fondamentale- comunicazione"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ invia un 
+\emph on
+plaintext
+\emph default
+ 
+\begin_inset Formula $m$
+\end_inset
+
+ (testo in chiaro), lo codifica usando una funzione di cifratura (un algoritmo
+ crittografico) che prende in ingresso anche la sua chiave 
+\begin_inset Formula $k_{{\scriptscriptstyle \text{A}}}$
+\end_inset
+
+ e ottiene un 
+\emph on
+ciphertext 
+\begin_inset Formula $c$
+\end_inset
+
+
+\emph default
+ (messaggio cifrato); il messaggio 
+\begin_inset Formula $c$
+\end_inset
+
+ giunge a 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+, il quale usa una funzione di de-cifratura 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+----
+\end_layout
+
+\end_inset
+
+ tramite la sua chiave 
+\begin_inset Formula $k_{{\scriptscriptstyle \text{B}}}$
+\end_inset
+
+, che è associata in qualche modo alla chiave 
+\begin_inset Formula $k_{{\scriptscriptstyle \text{A}}}$
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+----
+\end_layout
+
+\end_inset
+
+ per ottenere nuovamente il 
+\emph on
+plaintext
+\emph default
+ 
+\begin_inset Formula $m$
+\end_inset
+
+ inviato da 
+\series bold
+
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\boldsymbol{E}$
+\end_inset
+
+ potrebbe avere le seguenti intenzioni malevole rispetto alla comunicazione
+ tra 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+leggere il messaggio e comprenderne il contenuto;
+\end_layout
+
+\begin_layout Itemize
+ottenere la chiave;
+\end_layout
+
+\begin_layout Itemize
+corrompere il contenuto del messaggio;
+\end_layout
+
+\begin_layout Itemize
+impersonare 
+\begin_inset Formula $A$
+\end_inset
+
+ senza che 
+\begin_inset Formula $B$
+\end_inset
+
+ se ne accorga.
+\end_layout
+
+\begin_layout Standard
+L'intruso può mettere in atto i seguenti tipi di attacchi sull'algoritmo
+ di cifratura usato nella comunicazione:
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+ciphertext-only
+\noun default
+: avendo a disposizione il testo cifrato, si cerca di ricavarne delle informazio
+ni (attacco più comune);
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+known plaintext
+\noun default
+: avendo a disposizione una coppia di testo cifrato e testo in chiaro corrispond
+ente, si confrontano i due cercando di ottenere informazioni sulla chiave;
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+chosen plaintext
+\noun default
+: avendo a disposizione la stessa implementazione dell'algoritmo utilizzato
+ per cifrare il messaggio, si scelgono dei testi in chiaro da cifrare e
+ si osservano i testi cifrati in uscita, per cercare di ricavare informazioni
+ sull'implementazione;
+\end_layout
+
+\begin_layout Itemize
+
+\noun on
+chosen ciphertext
+\noun default
+: avendo a disposizione la stessa implementazione dell'algoritmo utilizzato
+ per decifrare il messaggio, si scelgono dei testi cifrati da decifrare
+ e si osservano i testi in chiaro in uscita, per cercare di ricavare informazion
+i sull'implementazione.
+\end_layout
+
+\begin_layout Subsection*
+Sicurezza e segretezza
+\end_layout
+
+\begin_layout Standard
+Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura sul
+ fatto che i possibili avversari non ne conoscessero il funzionamento; il
+ crittografo olandese Auguste Kerckhoffs, enunciò ne 
+\emph on
+‘La cryptographie militaire’
+\emph default
+ (1883) il principio di Kerchoffs:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Principio di Kerchoffs
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Kerchoffs, principio di
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Principio-di-Kerchoffs"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.7cm]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "80text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\emph on
+La sicurezza di un sistema di cifratura è basata sulla segretezza della
+ chiave (assumere sempre che il nemico conosca l'algoritmo di cifratura)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Da questa considerazione segue che la chiave utilizzata deve essere lunga,
+ complessa, e in generale essere costruita per evitare che sia possibile
+ indovinarla.
+\end_layout
+
+\begin_layout Standard
+Claude Elwood Shannon, che scrisse cinque articoli che cambiarono la storia
+ della comunicazione dell'informazione, tra cui un articolo sulla crittografia
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+
+\emph on
+\begin_inset Quotes eld
+\end_inset
+
+Communication Theory of Secrecy Systems
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+(1949), Bell System Technical Journal
+\end_layout
+
+\end_inset
+
+, espresse lo stesso principio in maniera molto incisiva con le parole 
+\begin_inset Quotes eld
+\end_inset
+
+Il nemico conosce il sistema
+\begin_inset Quotes erd
+\end_inset
+
+ (frase nota come massima di Shannon).
+\end_layout
+
+\begin_layout Standard
+È interessante notare come si è passati dal fondare la sicurezza del sistema
+ sulla segretezza dell'algoritmo alla segretezza della chiave; il passo
+ successivo fu il sistema a 
+\emph on
+chiave pubblica
+\emph default
+: gli algoritmi usati sono noti e accessibili a tutti, e una chiave del
+ mittente (quella pubblica) è resa nota a tutti; tramite la chiave pubblica
+ è possibile cifrare i messaggi, tuttavia la chiave per decifrare, associata
+ alla chiave pubblica, è mantenuta riservata (si parla di
+\emph on
+ chiave privata
+\emph default
+).
+\end_layout
+
+\begin_layout Standard
+Fondamentale è il fatto che, non ostante esista una regola (formula o algoritmo)
+ che permetta di associare la chiave pubblica a quella privata, per un intruso
+ qualunque è impossibile, dal punto di vista computazionale, risalire alla
+ chiave privata attraverso quella pubblica.
+ Solo il mittente che possiede la chiave privata è in grado di computare
+ questa associazione, poiché egli deve aver ricavato la chiave pubblica
+ a partire da quella privata (l'operazione inversa risulta molto più difficile).
+\end_layout
+
+\begin_layout Subsection*
+Algoritmi noti
+\end_layout
+
+\begin_layout Standard
+Gli algoritmi a chiave simmetrica hanno una coppia di chiavi, per cifratura
+ e de-cifratura, che sono entrambe segrete: DES, AES; si pone il problema
+ di scambiare col destinatario la chiave di de-cifratura, utilizzando un
+ canale sicuro.
+\end_layout
+
+\begin_layout Standard
+Con i sistemi di cifratura a chiave pubblica questo problema non si pone,
+ tuttavia si pone il nuovo problema dell'autenticità delle chiavi pubbliche
+ in circolazione; è stato introdotto il meccanismo dei certificati, da associare
+ alle chiavi pubbliche, per garantire la loro provenienza e affidabilità.
+\end_layout
+
+\begin_layout Subsection*
+Numeri interi grandi
+\end_layout
+
+\begin_layout Standard
+Lavoreremo prevalentemente con numeri interi (positivi e negativi) di elevato
+ ordine di grandezza; ecco un esempio per effettuare un calcolo approssimato.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:grandi-interi-approssimati"
+
+\end_inset
+
+Calcolare in modo approssimato il valore di 
+\begin_inset Formula $2^{35}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+\begin_inset Formula $\checked$
+\end_inset
+
+
+\emph default
+Sfruttando le proprietà delle potenze e la costante informatica 
+\begin_inset Formula $2^{10}\sim1000=10^{3}$
+\end_inset
+
+, possiamo ragionare nel modo seguente:
+\begin_inset Formula 
+\[
+2^{35}=2^{30}\cdot2^{5}=\left(2^{10}\right)^{3}\cdot32\simeq\left(10^{3}\right)^{3}\cdot32=\boxed{32\times10^{9}}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Trattare interi grandi è importante nell'ambito degli algoritmi di cifratura:
+ prendendo l'algoritmo a chiave simmetrica DES come esempio, è ragionevole
+ pensare che una chiave di 56 bit non sia sufficientemente sicura; usando
+ le considerazioni fatte nell'Esempio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:grandi-interi-approssimati"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ otteniamo che 
+\begin_inset Formula $2^{56}\simeq10^{16}$
+\end_inset
+
+, ed essendo in possesso di una macchina in grado di ottenere una chiave
+ in 1
+\begin_inset Formula $ns$
+\end_inset
+
+, allora sarebbero necessari 27 mesi per ottenere questa chiave; ovviamente
+ si può ridurre questo tempo aumentando il numero di macchine impiegate.
+\end_layout
+
+\begin_layout Standard
+Al giorno d'oggi sono considerate sicure chiavi a 265 bit (
+\begin_inset Formula $\sim10^{77}$
+\end_inset
+
+): per analizzare in modo esaustivo un simile spazio delle chiavi sarebbero
+ necessari 
+\begin_inset Formula $10^{60}$
+\end_inset
+
+ anni, nelle condizioni descritte in precedenza!
 \end_layout
 
 \begin_layout Standard

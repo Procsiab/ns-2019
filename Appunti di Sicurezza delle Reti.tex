@@ -1,0 +1,475 @@
+%% LyX 2.3.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\RequirePackage{fix-cm}
+\documentclass[12pt,italian]{amsbook}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2cm,bmargin=2.2cm,lmargin=2cm,rmargin=4cm,headheight=2cm,headsep=1cm,footskip=1cm}
+\setlength{\parskip}{\smallskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{babel}
+\usepackage{mathtools}
+\usepackage{amsbsy}
+\usepackage{amstext}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\makeindex
+\usepackage{graphicx}
+\usepackage{wasysym}
+\usepackage[unicode=true,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1,
+ breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=page,colorlinks=false]
+ {hyperref}
+\hypersetup{pdftitle={Appunti di Fondamenti di fondamenti di Automatica},
+ pdfauthor={Lorenzo Prosseda},
+ pdfsubject={Corso di fondamenti di Automatica del prof. Fagiano, Politecnico di Milano 2017-2018},
+ pdfkeywords={automatica}}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\newcommand{\noun}[1]{\textsc{#1}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
+\numberwithin{section}{chapter}
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+\numberwithin{table}{section}
+\theoremstyle{plain}
+    \ifx\thechapter\undefined
+	    \newtheorem{thm}{\protect\theoremname}
+	  \else
+      \newtheorem{thm}{\protect\theoremname}[chapter]
+    \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
+      \newtheorem{example}{\protect\examplename}
+    \else
+      \newtheorem{example}{\protect\examplename}[chapter]
+    \fi
+
+\@ifundefined{date}{}{\date{}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{pgfplots}
+\usepackage{caption}
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+\usepackage{geometry}
+\usepackage{marginnote}
+\usepackage{imakeidx}
+\usepackage{amsmath}
+\usepackage{wrapfig}
+\usepackage{hyphenat}
+
+\renewcommand{\marginpar}[1]{\marginnote{\footnotesize #1}}
+\setlength\marginparsep{0.3cm}
+\setlength\marginparwidth{3cm}
+\newcommand\xqed[1]{%
+  \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+  \quad\hbox{#1}}
+\newcommand\demo{\xqed{$\square$}}
+\newcommand\sln[1]{\xqed{$\scriptstyle Sol.\,#1$}}
+\makeindex
+
+\makeatother
+
+\providecommand{\examplename}{Esempio}
+\providecommand{\theoremname}{Teorema}
+
+\begin{document}
+\newgeometry{margin=1cm}
+\title{Appunti di Sicurezza delle reti}
+\author{Lorenzo Prosseda, a.a. 2018-2019}
+\dedicatory{
+\begin{figure}[!h]
+\vspace{20cm}
+\includegraphics{/home/l3r0/Documenti/Polimi/Automatica/Illustrazioni/gfdl-logo}
+\end{figure}
+Copyright \textcopyright 2019 Lorenzo Prosseda. Permission is granted
+to copy, distribute and/or modify this document under the terms of
+the GNU Free Documentation License, Version 1.3 or any later version
+published by the Free Software Foundation; with no Invariant Sections,
+no Front-Cover Texts, and no Back-Cover Texts. A copy of the license
+is included in the file called \textquotedbl LICENSE\textquotedbl .}
+
+\maketitle
+\restoregeometry
+
+\tableofcontents{}
+
+\global\long\def\lm#1#2#3{\underset{{\scriptstyle #1\rightarrow#2}}{\lim}#3}%
+
+\global\long\def\serie#1#2#3{\overset{{\scriptstyle #2}}{\underset{{\scriptstyle #1}}{\sum}}#3}%
+
+\global\long\def\somme#1#2#3#4{\underset{{\scriptstyle #1}}{\overset{{\scriptstyle #2}}{\int}}#3d#4}%
+
+\global\long\def\mcd#1#2{\mathrm{{\scriptstyle MCD}}\left(#1,\,#2\right)}%
+
+\global\long\def\cgm#1#2#3{#1\equiv#2\left(\text{mod}\,#3\right)}%
+
+\global\long\def\mod#1#2{#1\,\text{mod}\,#2}%
+
+\global\long\def\tc{\,:\,}%
+
+
+\part{Crittografia}
+
+\chapter{Teoria dei numeri}
+
+\section{Proprietà degli interi}
+
+Da ora in avanti parleremo di numeri interi, positivi o negativi,
+operando all'interno dell'insieme $\mathbb{Z}$; enunciamo la proprietà
+di divisione nel modo seguente: presi due interi $a,\,b\in\mathbb{Z}$
+non uguali ($a\neq b$) si dice che $a$ divide $b$ quando $a$ è
+un divisore di $b$, ovvero
+\[
+a\backslash b\implies\exists k\tc b=k\cdot a
+\]
+
+Dalla precedente deduciamo che $b$ dovrà essere un multiplo di $a$.
+Inoltre, otteniamo anche che:
+\[
+\forall a\in\mathbb{Z}\,:\,a\backslash0;\;\nexists a\in\mathbb{Z}\tc0\backslash a;\;\forall a\in\mathbb{Z}\,:\,a\backslash a
+\]
+
+La relazione di divisione introdotta ammette la proprietà transitiva:
+\[
+\forall a,b,c\in\mathbb{Z}\,\land\,a\neq b\neq c\tc a\backslash b\,\land\,b\backslash c\implies a\backslash c
+\]
+
+
+\section{Numeri primi}
+
+\subsection{Definizione e proprietà}
+
+Un numero $a$ si dice primo quando è divisibile solo per 1 e per
+sé stesso (ovvero se vale $\forall b\in\mathbb{Z}\tc b\backslash a\iff b=1\,\lor\,b=a$);
+un numero composto è scomponibile in un numero finito di fattori,
+e questa scomposizione è unica. Determinare la primalità di un numero
+tuttavia non è cosa facile; introduciamo il seguente teorema:
+\begin{thm}
+Sia $\pi\left(n\right)\coloneqq$``numero di numeri primi fino a
+$n$'', allora vale\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Teorema dei numeri primi}{\footnotesize{}\index{Numeri primi, teorema@{\footnotesize{}Numeri primi, teorema}}\label{thm:Numeri-primi}}}[0.1cm]
+\[
+\pi\left(n\right)\sim\dfrac{n}{\ln\left(n\right)}
+\]
+\end{thm}
+Alcuni algoritmi crittografici usano i numeri primi come ``ingredienti''
+per creare le chiavi: in questi casi il teorema introdotto si dimostra
+molto utile per determinare la quantità di numeri primi che è possibile
+ottenere con una data quantità di cifre.
+\begin{example}
+Determinare una stima della quantità di numeri primi che è possibile
+ottenere a partire da 100 cifre.
+
+$\checked$Usando il Teorema \ref{thm:Numeri-primi} possiamo scrivere
+la quantità di numeri primi con 100 cifre come
+\[
+\pi\left(10^{100}\right)-\pi\left(10^{99}\right)=\frac{10^{100}}{100\ln\left(10\right)}-\frac{10^{99}}{99\ln\left(10\right)}\simeq\boxed{10^{97}}
+\]
+\demo
+\end{example}
+Se fossimo nel contesto di un algoritmo di cifratura, pur sapendo
+che la chiave sia un numero primo di 100 cifre, dovremmo analizzare
+in ogni caso $10^{97}$ possibili candidati.
+
+Prendiamo\marginpar{La funzione $\protect\mcd ab$ indica il massimo comune divisore tra
+$a$ e $b$} ora $a,\,b\in\mathbb{Z}$ tali che $\mcd ab=1$: in tal caso diremo
+che $e$ e $b$ sono \emph{coprimi} o \emph{primi relativi}, indicando
+la loro relazione come $a\perp b$; da questa relazione segue che
+due numeri coprimi non hanno fattori in comune.
+
+Escluso il numero 2, tutti i primi sono dispari, e sono divisi in
+due classi: preso un numero primo $p$, esso appartiene a una delle
+seguenti classi:
+\begin{itemize}
+\item $\cgm p14$
+\item $\cgm p34$
+\end{itemize}
+L'operatore $\equiv$ indica la congruenza in modulo: si dice che
+un numero $a\in\mathbb{Z}$ è \emph{congruente a 1 modulo $n$} (e
+si scrive $\cgm a1n$) se il resto della divisione di $a$ per $n$
+è 1.
+
+Componendo le due classi osserviamo che tutti i numeri primi $p$
+possono essere indicati come 
+\begin{equation}
+p=6k\pm1\implies\cgm p{\pm1}6,\,k\in\mathbb{Z}\label{eq:Successione-primi-classi}
+\end{equation}
+Troveremo per esempio $p_{k=1}=6\pm1=\left\{ 5,\,7\right\} ,\,p_{k=2}=12\pm1=\left\{ 11,\,13\right\} ,\,p_{k=3}=18\pm1=\left\{ 17,\,19\right\} ,\,\ldots\,$;
+osserviamo che tutti i numeri della successione appena definita sono
+primi, tuttavia non tutti i primi appartengono a questa successione.
+
+\subsection{Test di primalità con classi}
+
+Possiamo usare la successione (\ref{eq:Successione-primi-classi})
+per testare la primalità di un numero intero: sia $n>0$ un numero
+del quale si vuole conoscere la primalità; allora definiamo un algoritmo
+iterativo che costruisce la successione (\ref{eq:Successione-primi-classi})
+incrementando $k$, e per ogni primo $p_{k}$ ottenuto, se non vale
+$p_{k}\backslash n$ fino a che $6k+1\leq\sqrt{n}$, allora $n$ è
+primo.
+
+\section{Algoritmo di Euclide}
+
+\subsection{Definizione della successione}
+
+La funzione principale di questo algoritmo, è calcolare il massimo
+comune divisore di due numeri; presi due interi $m$ e $n$ tali che
+$m<n$, vogliamo calcolare $\mcd mn$. Tramite questo algoritmo otteniamo
+il risultato desiderato, senza passare per la scomposizione in fattori
+primi di $m$ e $n$; definendo la seguente successione:
+\begin{equation}
+\begin{array}{c}
+\mcd mn=\mcd{\mod nm}n=\mcd{\mod{\left(\mod nm\right)}n}n=\\
+\ldots=\mcd 0n=n
+\end{array}\label{eq:Successione-Euclide}
+\end{equation}
+
+Osserviamo come calcolare questa successione con un esempio.
+\begin{example}
+\emph{Calcolare il massimo comune divisore tra 482 e 1180}
+
+$\checked$Procediamo applicando la definizione (\ref{eq:Successione-Euclide}):
+per farlo dovremo scomporre il numero maggiore ($n$ dalla definizione)
+usando il suo modulo rispetto al minore ($m$); in pratica prendiamo
+1180 e lo dividiamo per 482, conservando il residuo dell'operazione
+da usare nel termine successivo della successione
+\[
+\mcd{482}{1180}\rightarrow1180=2\cdot482+216
+\]
+proseguiamo lavorando col resto del passo precedente (216) e col valore
+precedentemente usato per calcolare il modulo (482)
+\[
+\begin{array}{c}
+\mcd{216}{482}\rightarrow482=2\cdot216+50\\
+\mcd{50}{216}\rightarrow216=4\cdot50+16\\
+\mcd{16}{50}\rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
+\mcd 2{16}\rightarrow8\cdot2+\boxed{0}
+\end{array}
+\]
+La successione termina quando si ottiene resto zero; il resto chiamato
+$d$, ottenuto alla penultima riga (sopra a quella con resto 0, vale
+2 in questo caso) è effettivamente il risultato della richiesta: $\mcd{482}{1180}=2$\demo
+\end{example}
+
+\subsection{Algoritmo in forma simbolica}
+
+Presi $a,\,b\in\mathbb{Z}$ tali che $a<b$, otteniamo $\mcd ab=d$
+applicando (\ref{eq:Successione-Euclide}) nel seguente modo:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Algoritmo di Euclide}{\footnotesize{}\index{Euclide, algoritmo di@{\footnotesize{}Euclide, algoritmo di}}}}[1.8cm]
+\begin{equation}
+\begin{array}{c}
+b=q_{1}\cdot a+r_{1}\\
+a=q_{2}\cdot r_{1}+r_{2}\\
+r_{1}=q_{3}\cdot r_{2}+r_{3}\\
+\vdots\\
+r_{k-2}=q_{k}\cdot r_{k-1}+r_{k}\\
+r_{k-1}=q_{k+1}\cdot r_{k}+0\\
+\boxed{r_{k}=d}
+\end{array}\label{eq:Algoritmo-Euclide}
+\end{equation}
+dove $q_{i}$ è l'$i$-esimo quoziente e $r_{i}$ è l'$i$-esimo resto;
+dall'algoritmo si può dedurre che, presi $a,\,b\neq0$ e sia $d=\mcd ab$,
+allora è vero che $\exists x,\,y\in\mathbb{Z}\tc a\cdot x+b\cdot y=d$.
+Questo risulta chiaro se immaginiamo che i due interi cercati siano
+anche negativi; per trovare tali interi è necessario utilizzare una
+estensione del (\ref{eq:Algoritmo-Euclide}).
+
+\subsection{Algoritmo esteso}
+
+L'algoritmo di Euclide presentato nella sottosezione precedente può
+essere esteso, impiegando nel suo svolgimento due successioni $\left\{ x_{k}\right\} $
+e $\left\{ y_{k}\right\} $: esse avranno i primi due valori ben definiti,
+come
+\begin{equation}
+x_{0}=,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
+\end{equation}
+
+Facendo corrispondere ai passi (\ref{eq:Algoritmo-Euclide}) gli elementi
+delle successioni $\left\{ x_{k}\right\} $ e $\left\{ y_{k}\right\} $,
+possiamo ottenere gli elementi dal secondo in poi come:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Algoritmo di Euclide esteso}{\footnotesize{}\index{Euclide, algoritmo esteso di@{\footnotesize{}Euclide, algoritmo esteso di}}}}[1.2cm]
+\begin{equation}
+\begin{array}{cc}
+x_{2}=-q_{1}\cdot x_{1}+x_{0} & y_{2}=-q_{1}\cdot y_{1}+y_{0}\\
+x_{3}=-q_{2}\cdot x_{2}+x_{1} & y_{3}=-q_{2}\cdot y_{2}+y_{1}\\
+x_{4}=-q_{3}\cdot x_{3}+x_{2} & y_{4}=-q_{3}\cdot y_{3}+y_{2}\\
+\vdots & \vdots\\
+\boxed{x_{k+1}}=-q_{k}\cdot x_{k}+x_{k-1} & \boxed{y_{k+1}}=-q_{k}\cdot y_{k}+y_{k-1}
+\end{array}\label{eq:Algoritmo-Euclide-esteso}
+\end{equation}
+Osserviamo che gli elementi delle successioni in $x$ e $y$ si ottengono
+in modo analogo, tuttavia le due successioni sono inizializzate in
+modo differente (\ref{eq:Premessa-successioni-Euclide-esteso}). Euclide
+Esteso ci permette di affermare che
+\[
+\mcd ab=d=a\cdot x_{k+1}+b\cdot y_{k+1}
+\]
+dove gli interi $x_{k+1}$ e $y_{k+1}$ sono ottenuti dalle successioni
+(\ref{eq:Algoritmo-Euclide-esteso}); normalmente uno dei due è positivo
+e l'altro è negativo.
+
+\part{Protocolli e sistemi per la comunicazione sicura}
+
+\appendix
+
+\chapter{Introduzione alla crittografia}
+
+\subsection*{Cenni storici}
+
+Il termine crittografia deriva dal greco $\kappa\rho\nu\pi\tau\acute{o}\zeta$
+(krypt$\acute{\text{o}}$s - segreto) e $\gamma\rho\alpha\varphi\acute{\eta}$
+(grafi - scrittura); tra gli esempi di crittografia dal passato il
+più famoso è il cifrario di Cesare: si tratta di un cifrario a scorrimento
+ciclico, che consisteva nello scrivere le lettere dell'alfabeto su
+due anelli per poi ruotarne uno rispetto all'altro di $k=+3$ posizioni;
+in questo modo si ottiene $A\rightarrow D,\,B\rightarrow E,\,\ldots Z\rightarrow C$.
+
+Non si trattava di un cifrario robusto, ma veniva usato quando gli
+avversari dell'Impero Romano erano i Galli: si rivelò un metodo più
+che sufficiente.
+
+\subsection*{Comunicazione sicura}
+
+In generale una comunicazione sicura tra due parti si svolge nel modo
+seguente: sia $A$ il mittente del messaggio, $B$ il destinatario,
+ed $E$ un intruso che abbia accesso al canale di comunicazione. L'intruso
+può essere \emph{passivo} (intercetta i messaggi senza modificarne
+il flusso) oppure \emph{attivo} (modifica il contenuto dei messaggi).
+
+\begin{figure}[!h]
+\begin{centering}
+\includegraphics[scale=1.3]{\string"Illustrazioni/A_1 Scenario fondamentale di comunicazione\string".pdf}
+\par\end{centering}
+\caption{Scenario fondamentale di comunicazione}
+\label{fig:Scenario-fondamentale- comunicazione}
+\end{figure}
+
+$\boldsymbol{A}$ invia un \emph{plaintext} $m$ (testo in chiaro),
+lo codifica usando una funzione di cifratura (un algoritmo crittografico)
+che prende in ingresso anche la sua chiave $k_{{\scriptscriptstyle \text{A}}}$
+e ottiene un \emph{ciphertext $c$} (messaggio cifrato); il messaggio
+$c$ giunge a $\boldsymbol{B}$, il quale usa una funzione di de-cifratura
+\---- tramite la sua chiave $k_{{\scriptscriptstyle \text{B}}}$,
+che è associata in qualche modo alla chiave $k_{{\scriptscriptstyle \text{A}}}$
+\---- per ottenere nuovamente il \emph{plaintext} $m$ inviato da
+\textbf{$\boldsymbol{A}$}.
+
+$\boldsymbol{E}$ potrebbe avere le seguenti intenzioni malevole rispetto
+alla comunicazione tra $\boldsymbol{A}$ e $\boldsymbol{B}$:
+\begin{itemize}
+\item leggere il messaggio e comprenderne il contenuto;
+\item ottenere la chiave;
+\item corrompere il contenuto del messaggio;
+\item impersonare $A$ senza che $B$ se ne accorga.
+\end{itemize}
+L'intruso può mettere in atto i seguenti tipi di attacchi sull'algoritmo
+di cifratura usato nella comunicazione:
+\begin{itemize}
+\item \noun{ciphertext-only}: avendo a disposizione il testo cifrato, si
+cerca di ricavarne delle informazioni (attacco più comune);
+\item \noun{known plaintext}: avendo a disposizione una coppia di testo
+cifrato e testo in chiaro corrispondente, si confrontano i due cercando
+di ottenere informazioni sulla chiave;
+\item \noun{chosen plaintext}: avendo a disposizione la stessa implementazione
+dell'algoritmo utilizzato per cifrare il messaggio, si scelgono dei
+testi in chiaro da cifrare e si osservano i testi cifrati in uscita,
+per cercare di ricavare informazioni sull'implementazione;
+\item \noun{chosen ciphertext}: avendo a disposizione la stessa implementazione
+dell'algoritmo utilizzato per decifrare il messaggio, si scelgono
+dei testi cifrati da decifrare e si osservano i testi in chiaro in
+uscita, per cercare di ricavare informazioni sull'implementazione.
+\end{itemize}
+
+\subsection*{Sicurezza e segretezza}
+
+Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura
+sul fatto che i possibili avversari non ne conoscessero il funzionamento;
+il crittografo olandese Auguste Kerckhoffs, enunciò ne \emph{\textquoteleft La
+cryptographie militaire\textquoteright{}} (1883) il principio di Kerchoffs:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Principio di Kerchoffs}{\footnotesize{}\index{Kerchoffs, principio di@{\footnotesize{}Kerchoffs, principio di}}\label{thm:Principio-di-Kerchoffs}}}[0.7cm]
+\begin{center}
+\begin{minipage}[t]{0.8\textwidth}%
+\begin{center}
+\emph{La sicurezza di un sistema di cifratura è basata sulla segretezza
+della chiave (assumere sempre che il nemico conosca l'algoritmo di
+cifratura)}
+\par\end{center}%
+\end{minipage}
+\par\end{center}
+
+Da questa considerazione segue che la chiave utilizzata deve essere
+lunga, complessa, e in generale essere costruita per evitare che sia
+possibile indovinarla.
+
+Claude Elwood Shannon, che scrisse cinque articoli che cambiarono
+la storia della comunicazione dell'informazione, tra cui un articolo
+sulla crittografia\footnote{\emph{``Communication Theory of Secrecy Systems'' }(1949), Bell
+System Technical Journal}, espresse lo stesso principio in maniera molto incisiva con le parole
+``Il nemico conosce il sistema'' (frase nota come massima di Shannon).
+
+È interessante notare come si è passati dal fondare la sicurezza del
+sistema sulla segretezza dell'algoritmo alla segretezza della chiave;
+il passo successivo fu il sistema a \emph{chiave pubblica}: gli algoritmi
+usati sono noti e accessibili a tutti, e una chiave del mittente (quella
+pubblica) è resa nota a tutti; tramite la chiave pubblica è possibile
+cifrare i messaggi, tuttavia la chiave per decifrare, associata alla
+chiave pubblica, è mantenuta riservata (si parla di\emph{ chiave privata}).
+
+Fondamentale è il fatto che, non ostante esista una regola (formula
+o algoritmo) che permetta di associare la chiave pubblica a quella
+privata, per un intruso qualunque è impossibile, dal punto di vista
+computazionale, risalire alla chiave privata attraverso quella pubblica.
+Solo il mittente che possiede la chiave privata è in grado di computare
+questa associazione, poiché egli deve aver ricavato la chiave pubblica
+a partire da quella privata (l'operazione inversa risulta molto più
+difficile).
+
+\subsection*{Algoritmi noti}
+
+Gli algoritmi a chiave simmetrica hanno una coppia di chiavi, per
+cifratura e de-cifratura, che sono entrambe segrete: DES, AES; si
+pone il problema di scambiare col destinatario la chiave di de-cifratura,
+utilizzando un canale sicuro.
+
+Con i sistemi di cifratura a chiave pubblica questo problema non si
+pone, tuttavia si pone il nuovo problema dell'autenticità delle chiavi
+pubbliche in circolazione; è stato introdotto il meccanismo dei certificati,
+da associare alle chiavi pubbliche, per garantire la loro provenienza
+e affidabilità.
+
+\subsection*{Numeri interi grandi}
+
+Lavoreremo prevalentemente con numeri interi (positivi e negativi)
+di elevato ordine di grandezza; ecco un esempio per effettuare un
+calcolo approssimato.
+\begin{example}
+\emph{\label{ex:grandi-interi-approssimati}Calcolare in modo approssimato
+il valore di $2^{35}$.}
+
+\emph{$\checked$}Sfruttando le proprietà delle potenze e la costante
+informatica $2^{10}\sim1000=10^{3}$, possiamo ragionare nel modo
+seguente:
+\[
+2^{35}=2^{30}\cdot2^{5}=\left(2^{10}\right)^{3}\cdot32\simeq\left(10^{3}\right)^{3}\cdot32=\boxed{32\times10^{9}}
+\]
+\demo
+\end{example}
+Trattare interi grandi è importante nell'ambito degli algoritmi di
+cifratura: prendendo l'algoritmo a chiave simmetrica DES come esempio,
+è ragionevole pensare che una chiave di 56 bit non sia sufficientemente
+sicura; usando le considerazioni fatte nell'Esempio \ref{ex:grandi-interi-approssimati}
+otteniamo che $2^{56}\simeq10^{16}$, ed essendo in possesso di una
+macchina in grado di ottenere una chiave in 1$ns$, allora sarebbero
+necessari 27 mesi per ottenere questa chiave; ovviamente si può ridurre
+questo tempo aumentando il numero di macchine impiegate.
+
+Al giorno d'oggi sono considerate sicure chiavi a 265 bit ($\sim10^{77}$):
+per analizzare in modo esaustivo un simile spazio delle chiavi sarebbero
+necessari $10^{60}$ anni, nelle condizioni descritte in precedenza!
+
+\renewcommand{\chaptername}{}\printindex
+\end{document}
