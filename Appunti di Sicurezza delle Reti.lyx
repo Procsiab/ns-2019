@@ -1149,6 +1149,2168 @@ noprefix "false"
 ; normalmente uno dei due è positivo e l'altro è negativo.
 \end_layout
 
+\begin_layout Section
+Congruenza in modulo
+\end_layout
+
+\begin_layout Subsection
+Definizione e proprietà
+\end_layout
+
+\begin_layout Standard
+Nelle sezioni precedenti abbiamo introdotto il simbolo di congruenza `
+\begin_inset Formula $\equiv$
+\end_inset
+
+', che usato nel modo seguente implica che
+\begin_inset Formula 
+\[
+\cgm abn\implies\mod an=\mod bn\implies a-b=k\cdot n
+\]
+
+\end_inset
+
+ovvero il fatto che 
+\begin_inset Formula $a$
+\end_inset
+
+ sia congruente in modulo 
+\begin_inset Formula $n$
+\end_inset
+
+ a 
+\begin_inset Formula $b$
+\end_inset
+
+ implica il fatto che 
+\begin_inset Formula $a$
+\end_inset
+
+ e 
+\begin_inset Formula $b$
+\end_inset
+
+ siano multipli; possiamo infatti dedurlo osservando l'ultima implicazione,
+ riscritta come
+\begin_inset Formula 
+\[
+a=b+k\cdot n
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per la congruenza in modulo valgono alcune proprietà simili a quelle dell'uguagl
+ianza:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm a0n\iff n\backslash a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall a\in\mathbb{Z}\tc\cgm aan$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm abn\iff\cgm ban$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm abn\land\cgm bcn\implies\cgm acn$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Insieme dei residui
+\end_layout
+
+\begin_layout Standard
+Fin'ora abbiamo lavorato all'interno dell'insieme dei numeri interi 
+\begin_inset Formula $\mathbb{Z}$
+\end_inset
+
+; introduciamo l'insieme dei residui modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, indicato come 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+, che contiene l'insieme dei valori da 0 a 
+\begin_inset Formula $n-1$
+\end_inset
+
+ e al suo interno sono definite ciclicamente le operazioni di addizione,
+ sottrazione e moltiplicazione; osserviamo un esempio sull'addizione.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:Operazioni-insieme-residui"
+
+\end_inset
+
+Determinare i risultati delle seguenti operazioni, all'interno dell'insieme
+ 
+\begin_inset Formula $\mathbb{Z}_{10}$
+\end_inset
+
+: 
+\begin_inset Formula $4+5,\,5+5,\,2-3,\,3\cdot4$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Dalla definizione sappiamo che 
+\begin_inset Formula $\mathbb{Z}_{10}=\left\{ 0,1,2,3,4,5,6,7,8,9\right\} $
+\end_inset
+
+, allora le operazioni richieste valgono:
+\begin_inset Formula 
+\[
+4+5=9,\;5+5=0,\;2-3=9,\;3\cdot4=2
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La divisione in un insieme dei residui non è definita in modo banale come
+ le altre tre operazioni; introdurremo in seguito questa operazione.
+\end_layout
+
+\begin_layout Subsection
+Insieme ridotto dei residui
+\end_layout
+
+\begin_layout Standard
+Dato un insieme dei residui 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+, possiamo definire il suo insieme ridotto 
+\begin_inset Formula $\mathbb{Z}_{n}^{*}$
+\end_inset
+
+, che contiene gli elementi di 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+ che sono coprimi rispetto a 
+\begin_inset Formula $n$
+\end_inset
+
+, ovvero
+\begin_inset Formula 
+\[
+\forall z\in\mathbb{Z}_{n}^{*}\tc z\in\mathbb{Z}_{n}\land z\perp n
+\]
+
+\end_inset
+
+Procedendo con l'Esempio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:Operazioni-insieme-residui"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, l'insieme ridotto dei residui modulo 10 avrà i seguenti elementi al suo
+ interno:
+\begin_inset Formula 
+\[
+\mathbb{Z}_{10}^{*}=\left\{ 1,3,7,9\right\} 
+\]
+
+\end_inset
+
+Notiamo che lo zero è sempre escluso dall'insieme ridotto, perché non è
+ coprimo rispetto ad alcun intero; la cardinalità di 
+\begin_inset Formula $\mathbb{Z}_{n}^{*}$
+\end_inset
+
+ è determinata da una funzione di 
+\begin_inset Formula $n$
+\end_inset
+
+ chiamata 
+\emph on
+toziente
+\emph default
+ o 
+\emph on
+
+\begin_inset Formula $\varphi$
+\end_inset
+
+ di Eulero
+\emph default
+; in particolare vale 
+\begin_inset Formula $\varphi\left(10\right)=4$
+\end_inset
+
+ (vedremo in seguito come calcolare questa funzione).
+\end_layout
+
+\begin_layout Subsection
+Equazioni congruenziali
+\end_layout
+
+\begin_layout Standard
+Una equazione congruenziale è una relazione definita su un'insieme di residui;
+ nel seguito vedremo delle proprietà che ci permetteranno di operare con
+ queste relazioni.
+\end_layout
+
+\begin_layout Proposition
+Prendiamo un intero 
+\begin_inset Formula $n\neq0$
+\end_inset
+
+ e quattro interi 
+\begin_inset Formula $a,b,c,d$
+\end_inset
+
+ tali che 
+\emph on
+
+\begin_inset Formula $\cgm abn$
+\end_inset
+
+ 
+\emph default
+e
+\emph on
+ 
+\begin_inset Formula $\cgm cdn$
+\end_inset
+
+
+\emph default
+; allora si verifica che
+\emph on
+
+\begin_inset Formula 
+\[
+\cgm{a+c}{b+d}n,\;\cgm{a-c}{b-d}n,\;\cgm{a\cdot c}{b\cdot d}n
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo usare queste proprietà per risolvere la seguente equazione congruenzial
+e.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Risolvere rispetto a 
+\begin_inset Formula $x$
+\end_inset
+
+ l'equazione 
+\emph default
+
+\begin_inset Formula $\cgm{x+7}3{17}$
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Dato che 7 è congruente a 3 in modulo 17, possiamo sfruttare la seconda
+ proprietà, per cui
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{x+7\boldsymbol{-7}}{3\boldsymbol{-7}}{17}\\
+\cgm x{-4}{17}
+\end{array}
+\]
+
+\end_inset
+
+Osservando che 
+\begin_inset Formula $17-4=13$
+\end_inset
+
+, otteniamo infine (è equivalente a scrivere la congruenza con 
+\begin_inset Formula $-4$
+\end_inset
+
+)
+\begin_inset Formula 
+\[
+\cgm x{13}{17}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ora introduciamo il concetto di divisione nell'insieme dei residui, con
+ una seconda proposizione.
+\end_layout
+
+\begin_layout Proposition
+Prendiamo un intero 
+\begin_inset Formula $n\neq0$
+\end_inset
+
+ e tre interi 
+\begin_inset Formula $a,b,c$
+\end_inset
+
+ con 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+ e vale 
+\emph on
+
+\begin_inset Formula $\cgm{a\cdot b}{a\cdot c}n$
+\end_inset
+
+
+\emph default
+; allora possiamo dire che 
+\emph on
+
+\begin_inset Formula $\cgm{a\cdot b}{a\cdot c}n\implies\cgm bcn$
+\end_inset
+
+
+\emph default
+, tramite la moltiplicazione da ambo i lati per l'inverso 
+\begin_inset Formula $a^{-1}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo risolvere una forma di equazione congruenziale più elaborata.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Risolvere rispetto a 
+\begin_inset Formula $x$
+\end_inset
+
+ l'equazione 
+\emph default
+
+\begin_inset Formula $\cgm{2x+7}3{17}$
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Come nel caso precedente, possiamo sottrarre 7 da entrambi i lati, dato
+ che 
+\begin_inset Formula $\cgm 73{17}$
+\end_inset
+
+, ottenendo
+\begin_inset Formula 
+\[
+\cgm{2x}{-4}{17}
+\]
+
+\end_inset
+
+Ora sfruttando il fatto che 
+\begin_inset Formula $2\perp17$
+\end_inset
+
+ la precedente diventa
+\begin_inset Formula 
+\[
+\cgm x{-2}{17}=\cgm x{15}{17}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Risolvere rispetto a 
+\begin_inset Formula $x$
+\end_inset
+
+ l'equazione 
+\emph default
+
+\begin_inset Formula $\cgm{5x+6}{13}{11}$
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Osservando che 
+\begin_inset Formula $\cgm 6{13}{11}$
+\end_inset
+
+, applichiamo la proprietà della divisione e otteniamo
+\begin_inset Formula 
+\[
+\cgm{5x}7{11}
+\]
+
+\end_inset
+
+Se ora usiamo la proprietà della divisione (vale 
+\begin_inset Formula $5\perp11$
+\end_inset
+
+) dovremo scrivere
+\begin_inset Formula 
+\[
+\cgm x{\hat{\frac{7}{5}}}{11}
+\]
+
+\end_inset
+
+dove la frazione 
+\begin_inset Formula $\hat{\nicefrac{7}{5}}$
+\end_inset
+
+ in realtà non esiste nell'insieme 
+\begin_inset Formula $\mathbb{Z}_{11}$
+\end_inset
+
+; tuttavia sappiamo che 
+\begin_inset Formula $5x$
+\end_inset
+
+ è congruente modulo 11 a 7, ma anche a (per la ciclicità dell'insieme dei
+ residui) 
+\begin_inset Formula $7+11,\,7+22,\,\ldots\,,7+k\cdot11$
+\end_inset
+
+; il primo numero che sia un multiplo di 5 si ha per 3; abbiamo ottenuto
+ che 
+\begin_inset Formula $\left[7=40\right]\ni\mathbb{Z}_{11}$
+\end_inset
+
+, quindi possiamo scrivere
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{5x}{40}{11}\\
+\cgm x8{11}
+\end{array}
+\]
+
+\end_inset
+
+Possiamo in un certo senso affermare che 8 si comporta come 
+\begin_inset Formula $\nicefrac{7}{5}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbb{Z}_{11}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Esiste una seconda strada per risolvere questo esercizio; sapendo che 5
+ e 11 sono primi relativi, usiamo il prodotto invece della divisione:
+\begin_inset Formula 
+\[
+\cgm{5x\cdot\boldsymbol{5^{-1}}}{7\cdot\boldsymbol{5^{-1}}}{11}
+\]
+
+\end_inset
+
+L'inverso di un numero 
+\begin_inset Formula $n$
+\end_inset
+
+ è quel numero 
+\begin_inset Formula $m$
+\end_inset
+
+ tale che 
+\begin_inset Formula $n\cdot m=1$
+\end_inset
+
+; dunque cerchiamo l'elemento di 
+\begin_inset Formula $\mathbb{Z}_{11}$
+\end_inset
+
+ che moltiplicato per 5 risulta 1; troviamo 
+\begin_inset Formula $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$
+\end_inset
+
+, da cui segue che
+\begin_inset Formula 
+\[
+\cgm x{7\cdot9}{11}
+\]
+
+\end_inset
+
+e dato che 
+\begin_inset Formula $7\cdot9=63=5\cdot11+8$
+\end_inset
+
+ la precedente si scrive come
+\begin_inset Formula 
+\[
+\cgm x8{11}
+\]
+
+\end_inset
+
+Abbiamo ottenuto il medesimo risultato a cui siamo arrivati attraverso il
+ primo procedimento.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Presi 
+\begin_inset Formula $a\in\mathbb{Z}_{n}$
+\end_inset
+
+ e 
+\begin_inset Formula $b\notin\mathbb{Z}_{n}^{*}$
+\end_inset
+
+, non è definita la divisione 
+\begin_inset Formula $a\div b$
+\end_inset
+
+ (deve infatti valere 
+\begin_inset Formula $b\perp n\implies b\in\mathbb{Z}_{n}^{*}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Se prendiamo l'equazione 
+\begin_inset Formula $\cgm{a\cdot x}bn$
+\end_inset
+
+, essa ammetterà soluzione se vale 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+; in tal caso 
+\begin_inset Formula $\exists a^{-1}\in\mathbb{Z}_{n}^{*}$
+\end_inset
+
+ e la soluzione sarà 
+\begin_inset Formula $\cgm x{b\cdot a^{-1}}n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Cosa possiamo concludere nel caso in cui, data l'equazione 
+\begin_inset Formula $E:\,\cgm{a\cdot x}bn$
+\end_inset
+
+, non sia vero che 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+, cioè nel caso in cui 
+\begin_inset Formula $\mcd an=d>1$
+\end_inset
+
+? In tal caso, l'equazione può non ammettere soluzione o ammetterne 
+\begin_inset Formula $d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Se 
+\begin_inset Formula $d\backslash b$
+\end_inset
+
+ allora dividiamo per 
+\begin_inset Formula $d$
+\end_inset
+
+ tutte le quantità costanti, ottenendo 
+\begin_inset Formula 
+\[
+\overline{E}:\,\cgm{\frac{a}{d}x}{\frac{b}{d}}{\frac{n}{d}}
+\]
+
+\end_inset
+
+questa equazione ha ora una soluzione, perché 
+\begin_inset Formula $\mcd an=d\implies\mcd{\frac{a}{d}}{\frac{n}{d}}=\frac{d}{d}=1$
+\end_inset
+
+ e ricadiamo nel caso dell'osservazione precedente.
+\end_layout
+
+\begin_layout Standard
+Otteniamo la soluzione dell'equazione 
+\begin_inset Formula $\overline{E}$
+\end_inset
+
+ e la chiamiamo 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, la quale sarà in modulo 
+\begin_inset Formula $\nicefrac{n}{d}$
+\end_inset
+
+ (
+\begin_inset Formula $x_{0}\in\mathbb{Z}_{n/d}$
+\end_inset
+
+); dato che l'equazione di partenza 
+\begin_inset Formula $E$
+\end_inset
+
+ ha soluzioni in 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+, esse saranno i termini della successione
+\begin_inset Formula 
+\[
+\left\{ x\right\} =x_{0},\,x_{0}+\frac{n}{d},\,x_{0}+2\frac{n}{d},\,\ldots\,,\,x_{0}+\left(d-1\right)\frac{n}{d}
+\]
+
+\end_inset
+
+Osserviamo l'esempio di un'equazione con queste caratteristiche.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Risolvere rispetto a 
+\begin_inset Formula $x$
+\end_inset
+
+ l'equazione 
+\emph default
+
+\begin_inset Formula $\cgm{12x}{21}{39}$
+\end_inset
+
+
+\emph on
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Osserviamo subito che 
+\begin_inset Formula $\mcd{12}{39}=3$
+\end_inset
+
+, dunque l'equazione avrà 0 o 3 soluzioni; dividiamo le costanti per 3 e
+ otteniamo
+\begin_inset Formula 
+\[
+\cgm{4x}7{13}
+\]
+
+\end_inset
+
+da cui otteniamo 
+\begin_inset Formula $\cgm x{\hat{\frac{7}{4}}}{13}$
+\end_inset
+
+ e trovando 
+\begin_inset Formula $4\backslash\left(7+1\cdot13\right)=20$
+\end_inset
+
+ la precedente equazione fornisce una soluzione 
+\begin_inset Formula $\cgm{x_{0}}5n$
+\end_inset
+
+; adesso usiamo la successione delle soluzioni 
+\begin_inset Formula $\left\{ x\right\} $
+\end_inset
+
+ per ottenere tutte le soluzioni dell'equazione di partenza:
+\begin_inset Formula 
+\[
+x=\left\{ x_{0}=\boxed{5},\,x_{0}+\frac{39}{3}=\boxed{18},\,x_{0}+\frac{2\cdot39}{3}=\boxed{31}\right\} 
+\]
+
+\end_inset
+
+Possiamo immaginare le radici di 
+\begin_inset Formula $E$
+\end_inset
+
+ come dei punti su una circonferenza, a distanza 
+\begin_inset Formula $d/n$
+\end_inset
+
+ da 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Posto che valga 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+ (ovvero 
+\begin_inset Formula $\mcd an=1$
+\end_inset
+
+), come possiamo calcolare l'inverso 
+\begin_inset Formula $a^{-1}$
+\end_inset
+
+? Potremmo tentare tutti i numeri da 
+\begin_inset Formula $1$
+\end_inset
+
+ a 
+\begin_inset Formula $n-1$
+\end_inset
+
+ conducendo un'analisi esaustiva, tuttavia per 
+\begin_inset Formula $n$
+\end_inset
+
+ molto grande questo non è pratico; usiamo allora l'algoritmo di Euclide
+ esteso 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: esso ci garantisce che
+\begin_inset Formula 
+\[
+\mcd an=1\implies\exists s,t\in\mathbb{Z}_{n}\tc a\cdot s+n\cdot t=1
+\]
+
+\end_inset
+
+segue dalla precedente relazione che 
+\begin_inset Formula $a\cdot s=1-n\cdot t$
+\end_inset
+
+, allora abbiamo 
+\begin_inset Formula $\cgm{a\cdot s}1n$
+\end_inset
+
+ e risolvendo l'equazione si ottiene
+\begin_inset Formula 
+\[
+\cgm s{a^{-1}}n
+\]
+
+\end_inset
+
+ovvero il numero 
+\begin_inset Formula $s$
+\end_inset
+
+ è proprio l'elemento finale 
+\begin_inset Formula $x_{k+1}$
+\end_inset
+
+ della sequenza di 
+\begin_inset Formula $x$
+\end_inset
+
+ dell'algoritmo; esso risulta essere anche il valore cercato dell'inverso
+ 
+\begin_inset Formula $a^{-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Teorema cinese del resto
+\end_layout
+
+\begin_layout Subsection
+Applicazione ed enunciato
+\end_layout
+
+\begin_layout Standard
+Mostriamo direttamente l'applicazione del teorema a un caso specifico: prendiamo
+ 
+\begin_inset Formula $\cgm x{25}{42}$
+\end_inset
+
+; possiamo esprimere 
+\begin_inset Formula $x=25+6\cdot\left(7\cdot k\right)\rightleftarrows25+7\cdot\left(6\cdot k\right)$
+\end_inset
+
+, da cui ricaviamo
+\end_layout
+
+\begin_layout Itemize
+per 
+\begin_inset Formula $x=25+6\cdot\left(7\cdot k\right)$
+\end_inset
+
+: 
+\begin_inset Formula $\mod{25}6=1\implies\cgm x16$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+per 
+\begin_inset Formula $x=25+7\cdot\left(6\cdot k\right)$
+\end_inset
+
+: 
+\begin_inset Formula $\mod{25}7=3\implies\cgm x37$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dalle due congruenze più semplici ottenute possiamo scrivere il sistema
+\begin_inset Formula 
+\[
+\cgm x{25}{42}\implies\begin{cases}
+\cgm x16\\
+\cgm x37
+\end{cases}
+\]
+
+\end_inset
+
+Il teorema cinese del resto afferma che:
+\end_layout
+
+\begin_layout Theorem
+Dati
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Teorema cinese del resto
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Cinese, teorema del resto
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Teorema-cinese-del-resto"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.0cm]
+\end_layout
+
+\end_inset
+
+ due interi 
+\begin_inset Formula $n,\,m$
+\end_inset
+
+ che siano 
+\bar under
+primi relativi
+\bar default
+ (deve valere 
+\begin_inset Formula $n\perp m$
+\end_inset
+
+), e presi due interi 
+\begin_inset Formula $a,\,b$
+\end_inset
+
+, allora il sistema delle congruenze
+\emph on
+
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm xan\\
+\cgm xbm
+\end{cases}
+\]
+
+\end_inset
+
+
+\emph default
+è equivalente alla singola congruenza
+\emph on
+
+\begin_inset Formula 
+\[
+\cgm xc{n\cdot m}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il teorema afferma che, quanto introdotto all'inizio della sezione, può
+ valere nel senso opposto in alcune condizioni specifiche.Osserviamo l'applicazio
+ne del teorema in un esempio.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Sia dato il seguente insieme di congruenze:
+\emph default
+
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm x37\\
+\cgm x5{15}
+\end{cases}
+\]
+
+\end_inset
+
+
+\emph on
+Scrivere una forma equivalente, con una singola congruenza.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Dato che 
+\begin_inset Formula $7\perp15$
+\end_inset
+
+, per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ possiamo affermare che esisterà una singola congruenza equivalente alle
+ due della consegna; essa sarà scritta nella forma 
+\begin_inset Formula $\cgm xc{105}$
+\end_inset
+
+.
+ Per ottenere 
+\begin_inset Formula $c$
+\end_inset
+
+ possiamo provare i numeri multipli di 5, i quali in modulo 7 diano 3 come
+ risultato; si ottiene facilmente 
+\begin_inset Formula $c=80$
+\end_inset
+
+ (possiamo scomporlo come 
+\begin_inset Formula $80=11\cdot7+3$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Example
+Nel caso di numeri molto grandi, non è possibile scegliere di procedere
+ per tentativi, ed è necessario usare gli strumenti della teoria dei numeri:
+ se sappiamo che 
+\begin_inset Formula $\cgm xan$
+\end_inset
+
+ e anche 
+\begin_inset Formula $\cgm xbm$
+\end_inset
+
+, allora possiamo scrivere
+\begin_inset Formula 
+\[
+\cgm{x=b+\overline{k}\cdot m}an
+\]
+
+\end_inset
+
+risolvendo questa relazione si ottiene 
+\begin_inset Formula $\cgm{a-b}{\overline{k}\cdot m}n$
+\end_inset
+
+ da cui, rispetto a 
+\begin_inset Formula $\overline{k}$
+\end_inset
+
+ otteniamo
+\begin_inset Formula 
+\[
+\cgm{\overline{k}}{\left(a-b\right)\cdot m^{-1}}n
+\]
+
+\end_inset
+
+Il valore 
+\begin_inset Formula $\overline{k}$
+\end_inset
+
+ corrisponde al 
+\begin_inset Formula $c$
+\end_inset
+
+ del Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, esso infatti è congruente sia ad 
+\begin_inset Formula $a$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, sia a 
+\begin_inset Formula $b$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $m$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Estensione
+\end_layout
+
+\begin_layout Standard
+Il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ammette un'estensione a un caso generale, con 
+\begin_inset Formula $N$
+\end_inset
+
+ congruenze.
+\end_layout
+
+\begin_layout Corollary
+Prendiamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Teorema cinese del resto esteso
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Cinese, teorema del resto esteso
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Teorema-cinese-del-resto-esteso"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.0cm]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $N$
+\end_inset
+
+ numeri interi, indicati come 
+\begin_inset Formula $m_{i}\tc i\in\left[1,\,N\right]$
+\end_inset
+
+, tali che a coppie siano tutti coprimi (
+\begin_inset Formula $\forall i,j\in\left[1,\,N\right]\land i\neq j\tc m_{i}\perp m_{j}$
+\end_inset
+
+).
+ Se abbiamo il seguente sistema di congruenze
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm x{a_{1}}{m_{1}}\\
+\cgm x{a_{2}}{m_{2}}\\
+\\
+\cgm x{a_{N}}{m_{N}}
+\end{cases}
+\]
+
+\end_inset
+
+è equivalente alla singola congruenza
+\begin_inset Formula 
+\[
+\cgm xC{\prod_{i=1}^{N}m_{i}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Corollary
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Square & multiply
+\end_layout
+
+\begin_layout Standard
+Tramite l'algoritmo chiamato square and multiply, è possibile calcolare
+ il modulo di un numero che abbia molte cifre; mostriamo un esempio per
+ illustrare l'idea dietro a questo algoritmo, usando numeri 
+\begin_inset Quotes eld
+\end_inset
+
+piccoli
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Si calcoli il risultato dell'operazione
+\emph default
+ 
+\begin_inset Formula $\mod{7^{11}}{26}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Eseguiamo i seguenti passi per cercare il valore desiderato:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+LSB indica il least significant bit (bit meno significativo) e si riferisce
+ al primo bit da destra
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.8cm]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Esprimiamo 11 (l'esponente) in forma binaria: 
+\begin_inset Formula $11_{10}=1011_{2}=1\cdot2^{3}+0\cdot2^{2}+1\cdot2^{1}+1\cdot2^{0}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Sostituire 11 con la sua rappresentazione binaria: 
+\begin_inset Formula $7^{11}=7^{\left(8+2+1\right)}=7^{8}\cdot7^{2}\cdot7$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Scriviamo i bit di 11 in colonna, al contrario (a partire dal LSB): 
+\begin_inset Formula $\begin{bmatrix}1 & 1 & 0 & 1\end{bmatrix}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Scriviamo accanto a ciascun bit la potenza di 7 corrispondente, ottenuta
+ dalla scomposizione al punto 
+\begin_inset Formula ${\scriptstyle \left(1\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Scriviamo accanto alle potenze 
+\begin_inset Formula $7^{i}$
+\end_inset
+
+ il risultato dell'operazione 
+\begin_inset Formula $\mod{7^{i}}{26}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Componiamo il risultato prendendo il prodotto dei valori scritti al punto
+ 
+\begin_inset Formula ${\scriptstyle \left(5\right)}$
+\end_inset
+
+ in corrispondenza di un 1, scritto al punto 
+\begin_inset Formula ${\scriptstyle \left(3\right)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Otterremo infine:
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+\boldsymbol{1} & 7^{1} & \boxed{7}\\
+\boldsymbol{1} & 7^{2} & \boxed{23}\\
+0 & 7^{4} & 9\\
+\boldsymbol{1} & 7^{8} & \boxed{3}
+\end{array}\implies\mod{\left(7\cdot23\cdot3\right)}{26}=15
+\]
+
+\end_inset
+
+Il vantaggio di questo metodo è il fatto che si basa solo sull'operazione
+ di elevamento al quadrato di numeri piccoli (relativamente al modulo, nell'eser
+cizio siamo in 
+\begin_inset Formula $\mathbb{Z}_{26}$
+\end_inset
+
+).
+ In totale, saranno necessari (per questo caso dell'esercizio) 
+\begin_inset Formula $2\cdot\log_{2}\left(11\right)\simeq4$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Teorema piccolo di Fermat
+\end_layout
+
+\begin_layout Theorem
+Sia
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Teorema piccolo di Fermat
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Fermat, teorema piccolo di
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Teorema-piccolo-Fermat"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.0cm]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $p$
+\end_inset
+
+ un intero primo, e 
+\begin_inset Formula $a$
+\end_inset
+
+ un intero tale che 
+\begin_inset Formula $p$
+\end_inset
+
+ 
+\bar under
+non
+\bar default
+ divida 
+\begin_inset Formula $a$
+\end_inset
+
+, allora è vero che
+\emph on
+
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{p-1}}1p\label{eq:Teorema-piccolo-Fermat}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Non vale l'implicazione inversa, infatti prendendo 
+\begin_inset Formula $a$
+\end_inset
+
+ ed 
+\begin_inset Formula $n$
+\end_inset
+
+ due interi qualsiasi, e osservando che 
+\begin_inset Formula $\cgm{a^{n-1}}1n$
+\end_inset
+
+, non possiamo dedurre che 
+\begin_inset Formula $n$
+\end_inset
+
+ sia primo.
+\end_layout
+
+\begin_layout Standard
+Piuttosto possiamo usare il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ per provare che un numero sia composto (non primo); tuttavia i numeri composti
+ che danno resto 1 non ostante non siano primi sono pochi, e sono definiti
+ 
+\emph on
+pseudo-primi
+\emph default
+.
+ Questi numeri sono sempre più rarefatti all'aumentare dell'ordine di grandezza.
+\end_layout
+
+\begin_layout Standard
+Non ostante la scelta di una base 
+\begin_inset Formula $a$
+\end_inset
+
+ differente possa 
+\begin_inset Quotes eld
+\end_inset
+
+smascherare
+\begin_inset Quotes erd
+\end_inset
+
+ un numero pseudo-primo, esiste una categoria di interi chiamati 
+\emph on
+pseudo-primi assoluti
+\emph default
+, i quali forniscono resto 1 con qualunque base scelta nel test del teorema
+ piccolo di Fermat.
+\end_layout
+
+\begin_layout Remark
+Abbiamo concluso dal Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ che, se non è vero 
+\begin_inset Formula $p\backslash a$
+\end_inset
+
+, allora vale 
+\begin_inset Formula $\cgm{a^{p-1}}1p$
+\end_inset
+
+; possiamo scrivere questa congruenza in modo equivalente come 
+\begin_inset Formula $\cgm{a\cdot a^{p-2}}1p$
+\end_inset
+
+, che può essere risolta con la regola della divisione nel modo seguente:
+\begin_inset Formula 
+\[
+\cgm{a^{p-2}}{a^{-1}}p
+\]
+
+\end_inset
+
+Abbiamo appena ottenuto un nuovo metodo per calcolare l'inverso di un intero
+ 
+\begin_inset Formula $a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Poniamoci nel caso generale, in cui abbiamo un intero qualunque 
+\begin_inset Formula $a$
+\end_inset
+
+ e un intero composto 
+\begin_inset Formula $n$
+\end_inset
+
+: la condizione del teorema diventa che 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+; in queste condizioni possiamo enunciare il seguente Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Theorem
+Sia
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Teorema di Eulero
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Eulero, teorema di
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:Teorema-Eulero"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.0cm]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ un intero qualunque e 
+\begin_inset Formula $n$
+\end_inset
+
+ un intero composto, tali che 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+, allora è vero che
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{\varphi\left(n\right)}}1n\label{eq:Teorema-Eulero}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La funzione 
+\emph on
+toziente
+\emph default
+ 
+\begin_inset Formula $\varphi\left(p\right)$
+\end_inset
+
+ con 
+\begin_inset Formula $p$
+\end_inset
+
+ numero primo, è il numero di primi relativi rispetto a 
+\begin_inset Formula $p$
+\end_inset
+
+, in questo caso 
+\begin_inset Formula $p-1$
+\end_inset
+
+ numeri, tutti i predecessori di 
+\begin_inset Formula $p$
+\end_inset
+
+, il quale essendo primo ha come fattore comune con essi solo 1; vale dunque
+ 
+\begin_inset Formula $\varphi\left(p\right)=p-1$
+\end_inset
+
+ per 
+\begin_inset Formula $p$
+\end_inset
+
+ numero primo.
+\end_layout
+
+\begin_layout Standard
+In generale il toziente di un intero 
+\begin_inset Formula $n$
+\end_inset
+
+ qualunque si può calcolare in uno dei seguenti modi:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\varphi\left(n\right)=n\cdot\prod_{i\in\left[1,n-1\right],\,p_{i}\backslash n}\left(1-\dfrac{1}{p_{i}}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $n=\prod_{i=1}^{m}p_{i}^{r_{i}}\implies\varphi\left(n\right)=\prod_{i=1}^{m}\left(p_{i}^{r_{i}}-p_{i}^{r_{i}-1}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vediamo un esempio in cui calcoliamo il toziente di due numeri adoperando
+ entrambi i procedimenti:
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Calcolare il toziente di 1000.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Adoperando il primo metodo, scriviamo la scomposizione di 1000 nei suoi
+ fattori primi: 
+\begin_inset Formula $1000=2^{3}\cdot5^{3}$
+\end_inset
+
+; scriviamo dunque la produttoria usando i due fattori 
+\begin_inset Formula $p_{i}=\left\{ 2,\,5\right\} $
+\end_inset
+
+ senza esponente
+\begin_inset Formula 
+\[
+1000\cdot\left(1-\frac{1}{2}\right)\cdot\left(1-\frac{1}{5}\right)=\boxed{400}=\varphi\left(1000\right)
+\]
+
+\end_inset
+
+Se adoperiamo il secondo metodo, scriviamo direttamente la produttoria a
+ partire dai fattori primi 
+\begin_inset Formula $2^{3}$
+\end_inset
+
+ e 
+\begin_inset Formula $5^{3}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\left(2^{3}-2^{2}\right)\cdot\left(5^{3}-5^{2}\right)=\boxed{400}=\varphi\left(1000\right)
+\]
+
+\end_inset
+
+Abbiamo ottenuto lo stesso toziente, mostrando che entrambi i procedimenti
+ si equivalgono.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Se vogliamo calcolare l'inverso di un intero 
+\begin_inset Formula $a$
+\end_inset
+
+ modulo 
+\begin_inset Formula $n$
+\end_inset
+
+ non primo, posto che 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+ possiamo scrivere la congruenza
+\begin_inset Formula 
+\[
+\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n
+\]
+
+\end_inset
+
+Questa relazione ci permette di calcolare un inverso utilizzando il modulo
+ di un elevamento a potenza (evitando la strada di Euclide esteso 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), per esempio tramite square and multiply eseguito su un calcolatore.
+\end_layout
+
+\begin_layout Standard
+Mettendo assieme quanto illustrato in questa sezione, possiamo rispondere
+ alla richiesta mostrata nel seguente esempio.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Calcolare le ultime tre cifre di
+\emph default
+ 
+\begin_inset Formula $7^{803}$
+\end_inset
+
+.
+\begin_inset CommandInset label
+LatexCommand label
+name "ex:Ultime-3-cifre-7"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Le ultime tre cifre di un numero possono essere ottenute usando il resto
+ della sua divisione per 
+\begin_inset Formula $10^{3}$
+\end_inset
+
+; allora dobbiamo trovare il risultato di 
+\begin_inset Formula $\mod{7^{803}}{1000}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Per il teorema di Eulero 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ sappiamo che 
+\begin_inset Formula $\cgm{7^{\varphi\left(1000\right)}}1{1000}$
+\end_inset
+
+ e dal precedente esempio abbiamo già calcolato 
+\begin_inset Formula $\varphi\left(1000\right)=400$
+\end_inset
+
+, per cui possiamo scomporre 
+\begin_inset Formula $7^{803}$
+\end_inset
+
+ nel modo seguente:
+\begin_inset Formula 
+\[
+\mod{\left(7^{400}\cdot7^{400}\cdot7^{3}\right)}{1000}=\mod{\left(1\cdot1\cdot343\right)}{1000}=\boxed{343}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Principio fondamentale
+\end_layout
+
+\begin_layout Standard
+Se abbiamo gli interi 
+\begin_inset Formula $a,\,b,\,n,\,x,\,y$
+\end_inset
+
+ e 
+\begin_inset Formula $n>0$
+\end_inset
+
+, tali che 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+, allora se 
+\begin_inset Formula $\cgm xy{\varphi\left(n\right)}$
+\end_inset
+
+ vale
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{x}}{b^{y}}n\label{eq:Principio-fondamentale}
+\end{equation}
+
+\end_inset
+
+tuttavia non vale l'implicazione inversa.
+\end_layout
+
+\begin_layout Standard
+Concludiamo che, in una congruenza modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, in presenza di elevamenti a potenza gli esponenti della stessa base lavorano
+ in modulo di 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Questo principio permette di risolvere rapidamente la richiesta dell'Esercizio
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "ex:Ultime-3-cifre-7"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: dato che 
+\begin_inset Formula $\cgm{803}3{\varphi\left(1000\right)=400}$
+\end_inset
+
+ otteniamo direttamente 
+\begin_inset Formula $\cgm{7^{803}}{7^{3}}{1000}$
+\end_inset
+
+; abbiamo usato 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Principio-fondamentale"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ in cui 
+\begin_inset Formula $x=803$
+\end_inset
+
+ e 
+\begin_inset Formula $y=3$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Part
 Protocolli e sistemi per la comunicazione sicura
 \end_layout
@@ -1447,7 +3609,7 @@ Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura sul
  fatto che i possibili avversari non ne conoscessero il funzionamento; il
  crittografo olandese Auguste Kerckhoffs, enunciò ne 
 \emph on
-‘La cryptographie militaire’
+`La cryptographie militaire'
 \emph default
  (1883) il principio di Kerchoffs:
 \begin_inset Marginal

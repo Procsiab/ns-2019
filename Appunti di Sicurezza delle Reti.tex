@@ -9,6 +9,7 @@
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{babel}
+\usepackage{units}
 \usepackage{mathtools}
 \usepackage{amsbsy}
 \usepackage{amstext}
@@ -17,6 +18,8 @@
 \makeindex
 \usepackage{graphicx}
 \usepackage{wasysym}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
 \usepackage[unicode=true,
  bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=1,
  breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=page,colorlinks=false]
@@ -48,6 +51,24 @@
     \else
       \newtheorem{example}{\protect\examplename}[chapter]
     \fi
+\theoremstyle{plain}
+    \ifx\thechapter\undefined
+      \newtheorem{prop}{\protect\propositionname}
+    \else
+      \newtheorem{prop}{\protect\propositionname}[chapter]
+    \fi
+\theoremstyle{remark}
+    \ifx\thechapter\undefined
+      \newtheorem{rem}{\protect\remarkname}
+    \else
+      \newtheorem{rem}{\protect\remarkname}[chapter]
+    \fi
+\theoremstyle{plain}
+    \ifx\thechapter\undefined
+  \newtheorem{cor}{\protect\corollaryname}
+\else
+      \newtheorem{cor}{\protect\corollaryname}[chapter]
+    \fi
 
 \@ifundefined{date}{}{\date{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
@@ -73,7 +94,10 @@
 
 \makeatother
 
+\providecommand{\corollaryname}{Corollario}
 \providecommand{\examplename}{Esempio}
+\providecommand{\propositionname}{Proposizione}
+\providecommand{\remarkname}{Osservazione}
 \providecommand{\theoremname}{Teorema}
 
 \begin{document}
@@ -312,6 +336,502 @@ dove gli interi $x_{k+1}$ e $y_{k+1}$ sono ottenuti dalle successioni
 (\ref{eq:Algoritmo-Euclide-esteso}); normalmente uno dei due è positivo
 e l'altro è negativo.
 
+\section{Congruenza in modulo}
+
+\subsection{Definizione e proprietà}
+
+Nelle sezioni precedenti abbiamo introdotto il simbolo di congruenza
+`$\equiv$', che usato nel modo seguente implica che
+\[
+\cgm abn\implies\mod an=\mod bn\implies a-b=k\cdot n
+\]
+ovvero il fatto che $a$ sia congruente in modulo $n$ a $b$ implica
+il fatto che $a$ e $b$ siano multipli; possiamo infatti dedurlo
+osservando l'ultima implicazione, riscritta come
+\[
+a=b+k\cdot n
+\]
+
+Per la congruenza in modulo valgono alcune proprietà simili a quelle
+dell'uguaglianza:
+\begin{itemize}
+\item $\cgm a0n\iff n\backslash a$
+\item $\forall a\in\mathbb{Z}\tc\cgm aan$
+\item $\cgm abn\iff\cgm ban$
+\item $\cgm abn\land\cgm bcn\implies\cgm acn$
+\end{itemize}
+
+\subsection{Insieme dei residui}
+
+Fin'ora abbiamo lavorato all'interno dell'insieme dei numeri interi
+$\mathbb{Z}$; introduciamo l'insieme dei residui modulo $n$, indicato
+come $\mathbb{Z}_{n}$, che contiene l'insieme dei valori da 0 a $n-1$
+e al suo interno sono definite ciclicamente le operazioni di addizione,
+sottrazione e moltiplicazione; osserviamo un esempio sull'addizione.
+\begin{example}
+\emph{\label{ex:Operazioni-insieme-residui}Determinare i risultati
+delle seguenti operazioni, all'interno dell'insieme $\mathbb{Z}_{10}$:
+$4+5,\,5+5,\,2-3,\,3\cdot4$.}
+
+$\checked$Dalla definizione sappiamo che $\mathbb{Z}_{10}=\left\{ 0,1,2,3,4,5,6,7,8,9\right\} $,
+allora le operazioni richieste valgono:
+\[
+4+5=9,\;5+5=0,\;2-3=9,\;3\cdot4=2
+\]
+\demo
+\end{example}
+La divisione in un insieme dei residui non è definita in modo banale
+come le altre tre operazioni; introdurremo in seguito questa operazione.
+
+\subsection{Insieme ridotto dei residui}
+
+Dato un insieme dei residui $\mathbb{Z}_{n}$, possiamo definire il
+suo insieme ridotto $\mathbb{Z}_{n}^{*}$, che contiene gli elementi
+di $\mathbb{Z}_{n}$ che sono coprimi rispetto a $n$, ovvero
+\[
+\forall z\in\mathbb{Z}_{n}^{*}\tc z\in\mathbb{Z}_{n}\land z\perp n
+\]
+Procedendo con l'Esempio \ref{ex:Operazioni-insieme-residui}, l'insieme
+ridotto dei residui modulo 10 avrà i seguenti elementi al suo interno:
+\[
+\mathbb{Z}_{10}^{*}=\left\{ 1,3,7,9\right\} 
+\]
+Notiamo che lo zero è sempre escluso dall'insieme ridotto, perché
+non è coprimo rispetto ad alcun intero; la cardinalità di $\mathbb{Z}_{n}^{*}$
+è determinata da una funzione di $n$ chiamata \emph{toziente} o \emph{$\varphi$
+di Eulero}; in particolare vale $\varphi\left(10\right)=4$ (vedremo
+in seguito come calcolare questa funzione).
+
+\subsection{Equazioni congruenziali}
+
+Una equazione congruenziale è una relazione definita su un'insieme
+di residui; nel seguito vedremo delle proprietà che ci permetteranno
+di operare con queste relazioni.
+\begin{prop}
+Prendiamo un intero $n\neq0$ e quattro interi $a,b,c,d$ tali che
+\emph{$\cgm abn$ }e\emph{ $\cgm cdn$}; allora si verifica che\emph{
+\[
+\cgm{a+c}{b+d}n,\;\cgm{a-c}{b-d}n,\;\cgm{a\cdot c}{b\cdot d}n
+\]
+}
+\end{prop}
+Possiamo usare queste proprietà per risolvere la seguente equazione
+congruenziale.
+\begin{example}
+\emph{Risolvere rispetto a $x$ l'equazione }$\cgm{x+7}3{17}$\emph{.}
+
+$\checked$Dato che 7 è congruente a 3 in modulo 17, possiamo sfruttare
+la seconda proprietà, per cui
+\[
+\begin{array}{c}
+\cgm{x+7\boldsymbol{-7}}{3\boldsymbol{-7}}{17}\\
+\cgm x{-4}{17}
+\end{array}
+\]
+Osservando che $17-4=13$, otteniamo infine (è equivalente a scrivere
+la congruenza con $-4$)
+\[
+\cgm x{13}{17}
+\]
+\demo
+\end{example}
+Ora introduciamo il concetto di divisione nell'insieme dei residui,
+con una seconda proposizione.
+\begin{prop}
+Prendiamo un intero $n\neq0$ e tre interi $a,b,c$ con $a\perp n$
+e vale \emph{$\cgm{a\cdot b}{a\cdot c}n$}; allora possiamo dire che
+\emph{$\cgm{a\cdot b}{a\cdot c}n\implies\cgm bcn$}, tramite la moltiplicazione
+da ambo i lati per l'inverso $a^{-1}$
+\end{prop}
+Possiamo risolvere una forma di equazione congruenziale più elaborata.
+\begin{example}
+\emph{Risolvere rispetto a $x$ l'equazione }$\cgm{2x+7}3{17}$\emph{.}
+
+$\checked$Come nel caso precedente, possiamo sottrarre 7 da entrambi
+i lati, dato che $\cgm 73{17}$, ottenendo
+\[
+\cgm{2x}{-4}{17}
+\]
+Ora sfruttando il fatto che $2\perp17$ la precedente diventa
+\[
+\cgm x{-2}{17}=\cgm x{15}{17}
+\]
+\demo
+\end{example}
+%
+\begin{example}
+\emph{Risolvere rispetto a $x$ l'equazione }$\cgm{5x+6}{13}{11}$\emph{.}
+
+$\checked$Osservando che $\cgm 6{13}{11}$, applichiamo la proprietà
+della divisione e otteniamo
+\[
+\cgm{5x}7{11}
+\]
+Se ora usiamo la proprietà della divisione (vale $5\perp11$) dovremo
+scrivere
+\[
+\cgm x{\hat{\frac{7}{5}}}{11}
+\]
+dove la frazione $\hat{\nicefrac{7}{5}}$ in realtà non esiste nell'insieme
+$\mathbb{Z}_{11}$; tuttavia sappiamo che $5x$ è congruente modulo
+11 a 7, ma anche a (per la ciclicità dell'insieme dei residui) $7+11,\,7+22,\,\ldots\,,7+k\cdot11$;
+il primo numero che sia un multiplo di 5 si ha per 3; abbiamo ottenuto
+che $\left[7=40\right]\ni\mathbb{Z}_{11}$, quindi possiamo scrivere
+\[
+\begin{array}{c}
+\cgm{5x}{40}{11}\\
+\cgm x8{11}
+\end{array}
+\]
+Possiamo in un certo senso affermare che 8 si comporta come $\nicefrac{7}{5}$
+in $\mathbb{Z}_{11}$.
+
+Esiste una seconda strada per risolvere questo esercizio; sapendo
+che 5 e 11 sono primi relativi, usiamo il prodotto invece della divisione:
+\[
+\cgm{5x\cdot\boldsymbol{5^{-1}}}{7\cdot\boldsymbol{5^{-1}}}{11}
+\]
+L'inverso di un numero $n$ è quel numero $m$ tale che $n\cdot m=1$;
+dunque cerchiamo l'elemento di $\mathbb{Z}_{11}$ che moltiplicato
+per 5 risulta 1; troviamo $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$,
+da cui segue che
+\[
+\cgm x{7\cdot9}{11}
+\]
+e dato che $7\cdot9=63=5\cdot11+8$ la precedente si scrive come
+\[
+\cgm x8{11}
+\]
+Abbiamo ottenuto il medesimo risultato a cui siamo arrivati attraverso
+il primo procedimento.\demo
+\end{example}
+\begin{rem}
+Presi $a\in\mathbb{Z}_{n}$ e $b\notin\mathbb{Z}_{n}^{*}$, non è
+definita la divisione $a\div b$ (deve infatti valere $b\perp n\implies b\in\mathbb{Z}_{n}^{*}$).
+\end{rem}
+%
+\begin{rem}
+Se prendiamo l'equazione $\cgm{a\cdot x}bn$, essa ammetterà soluzione
+se vale $a\perp n$; in tal caso $\exists a^{-1}\in\mathbb{Z}_{n}^{*}$
+e la soluzione sarà $\cgm x{b\cdot a^{-1}}n$.
+\end{rem}
+Cosa possiamo concludere nel caso in cui, data l'equazione $E:\,\cgm{a\cdot x}bn$,
+non sia vero che $a\perp n$, cioè nel caso in cui $\mcd an=d>1$?
+In tal caso, l'equazione può non ammettere soluzione o ammetterne
+$d$.
+
+Se $d\backslash b$ allora dividiamo per $d$ tutte le quantità costanti,
+ottenendo 
+\[
+\overline{E}:\,\cgm{\frac{a}{d}x}{\frac{b}{d}}{\frac{n}{d}}
+\]
+questa equazione ha ora una soluzione, perché $\mcd an=d\implies\mcd{\frac{a}{d}}{\frac{n}{d}}=\frac{d}{d}=1$
+e ricadiamo nel caso dell'osservazione precedente.
+
+Otteniamo la soluzione dell'equazione $\overline{E}$ e la chiamiamo
+$x_{0}$, la quale sarà in modulo $\nicefrac{n}{d}$ ($x_{0}\in\mathbb{Z}_{n/d}$);
+dato che l'equazione di partenza $E$ ha soluzioni in $\mathbb{Z}_{n}$,
+esse saranno i termini della successione
+\[
+\left\{ x\right\} =x_{0},\,x_{0}+\frac{n}{d},\,x_{0}+2\frac{n}{d},\,\ldots\,,\,x_{0}+\left(d-1\right)\frac{n}{d}
+\]
+Osserviamo l'esempio di un'equazione con queste caratteristiche.
+\begin{example}
+\emph{Risolvere rispetto a $x$ l'equazione }$\cgm{12x}{21}{39}$\emph{.}
+
+$\checked$Osserviamo subito che $\mcd{12}{39}=3$, dunque l'equazione
+avrà 0 o 3 soluzioni; dividiamo le costanti per 3 e otteniamo
+\[
+\cgm{4x}7{13}
+\]
+da cui otteniamo $\cgm x{\hat{\frac{7}{4}}}{13}$ e trovando $4\backslash\left(7+1\cdot13\right)=20$
+la precedente equazione fornisce una soluzione $\cgm{x_{0}}5n$; adesso
+usiamo la successione delle soluzioni $\left\{ x\right\} $ per ottenere
+tutte le soluzioni dell'equazione di partenza:
+\[
+x=\left\{ x_{0}=\boxed{5},\,x_{0}+\frac{39}{3}=\boxed{18},\,x_{0}+\frac{2\cdot39}{3}=\boxed{31}\right\} 
+\]
+Possiamo immaginare le radici di $E$ come dei punti su una circonferenza,
+a distanza $d/n$ da $x_{0}$.\demo
+
+Posto che valga $a\perp n$ (ovvero $\mcd an=1$), come possiamo calcolare
+l'inverso $a^{-1}$? Potremmo tentare tutti i numeri da $1$ a $n-1$
+conducendo un'analisi esaustiva, tuttavia per $n$ molto grande questo
+non è pratico; usiamo allora l'algoritmo di Euclide esteso (\ref{eq:Algoritmo-Euclide-esteso}):
+esso ci garantisce che
+\[
+\mcd an=1\implies\exists s,t\in\mathbb{Z}_{n}\tc a\cdot s+n\cdot t=1
+\]
+segue dalla precedente relazione che $a\cdot s=1-n\cdot t$, allora
+abbiamo $\cgm{a\cdot s}1n$ e risolvendo l'equazione si ottiene
+\[
+\cgm s{a^{-1}}n
+\]
+ovvero il numero $s$ è proprio l'elemento finale $x_{k+1}$ della
+sequenza di $x$ dell'algoritmo; esso risulta essere anche il valore
+cercato dell'inverso $a^{-1}$.
+\end{example}
+
+\section{Teorema cinese del resto}
+
+\subsection{Applicazione ed enunciato}
+
+Mostriamo direttamente l'applicazione del teorema a un caso specifico:
+prendiamo $\cgm x{25}{42}$; possiamo esprimere $x=25+6\cdot\left(7\cdot k\right)\rightleftarrows25+7\cdot\left(6\cdot k\right)$,
+da cui ricaviamo
+\begin{itemize}
+\item per $x=25+6\cdot\left(7\cdot k\right)$: $\mod{25}6=1\implies\cgm x16$
+\item per $x=25+7\cdot\left(6\cdot k\right)$: $\mod{25}7=3\implies\cgm x37$
+\end{itemize}
+Dalle due congruenze più semplici ottenute possiamo scrivere il sistema
+\[
+\cgm x{25}{42}\implies\begin{cases}
+\cgm x16\\
+\cgm x37
+\end{cases}
+\]
+Il teorema cinese del resto afferma che:
+\begin{thm}
+Dati\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Teorema cinese del resto}{\footnotesize{}\index{Cinese, teorema del resto@{\footnotesize{}Cinese, teorema del resto}}\label{thm:Teorema-cinese-del-resto}}}[0.0cm] due interi $n,\,m$ che siano \uline{primi relativi} (deve
+valere $n\perp m$), e presi due interi $a,\,b$, allora il sistema
+delle congruenze\emph{
+\[
+\begin{cases}
+\cgm xan\\
+\cgm xbm
+\end{cases}
+\]
+}è equivalente alla singola congruenza\emph{
+\[
+\cgm xc{n\cdot m}
+\]
+}
+\end{thm}
+Il teorema afferma che, quanto introdotto all'inizio della sezione,
+può valere nel senso opposto in alcune condizioni specifiche.Osserviamo
+l'applicazione del teorema in un esempio.
+\begin{example}
+\emph{Sia dato il seguente insieme di congruenze:}
+\[
+\begin{cases}
+\cgm x37\\
+\cgm x5{15}
+\end{cases}
+\]
+\emph{Scrivere una forma equivalente, con una singola congruenza.}
+
+$\checked$Dato che $7\perp15$, per il Teorema \ref{thm:Teorema-cinese-del-resto}
+possiamo affermare che esisterà una singola congruenza equivalente
+alle due della consegna; essa sarà scritta nella forma $\cgm xc{105}$.
+Per ottenere $c$ possiamo provare i numeri multipli di 5, i quali
+in modulo 7 diano 3 come risultato; si ottiene facilmente $c=80$
+(possiamo scomporlo come $80=11\cdot7+3$).
+
+Nel caso di numeri molto grandi, non è possibile scegliere di procedere
+per tentativi, ed è necessario usare gli strumenti della teoria dei
+numeri: se sappiamo che $\cgm xan$ e anche $\cgm xbm$, allora possiamo
+scrivere
+\[
+\cgm{x=b+\overline{k}\cdot m}an
+\]
+risolvendo questa relazione si ottiene $\cgm{a-b}{\overline{k}\cdot m}n$
+da cui, rispetto a $\overline{k}$ otteniamo
+\[
+\cgm{\overline{k}}{\left(a-b\right)\cdot m^{-1}}n
+\]
+Il valore $\overline{k}$ corrisponde al $c$ del Teorema \ref{thm:Teorema-cinese-del-resto},
+esso infatti è congruente sia ad $a$ in modulo $n$, sia a $b$ in
+modulo $m$.\demo
+\end{example}
+
+\subsection{Estensione}
+
+Il Teorema \ref{thm:Teorema-cinese-del-resto} ammette un'estensione
+a un caso generale, con $N$ congruenze.
+\begin{cor}
+Prendiamo\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Teorema cinese del resto esteso}{\footnotesize{}\index{Cinese, teorema del resto esteso@{\footnotesize{}Cinese, teorema del resto esteso}}\label{thm:Teorema-cinese-del-resto-esteso}}}[0.0cm] $N$ numeri interi, indicati come $m_{i}\tc i\in\left[1,\,N\right]$,
+tali che a coppie siano tutti coprimi ($\forall i,j\in\left[1,\,N\right]\land i\neq j\tc m_{i}\perp m_{j}$).
+Se abbiamo il seguente sistema di congruenze
+\[
+\begin{cases}
+\cgm x{a_{1}}{m_{1}}\\
+\cgm x{a_{2}}{m_{2}}\\
+\\
+\cgm x{a_{N}}{m_{N}}
+\end{cases}
+\]
+è equivalente alla singola congruenza
+\[
+\cgm xC{\prod_{i=1}^{N}m_{i}}
+\]
+
+\pagebreak{}
+\end{cor}
+
+\section{Square \& multiply}
+
+Tramite l'algoritmo chiamato square and multiply, è possibile calcolare
+il modulo di un numero che abbia molte cifre; mostriamo un esempio
+per illustrare l'idea dietro a questo algoritmo, usando numeri ``piccoli''.
+\begin{example}
+\emph{Si calcoli il risultato dell'operazione} $\mod{7^{11}}{26}$.
+
+$\checked$Eseguiamo i seguenti passi per cercare il valore desiderato:\marginpar{LSB indica il least significant bit (bit meno significativo) e si
+riferisce al primo bit da destra}[0.8cm]
+\end{example}
+\begin{enumerate}
+\item Esprimiamo 11 (l'esponente) in forma binaria: $11_{10}=1011_{2}=1\cdot2^{3}+0\cdot2^{2}+1\cdot2^{1}+1\cdot2^{0}$;
+\item Sostituire 11 con la sua rappresentazione binaria: $7^{11}=7^{\left(8+2+1\right)}=7^{8}\cdot7^{2}\cdot7$;
+\item Scriviamo i bit di 11 in colonna, al contrario (a partire dal LSB):
+$\begin{bmatrix}1 & 1 & 0 & 1\end{bmatrix}$;
+\item Scriviamo accanto a ciascun bit la potenza di 7 corrispondente, ottenuta
+dalla scomposizione al punto ${\scriptstyle \left(1\right)}$;
+\item Scriviamo accanto alle potenze $7^{i}$ il risultato dell'operazione
+$\mod{7^{i}}{26}$;
+\item Componiamo il risultato prendendo il prodotto dei valori scritti al
+punto ${\scriptstyle \left(5\right)}$ in corrispondenza di un 1,
+scritto al punto ${\scriptstyle \left(3\right)}$
+\end{enumerate}
+Otterremo infine:
+\[
+\begin{array}{ccc}
+\boldsymbol{1} & 7^{1} & \boxed{7}\\
+\boldsymbol{1} & 7^{2} & \boxed{23}\\
+0 & 7^{4} & 9\\
+\boldsymbol{1} & 7^{8} & \boxed{3}
+\end{array}\implies\mod{\left(7\cdot23\cdot3\right)}{26}=15
+\]
+Il vantaggio di questo metodo è il fatto che si basa solo sull'operazione
+di elevamento al quadrato di numeri piccoli (relativamente al modulo,
+nell'esercizio siamo in $\mathbb{Z}_{26}$). In totale, saranno necessari
+(per questo caso dell'esercizio) $2\cdot\log_{2}\left(11\right)\simeq4$.\demo
+
+\section{Teorema piccolo di Fermat}
+\begin{thm}
+Sia\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Teorema piccolo di Fermat}{\footnotesize{}\index{Fermat, teorema piccolo di@{\footnotesize{}Fermat, teorema piccolo di}}\label{thm:Teorema-piccolo-Fermat}}}[0.0cm] $p$ un intero primo, e $a$ un intero tale che $p$ \uline{non}
+divida $a$, allora è vero che\emph{
+\begin{equation}
+\cgm{a^{p-1}}1p\label{eq:Teorema-piccolo-Fermat}
+\end{equation}
+}
+\end{thm}
+Non vale l'implicazione inversa, infatti prendendo $a$ ed $n$ due
+interi qualsiasi, e osservando che $\cgm{a^{n-1}}1n$, non possiamo
+dedurre che $n$ sia primo.
+
+Piuttosto possiamo usare il Teorema \ref{thm:Teorema-piccolo-Fermat}
+per provare che un numero sia composto (non primo); tuttavia i numeri
+composti che danno resto 1 non ostante non siano primi sono pochi,
+e sono definiti \emph{pseudo-primi}. Questi numeri sono sempre più
+rarefatti all'aumentare dell'ordine di grandezza.
+
+Non ostante la scelta di una base $a$ differente possa ``smascherare''
+un numero pseudo-primo, esiste una categoria di interi chiamati \emph{pseudo-primi
+assoluti}, i quali forniscono resto 1 con qualunque base scelta nel
+test del teorema piccolo di Fermat.
+\begin{rem}
+Abbiamo concluso dal Teorema \ref{thm:Teorema-piccolo-Fermat} che,
+se non è vero $p\backslash a$, allora vale $\cgm{a^{p-1}}1p$; possiamo
+scrivere questa congruenza in modo equivalente come $\cgm{a\cdot a^{p-2}}1p$,
+che può essere risolta con la regola della divisione nel modo seguente:
+\[
+\cgm{a^{p-2}}{a^{-1}}p
+\]
+Abbiamo appena ottenuto un nuovo metodo per calcolare l'inverso di
+un intero $a$.
+\end{rem}
+Poniamoci nel caso generale, in cui abbiamo un intero qualunque $a$
+e un intero composto $n$: la condizione del teorema diventa che $a\perp n$;
+in queste condizioni possiamo enunciare il seguente Teorema \ref{thm:Teorema-Eulero}.
+\begin{thm}
+Sia\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Teorema di Eulero}{\footnotesize{}\index{Eulero, teorema di@{\footnotesize{}Eulero, teorema di}}\label{thm:Teorema-Eulero}}}[0.0cm] $a$ un intero qualunque e $n$ un intero composto, tali
+che $a\perp n$, allora è vero che
+\begin{equation}
+\cgm{a^{\varphi\left(n\right)}}1n\label{eq:Teorema-Eulero}
+\end{equation}
+\end{thm}
+La funzione \emph{toziente} $\varphi\left(p\right)$ con $p$ numero
+primo, è il numero di primi relativi rispetto a $p$, in questo caso
+$p-1$ numeri, tutti i predecessori di $p$, il quale essendo primo
+ha come fattore comune con essi solo 1; vale dunque $\varphi\left(p\right)=p-1$
+per $p$ numero primo.
+
+In generale il toziente di un intero $n$ qualunque si può calcolare
+in uno dei seguenti modi:
+\begin{itemize}
+\item $\varphi\left(n\right)=n\cdot\prod_{i\in\left[1,n-1\right],\,p_{i}\backslash n}\left(1-\dfrac{1}{p_{i}}\right)$
+\item $n=\prod_{i=1}^{m}p_{i}^{r_{i}}\implies\varphi\left(n\right)=\prod_{i=1}^{m}\left(p_{i}^{r_{i}}-p_{i}^{r_{i}-1}\right)$
+\end{itemize}
+Vediamo un esempio in cui calcoliamo il toziente di due numeri adoperando
+entrambi i procedimenti:
+\begin{example}
+\emph{Calcolare il toziente di 1000.}
+
+$\checked$Adoperando il primo metodo, scriviamo la scomposizione
+di 1000 nei suoi fattori primi: $1000=2^{3}\cdot5^{3}$; scriviamo
+dunque la produttoria usando i due fattori $p_{i}=\left\{ 2,\,5\right\} $
+senza esponente
+\[
+1000\cdot\left(1-\frac{1}{2}\right)\cdot\left(1-\frac{1}{5}\right)=\boxed{400}=\varphi\left(1000\right)
+\]
+Se adoperiamo il secondo metodo, scriviamo direttamente la produttoria
+a partire dai fattori primi $2^{3}$ e $5^{3}$:
+\[
+\left(2^{3}-2^{2}\right)\cdot\left(5^{3}-5^{2}\right)=\boxed{400}=\varphi\left(1000\right)
+\]
+Abbiamo ottenuto lo stesso toziente, mostrando che entrambi i procedimenti
+si equivalgono.\demo
+\end{example}
+\begin{rem}
+Se vogliamo calcolare l'inverso di un intero $a$ modulo $n$ non
+primo, posto che $a\perp n$ possiamo scrivere la congruenza
+\[
+\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n
+\]
+Questa relazione ci permette di calcolare un inverso utilizzando il
+modulo di un elevamento a potenza (evitando la strada di Euclide esteso
+(\ref{eq:Algoritmo-Euclide-esteso})), per esempio tramite square
+and multiply eseguito su un calcolatore.
+\end{rem}
+Mettendo assieme quanto illustrato in questa sezione, possiamo rispondere
+alla richiesta mostrata nel seguente esempio.
+\begin{example}
+\emph{Calcolare le ultime tre cifre di} $7^{803}$.\label{ex:Ultime-3-cifre-7}
+
+$\checked$Le ultime tre cifre di un numero possono essere ottenute
+usando il resto della sua divisione per $10^{3}$; allora dobbiamo
+trovare il risultato di $\mod{7^{803}}{1000}$.
+
+Per il teorema di Eulero (\ref{eq:Teorema-Eulero}) sappiamo che $\cgm{7^{\varphi\left(1000\right)}}1{1000}$
+e dal precedente esempio abbiamo già calcolato $\varphi\left(1000\right)=400$,
+per cui possiamo scomporre $7^{803}$ nel modo seguente:
+\[
+\mod{\left(7^{400}\cdot7^{400}\cdot7^{3}\right)}{1000}=\mod{\left(1\cdot1\cdot343\right)}{1000}=\boxed{343}
+\]
+\demo
+\end{example}
+
+\section{Principio fondamentale}
+
+Se abbiamo gli interi $a,\,b,\,n,\,x,\,y$ e $n>0$, tali che $a\perp n$,
+allora se $\cgm xy{\varphi\left(n\right)}$ vale
+\begin{equation}
+\cgm{a^{x}}{b^{y}}n\label{eq:Principio-fondamentale}
+\end{equation}
+tuttavia non vale l'implicazione inversa.
+
+Concludiamo che, in una congruenza modulo $n$, in presenza di elevamenti
+a potenza gli esponenti della stessa base lavorano in modulo di $\varphi\left(n\right)$.
+
+Questo principio permette di risolvere rapidamente la richiesta dell'Esercizio
+\ref{ex:Ultime-3-cifre-7}: dato che $\cgm{803}3{\varphi\left(1000\right)=400}$
+otteniamo direttamente $\cgm{7^{803}}{7^{3}}{1000}$; abbiamo usato
+(\ref{eq:Principio-fondamentale}) in cui $x=803$ e $y=3$.
+
 \part{Protocolli e sistemi per la comunicazione sicura}
 
 \appendix
@@ -388,8 +908,8 @@ uscita, per cercare di ricavare informazioni sull'implementazione.
 
 Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura
 sul fatto che i possibili avversari non ne conoscessero il funzionamento;
-il crittografo olandese Auguste Kerckhoffs, enunciò ne \emph{\textquoteleft La
-cryptographie militaire\textquoteright{}} (1883) il principio di Kerchoffs:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+il crittografo olandese Auguste Kerckhoffs, enunciò ne \emph{`La cryptographie
+militaire'} (1883) il principio di Kerchoffs:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
 \textbf{\footnotesize{}Principio di Kerchoffs}{\footnotesize{}\index{Kerchoffs, principio di@{\footnotesize{}Kerchoffs, principio di}}\label{thm:Principio-di-Kerchoffs}}}[0.7cm]
 \begin{center}
 \begin{minipage}[t]{0.8\textwidth}%
