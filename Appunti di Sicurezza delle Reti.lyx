@@ -2510,8 +2510,21 @@ status open
 
 \end_layout
 
-\begin_layout Corollary
-\begin_inset Newpage pagebreak
+\begin_layout Standard
+Tale congruenza si costruisce a partire dalle seguenti serie:
+\begin_inset Formula 
+\[
+M=\prod_{i=1}^{N}m_{i};\quad Z_{i}=\frac{M}{m_{i}};\quad Y_{i}=\mod{Z_{i}^{-1}}{m_{i}}
+\]
+
+\end_inset
+
+Otteniamo infine la seguente soluzione, equivalente a una singola congruenza:
+\begin_inset Formula 
+\begin{equation}
+X=\mod{\serie{i=1}N{a_{i}Y_{i}Z_{i}}}M\label{eq:Congruenza-equivalente-sistema}
+\end{equation}
+
 \end_inset
 
 
