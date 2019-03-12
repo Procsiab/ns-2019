@@ -264,7 +264,23 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\ncgm}[3]{#1\not\equiv#2\left(\text{mod}\,#3\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\mod}[2]{#1\,\text{mod}\,#2}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
+\newcommand{\ord}[1]{\mathrm{{\scriptstyle ORD}}\left(#1\right)}
 \end_inset
 
 
@@ -3340,7 +3356,870 @@ Radici primitive
 \end_layout
 
 \begin_layout Standard
-Pollo
+Introduciamo il concetto di gruppo algebrico:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Gruppo algebrico
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Gruppo algebrico
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:Gruppo-algebrico"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.3cm]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\emph on
+Chiamiamo 
+\emph default
+gruppo
+\emph on
+ una struttura formata da un insieme e da un'operazione binaria definita
+ su di esso, la quale soddisfi gli assiomi di associatività, esistenza dell'elem
+ento neutro ed esistenza dell'elemento inverso
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Ad esempio, se prendiamo l'insieme dei numeri interi 
+\begin_inset Formula $\mathbb{Z}$
+\end_inset
+
+ e l'operazione di somma 
+\begin_inset Formula $+$
+\end_inset
+
+, possiamo formare il gruppo 
+\begin_inset Formula $\left(\mathbb{Z},\,+\right)$
+\end_inset
+
+ poiché la somma è associativa, l'elemento neutro è lo zero e l'inverso
+ di qualunque elemento è sempre definito; anche prendendo 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ (insieme dei residui interi modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, escluso lo 0) e l'operazione di prodotto, otteniamo di nuovo un gruppo
+ 
+\begin_inset Formula $\left(\mathbb{Z}_{p}^{*},\,\cdot\right)$
+\end_inset
+
+.
+ Non si ottiene un gruppo rispetto al prodotto per 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+ (residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, da 0 a 
+\begin_inset Formula $p-1$
+\end_inset
+
+), poiché lo 0 non ha un inverso definito.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Se prendiamo un elemento 
+\begin_inset Formula $a\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ allora vale 
+\begin_inset Formula $\cgm{a^{p-1}}1p$
+\end_inset
+
+ per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; chiamiamo inoltre ordine dell'elemento 
+\begin_inset Formula $a$
+\end_inset
+
+ (e lo indichiamo tramite 
+\begin_inset Formula $\ord a$
+\end_inset
+
+) l'intero 
+\begin_inset Formula $n>0$
+\end_inset
+
+ più piccolo tale che
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{n}}1p\label{eq:Ordine-di-intero}
+\end{equation}
+
+\end_inset
+
+Il teorema piccolo di Fermat 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ci assicura che vale sempre 
+\begin_inset Formula $n\leq p-1$
+\end_inset
+
+, ma non è detto che sia proprio 
+\begin_inset Formula $n=p-1$
+\end_inset
+
+.
+ Chiamiamo quindi 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ l'elemento primitivo 
+\begin_inset Formula $a\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ se e solo se l'ordine di 
+\begin_inset Formula $a$
+\end_inset
+
+ è 1, ovvero non esiste nessun'altro intero 
+\begin_inset Formula $n$
+\end_inset
+
+ per cui 
+\begin_inset Formula $\cgm{a^{n}}1p$
+\end_inset
+
+; in altri termini vale
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{n}}1p\iff n=1\label{eq:Condizione-elemento-primitivo}
+\end{equation}
+
+\end_inset
+
+Se l'ordine di 
+\begin_inset Formula $a$
+\end_inset
+
+ fosse proprio 
+\begin_inset Formula $p-1$
+\end_inset
+
+, allora preso 
+\begin_inset Formula $\alpha^{i}$
+\end_inset
+
+ l'elemento primitivo, presi tutti gli interi 
+\begin_inset Formula $i\in\left[1,\,p-1\right]$
+\end_inset
+
+, otteniamo dalla successione degli 
+\begin_inset Formula $\alpha^{i}$
+\end_inset
+
+ tutti e soli gli elementi dell'insieme 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ (in ordine anche differente); chiameremo l'elemento 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ la 
+\emph on
+radice primitiva
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "90col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+
+\emph on
+Chiamiamo 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ una radice primitiva per 
+\begin_inset Formula $p$
+\end_inset
+
+ se vale 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Condizione-elemento-primitivo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ e inoltre l'ordine di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è pari a 
+\begin_inset Formula $n=p-1$
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Radice primitiva
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Radice primitiva
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:Radice-primitiva"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-0.2cm]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Trovare se 
+\begin_inset Formula $\alpha=3$
+\end_inset
+
+ sia una radice primitiva di 
+\begin_inset Formula $p=7$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Per trovare se 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ sia effettivamente una radice primitiva di 
+\begin_inset Formula $p$
+\end_inset
+
+, calcoliamo gli elementi:
+\begin_inset Formula 
+\[
+\left\{ \forall i\in\left[0,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
+\]
+
+\end_inset
+
+Otteniamo quindi:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{3^{0}}17\\
+\cgm{3^{1}}37\\
+\cgm{3^{2}}27\\
+\cgm{3^{3}}67\\
+\cgm{3^{4}}47\\
+\cgm{3^{5}}57\\
+\vdots
+\end{array}
+\]
+
+\end_inset
+
+Abbiamo riottenuto tutti e soli gli elementi da 
+\begin_inset Formula $1$
+\end_inset
+
+ a 
+\begin_inset Formula $p-1=6$
+\end_inset
+
+ (i membri di 
+\begin_inset Formula $\mathbb{Z}_{7}^{*}$
+\end_inset
+
+), con periodo 
+\begin_inset Formula $p-1=6$
+\end_inset
+
+.
+ Si verifica dunque la condizione che rende un elemento primitivo 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ una radice per 
+\begin_inset Formula $p$
+\end_inset
+
+; la radice primitiva è anche detta elemento generatore: infatti, tramite
+ essa è possibile ottenere tutti i residui in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ di un certo insieme 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Trovare se 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ sia una radice primitiva di 
+\begin_inset Formula $p=7$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Calcolando di nuovo gli 
+\begin_inset Formula $\alpha^{i}$
+\end_inset
+
+ con 
+\begin_inset Formula $i\in\left[0,\,p-1\right]$
+\end_inset
+
+ otteniamo
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{2^{0}}17\\
+\cgm{2^{1}}27\\
+\cgm{2^{2}}47\\
+\cgm{2^{3}}17\\
+\vdots
+\end{array}
+\]
+
+\end_inset
+
+In questo caso abbiamo ottenuto periodo 3; inoltre l'ordine di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è 
+\begin_inset Formula $n=3\neq p-1=6$
+\end_inset
+
+, quindi 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ non è radice primitiva di 
+\begin_inset Formula $p=7$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Se prendiamo l'elemento primitivo 
+\begin_inset Formula $a\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+, esso avrà al massimo ordine 
+\begin_inset Formula $p-1$
+\end_inset
+
+; tuttavia potrà presentare anche ordini pari ai sottomultipli di 
+\begin_inset Formula $p-1$
+\end_inset
+
+, ma non ordini differenti da essi.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Se 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è un elemento primitivo di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ e vale 
+\begin_inset Formula $\cgm{\beta}{\alpha^{i}}p$
+\end_inset
+
+ con 
+\begin_inset Formula $1\leq i\leq p-1$
+\end_inset
+
+, questi 
+\begin_inset Formula $\beta$
+\end_inset
+
+ sono tutti e soli gli elementi di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+.
+ Se ora prendiamo un elemento primitivo di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ espresso come 
+\begin_inset Formula $\beta$
+\end_inset
+
+ (tramite la precedente congruenza), il suo ordine sarà dipendente dall'esponent
+e 
+\begin_inset Formula $i$
+\end_inset
+
+ usato per ottenerlo a partire da 
+\begin_inset Formula $\alpha,$
+\end_inset
+
+e dovrà valere
+\begin_inset Formula 
+\begin{equation}
+\ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
+\end{equation}
+
+\end_inset
+
+dove 
+\begin_inset Formula $i$
+\end_inset
+
+ è l'esponente a cui elevare 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ per ottenere 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Gli elementi primitivi di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ sono in numero 
+\begin_inset Formula $\varphi\left(p-1\right)$
+\end_inset
+
+; infatti saranno tutti gli elementi di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ coprimi rispetto a 
+\begin_inset Formula $p-1$
+\end_inset
+
+, per cui si verifica la condizione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Elemento-primitivo-MCD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Test di primitività
+\end_layout
+
+\begin_layout Standard
+Prendiamo un 
+\begin_inset Formula $\alpha\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ con 
+\begin_inset Formula $p$
+\end_inset
+
+ qualunque, e cerchiamo se 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ sia primitivo o meno rispetto a 
+\begin_inset Formula $p$
+\end_inset
+
+; usiamo il seguente test di primitività: scomporre 
+\begin_inset Formula $p-1$
+\end_inset
+
+ nei suoi fattori primi, in modo da avere una produttoria di quozienti elevati
+ a un certo esponente 
+\begin_inset Formula $p-1=\prod_{i}q_{i}^{r_{i}}$
+\end_inset
+
+; diremo che 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è primitivo rispetto a 
+\begin_inset Formula $p$
+\end_inset
+
+ se e solo se vale
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Test primitività
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Test primitività
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.4cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\forall i\,:\,\ncgm{\alpha^{\left(p-1\right)/q_{i}}}1p\label{eq:Test-primitività}
+\end{equation}
+
+\end_inset
+
+Si noti che 
+\begin_inset Formula $p$
+\end_inset
+
+ è primo (per definizione), di conseguenza 
+\begin_inset Formula $p-1$
+\end_inset
+
+ è sempre pari.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Ottenere se 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ sia radice primitiva per 
+\begin_inset Formula $p=19$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Usando il test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-primitività"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, scomponiamo 
+\begin_inset Formula $19-1=18$
+\end_inset
+
+ nei suoi fattori primi:
+\begin_inset Formula 
+\[
+18=2\cdot3^{2}
+\]
+
+\end_inset
+
+Ora testiamo la congruenza per tutti i fattori primi (presi senza esponente):
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{2^{18/3}=2^{6}=64}7{19}\\
+\cgm{2^{18/2}=2^{9}=512}{18}{19}
+\end{array}
+\]
+
+\end_inset
+
+Per nessun fattore primo si ha congruenza a 1 modulo 19, dunque 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ è davvero una radice primitiva per 
+\begin_inset Formula $p=19$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Osserviamo infine che gli elementi primitivi di 
+\begin_inset Formula $\mathbb{Z}_{19}$
+\end_inset
+
+ sono 
+\begin_inset Formula $\varphi\left(18\right)=6$
+\end_inset
+
+, distribuiti all'interno dell'insieme in modo non predicibile.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter*

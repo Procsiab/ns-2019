@@ -9,6 +9,7 @@
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{babel}
+\usepackage{refstyle}
 \usepackage{units}
 \usepackage{mathtools}
 \usepackage{amsbsy}
@@ -32,7 +33,19 @@
 \makeatletter
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+
+\AtBeginDocument{\providecommand\secref[1]{\ref{sec:#1}}}
 \newcommand{\noun}[1]{\textsc{#1}}
+\RS@ifundefined{subsecref}
+  {\newref{subsec}{name = \RSsectxt}}
+  {}
+\RS@ifundefined{thmref}
+  {\def\RSthmtxt{theorem~}\newref{thm}{name = \RSthmtxt}}
+  {}
+\RS@ifundefined{lemref}
+  {\def\RSlemtxt{lemma~}\newref{lem}{name = \RSlemtxt}}
+  {}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \numberwithin{section}{chapter}
@@ -69,6 +82,18 @@
 \else
       \newtheorem{cor}{\protect\corollaryname}[chapter]
     \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
+      \newtheorem{xca}{\protect\exercisename}
+    \else
+      \newtheorem{xca}{\protect\exercisename}[chapter]
+    \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
+      \newtheorem{sol}{\protect\solutionname}
+    \else
+      \newtheorem{sol}{\protect\solutionname}[chapter]
+    \fi
 
 \@ifundefined{date}{}{\date{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
@@ -96,8 +121,10 @@
 
 \providecommand{\corollaryname}{Corollario}
 \providecommand{\examplename}{Esempio}
+\providecommand{\exercisename}{Esercizio}
 \providecommand{\propositionname}{Proposizione}
 \providecommand{\remarkname}{Osservazione}
+\providecommand{\solutionname}{Soluzione}
 \providecommand{\theoremname}{Teorema}
 
 \begin{document}
@@ -131,7 +158,11 @@ is included in the file called \textquotedbl LICENSE\textquotedbl .}
 
 \global\long\def\cgm#1#2#3{#1\equiv#2\left(\text{mod}\,#3\right)}%
 
+\global\long\def\ncgm#1#2#3{#1\not\equiv#2\left(\text{mod}\,#3\right)}%
+
 \global\long\def\mod#1#2{#1\,\text{mod}\,#2}%
+
+\global\long\def\ord#1{\mathrm{{\scriptstyle ORD}}\left(#1\right)}%
 
 \global\long\def\tc{\,:\,}%
 
@@ -666,11 +697,19 @@ Se abbiamo il seguente sistema di congruenze
 \[
 \cgm xC{\prod_{i=1}^{N}m_{i}}
 \]
-
-\pagebreak{}
 \end{cor}
+Tale congruenza si costruisce a partire dalle seguenti serie:
+\[
+M=\prod_{i=1}^{N}m_{i};\quad Z_{i}=\frac{M}{m_{i}};\quad Y_{i}=\mod{Z_{i}^{-1}}{m_{i}}
+\]
+Otteniamo infine la seguente soluzione, equivalente a una singola
+congruenza:
+\begin{equation}
+X=\mod{\serie{i=1}N{a_{i}Y_{i}Z_{i}}}M\label{eq:Congruenza-equivalente-sistema}
+\end{equation}
 
-\section{Square \& multiply}
+
+\section{Square \& multiply\label{sec:Square-=000026-multiply}}
 
 Tramite l'algoritmo chiamato square and multiply, è possibile calcolare
 il modulo di un numero che abbia molte cifre; mostriamo un esempio
@@ -831,6 +870,347 @@ Questo principio permette di risolvere rapidamente la richiesta dell'Esercizio
 \ref{ex:Ultime-3-cifre-7}: dato che $\cgm{803}3{\varphi\left(1000\right)=400}$
 otteniamo direttamente $\cgm{7^{803}}{7^{3}}{1000}$; abbiamo usato
 (\ref{eq:Principio-fondamentale}) in cui $x=803$ e $y=3$.
+
+\section{Radici in aritmetica modulare}
+
+\subsection{Radici primitive}
+
+Introduciamo il concetto di gruppo algebrico:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Gruppo algebrico}{\footnotesize{}\index{Gruppo algebrico@{\footnotesize{}Gruppo algebrico}}\label{def:Gruppo-algebrico}}}[0.3cm]
+
+\begin{minipage}[t]{0.9\textwidth}%
+\begin{center}
+\emph{Chiamiamo }gruppo\emph{ una struttura formata da un insieme
+e da un'operazione binaria definita su di esso, la quale soddisfi
+gli assiomi di associatività, esistenza dell'elemento neutro ed esistenza
+dell'elemento inverso}
+\par\end{center}%
+\end{minipage}
+
+Ad esempio, se prendiamo l'insieme dei numeri interi $\mathbb{Z}$
+e l'operazione di somma $+$, possiamo formare il gruppo $\left(\mathbb{Z},\,+\right)$
+poiché la somma è associativa, l'elemento neutro è lo zero e l'inverso
+di qualunque elemento è sempre definito; anche prendendo $\mathbb{Z}_{p}^{*}$
+(insieme dei residui interi modulo $p$, escluso lo 0) e l'operazione
+di prodotto, otteniamo di nuovo un gruppo $\left(\mathbb{Z}_{p}^{*},\,\cdot\right)$.
+Non si ottiene un gruppo rispetto al prodotto per $\mathbb{Z}_{p}$
+(residui modulo $p$, da 0 a $p-1$), poiché lo 0 non ha un inverso
+definito.\bigskip{}
+
+Se prendiamo un elemento $a\in\mathbb{Z}_{p}^{*}$ allora vale $\cgm{a^{p-1}}1p$
+per il Teorema \ref{thm:Teorema-piccolo-Fermat}; chiamiamo inoltre
+ordine dell'elemento $a$ (e lo indichiamo tramite $\ord a$) l'intero
+$n>0$ più piccolo tale che
+\begin{equation}
+\cgm{a^{n}}1p\label{eq:Ordine-di-intero}
+\end{equation}
+Il teorema piccolo di Fermat (\ref{eq:Teorema-piccolo-Fermat}) ci
+assicura che vale sempre $n\leq p-1$, ma non è detto che sia proprio
+$n=p-1$. Chiamiamo quindi $\alpha$ l'elemento primitivo $a\in\mathbb{Z}_{p}^{*}$
+se e solo se l'ordine di $a$ è 1, ovvero non esiste nessun'altro
+intero $n$ per cui $\cgm{a^{n}}1p$; in altri termini vale
+\begin{equation}
+\cgm{a^{n}}1p\iff n=1\label{eq:Condizione-elemento-primitivo}
+\end{equation}
+Se l'ordine di $a$ fosse proprio $p-1$, allora preso $\alpha^{i}$
+l'elemento primitivo, presi tutti gli interi $i\in\left[1,\,p-1\right]$,
+otteniamo dalla successione degli $\alpha^{i}$ tutti e soli gli elementi
+dell'insieme $\mathbb{Z}_{p}^{*}$ (in ordine anche differente); chiameremo
+l'elemento $\alpha$ la \emph{radice primitiva}.
+
+\begin{minipage}[t]{0.9\columnwidth}%
+\begin{center}
+\emph{Chiamiamo $\alpha$ una radice primitiva per $p$ se vale (\ref{eq:Condizione-elemento-primitivo})
+e inoltre l'ordine di $\alpha$ è pari a $n=p-1$.}
+\par\end{center}%
+\end{minipage}\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Radice primitiva}{\footnotesize{}\index{Radice primitiva@{\footnotesize{}Radice primitiva}}\label{def:Radice-primitiva}}}[-0.2cm]
+\begin{example}
+\emph{Trovare se $\alpha=3$ sia una radice primitiva di $p=7$.}
+\end{example}
+$\checked$Per trovare se $\alpha$ sia effettivamente una radice
+primitiva di $p$, calcoliamo gli elementi:
+\[
+\left\{ \forall i\in\left[0,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
+\]
+Otteniamo quindi:
+\[
+\begin{array}{c}
+\cgm{3^{0}}17\\
+\cgm{3^{1}}37\\
+\cgm{3^{2}}27\\
+\cgm{3^{3}}67\\
+\cgm{3^{4}}47\\
+\cgm{3^{5}}57\\
+\vdots
+\end{array}
+\]
+Abbiamo riottenuto tutti e soli gli elementi da $1$ a $p-1=6$ (i
+membri di $\mathbb{Z}_{7}^{*}$), con periodo $p-1=6$. Si verifica
+dunque la condizione che rende un elemento primitivo $\alpha$ una
+radice per $p$; la radice primitiva è anche detta elemento generatore:
+infatti, tramite essa è possibile ottenere tutti i residui in modulo
+$p$ di un certo insieme $\mathbb{Z}_{p}^{*}$.\demo
+\begin{example}
+\emph{Trovare se $\alpha=2$ sia una radice primitiva di $p=7$.}
+\end{example}
+$\checked$Calcolando di nuovo gli $\alpha^{i}$ con $i\in\left[0,\,p-1\right]$
+otteniamo
+\[
+\begin{array}{c}
+\cgm{2^{0}}17\\
+\cgm{2^{1}}27\\
+\cgm{2^{2}}47\\
+\cgm{2^{3}}17\\
+\vdots
+\end{array}
+\]
+In questo caso abbiamo ottenuto periodo 3; inoltre l'ordine di $\alpha$
+è $n=3\neq p-1=6$, quindi $\alpha=2$ non è radice primitiva di $p=7$.\demo
+\begin{rem}
+Se prendiamo l'elemento primitivo $a\in\mathbb{Z}_{p}^{*}$, esso
+avrà al massimo ordine $p-1$; tuttavia potrà presentare anche ordini
+pari ai sottomultipli di $p-1$, ma non ordini differenti da essi.
+\end{rem}
+%
+\begin{rem}
+Se $\alpha$ è un elemento primitivo di $\mathbb{Z}_{p}^{*}$ e vale
+$\cgm{\beta}{\alpha^{i}}p$ con $1\leq i\leq p-1$, questi $\beta$
+sono tutti e soli gli elementi di $\mathbb{Z}_{p}^{*}$. Se ora prendiamo
+un elemento primitivo di $\mathbb{Z}_{p}^{*}$ espresso come $\beta$
+(tramite la precedente congruenza), il suo ordine sarà dipendente
+dall'esponente $i$ usato per ottenerlo a partire da $\alpha,$e dovrà
+valere
+\begin{equation}
+\ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
+\end{equation}
+dove $i$ è l'esponente a cui elevare $\alpha$ per ottenere $\beta$.
+
+Gli elementi primitivi di $\mathbb{Z}_{p}^{*}$ sono in numero $\varphi\left(p-1\right)$;
+infatti saranno tutti gli elementi di $\mathbb{Z}_{p}^{*}$ coprimi
+rispetto a $p-1$, per cui si verifica la condizione (\ref{eq:Elemento-primitivo-MCD}).
+\end{rem}
+
+\subsection{Test di primitività}
+
+Prendiamo un $\alpha\in\mathbb{Z}_{p}^{*}$ con $p$ qualunque, e
+cerchiamo se $\alpha$ sia primitivo o meno rispetto a $p$; usiamo
+il seguente test di primitività: scomporre $p-1$ nei suoi fattori
+primi, in modo da avere una produttoria di quozienti elevati a un
+certo esponente $p-1=\prod_{i}q_{i}^{r_{i}}$; diremo che $\alpha$
+è primitivo rispetto a $p$ se e solo se vale\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Test primitività}{\footnotesize{}\index{Test primitività@{\footnotesize{}Test primitività}}}}[0.4cm]
+\begin{equation}
+\forall i\,:\,\ncgm{\alpha^{\left(p-1\right)/q_{i}}}1p\label{eq:Test-primitivit=0000E0}
+\end{equation}
+Si noti che $p$ è primo (per definizione), di conseguenza $p-1$
+è sempre pari.
+\begin{example}
+\emph{Ottenere se $\alpha=2$ sia radice primitiva per $p=19$.}
+
+$\checked$Usando il test (\ref{eq:Test-primitivit=0000E0}), scomponiamo
+$19-1=18$ nei suoi fattori primi:
+\[
+18=2\cdot3^{2}
+\]
+Ora testiamo la congruenza per tutti i fattori primi (presi senza
+esponente):
+\[
+\begin{array}{c}
+\cgm{2^{18/3}=2^{6}=64}7{19}\\
+\cgm{2^{18/2}=2^{9}=512}{18}{19}
+\end{array}
+\]
+Per nessun fattore primo si ha congruenza a 1 modulo 19, dunque $\alpha=2$
+è davvero una radice primitiva per $p=19$.
+
+Osserviamo infine che gli elementi primitivi di $\mathbb{Z}_{19}$
+sono $\varphi\left(18\right)=6$, distribuiti all'interno dell'insieme
+in modo non predicibile.\demo
+\end{example}
+
+\chapter*{Esercizi}
+
+\section*{Equazioni congruenziali}
+\begin{xca}
+Risolvere la seguente equazione congruenziale:\marginpar{$\blacktriangleright$ \emph{Esercizio: equazione congruenziale, modulo
+composto}}
+\[
+\cgm{28x}{16}{412}
+\]
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Procediamo calcolando $\mcd{28}{412}=4$; allora possiamo dividere
+per 4 tutti i termini dell'equazione, ottenendo
+\[
+\cgm{7x}4{103}
+\]
+L'equazione originale avrà 4 soluzioni, e la prima si ricava dall'equazione
+ridotta appena trovata:
+\[
+\cgm{x_{0}}{4\cdot7^{-1}}{103}
+\]
+Per calcolare l'inverso di 7 modulo 103 possiamo usare il Teorema
+\ref{thm:Teorema-piccolo-Fermat} oppure l'algoritmo (\ref{eq:Algoritmo-Euclide-esteso}).\bigskip{}
+
+\noun{Teorema piccolo di Fermat}\\
+Il teorema afferma che, in questo caso, vale
+\[
+\cgm{7^{-1}}{7^{101}}{103}
+\]
+dato che 103 è primo; adesso effettuiamo l'operazione di $\mod{7^{101}}{103=59}$
+(possiamo usare l'algoritmo descritto ne \secref{Square-=000026-multiply}),
+da cui segue che
+\[
+\cgm{7^{-1}}{59}{103}
+\]
+
+\noun{Algoritmo di Euclide Esteso}\\
+Usiamo l'algoritmo per ottenere che $7\perp103$ e in tal caso anche
+$7^{-1}$; cominciamo a costruire la sequenza (\ref{eq:Algoritmo-Euclide}):
+\[
+\begin{array}{cc}
+103=14\cdot7+5 & q_{1}=14\\
+7=1\cdot5+2 & q_{2}=1\\
+5=2\cdot2+\boxed{1} & q_{3}=2\\
+2=2\cdot1+0 & q_{4}=1
+\end{array}
+\]
+Otteniamo che $\mcd 7{103}=1$, e per quanto riguarda l'inverso costruiamo
+la sequenza (\ref{eq:Algoritmo-Euclide-esteso}):
+\[
+\begin{array}{c}
+x_{0}=0\\
+x_{1}=1\\
+x_{2}=-q_{1}x_{1}+x_{0}=-14\\
+x_{3}=-q_{2}x_{2}+x_{1}=15\\
+x_{4}=-q_{3}x_{3}+x_{2}=\boxed{-44}
+\end{array}
+\]
+Segue che $\mod{-44}{103}=59=7^{-1}$.
+
+\bigskip{}
+
+Ora che abbiamo l'inverso di 7 in modulo 103, siamo in grado di scrivere
+la soluzioen dell'equazione ridotta:
+\[
+\begin{array}{c}
+\cgm{x_{0}}{4\cdot59}{103}\\
+\cgm{x_{0}}{30}{103}
+\end{array}
+\]
+Le soluzioni successive saranno altre tre, a 103 di distanza da $x_{0}$,
+esse inoltre saranno in modulo 412:
+\[
+X=\left\{ 30,\,133,\,236,\,339\right\} \mod{}{412}
+\]
+\demo
+\end{sol}
+\begin{xca}
+Trovare\marginpar{$\blacktriangleright$ \emph{Esercizio: sistema di 2 congruenze}}
+la congruenza equivalente al seguente sistema di congruenze:
+\[
+\begin{cases}
+\cgm x5{11}\\
+\cgm x2{20}
+\end{cases}
+\]
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Esisterà una sola congruenza equivalente, per il Teorema \ref{thm:Teorema-cinese-del-resto},
+infatti vale $11\perp20$; per riassumere le due congruenze in una
+sola, cerchiamo un valore $x$ della successione $5+k\cdot11$ che
+sia anche congruente a 2 in modulo 20:
+\[
+x=\cgm{5+k\cdot11}2{20}
+\]
+Questo sarà vero per un valpre di $k$ pari a
+\[
+\begin{array}{c}
+\cgm{k\cdot11}{2-5}{20}\\
+\cgm k{-3\cdot11^{-1}}{20}
+\end{array}
+\]
+Troviamo l'inverso di 11 in modulo 20 usando il Teorema \ref{thm:Teorema-Eulero}:
+\[
+\cgm{11^{-1}}{11^{\varphi\left(20\right)-1}}{20}
+\]
+sapendo che la funzione toziente di 20 vale $\varphi\left(20\right)=\left(2^{2}-2^{1}\right)\left(5^{1}-5^{0}\right)=2\cdot4=8$,
+e che $\mod{11^{8-1}}{20}=11$, abbiamo la seguente congruenza per
+$k$:
+\[
+\begin{array}{c}
+\cgm k{-33}{20}\\
+\cgm k7{20}
+\end{array}
+\]
+Ritornando alla congruenza per $x$, si ottiene dalla precedente (con
+$k=7$):
+\[
+\begin{array}{c}
+x=\cgm{5+77}2{20\cdot11}\\
+\cgm x{82}{220}
+\end{array}
+\]
+dove abbiamo usato il Teorema \ref{thm:Teorema-cinese-del-resto}
+per comporre la congruenza in modulo 220.\demo
+\end{sol}
+\begin{xca}
+Trovare\marginpar{$\blacktriangleright$ \emph{Esercizio: sistema di 3 congruenze}}
+il valore della variabile $x$, che compare nel sistema di congruenze:
+\[
+\begin{cases}
+\cgm x1{10}\\
+\cgm x2{11}\\
+\cgm x03
+\end{cases}
+\]
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Mettiamo assieme la prima congruenza con la seconda, ottenendo:
+\[
+x=\cgm{1+k\cdot10}2{11}
+\]
+Risolviamo la precedente rispetto a $k$:
+\[
+\cgm{k\cdot10}1{11}
+\]
+Notando che $100=9\cdot11+1\implies\mod{100}{11}=1$ possiamo affermare
+subito che $k=10$; per il Teorema \ref{thm:Teorema-cinese-del-resto}
+scriviamo:
+\[
+\cgm x{101}{110}
+\]
+Unendo quanto ottenuto con la terza congruenza del sistema, si ha:
+\[
+x=\cgm{101+k\cdot110}03
+\]
+Effettuando l'operazione di modulo 3 sui termini dell'equazione, avremo:
+\[
+x=\cgm{2+h\cdot2}03
+\]
+Risolviamo la precedente rispetto ad $h$:
+\[
+\begin{array}{c}
+\cgm{2\cdot h}{-2}3\\
+\cgm h{1\cdot2^{-1}}3
+\end{array}
+\]
+Osserviamo che l'inverso di 2 in $\mathbb{Z}_{3}$ è proprio 2, infatti
+$2\cdot2=\mod 43=1$; allora $h$ è congruente a 2 in modulo 3, e
+sostituendo nella congruenza di $x$ otteniamo:
+\[
+\begin{array}{c}
+\cgm x{101+220}{110\cdot3}\\
+\cgm x{321}{330}
+\end{array}
+\]
+Abbiamo trovato che $x$ deve valere $321+k\cdot330$ per generare
+le tre congruenze esaminate.\demo
+\end{sol}
 
 \part{Protocolli e sistemi per la comunicazione sicura}
 
