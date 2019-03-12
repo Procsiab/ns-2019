@@ -2532,6 +2532,13 @@ X=\mod{\serie{i=1}N{a_{i}Y_{i}Z_{i}}}M\label{eq:Congruenza-equivalente-sistema}
 
 \begin_layout Section
 Square & multiply
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Square-&-multiply"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -3322,6 +3329,620 @@ noprefix "false"
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Section
+Radici in aritmetica modulare
+\end_layout
+
+\begin_layout Subsection
+Radici primitive
+\end_layout
+
+\begin_layout Standard
+Pollo
+\end_layout
+
+\begin_layout Chapter*
+Esercizi
+\end_layout
+
+\begin_layout Section*
+Equazioni congruenziali
+\end_layout
+
+\begin_layout Exercise
+Risolvere la seguente equazione congruenziale:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: equazione congruenziale, modulo composto
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\cgm{28x}{16}{412}
+\]
+
+\end_inset
+
+
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Procediamo calcolando 
+\begin_inset Formula $\mcd{28}{412}=4$
+\end_inset
+
+; allora possiamo dividere per 4 tutti i termini dell'equazione, ottenendo
+\begin_inset Formula 
+\[
+\cgm{7x}4{103}
+\]
+
+\end_inset
+
+L'equazione originale avrà 4 soluzioni, e la prima si ricava dall'equazione
+ ridotta appena trovata:
+\begin_inset Formula 
+\[
+\cgm{x_{0}}{4\cdot7^{-1}}{103}
+\]
+
+\end_inset
+
+Per calcolare l'inverso di 7 modulo 103 possiamo usare il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ oppure l'algoritmo 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+
+\noun on
+Teorema piccolo di Fermat
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+Il teorema afferma che, in questo caso, vale
+\begin_inset Formula 
+\[
+\cgm{7^{-1}}{7^{101}}{103}
+\]
+
+\end_inset
+
+dato che 103 è primo; adesso effettuiamo l'operazione di 
+\begin_inset Formula $\mod{7^{101}}{103=59}$
+\end_inset
+
+ (possiamo usare l'algoritmo descritto ne 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "sec:Square-&-multiply"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), da cui segue che
+\begin_inset Formula 
+\[
+\cgm{7^{-1}}{59}{103}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+
+\noun on
+Algoritmo di Euclide Esteso
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+Usiamo l'algoritmo per ottenere che 
+\begin_inset Formula $7\perp103$
+\end_inset
+
+ e in tal caso anche 
+\begin_inset Formula $7^{-1}$
+\end_inset
+
+; cominciamo a costruire la sequenza 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{cc}
+103=14\cdot7+5 & q_{1}=14\\
+7=1\cdot5+2 & q_{2}=1\\
+5=2\cdot2+\boxed{1} & q_{3}=2\\
+2=2\cdot1+0 & q_{4}=1
+\end{array}
+\]
+
+\end_inset
+
+Otteniamo che 
+\begin_inset Formula $\mcd 7{103}=1$
+\end_inset
+
+, e per quanto riguarda l'inverso costruiamo la sequenza 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+x_{0}=0\\
+x_{1}=1\\
+x_{2}=-q_{1}x_{1}+x_{0}=-14\\
+x_{3}=-q_{2}x_{2}+x_{1}=15\\
+x_{4}=-q_{3}x_{3}+x_{2}=\boxed{-44}
+\end{array}
+\]
+
+\end_inset
+
+Segue che 
+\begin_inset Formula $\mod{-44}{103}=59=7^{-1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Ora che abbiamo l'inverso di 7 in modulo 103, siamo in grado di scrivere
+ la soluzioen dell'equazione ridotta:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{x_{0}}{4\cdot59}{103}\\
+\cgm{x_{0}}{30}{103}
+\end{array}
+\]
+
+\end_inset
+
+Le soluzioni successive saranno altre tre, a 103 di distanza da 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, esse inoltre saranno in modulo 412:
+\begin_inset Formula 
+\[
+X=\left\{ 30,\,133,\,236,\,339\right\} \mod{}{412}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Trovare
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: sistema di 2 congruenze
+\end_layout
+
+\end_inset
+
+ la congruenza equivalente al seguente sistema di congruenze:
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm x5{11}\\
+\cgm x2{20}
+\end{cases}
+\]
+
+\end_inset
+
+
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Esisterà una sola congruenza equivalente, per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, infatti vale 
+\begin_inset Formula $11\perp20$
+\end_inset
+
+; per riassumere le due congruenze in una sola, cerchiamo un valore 
+\begin_inset Formula $x$
+\end_inset
+
+ della successione 
+\begin_inset Formula $5+k\cdot11$
+\end_inset
+
+ che sia anche congruente a 2 in modulo 20:
+\begin_inset Formula 
+\[
+x=\cgm{5+k\cdot11}2{20}
+\]
+
+\end_inset
+
+Questo sarà vero per un valpre di 
+\begin_inset Formula $k$
+\end_inset
+
+ pari a
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{k\cdot11}{2-5}{20}\\
+\cgm k{-3\cdot11^{-1}}{20}
+\end{array}
+\]
+
+\end_inset
+
+Troviamo l'inverso di 11 in modulo 20 usando il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\cgm{11^{-1}}{11^{\varphi\left(20\right)-1}}{20}
+\]
+
+\end_inset
+
+sapendo che la funzione toziente di 20 vale 
+\begin_inset Formula $\varphi\left(20\right)=\left(2^{2}-2^{1}\right)\left(5^{1}-5^{0}\right)=2\cdot4=8$
+\end_inset
+
+, e che 
+\begin_inset Formula $\mod{11^{8-1}}{20}=11$
+\end_inset
+
+, abbiamo la seguente congruenza per 
+\begin_inset Formula $k$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm k{-33}{20}\\
+\cgm k7{20}
+\end{array}
+\]
+
+\end_inset
+
+Ritornando alla congruenza per 
+\begin_inset Formula $x$
+\end_inset
+
+, si ottiene dalla precedente (con 
+\begin_inset Formula $k=7$
+\end_inset
+
+):
+\begin_inset Formula 
+\[
+\begin{array}{c}
+x=\cgm{5+77}2{20\cdot11}\\
+\cgm x{82}{220}
+\end{array}
+\]
+
+\end_inset
+
+dove abbiamo usato il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ per comporre la congruenza in modulo 220.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Trovare
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: sistema di 3 congruenze
+\end_layout
+
+\end_inset
+
+ il valore della variabile 
+\begin_inset Formula $x$
+\end_inset
+
+, che compare nel sistema di congruenze:
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm x1{10}\\
+\cgm x2{11}\\
+\cgm x03
+\end{cases}
+\]
+
+\end_inset
+
+
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Mettiamo assieme la prima congruenza con la seconda, ottenendo:
+\begin_inset Formula 
+\[
+x=\cgm{1+k\cdot10}2{11}
+\]
+
+\end_inset
+
+Risolviamo la precedente rispetto a 
+\begin_inset Formula $k$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\cgm{k\cdot10}1{11}
+\]
+
+\end_inset
+
+Notando che 
+\begin_inset Formula $100=9\cdot11+1\implies\mod{100}{11}=1$
+\end_inset
+
+ possiamo affermare subito che 
+\begin_inset Formula $k=10$
+\end_inset
+
+; per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ scriviamo:
+\begin_inset Formula 
+\[
+\cgm x{101}{110}
+\]
+
+\end_inset
+
+Unendo quanto ottenuto con la terza congruenza del sistema, si ha:
+\begin_inset Formula 
+\[
+x=\cgm{101+k\cdot110}03
+\]
+
+\end_inset
+
+Effettuando l'operazione di modulo 3 sui termini dell'equazione, avremo:
+\begin_inset Formula 
+\[
+x=\cgm{2+h\cdot2}03
+\]
+
+\end_inset
+
+Risolviamo la precedente rispetto ad 
+\begin_inset Formula $h$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{2\cdot h}{-2}3\\
+\cgm h{1\cdot2^{-1}}3
+\end{array}
+\]
+
+\end_inset
+
+Osserviamo che l'inverso di 2 in 
+\begin_inset Formula $\mathbb{Z}_{3}$
+\end_inset
+
+ è proprio 2, infatti 
+\begin_inset Formula $2\cdot2=\mod 43=1$
+\end_inset
+
+; allora 
+\begin_inset Formula $h$
+\end_inset
+
+ è congruente a 2 in modulo 3, e sostituendo nella congruenza di 
+\begin_inset Formula $x$
+\end_inset
+
+ otteniamo:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm x{101+220}{110\cdot3}\\
+\cgm x{321}{330}
+\end{array}
+\]
+
+\end_inset
+
+Abbiamo trovato che 
+\begin_inset Formula $x$
+\end_inset
+
+ deve valere 
+\begin_inset Formula $321+k\cdot330$
+\end_inset
+
+ per generare le tre congruenze esaminate.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Part
