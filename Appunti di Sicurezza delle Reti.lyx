@@ -2893,9 +2893,9 @@ noprefix "false"
 
 , che può essere risolta con la regola della divisione nel modo seguente:
 \begin_inset Formula 
-\[
-\cgm{a^{p-2}}{a^{-1}}p
-\]
+\begin{equation}
+\cgm{a^{p-2}}{a^{-1}}p\label{eq:Osservazione-inverso-p-2}
+\end{equation}
 
 \end_inset
 
@@ -3571,7 +3571,7 @@ noprefix "false"
 \begin_inset Formula $a$
 \end_inset
 
- è 1, ovvero non esiste nessun'altro intero 
+ è 1, ovvero non esiste nessun altro intero 
 \begin_inset Formula $n$
 \end_inset
 
@@ -3996,6 +3996,41 @@ dove
 \end_inset
 
 .
+ Questo si verifica perché i 
+\begin_inset Formula $\beta$
+\end_inset
+
+sono potenze di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, ed essendo 
+\begin_inset Formula $\ord{\alpha}=p-1$
+\end_inset
+
+ (
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è radice primitiva) necessariamente l'ordine di 
+\begin_inset Formula $\beta$
+\end_inset
+
+ sarà un sottomultiplo di 
+\begin_inset Formula $p-1$
+\end_inset
+
+, determinato da 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Elemento-primitivo-MCD"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Remark
@@ -4011,6 +4046,7 @@ Gli elementi primitivi di
 \begin_inset Formula $\mathbb{Z}_{p}^{*}$
 \end_inset
 
+.
  coprimi rispetto a 
 \begin_inset Formula $p-1$
 \end_inset
@@ -4026,6 +4062,39 @@ noprefix "false"
 \end_inset
 
 .
+ Notiamo infatti che 
+\begin_inset Formula $\beta$
+\end_inset
+
+ è una radice primitiva di 
+\begin_inset Formula $p$
+\end_inset
+
+ (vale 
+\begin_inset Formula $\ord{\beta}=p-1$
+\end_inset
+
+) quando si ha
+\begin_inset Formula $\mcd{p-1}i=1$
+\end_inset
+
+; concludiamo che il numero di elementi primitivi 
+\begin_inset Formula $\beta$
+\end_inset
+
+ di un insieme 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ è il numero di elementi coprimi rispetto a 
+\begin_inset Formula $p-1$
+\end_inset
+
+ (valore ottenuto dalla funzione toziente di 
+\begin_inset Formula $p-1$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Subsection
@@ -4149,7 +4218,7 @@ Ottenere se
 .
 \end_layout
 
-\begin_layout Example
+\begin_layout Standard
 \begin_inset Formula $\checked$
 \end_inset
 
@@ -4197,7 +4266,7 @@ Per nessun fattore primo si ha congruenza a 1 modulo 19, dunque
 .
 \end_layout
 
-\begin_layout Example
+\begin_layout Standard
 Osserviamo infine che gli elementi primitivi di 
 \begin_inset Formula $\mathbb{Z}_{19}$
 \end_inset
@@ -4220,6 +4289,729 @@ demo
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Radici quadrate
+\end_layout
+
+\begin_layout Standard
+Poniamoci nel caso di radici quadrate in modulo a un intero 
+\begin_inset Formula $p$
+\end_inset
+
+ primo; inoltre, consideriamo per tale intero solamente la metà dei numeri
+ primi (si ricordi la separazione dei primi in classi di congruenza 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-primi-classi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+):
+\begin_inset Formula 
+\begin{equation}
+\cgm p34\label{eq:Condizione-radici-quadrate-modulo-primo}
+\end{equation}
+
+\end_inset
+
+Risolviamo, sotto queste condizioni, l'equazione 
+\begin_inset Formula $\cgm{x^{2}}ap$
+\end_inset
+
+, ovvero cerchiamo 
+\begin_inset Formula $\sqrt{a}\in\mathbb{Z}_{p}$
+\end_inset
+
+; si dimostra che, se esiste 
+\begin_inset Formula $\sqrt{a}$
+\end_inset
+
+, allora vale:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Radice quadrata
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Radice quadrata
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.4cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\pm a^{\left(p+1\right)/4}=\sqrt{a}\,\lor\,\pm a^{\left(p+1\right)/4}=\sqrt{-a}\label{eq:Radice-quadrata-modulo-primo}
+\end{equation}
+
+\end_inset
+
+dove abbiamo l'unione di due condizioni che sono esclusive (se non esiste
+ la radice di 
+\begin_inset Formula $a$
+\end_inset
+
+ allora esisterà quella di 
+\begin_inset Formula $-a$
+\end_inset
+
+, e vale quanto indicato in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Radice-quadrata-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, e vice versa).
+\end_layout
+
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "oss:Condizioni-esistenza-radici"
+
+\end_inset
+
+Se avessimo 
+\begin_inset Formula $\ncgm p34$
+\end_inset
+
+ ma 
+\begin_inset Formula $\cgm p14$
+\end_inset
+
+ (
+\begin_inset Formula $p$
+\end_inset
+
+ appartenente all'altra classe di congruenze), allora nel caso in cui non
+ esista una delle due radici (
+\begin_inset Formula $\sqrt{a}$
+\end_inset
+
+ o 
+\begin_inset Formula $\sqrt{-a}$
+\end_inset
+
+) non esiste nemmeno l'altra.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Si calcoli, se esiste, la radice di 5 in modulo 11.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Cercare 
+\begin_inset Formula $\mod{\sqrt{5}}{11}$
+\end_inset
+
+ equivale a risolvere l'equazione
+\begin_inset Formula 
+\[
+\cgm{x^{2}}5{11}
+\]
+
+\end_inset
+
+Dato che per 11 vale 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Condizione-radici-quadrate-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, possiamo usare la formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Radice-quadrata-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\pm5^{\left(11+1\right)/4}=\mod{\pm125}{11}=\pm4
+\]
+
+\end_inset
+
+Per determinare se in modulo 11 i numeri 
+\begin_inset Formula $\pm4$
+\end_inset
+
+ siano la radice di 
+\begin_inset Formula $5$
+\end_inset
+
+ o di 
+\begin_inset Formula $-5$
+\end_inset
+
+, effettuiamo l'elevamento a potenza della radice cercata:
+\begin_inset Formula 
+\[
+\mod{4^{2}}{11=5},\quad-4^{2}=\mod{7^{2}}{11}=5
+\]
+
+\end_inset
+
+Abbiamo ottenuto che la radice quadrata di 5 modulo 11 è 
+\begin_inset Formula $\pm4$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Si calcoli, se esiste, la radice di 2 in modulo 11.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Come prima, impostiamo così l'equazione da risolvere:
+\begin_inset Formula 
+\[
+\cgm{x^{2}}2{11}
+\]
+
+\end_inset
+
+Possiamo usare 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Radice-quadrata-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, dato che per 2 vale 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Condizione-radici-quadrate-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\pm2^{\left(11+1\right)/4}=\mod{\pm8}{11}=\pm8
+\]
+
+\end_inset
+
+Infine effettuiamo l'elevamento a potenza della radice per ottenere il segno:
+\begin_inset Formula 
+\[
+\mod{8^{2}}{11}=\mod 9{11}=-2
+\]
+
+\end_inset
+
+Abbiamo ottenuto che in modulo 11 non esiste la radice quadrata di 2; la
+ radice di 
+\begin_inset Formula $-2$
+\end_inset
+
+ però esiste, e vale 
+\begin_inset Formula $\pm8$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Test per segno della radice
+\end_layout
+
+\begin_layout Standard
+Prendiamo un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ dispari, un 
+\begin_inset Formula $a\neq0$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, allora
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{\left(p-1\right)/2}}{\pm1}p\label{eq:Test-segno-radice-prima}
+\end{equation}
+
+\end_inset
+
+Distinguiamo i due casi:
+\end_layout
+
+\begin_layout Itemize
+se il segno in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-segno-radice-prima"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ è 
+\begin_inset Formula $+$
+\end_inset
+
+, allora esiste 
+\begin_inset Formula $\sqrt{a}$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+se il segno in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-segno-radice-prima"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ è 
+\begin_inset Formula $-$
+\end_inset
+
+, allora esiste 
+\begin_inset Formula $\sqrt{-a}$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Ricordando l'Osservazione 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "oss:Condizioni-esistenza-radici"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, si nota che il test appena mostrato permette di affermare se la radice
+ non sia definita, nel caso in cui 
+\begin_inset Formula $\cgm p14$
+\end_inset
+
+ e in cui il segno in 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-segno-radice-prima"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ sia 
+\begin_inset Formula $-$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Radice quadrata modulo composto
+\end_layout
+
+\begin_layout Standard
+Esaminiamo il problema 
+\begin_inset Formula $\cgm{x^{2}}an$
+\end_inset
+
+ dove 
+\begin_inset Formula $n$
+\end_inset
+
+ sia un numero composto; dato che 
+\begin_inset Formula $n$
+\end_inset
+
+ sarà scomponibile in fattori primi, possiamo scomporre la congruenza esaminata
+ in due congruenze più semplici in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+, sapendo che 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+.
+ Le due soluzioni ottenute si combinano infine tramite il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Questo problema ha la sua difficoltà nella fattorizzazione di 
+\begin_inset Formula $n$
+\end_inset
+
+, al punto che la complessità computazionale del calcolo della radice modulo
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ equivale a quella della sua scomposizione in fattori primi.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Si calcoli, se esiste, la radice di 71 in modulo 77.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Notiamo subito che 
+\begin_inset Formula $77=7\cdot11$
+\end_inset
+
+; per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ possiamo scomporre la congruenza in esame nelle due più semplici:
+\begin_inset Formula 
+\[
+\cgm{x^{2}}{71}{77}\implies\begin{cases}
+\cgm{x^{2}}17\\
+\cgm{x^{2}}5{11}
+\end{cases}
+\]
+
+\end_inset
+
+Nella precedente abbiamo già sostituito 
+\begin_inset Formula $\mod{71}7=1$
+\end_inset
+
+ e 
+\begin_inset Formula $\mod{71}{11}=5$
+\end_inset
+
+; possiamo risolvere le due congruenze in modo indipendente:
+\end_layout
+
+\begin_layout Enumerate
+la radice quadrata di 1 è comunque 
+\begin_inset Formula $\pm1$
+\end_inset
+
+, modulo 7;
+\end_layout
+
+\begin_layout Enumerate
+la radice quadrata di 5 modulo 11 si può ottenere da 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Radice-quadrata-modulo-primo"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ e risulta 
+\begin_inset Formula $\cgm x{\pm5^{\left(11+1\right)/4}}{11}\implies\cgm x{\pm4}{11}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Abbiamo ottenuto due radici da ciascuna congruenza, che possono essere combinate
+ in 
+\begin_inset Formula $2^{2}=4$
+\end_inset
+
+ modi possibili, per costruire la soluzione tramite il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left\{ \cgm x17;\;\cgm x4{11}\right\} $
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+Risolviamo la combinazione delle due congruenze analizzate:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+x=\cgm{1+k\cdot7}4{11}\\
+\cgm{7\cdot k}3{11}\\
+\cgm k{3\cdot7^{-1}}{11}
+\end{array}
+\]
+
+\end_inset
+
+Per trovare l'inverso utilizziamo 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Osservazione-inverso-p-2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, da cui 
+\begin_inset Formula $\mod{7^{-1}}{11}=\mod{7^{9}}{11}=8$
+\end_inset
+
+, da cui segue che 
+\begin_inset Formula $k=\mod{24}{11}=2$
+\end_inset
+
+; sostituendo nella prima si ottiene
+\begin_inset Formula 
+\[
+x=\cgm{14+1}4{11}\implies\boxed{\cgm x{15}{77}}
+\]
+
+\end_inset
+
+dal Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left\{ \cgm x17;\;\cgm x{-4}{11}\right\} $
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\cgm x{-15}{77}
+\]
+
+\end_inset
+
+
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left\{ \cgm x{-1}7;\;\cgm x4{11}\right\} $
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\cgm x{29}{77}
+\]
+
+\end_inset
+
+
+\begin_inset VSpace smallskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left\{ \cgm x{-1}7;\;\cgm x{-4}{11}\right\} $
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\cgm x{-29}{77}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Non è detto che le radici siano sempre 4, in questo caso esistevano tutte
+ le radici per ciascuna congruenza in cui è stata scomposta quella iniziale.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Residui quadratici
+\end_layout
+
+\begin_layout Standard
+Testo qui
 \end_layout
 
 \begin_layout Chapter*
@@ -4441,7 +5233,7 @@ Segue che
 
 \begin_layout Solution
 Ora che abbiamo l'inverso di 7 in modulo 103, siamo in grado di scrivere
- la soluzioen dell'equazione ridotta:
+ la soluzione dell'equazione ridotta:
 \begin_inset Formula 
 \[
 \begin{array}{c}
@@ -4550,7 +5342,7 @@ x=\cgm{5+k\cdot11}2{20}
 
 \end_inset
 
-Questo sarà vero per un valpre di 
+Questo sarà vero per un valore di 
 \begin_inset Formula $k$
 \end_inset
 

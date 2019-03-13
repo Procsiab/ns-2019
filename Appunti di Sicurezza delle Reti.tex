@@ -776,9 +776,9 @@ Abbiamo concluso dal Teorema \ref{thm:Teorema-piccolo-Fermat} che,
 se non è vero $p\backslash a$, allora vale $\cgm{a^{p-1}}1p$; possiamo
 scrivere questa congruenza in modo equivalente come $\cgm{a\cdot a^{p-2}}1p$,
 che può essere risolta con la regola della divisione nel modo seguente:
-\[
-\cgm{a^{p-2}}{a^{-1}}p
-\]
+\begin{equation}
+\cgm{a^{p-2}}{a^{-1}}p\label{eq:Osservazione-inverso-p-2}
+\end{equation}
 Abbiamo appena ottenuto un nuovo metodo per calcolare l'inverso di
 un intero $a$.
 \end{rem}
@@ -907,7 +907,7 @@ $n>0$ più piccolo tale che
 Il teorema piccolo di Fermat (\ref{eq:Teorema-piccolo-Fermat}) ci
 assicura che vale sempre $n\leq p-1$, ma non è detto che sia proprio
 $n=p-1$. Chiamiamo quindi $\alpha$ l'elemento primitivo $a\in\mathbb{Z}_{p}^{*}$
-se e solo se l'ordine di $a$ è 1, ovvero non esiste nessun'altro
+se e solo se l'ordine di $a$ è 1, ovvero non esiste nessun altro
 intero $n$ per cui $\cgm{a^{n}}1p$; in altri termini vale
 \begin{equation}
 \cgm{a^{n}}1p\iff n=1\label{eq:Condizione-elemento-primitivo}
@@ -985,10 +985,19 @@ valere
 \ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
 \end{equation}
 dove $i$ è l'esponente a cui elevare $\alpha$ per ottenere $\beta$.
+Questo si verifica perché i $\beta$sono potenze di $\alpha$, ed
+essendo $\ord{\alpha}=p-1$ ($\alpha$ è radice primitiva) necessariamente
+l'ordine di $\beta$ sarà un sottomultiplo di $p-1$, determinato
+da (\ref{eq:Elemento-primitivo-MCD})
 
 Gli elementi primitivi di $\mathbb{Z}_{p}^{*}$ sono in numero $\varphi\left(p-1\right)$;
-infatti saranno tutti gli elementi di $\mathbb{Z}_{p}^{*}$ coprimi
+infatti saranno tutti gli elementi di $\mathbb{Z}_{p}^{*}$. coprimi
 rispetto a $p-1$, per cui si verifica la condizione (\ref{eq:Elemento-primitivo-MCD}).
+Notiamo infatti che $\beta$ è una radice primitiva di $p$ (vale
+$\ord{\beta}=p-1$) quando si ha$\mcd{p-1}i=1$; concludiamo che il
+numero di elementi primitivi $\beta$ di un insieme $\mathbb{Z}_{p}^{*}$
+è il numero di elementi coprimi rispetto a $p-1$ (valore ottenuto
+dalla funzione toziente di $p-1$).
 \end{rem}
 
 \subsection{Test di primitività}
@@ -1007,7 +1016,7 @@ Si noti che $p$ è primo (per definizione), di conseguenza $p-1$
 è sempre pari.
 \begin{example}
 \emph{Ottenere se $\alpha=2$ sia radice primitiva per $p=19$.}
-
+\end{example}
 $\checked$Usando il test (\ref{eq:Test-primitivit=0000E0}), scomponiamo
 $19-1=18$ nei suoi fattori primi:
 \[
@@ -1027,7 +1036,159 @@ Per nessun fattore primo si ha congruenza a 1 modulo 19, dunque $\alpha=2$
 Osserviamo infine che gli elementi primitivi di $\mathbb{Z}_{19}$
 sono $\varphi\left(18\right)=6$, distribuiti all'interno dell'insieme
 in modo non predicibile.\demo
+
+\subsection{Radici quadrate}
+
+Poniamoci nel caso di radici quadrate in modulo a un intero $p$ primo;
+inoltre, consideriamo per tale intero solamente la metà dei numeri
+primi (si ricordi la separazione dei primi in classi di congruenza
+(\ref{eq:Successione-primi-classi})):
+\begin{equation}
+\cgm p34\label{eq:Condizione-radici-quadrate-modulo-primo}
+\end{equation}
+Risolviamo, sotto queste condizioni, l'equazione $\cgm{x^{2}}ap$,
+ovvero cerchiamo $\sqrt{a}\in\mathbb{Z}_{p}$; si dimostra che, se
+esiste $\sqrt{a}$, allora vale:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Radice quadrata}{\footnotesize{}\index{Radice quadrata@{\footnotesize{}Radice quadrata}}}}[0.4cm]
+\begin{equation}
+\pm a^{\left(p+1\right)/4}=\sqrt{a}\,\lor\,\pm a^{\left(p+1\right)/4}=\sqrt{-a}\label{eq:Radice-quadrata-modulo-primo}
+\end{equation}
+dove abbiamo l'unione di due condizioni che sono esclusive (se non
+esiste la radice di $a$ allora esisterà quella di $-a$, e vale quanto
+indicato in (\ref{eq:Radice-quadrata-modulo-primo}), e vice versa).
+\begin{rem}
+\label{oss:Condizioni-esistenza-radici}Se avessimo $\ncgm p34$ ma
+$\cgm p14$ ($p$ appartenente all'altra classe di congruenze), allora
+nel caso in cui non esista una delle due radici ($\sqrt{a}$ o $\sqrt{-a}$)
+non esiste nemmeno l'altra.
+\end{rem}
+\begin{example}
+\emph{Si calcoli, se esiste, la radice di 5 in modulo 11.}
 \end{example}
+$\checked$Cercare $\mod{\sqrt{5}}{11}$ equivale a risolvere l'equazione
+\[
+\cgm{x^{2}}5{11}
+\]
+Dato che per 11 vale (\ref{eq:Condizione-radici-quadrate-modulo-primo}),
+possiamo usare la formula (\ref{eq:Radice-quadrata-modulo-primo}):
+\[
+\pm5^{\left(11+1\right)/4}=\mod{\pm125}{11}=\pm4
+\]
+Per determinare se in modulo 11 i numeri $\pm4$ siano la radice di
+$5$ o di $-5$, effettuiamo l'elevamento a potenza della radice cercata:
+\[
+\mod{4^{2}}{11=5},\quad-4^{2}=\mod{7^{2}}{11}=5
+\]
+Abbiamo ottenuto che la radice quadrata di 5 modulo 11 è $\pm4$.\demo
+\begin{example}
+\emph{Si calcoli, se esiste, la radice di 2 in modulo 11.}
+\end{example}
+$\checked$Come prima, impostiamo così l'equazione da risolvere:
+\[
+\cgm{x^{2}}2{11}
+\]
+Possiamo usare (\ref{eq:Radice-quadrata-modulo-primo}), dato che
+per 2 vale (\ref{eq:Condizione-radici-quadrate-modulo-primo}):
+\[
+\pm2^{\left(11+1\right)/4}=\mod{\pm8}{11}=\pm8
+\]
+Infine effettuiamo l'elevamento a potenza della radice per ottenere
+il segno:
+\[
+\mod{8^{2}}{11}=\mod 9{11}=-2
+\]
+Abbiamo ottenuto che in modulo 11 non esiste la radice quadrata di
+2; la radice di $-2$ però esiste, e vale $\pm8$.\demo
+
+\subsection{Test per segno della radice}
+
+Prendiamo un primo $p$ dispari, un $a\neq0$ in modulo $p$, allora
+\begin{equation}
+\cgm{a^{\left(p-1\right)/2}}{\pm1}p\label{eq:Test-segno-radice-prima}
+\end{equation}
+Distinguiamo i due casi:
+\begin{itemize}
+\item se il segno in (\ref{eq:Test-segno-radice-prima}) è $+$, allora
+esiste $\sqrt{a}$ in modulo $p$;
+\item se il segno in (\ref{eq:Test-segno-radice-prima}) è $-$, allora
+esiste $\sqrt{-a}$ in modulo $p$.
+\end{itemize}
+Ricordando l'Osservazione \ref{oss:Condizioni-esistenza-radici},
+si nota che il test appena mostrato permette di affermare se la radice
+non sia definita, nel caso in cui $\cgm p14$ e in cui il segno in
+(\ref{eq:Test-segno-radice-prima}) sia $-$.
+
+\subsection{Radice quadrata modulo composto}
+
+Esaminiamo il problema $\cgm{x^{2}}an$ dove $n$ sia un numero composto;
+dato che $n$ sarà scomponibile in fattori primi, possiamo scomporre
+la congruenza esaminata in due congruenze più semplici in modulo $p$
+e $q$, sapendo che $n=p\cdot q$. Le due soluzioni ottenute si combinano
+infine tramite il Teorema \ref{thm:Teorema-cinese-del-resto}.
+
+Questo problema ha la sua difficoltà nella fattorizzazione di $n$,
+al punto che la complessità computazionale del calcolo della radice
+modulo $n$ equivale a quella della sua scomposizione in fattori primi.
+\begin{example}
+\emph{Si calcoli, se esiste, la radice di 71 in modulo 77.}
+\end{example}
+$\checked$Notiamo subito che $77=7\cdot11$; per il Teorema \ref{thm:Teorema-cinese-del-resto}
+possiamo scomporre la congruenza in esame nelle due più semplici:
+\[
+\cgm{x^{2}}{71}{77}\implies\begin{cases}
+\cgm{x^{2}}17\\
+\cgm{x^{2}}5{11}
+\end{cases}
+\]
+Nella precedente abbiamo già sostituito $\mod{71}7=1$ e $\mod{71}{11}=5$;
+possiamo risolvere le due congruenze in modo indipendente:
+\begin{enumerate}
+\item la radice quadrata di 1 è comunque $\pm1$, modulo 7;
+\item la radice quadrata di 5 modulo 11 si può ottenere da (\ref{eq:Radice-quadrata-modulo-primo})
+e risulta $\cgm x{\pm5^{\left(11+1\right)/4}}{11}\implies\cgm x{\pm4}{11}$.
+\end{enumerate}
+Abbiamo ottenuto due radici da ciascuna congruenza, che possono essere
+combinate in $2^{2}=4$ modi possibili, per costruire la soluzione
+tramite il Teorema \ref{thm:Teorema-cinese-del-resto}.
+\begin{itemize}
+\item $\left\{ \cgm x17;\;\cgm x4{11}\right\} $\\
+Risolviamo la combinazione delle due congruenze analizzate:
+\[
+\begin{array}{c}
+x=\cgm{1+k\cdot7}4{11}\\
+\cgm{7\cdot k}3{11}\\
+\cgm k{3\cdot7^{-1}}{11}
+\end{array}
+\]
+Per trovare l'inverso utilizziamo (\ref{eq:Osservazione-inverso-p-2}),
+da cui $\mod{7^{-1}}{11}=\mod{7^{9}}{11}=8$, da cui segue che $k=\mod{24}{11}=2$;
+sostituendo nella prima si ottiene
+\[
+x=\cgm{14+1}4{11}\implies\boxed{\cgm x{15}{77}}
+\]
+dal Teorema \ref{thm:Teorema-cinese-del-resto}.\bigskip{}
+\item $\left\{ \cgm x17;\;\cgm x{-4}{11}\right\} $
+\[
+\cgm x{-15}{77}
+\]
+\smallskip{}
+\item $\left\{ \cgm x{-1}7;\;\cgm x4{11}\right\} $
+\[
+\cgm x{29}{77}
+\]
+\smallskip{}
+\item $\left\{ \cgm x{-1}7;\;\cgm x{-4}{11}\right\} $
+\[
+\cgm x{-29}{77}
+\]
+\end{itemize}
+Non è detto che le radici siano sempre 4, in questo caso esistevano
+tutte le radici per ciascuna congruenza in cui è stata scomposta quella
+iniziale.\demo
+
+\subsection{Residui quadratici}
+
+Testo qui
 
 \chapter*{Esercizi}
 
@@ -1093,7 +1254,7 @@ Segue che $\mod{-44}{103}=59=7^{-1}$.
 \bigskip{}
 
 Ora che abbiamo l'inverso di 7 in modulo 103, siamo in grado di scrivere
-la soluzioen dell'equazione ridotta:
+la soluzione dell'equazione ridotta:
 \[
 \begin{array}{c}
 \cgm{x_{0}}{4\cdot59}{103}\\
@@ -1126,7 +1287,7 @@ sia anche congruente a 2 in modulo 20:
 \[
 x=\cgm{5+k\cdot11}2{20}
 \]
-Questo sarà vero per un valpre di $k$ pari a
+Questo sarà vero per un valore di $k$ pari a
 \[
 \begin{array}{c}
 \cgm{k\cdot11}{2-5}{20}\\
