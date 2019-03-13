@@ -3057,6 +3057,63 @@ In generale il toziente di un intero
 \end_inset
 
  qualunque si può calcolare in uno dei seguenti modi:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Toziente
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Toziente
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "eqn:Toziente"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[1.2cm]
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Itemize
@@ -5601,6 +5658,111 @@ Abbiamo trovato che
 \end_inset
 
  per generare le tre congruenze esaminate.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Elementi primitivi
+\end_layout
+
+\begin_layout Exercise
+Quanti elementi primitivi ha l'insieme 
+\begin_inset Formula $\mathbb{Z}_{31}^{*}$
+\end_inset
+
+, e quali sono?
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: elementi primitivi di un insieme dei residui
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Gli elementi primitivi sono in numero 
+\begin_inset Formula $\varphi\left(31-1\right)=\varphi\left(30\right)=\left(2^{1}-2^{0}\right)\left(3^{1}-3^{0}\right)\left(5^{1}-5^{0}\right)=1\cdot2\cdot4=8$
+\end_inset
+
+ (applichiamo una delle formule 
+\begin_inset CommandInset ref
+LatexCommand vpageref
+reference "eqn:Toziente"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ per calcolare il toziente 
+\begin_inset Formula $\varphi\left(\circ\right)$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Solution
+Per capire quali siano gli elementi primitivi, usiamo il test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-primitività"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ con i quozienti 
+\begin_inset Formula $q_{i}=\left\{ 2,\,3,\,5\right\} $
+\end_inset
+
+, per ciascun elemento di 
+\begin_inset Formula $\mathbb{Z}_{31}^{*}$
+\end_inset
+
+ (da 1 a 30); facendo le prove col test rispetto ai tre quozienti, si ottengono
+ i seguenti elementi primitivi:
+\begin_inset Formula 
+\[
+\alpha=\left\{ 3,\,11,\,12,\,13,\,\ldots\right\} 
+\]
+
+\end_inset
+
+
 \begin_inset ERT
 status open
 
