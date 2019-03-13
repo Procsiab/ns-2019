@@ -12,6 +12,7 @@
 \usepackage{varioref}
 \usepackage{refstyle}
 \usepackage{units}
+\usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{amsbsy}
 \usepackage{amstext}
@@ -1248,6 +1249,190 @@ i residui quadratici di $\mathbb{Z}_{11}^{*}$ si ottengono come:
 Otteniamo gli stessi residui quadratici trovati con i test, in ordine
 diverso.
 \end{rem}
+
+\chapter{Cifrari elementari}
+
+\section{Introduzione}
+
+Facendo riferimento alla figura \ref{fig:Scenario-fondamentale- comunicazione},
+possiamo individuare la caratteristica del sistema di cifratura modellizzato:
+esso usa la stessa chiave $k$ per la cifratura e la decifratura del
+messaggio; ammettiamo che essa sia consegnata al destinatario tramite
+un canale sicuro.
+
+Il testo in chiaro è definito all'interno di tutti i possibili messaggi
+in chiaro componibili con l'alfabeto a disposizione ($p\in\mathscr{P}$),
+il messaggio cifrato è anch'esso definito all'interno di un insieme
+di ogni possibile messaggio cifrato componibile ($c\in\mathscr{C}$),
+infine la chiave appartiene all'insieme di tutte le possibili chiavi
+componibili ($k\in\mathscr{K}$).
+
+Ogni chiave, all'interno dello spazio delle chiavi, è definita una
+regola di cifratura ($\forall k\in\mathscr{K}\tc E_{k}\in\mathscr{E}$)
+e anche una regola di decifratura ($\forall k\in\mathscr{K}\tc D_{k}\in\mathscr{D}$),
+entrambe dipendenti da $k$.
+
+Deve valere che la cifratura sia invertibile con la decifratura, ovvero
+$\forall k\in\mathscr{K},\,p\in\mathscr{P},\,c\in\mathscr{C}\tc c=E_{k}\left(p\right)\land p=D_{k}\left(c\right)$;
+in caso contrario la decifratura non sarebbe più possibile (collisioni
+durante la cifratura di messaggi differenti).
+
+\section{Cifrari a scorrimento e sostituzione}
+
+\subsection{Cifrario di Cesare}
+
+Il cifrario di Cesare utilizza uno scorrimento dell'alfabeto, la chiave
+stessa è un simbolo dell'alfabeto:
+\[
+\mathscr{P}=\mathscr{C}=\mathscr{K}=\mathbb{Z}_{n}
+\]
+Si verifica nel caso dell'alfabeto inglese vale $n=26$; la funzione
+di cifratura e di decifratura si indicano come:
+\[
+\begin{array}{c}
+c=E_{k}\left(p\right)=\mod{\left(p+k\right)}n\\
+p=D_{k}\left(c\right)=\mod{\left(c-k\right)}n
+\end{array}
+\]
+Possiamo attaccare questo cifrario con una ricerca esaustiva dello
+spazio delle chiavi, sapendo che $\left|\mathscr{K}\right|=n$, oppure
+possiamo confrontare un testo in chiaro noto con un testo cifrato
+per ottenere la chiave ($k=p-c$).
+
+Chiamiamo questo tipo di cifrario \emph{mono-alfabetico}, ovvero ad
+ogni carattere corrisponde un carattere.
+
+\subsection{Cifrario affine}
+
+Utilizza una combinazione lineare applicata al testo in chiaro; per
+questo cifrario vale:
+\[
+\mathscr{P}=\mathscr{C}=\mathbb{Z}_{n},\,\mathscr{K}=k\left(a,\,b\right)
+\]
+La funzione di cifratura e di decifratura si indicano come:
+\[
+\begin{array}{c}
+c=E_{k}\left(p\right)=\mod{\left(ap+b\right)}n\\
+p=D_{k}\left(c\right)=\mod{\left(c-b\right)a^{-1}}n
+\end{array}
+\]
+Bisogna prendere $a,\,b\in\mathbb{Z}_{n}$ e per la presenza dell'inversione
+di $a$, è necessario che esso sia primo relativo a $n$ ($a\perp n$);
+se così non fosse, si verificherebbero delle collisioni nella cifratura.
+
+\subsection{Cifrario a sostituzione}
+
+Ogni carattere è sostituito da un'altro, secondo una tabella arbitraria;
+esso è la generalizzazione dei due precedenti cifrari (la chiave è
+una permutazione dell'alfabeto), e vale
+\[
+\mathscr{P}=\mathscr{C}=\mathbb{Z}_{n},\,\left|\mathscr{K}\right|=n!
+\]
+La chiave è la tabella di sostituzione, e le funzioni di cifratura
+e decifratura sono determinate dalle sostituzioni indicate nella tabella.
+
+Possiamo attaccare questo cifrario (e tutti gli altri cifrari mono-alfabetici)
+analizzando l'entropia dei singoli simboli dell'alfabeto: nel caso
+di messaggi cifrati in linguaggio naturale, l'analisi delle frequenze
+dei simboli può rivelare lettere molto usate.
+
+Altri attacchi di questo tipo includono l'analisi della frequenza
+dei digrammi e trigrammi (coppie e triple di lettere).
+
+\subsection{Cifrario di Vigenère}
+
+Questo cifrario lavora su blocchi di $h$ caratteri alla volta, e
+per questo viene detto poli-alfabetico. In questo caso abbiamo:
+\[
+\mathscr{P}=\mathscr{C}=\mathscr{K}=\left(\mathbb{Z}_{n}\right)^{h}
+\]
+La chiave, il testo in chiaro e il testo cifrato saranno vettori di
+$h$ elementi:
+\[
+k=\left(k_{1},\,\ldots,\,k_{h}\right),\,p=\left(p_{1},\,\ldots,\,p_{h}\right),\,c=\left(c_{1},\,\ldots,\,c_{h}\right)
+\]
+Le regole di cifratura e decifratura sono le stesse del cifrario di
+Cesare, applicate su ciascun elemento del vettore $p$ o $c$:
+\[
+\begin{array}{c}
+c=E_{k}\left(p\right)=\left(\mod{p_{1}+k_{1}}n,\,\ldots,\,\mod{p_{h}+k_{h}}n\right)\\
+p=D_{k}\left(c\right)=\left(\mod{c_{1}-k_{1}}n,\,\ldots,\,\mod{c_{h}-k_{h}}n\right)
+\end{array}
+\]
+In questo cifrario gli scorrimenti per ciascun elemento del blocco
+dipendono dalla posizione al suo interno; la stessa lettera verrà
+cifrata in modo diverso a seconda della sua posizione nel blocco;
+l'analisi di frequenza si applica, suddividendo la frequenza di un
+simbolo su $h$ possibili modi di cifrarlo (la difficoltà cresce all'aumentare
+di $h$).
+
+\section{Cifrario a permutazione}
+
+Si tratta di un cifrario a blocco (lavora su $h$ simboli alla volta),
+che permuta le posizioni dei caratteri in ogni blocco. Al contrario
+del cifrario a sostituzione, la permutazione in ogni blocco è indipendente.
+La chiave adottata è una permutazione delle posizioni all'interno
+del blocco.
+\begin{example}
+\emph{Dato il cifrario a permutazione con blocchi di dimensione $n=6$
+e permutazione $k=\left(3,\,5,\,1,\,6,\,4,\,2\right)$, cifrare il
+messaggio $p=``\text{she sells sea shells}"$ (gli spazi tra le parole
+non sono caratteri dell'alfabeto).}
+\end{example}
+$\checked$Identifichiamo i blocchi di $n=6$ caratteri; il primo
+blocco da sinistra è $\mathbb{B}_{1}=``\text{shesel}"$, che possiamo
+indicare come:
+\[
+p=\Bigl(\begin{array}{cccccc}
+{\scriptscriptstyle 1} & {\scriptscriptstyle 2} & {\scriptscriptstyle 3} & {\scriptscriptstyle 4} & {\scriptscriptstyle 5} & {\scriptscriptstyle 6}\\
+\text{s,} & \text{h}, & \text{e}, & \text{s}, & \text{e}, & \text{l}
+\end{array}\Bigr)
+\]
+A questo punto applichiamo la permutazione $k$, che sposta i simboli
+del blocco nella seguente configurazione:
+\[
+c=\Bigl(\begin{array}{cccccc}
+{\scriptscriptstyle 3} & {\scriptscriptstyle 5} & {\scriptscriptstyle 1} & {\scriptscriptstyle 6} & {\scriptscriptstyle 4} & {\scriptscriptstyle 2}\\
+\text{e,} & \text{e}, & \text{s}, & \text{l}, & \text{s}, & \text{h}
+\end{array}\Bigr)
+\]
+\demo
+
+Questo cifrario risulta poli-alfabetico, e ogni blocco di lunghezza
+$n$ può essere cifrato in $n!$ modi differenti.
+
+\section{Proprietà fondamentali dei cifrari a blocchi}
+
+In un cifrario a blocco di lunghezza $n$, si prende un messaggio
+in chiaro e a partire da esso si ottiene un messaggio cifrato, entrambi
+della stessa lunghezza ($\left|p\right|=\left|c\right|=n$).
+
+Nell'articolo\footnote{\emph{``Communication Theory of Secrecy Systems'' }(1949), Bell
+System Technical Journal} sulla crittografia pubblicato da Shannon, egli espone due proprietà
+fondamentali che ogni sistema crittografico dovrebbe avere:
+\begin{description}
+\item [{\noun{Diffusione}}] Si ha diffusione perfetta se, cambiando 1 bit
+del blocco in chiaro, tutti i bit del blocco cifrato corrispondente
+cambiano in maniera apparentemente casuale, con probabilità $1/2$.
+La perfetta diffusione vale anche nel senso opposto: cambiando 1 bit
+del blocco cifrato, tutti i bit del blocco in chiaro corrispondente
+cambiano con probabilità $1/2$.
+\item [{\noun{Confusione}}] La chiave deve avere effetto su tutti i bit
+del blocco cifrato: a parità di blocco in chiaro, se cambia 1 bit
+della chiave, tutti i bit del blocco cifrato cambieranno, con probabilità
+$1/2$.
+\end{description}
+Queste due proprietà si riassumono nella seguente affermazione:
+\begin{prop}
+\label{prop:Propriet=0000E0-fondamentali-cifrari-Shannon}Non solo
+ogni bit della chiave ha effetto su \uline{tutti} i bit del blocco
+cifrato, ma anche tutti i bit della chiave hanno effetto su \uline{ogni}
+bit del blocco cifrato.
+\end{prop}
+
+\chapter{Cifrario DES}
+
+Testo qui
 
 \chapter*{Esercizi}
 
