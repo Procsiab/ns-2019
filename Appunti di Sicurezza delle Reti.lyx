@@ -5068,7 +5068,194 @@ Residui quadratici
 \end_layout
 
 \begin_layout Standard
-Testo qui
+Abbiamo chiamato gli elementi di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+; i residui quadratici sono residui che corrispondono anche al quadrato
+ di qualche elemento dello stesso insieme 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Chiamiamo 
+\begin_inset Formula $a_{q}\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+i residui quadratici per cui valga
+\begin_inset Formula 
+\[
+\cgm{a_{q}}{\left(\pm b\right)^{2}}p
+\]
+
+\end_inset
+
+con 
+\begin_inset Formula $b\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ un elemento dell'insieme a cui appartiene anche 
+\begin_inset Formula $a_{q}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Osserviamo che 
+\begin_inset Formula $p\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $
+\end_inset
+
+, poiché i residui a partire da 
+\begin_inset Formula $\frac{p-1}{2}+1$
+\end_inset
+
+ sono i residui negativi dei precedenti dal minore al maggiore (
+\begin_inset Formula $-1=p-1$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Example
+
+\emph on
+\begin_inset CommandInset label
+LatexCommand label
+name "exa:Trovare-i-residui"
+
+\end_inset
+
+Trovare i residui quadratici dell'insieme 
+\begin_inset Formula $\mathbb{Z}_{11}^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Otteniamo subito che nell'insieme analizzato ci sono 
+\begin_inset Formula $\frac{p-1}{2}=\frac{11-1}{2}=5$
+\end_inset
+
+ residui quadratici; possiamo ottenerli tramite il test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-segno-radice-prima"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\ncgm{a^{\left(p-1\right)/2}}{+1}p\implies a\text{ \textbf{non} è residuo quadratico!}
+\]
+
+\end_inset
+
+Effettuiamo questo test per ciascun elemento di 
+\begin_inset Formula $\mathbb{Z}_{11}^{*}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{ll}
+\cgm{1^{5}}{\boxed{1}}{11} & \cgm{6^{5}}{-1}{11}\\
+\cgm{2^{5}}{-1}{11} & \cgm{7^{5}}{-1}{11}\\
+\cgm{3^{5}}{\boxed{1}}{11} & \cgm{8^{5}}{-1}{11}\\
+\cgm{4^{5}}{\boxed{1}}{11} & \cgm{9^{5}}{\boxed{1}}{11}\\
+\cgm{5^{5}}{\boxed{1}}{11} & \cgm{10^{5}}{-1}{11}
+\end{array}
+\]
+
+\end_inset
+
+Raccogliendo i risultati dei test con la congruenza a 
+\begin_inset Formula $+1$
+\end_inset
+
+, possiamo scrivere l'insieme dei residui quadratici di 
+\begin_inset Formula $\mathbb{Z}_{11}^{*}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+a_{q}=\left\{ 1,\,3,\,4,\,5,\,9\right\} 
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Un modo più rapido per ottenere i residui quadratici consiste nel sfruttare
+ il fatto che essi saranno i quadrati dei primi 
+\begin_inset Formula $\frac{p-1}{2}$
+\end_inset
+
+ elementi dell'insieme dei residui: 
+\begin_inset Formula 
+\[
+a_{q}=\left\{ 1^{2},\,\ldots,\,\left(\frac{p-1}{2}\right)^{2}\right\} 
+\]
+
+\end_inset
+
+Riprendendo la consegna dell'Esempio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "exa:Trovare-i-residui"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, i residui quadratici di 
+\begin_inset Formula $\mathbb{Z}_{11}^{*}$
+\end_inset
+
+ si ottengono come:
+\begin_inset Formula 
+\[
+\begin{array}{lll}
+\mod{1^{2}}{11}=1 & \mod{3^{2}}{11}=9 & \mod{5^{2}}{11}=3\\
+\mod{2^{2}}{11}=4 & \mod{4^{2}}{11}=5
+\end{array}\implies a_{q}=\left\{ 1,\,4,\,9,\,5,\,3\right\} 
+\]
+
+\end_inset
+
+Otteniamo gli stessi residui quadratici trovati con i test, in ordine diverso.
 \end_layout
 
 \begin_layout Chapter*
@@ -5763,6 +5950,140 @@ noprefix "false"
 \end_inset
 
 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Trovare gli elementi primitivi dell'insieme 
+\begin_inset Formula $\mathbb{Z}_{13}^{*}$
+\end_inset
+
+
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: elementi primitivi di un insieme dei residui
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Usiamo un secondo metodo, a partire da un elemento sicuramente primitivo
+ 
+\begin_inset Formula $\alpha\in\mathbb{Z}_{13}^{*}$
+\end_inset
+
+; proviamo con 2, sottoponendolo al test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-primitività"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\cgm{2^{6}}{-1}{13},\quad\cgm{2^{4}}3{13}
+\]
+
+\end_inset
+
+Allora 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ è un elemento primitivo rispetto a 
+\begin_inset Formula $p=13$
+\end_inset
+
+; possiamo elevare 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ a tutte le potenze, per ottenere tutti gli elementi dell'insieme.
+ Tuttavia solo le potenze positive pari restituiranno un altro elemento
+ primitivo rispetto a 
+\begin_inset Formula $p$
+\end_inset
+
+ che è un quadrato:
+\begin_inset Formula 
+\[
+\begin{array}{lll}
+\cgm{\alpha^{1}}2{13} & \cgm{\alpha^{5}}6{13} & \cgm{\alpha^{9}}5{13}\\
+\cgm{\alpha^{2}}{\boxed{4}}{13} & \cgm{\alpha^{6}}{\boxed{12}}{13} & \cgm{\alpha^{10}}{\boxed{10}}{13}\\
+\cgm{\alpha^{3}}8{13} & \cgm{\alpha^{7}}{11}{13} & \cgm{\alpha^{11}}7{13}\\
+\cgm{\alpha^{4}}{\boxed{3}}{13} & \cgm{\alpha^{8}}{\boxed{9}}{13} & \cgm{\alpha^{12}}{\boxed{1}}{13}
+\end{array}
+\]
+
+\end_inset
+
+Le radici primitive in 
+\begin_inset Formula $\mathbb{Z}_{13}^{*}$
+\end_inset
+
+ sono:
+\begin_inset Formula 
+\[
+a_{q}=\left\{ 1,\,3,\,4,\,9,\,10,\,12\right\} 
+\]
+
+\end_inset
+
+Si noti che ci troviamo nel caso 
+\begin_inset Formula $\cgm p14$
+\end_inset
+
+, per cui se non esiste 
+\begin_inset Formula $\sqrt{a}$
+\end_inset
+
+ nemmeno 
+\begin_inset Formula $\sqrt{-a}$
+\end_inset
+
+ è definita rispetto a 
+\begin_inset Formula $p$
+\end_inset
+
+.
 \begin_inset ERT
 status open
 

@@ -9,6 +9,7 @@
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{babel}
+\usepackage{varioref}
 \usepackage{refstyle}
 \usepackage{units}
 \usepackage{mathtools}
@@ -800,7 +801,8 @@ ha come fattore comune con essi solo 1; vale dunque $\varphi\left(p\right)=p-1$
 per $p$ numero primo.
 
 In generale il toziente di un intero $n$ qualunque si può calcolare
-in uno dei seguenti modi:
+in uno dei seguenti modi:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Toziente}{\footnotesize{}\index{Toziente@{\footnotesize{}Toziente}}\label{eqn:Toziente}}}[1.2cm]
 \begin{itemize}
 \item $\varphi\left(n\right)=n\cdot\prod_{i\in\left[1,n-1\right],\,p_{i}\backslash n}\left(1-\dfrac{1}{p_{i}}\right)$
 \item $n=\prod_{i=1}^{m}p_{i}^{r_{i}}\implies\varphi\left(n\right)=\prod_{i=1}^{m}\left(p_{i}^{r_{i}}-p_{i}^{r_{i}-1}\right)$
@@ -1188,7 +1190,64 @@ iniziale.\demo
 
 \subsection{Residui quadratici}
 
-Testo qui
+Abbiamo chiamato gli elementi di $\mathbb{Z}_{p}^{*}$ residui modulo
+$p$; i residui quadratici sono residui che corrispondono anche al
+quadrato di qualche elemento dello stesso insieme $\mathbb{Z}_{p}^{*}$.
+
+Chiamiamo $a_{q}\in\mathbb{Z}_{p}^{*}$i residui quadratici per cui
+valga
+\[
+\cgm{a_{q}}{\left(\pm b\right)^{2}}p
+\]
+con $b\in\mathbb{Z}_{p}^{*}$ un elemento dell'insieme a cui appartiene
+anche $a_{q}$.
+
+Osserviamo che $p\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $,
+poiché i residui a partire da $\frac{p-1}{2}+1$ sono i residui negativi
+dei precedenti dal minore al maggiore ($-1=p-1$).
+\begin{example}
+\emph{\label{exa:Trovare-i-residui}Trovare i residui quadratici dell'insieme
+$\mathbb{Z}_{11}^{*}$.}
+\end{example}
+$\checked$Otteniamo subito che nell'insieme analizzato ci sono $\frac{p-1}{2}=\frac{11-1}{2}=5$
+residui quadratici; possiamo ottenerli tramite il test (\ref{eq:Test-segno-radice-prima}):
+\[
+\ncgm{a^{\left(p-1\right)/2}}{+1}p\implies a\text{ \textbf{non} è residuo quadratico!}
+\]
+Effettuiamo questo test per ciascun elemento di $\mathbb{Z}_{11}^{*}$:
+\[
+\begin{array}{ll}
+\cgm{1^{5}}{\boxed{1}}{11} & \cgm{6^{5}}{-1}{11}\\
+\cgm{2^{5}}{-1}{11} & \cgm{7^{5}}{-1}{11}\\
+\cgm{3^{5}}{\boxed{1}}{11} & \cgm{8^{5}}{-1}{11}\\
+\cgm{4^{5}}{\boxed{1}}{11} & \cgm{9^{5}}{\boxed{1}}{11}\\
+\cgm{5^{5}}{\boxed{1}}{11} & \cgm{10^{5}}{-1}{11}
+\end{array}
+\]
+Raccogliendo i risultati dei test con la congruenza a $+1$, possiamo
+scrivere l'insieme dei residui quadratici di $\mathbb{Z}_{11}^{*}$:
+\[
+a_{q}=\left\{ 1,\,3,\,4,\,5,\,9\right\} 
+\]
+\demo
+\begin{rem}
+Un modo più rapido per ottenere i residui quadratici consiste nel
+sfruttare il fatto che essi saranno i quadrati dei primi $\frac{p-1}{2}$
+elementi dell'insieme dei residui: 
+\[
+a_{q}=\left\{ 1^{2},\,\ldots,\,\left(\frac{p-1}{2}\right)^{2}\right\} 
+\]
+Riprendendo la consegna dell'Esempio \ref{exa:Trovare-i-residui},
+i residui quadratici di $\mathbb{Z}_{11}^{*}$ si ottengono come:
+\[
+\begin{array}{lll}
+\mod{1^{2}}{11}=1 & \mod{3^{2}}{11}=9 & \mod{5^{2}}{11}=3\\
+\mod{2^{2}}{11}=4 & \mod{4^{2}}{11}=5
+\end{array}\implies a_{q}=\left\{ 1,\,4,\,9,\,5,\,3\right\} 
+\]
+Otteniamo gli stessi residui quadratici trovati con i test, in ordine
+diverso.
+\end{rem}
 
 \chapter*{Esercizi}
 
@@ -1371,6 +1430,61 @@ sostituendo nella congruenza di $x$ otteniamo:
 \]
 Abbiamo trovato che $x$ deve valere $321+k\cdot330$ per generare
 le tre congruenze esaminate.\demo
+\end{sol}
+
+\section*{Elementi primitivi}
+\begin{xca}
+Quanti elementi primitivi ha l'insieme $\mathbb{Z}_{31}^{*}$, e quali
+sono?\marginpar{$\blacktriangleright$ \emph{Esercizio: elementi primitivi di un insieme
+dei residui}}
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Gli elementi primitivi sono in numero $\varphi\left(31-1\right)=\varphi\left(30\right)=\left(2^{1}-2^{0}\right)\left(3^{1}-3^{0}\right)\left(5^{1}-5^{0}\right)=1\cdot2\cdot4=8$
+(applichiamo una delle formule \vpageref{eqn:Toziente} per calcolare
+il toziente $\varphi\left(\circ\right)$).
+
+Per capire quali siano gli elementi primitivi, usiamo il test (\ref{eq:Test-primitivit=0000E0})
+con i quozienti $q_{i}=\left\{ 2,\,3,\,5\right\} $, per ciascun elemento
+di $\mathbb{Z}_{31}^{*}$ (da 1 a 30); facendo le prove col test rispetto
+ai tre quozienti, si ottengono i seguenti elementi primitivi:
+\[
+\alpha=\left\{ 3,\,11,\,12,\,13,\,\ldots\right\} 
+\]
+\demo
+\end{sol}
+\begin{xca}
+Trovare gli elementi primitivi dell'insieme $\mathbb{Z}_{13}^{*}$\marginpar{$\blacktriangleright$ \emph{Esercizio: elementi primitivi di un insieme
+dei residui}}
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Usiamo un secondo metodo, a partire da un elemento sicuramente primitivo
+$\alpha\in\mathbb{Z}_{13}^{*}$; proviamo con 2, sottoponendolo al
+test (\ref{eq:Test-primitivit=0000E0}):
+\[
+\cgm{2^{6}}{-1}{13},\quad\cgm{2^{4}}3{13}
+\]
+Allora $\alpha=2$ è un elemento primitivo rispetto a $p=13$; possiamo
+elevare $\alpha$ a tutte le potenze, per ottenere tutti gli elementi
+dell'insieme. Tuttavia solo le potenze positive pari restituiranno
+un altro elemento primitivo rispetto a $p$ che è un quadrato:
+\[
+\begin{array}{lll}
+\cgm{\alpha^{1}}2{13} & \cgm{\alpha^{5}}6{13} & \cgm{\alpha^{9}}5{13}\\
+\cgm{\alpha^{2}}{\boxed{4}}{13} & \cgm{\alpha^{6}}{\boxed{12}}{13} & \cgm{\alpha^{10}}{\boxed{10}}{13}\\
+\cgm{\alpha^{3}}8{13} & \cgm{\alpha^{7}}{11}{13} & \cgm{\alpha^{11}}7{13}\\
+\cgm{\alpha^{4}}{\boxed{3}}{13} & \cgm{\alpha^{8}}{\boxed{9}}{13} & \cgm{\alpha^{12}}{\boxed{1}}{13}
+\end{array}
+\]
+Le radici primitive in $\mathbb{Z}_{13}^{*}$ sono:
+\[
+a_{q}=\left\{ 1,\,3,\,4,\,9,\,10,\,12\right\} 
+\]
+Si noti che ci troviamo nel caso $\cgm p14$, per cui se non esiste
+$\sqrt{a}$ nemmeno $\sqrt{-a}$ è definita rispetto a $p$.\demo
 \end{sol}
 
 \part{Protocolli e sistemi per la comunicazione sicura}
