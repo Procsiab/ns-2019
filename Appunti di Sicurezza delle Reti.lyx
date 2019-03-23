@@ -5388,6 +5388,13 @@ mono-alfabetico
 
 \begin_layout Subsection
 Cifrario affine
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Cifrario-affine"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -5729,8 +5736,981 @@ ogni
 Cifrario DES
 \end_layout
 
+\begin_layout Section
+Introduzione
+\end_layout
+
+\begin_layout Subsection
+Nascita del DES come standard
+\end_layout
+
 \begin_layout Standard
-Testo qui
+L'algoritmo Data Encryption Standard (DES) nasce negli anni '70 per soddisfare
+ la necessità degli Stati Uniti di usare un cifrario per le comunicazioni
+ segrete; allora l'NBS (attuale NIST) pubblica un bando, a cui risponde
+ IBM con l'algoritmo LUCIFER.
+\end_layout
+
+\begin_layout Standard
+L'algoritmo di IBM conteneva delle tabelle di sostituzione, che furono modificat
+e dall'NBS: questo portò a pensare, per molti anni, che il governo introdotto
+ una trapdoor nelle tabelle di sostituzione, tuttavia non fu mai trovata.
+\end_layout
+
+\begin_layout Standard
+Infine il DES fu pubblicato come standard nel '77; col progredire della
+ potenza di calcolo nei calcolatori, questo algoritmo è divenuto suscettibile
+ a diversi attacchi, così sono state introdotte delle sue varianti (compatibilme
+nte con l'hardware legacy), come il triplo DES (3DES).
+\end_layout
+
+\begin_layout Standard
+Di per sé l'algoritmo DES è robusto, tuttavia la sua chiave di 56bit è relativam
+ente corta (
+\begin_inset Formula $\left|\mathscr{K}\right|=2^{56}\simeq2^{6}\cdot10^{15}$
+\end_inset
+
+), e questo permette di effettuare in breve tempo un'analisi esaustiva dello
+ spazio delle chiavi.
+ Oltre a questo, DES sarebbe stato vulnerabile ad attacchi di crittoanalisi
+ differenziale (si cerca un errore nella realizzazione della proprietà di
+ perfetta diffusione, prendendo un blocco di testo in chiaro e cifrandolo,
+ cambiando un bit alla volta e cercando evidenza statistica all'interno
+ del blocco cifrato) se il suo algoritmo avesse avuto 14 
+\emph on
+round
+\emph default
+; tuttavia la specifica di IBM prevede 16 
+\emph on
+round
+\emph default
+ (si veda 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "prop:Proprietà-fondamentali-cifrari-Shannon"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+DES è un cifrario a blocchi di 64bit, che nel modo più semplice lavora prendendo
+ un blocco, cifrandolo e poi ripetendo il processo in modo indipendente
+ per il blocco successivo (modo 
+\emph on
+ECB
+\emph default
+).
+\end_layout
+
+\begin_layout Subsection
+Schema Feistel
+\end_layout
+
+\begin_layout Standard
+Descriviamo l'idea dietro a questo schema con la procedura da implementare
+ per realizzarlo:
+\end_layout
+
+\begin_layout Itemize
+prendiamo un blocco di bit 
+\begin_inset Formula $B_{1}$
+\end_inset
+
+, e dividiamolo in due metà, in modo da avere la sinistra 
+\begin_inset Formula $L_{1}$
+\end_inset
+
+ e la destra 
+\begin_inset Formula $R_{1}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+usiamo la chiave 
+\begin_inset Formula $K$
+\end_inset
+
+ per generare una sotto-chiave di round 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+permutiamo le due metà al round 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo, facendo passare la metà di sinistra attraverso una funzione fortemente
+ non lineare che utilizzi la chiave: 
+\begin_inset Formula $B_{i}=R_{i-1}|L_{i-1}\oplus f\left(R_{i-1},\,K_{i}\right)$
+\end_inset
+
+;
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La notazione 
+\begin_inset Formula $A|B$
+\end_inset
+
+ indica la concatenazione di 
+\begin_inset Formula $B$
+\end_inset
+
+ dopo di 
+\begin_inset Formula $A$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+se vi sono 
+\begin_inset Formula $n$
+\end_inset
+
+ round in totale, non si effettua la permutazione di 
+\begin_inset Formula $L_{i}$
+\end_inset
+
+ ed 
+\begin_inset Formula $R_{i}$
+\end_inset
+
+ al round 
+\begin_inset Formula $n$
+\end_inset
+
+-esimo, e si ottiene 
+\begin_inset Formula $B_{n}=R_{n}|L_{n}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo presumere che, continuando a permutare le due metà del blocco,
+ grazie alla funzione 
+\begin_inset Formula $f\left(\right)$
+\end_inset
+
+, vi sarà un'ottima diffusione dei bit in ingresso; inoltre la confusione
+ sarà garantita dalla presenza delle chiavi di round 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+, generate a partire dalla chiave iniziale.
+\end_layout
+
+\begin_layout Standard
+Lo schema Feistel permette di decifrare con la stessa procedura della cifratura,
+ utilizzando 
+\begin_inset Formula $B_{n}$
+\end_inset
+
+ e 
+\begin_inset Formula $K_{n}$
+\end_inset
+
+ come ingresso, e ottenendo 
+\begin_inset Formula $B_{1}$
+\end_inset
+
+ alla fine degli 
+\begin_inset Formula $n$
+\end_inset
+
+ round.
+\end_layout
+
+\begin_layout Section
+Algoritmo DES
+\end_layout
+
+\begin_layout Standard
+Il DES applica 16 volte (round) il blocco di Feistel, utilizzando la seguente
+ procedura:
+\end_layout
+
+\begin_layout Enumerate
+si applica una permutazione iniziale (IP) fissata al blocco di 64bit in
+ chiaro;
+\end_layout
+
+\begin_layout Enumerate
+si prende la chiave DES (da 64bit), si rimuovono gli 8bit di parità e si
+ utilizzano i 56bit per produrre le successive chiavi di round 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+si permutano i bit della chiave da 56bit, poi essa viene divisa in due blocchi
+ da 28bit, rispettivamente 
+\begin_inset Formula $C_{0}$
+\end_inset
+
+ e 
+\begin_inset Formula $D_{0}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+si produce la chiave di round secondo una tabella di shift fissa (funzione
+ 
+\begin_inset Formula $LS_{i}$
+\end_inset
+
+), che fa scorrere i bit delle due metà della chiave (
+\begin_inset Formula $C_{i}$
+\end_inset
+
+, 
+\begin_inset Formula $D_{i}$
+\end_inset
+
+) in modo circolare di 1 o 2 posizioni, a seconda del numero 
+\begin_inset Formula $i$
+\end_inset
+
+ del round: 
+\begin_inset Formula $C_{i}=LS_{i}\left(C_{i-1}\right),\,D_{i}=LS_{i}\left(D_{i-1}\right)\implies K_{i}=C_{i}|D_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+tramite una tabella di riduzione, si estraggono dalla chiave di round 48bit,
+ da usare nella funzione 
+\begin_inset Formula $f\left(\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+si prende la chiave di round 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+ e il blocco sinistro di round 
+\begin_inset Formula $R_{i-1}$
+\end_inset
+
+ e si genera il blocco destro 
+\begin_inset Formula $L_{i}$
+\end_inset
+
+ tramite la funzione 
+\begin_inset Formula $f\left(\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+il blocco 
+\begin_inset Formula $R_{i-1}$
+\end_inset
+
+ in ingresso viene espanso a 48bit tramite una tabella di espansione;
+\end_layout
+
+\begin_layout Enumerate
+si somma modulo due la chiave di round al blocco espanso: 
+\begin_inset Formula $E\left(R_{i-1}\right)\oplus K_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+si divide il risultato da 48bit in 8 gruppi da 6bit;
+\end_layout
+
+\begin_layout Enumerate
+ciascun gruppo viene modificato tramite una S-Box (8 in totale), che prende
+ un blocco da 6bit e lo riduce a 4bit;
+\end_layout
+
+\begin_layout Enumerate
+gli 8 gruppi da 4bit sono uniti in un blocco da 32bit, che viene permutato;
+\end_layout
+
+\begin_layout Enumerate
+il blocco ottenuto viene infine usato assieme alla chiave nella funzione
+ 
+\begin_inset Formula $f\left(\right)$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Subsection*
+Initial Permutation (IP)
+\end_layout
+
+\begin_layout Standard
+Essa lavora su un blocco di 64bit, e produce un'altro blocco altrettanto
+ lungo.
+ Osserviamo che la permutazione iniziale, nota e fissa, non migliora diffusione
+ o confusione; alcune ipotesi sostengono che poteva essere un modo per inizializ
+zare l'hardware dell'epoca ('70).
+\end_layout
+
+\begin_layout Standard
+La seguente tabella di look-up realizza la permutazione iniziale del DES:
+\end_layout
+
+\begin_layout Subsection*
+Funzione 
+\begin_inset Formula $\boldsymbol{f}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Essa lavora su blocchi di 32bit, e garantisce ottima diffusione grazie alle
+ permutazioni effettuate sui blocchi di bit.
+\end_layout
+
+\begin_layout Subsection*
+S-Box
+\end_layout
+
+\begin_layout Standard
+Tabella di sostituzione che prende un blocco da 6bit, e usando il primo
+ e l'ultimo per indicare la riga e i 4 centrali per indicare la colonna,
+ si ottiene un blocco da 4bit.
+ Infatti, la tabella dell'S-Box contiene valori di massimo 4bit, che vengono
+ indirizzati nel modo seguente: se 
+\begin_inset Formula $B_{h}=\overset{{\scriptscriptstyle \text{R}_{0}}}{0}\underset{{\scriptscriptstyle \text{C}_{0}}}{0}\underset{{\scriptscriptstyle \text{C}_{1}}}{1}\underset{{\scriptscriptstyle \text{C}_{2}}}{0}\underset{{\scriptscriptstyle \text{C}_{3}}}{0}\overset{{\scriptscriptstyle \text{R}_{1}}}{1}$
+\end_inset
+
+, allora il valore ottenuto sarà l'elemento alla riga 
+\begin_inset Formula $01_{2}=1_{10}$
+\end_inset
+
+ e alla colonna 
+\begin_inset Formula $0100_{2}=4_{10}$
+\end_inset
+
+ della S-Box 
+\begin_inset Formula $h$
+\end_inset
+
+ (righe e colonne sono numerate a partire da 0); queste tabelle sono state
+ progettate per realizzare una trasformazione non lineare sui blocchi.
+\end_layout
+
+\begin_layout Subsection*
+Chiave di round
+\end_layout
+
+\begin_layout Standard
+Ogni bit della chiave sarà utilizzato mediamente in 14 su 16 round; questo
+ permette di realizzare ottima confusione.
+ I bit di parità della chiave, che portano la sua lunghezza da 56 a 64bit,
+ sono un metodo per controllarne l'integrità (per esempio per trasmettere
+ la chiave senza errori, come controllo aggiuntivo).
+\end_layout
+
+\begin_layout Standard
+Notiamo che il DES rispetta il principio di Kerchoffs (pagina 
+\begin_inset CommandInset ref
+LatexCommand pageref
+reference "thm:Principio-di-Kerchoffs"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) infatti la chiave deve rimanere privata, ed è l'unico 
+\begin_inset Quotes eld
+\end_inset
+
+ingrediente
+\begin_inset Quotes erd
+\end_inset
+
+ che permette di decifrare un blocco cifrato; l'algoritmo è invece pubblico
+ e ben definito.
+ L'algoritmo è infatti progettato per rendere l'analisi esaustiva dello
+ spazio delle chiavi l'unico tipo di attacco possibile.
+\end_layout
+
+\begin_layout Section
+Modi operativi
+\end_layout
+
+\begin_layout Standard
+I cifrari a blocchi, come DES, supportano i modi operativi descritti nelle
+ seguenti sotto-sezioni.
+\end_layout
+
+\begin_layout Subsection*
+Electronic Code Book (ECB)
+\end_layout
+
+\begin_layout Standard
+Il messaggio in chiaro è diviso in blocchi, i quali sono cifrati in modo
+ indipendente, utilizzando la stessa chiave:
+\begin_inset Formula 
+\[
+c_{i}=E_{k}\left(p_{i}\right),\quad p_{i}=E_{k}\left(c_{i}\right)
+\]
+
+\end_inset
+
+Risulta facile individuare i blocchi ripetuti, inoltre è possibile costruire
+ una tabella con le corrispondenze tra blocchi i chiaro e blocchi cifrati.
+\end_layout
+
+\begin_layout Subsection*
+Cipher Block Chaining (CBC)
+\end_layout
+
+\begin_layout Standard
+Si tratta di un modo operativo concatenato: in qualche modo, ciascun blocco
+ è legato agli altri, e si ottiene l'effetto di non avere blocchi ripetuti
+ (questo vale per ciascun modo concatenato).
+ CBC usa un vettore di inizializzazione (IV), come se fosse una chiave addiziona
+le, come primo blocco cifrato 
+\begin_inset Formula $c_{0}$
+\end_inset
+
+; a partire da esso, le funzioni di cifratura e decifratura sono definite
+ come:
+\begin_inset Formula 
+\[
+c_{i}=E_{k}\left(p_{i}\oplus c_{i-1}\right),\quad p_{i}=c_{i-1}\oplus D_{k}\left(c_{i}\right)
+\]
+
+\end_inset
+
+Si noti che IV può essere inviato anche in chiaro.
+\end_layout
+
+\begin_layout Subsection*
+Cipher Feedback (CFB)
+\end_layout
+
+\begin_layout Standard
+Si tratta di un modo concatenato.
+ Consiste nel cifrare il vettore di inizializzazione e poi sommarlo al blocco
+ in chiaro; il risultato è usato come IV per il round successivo.
+ Questo algoritmo crea una sequenza di bit pseudo-casuali.
+\end_layout
+
+\begin_layout Standard
+Per decifrare non è necessaria una funzione specifica, ma basta ripetere
+ la somma in base 2 con i blocchi cifrati al posto dei blocchi in chiaro:
+\begin_inset Formula 
+\[
+c_{i}=p_{i}\oplus E_{k}\left(c_{i-1}\right),\quad p_{i}=c_{i}\oplus E_{k}\left(c_{i-1}\right)
+\]
+
+\end_inset
+
+Lo svantaggio di questo cifrario è l'amplificazione degli errori di trasmissione
+, da un blocco al suo successivo.
+\end_layout
+
+\begin_layout Subsection*
+Output Feedback Mode (OFB)
+\end_layout
+
+\begin_layout Standard
+Si tratta di un modo concatenato.
+ Consiste nel cifrare il vettore di inizializzazione, sommarlo al blocco
+ in chiaro, e poi usare l'IV cifrato come ingresso per il blocco successivo.
+ La catena di cifrature effettuate sull'IV costituisce una PRBS (pseudo-random
+ binary sequence, una sequenza pseudo-casuale di bit).
+ L'unico modo per generare la stessa sequenza è conoscere la chiave; inoltre
+ un errore di trasmissione non si propaga tra i blocchi.
+\end_layout
+
+\begin_layout Standard
+Le funzioni di cifratura e decifratura sono definite come:
+\begin_inset Formula 
+\[
+c_{i}=p_{i}\oplus E_{k}^{\left(i\right)}\left(\text{IV}\right),\quad p_{i}=c_{i}\oplus E_{k}^{\left(i\right)}\left(\text{IV}\right)
+\]
+
+\end_inset
+
+dove 
+\begin_inset Formula $E_{k}^{\left(i\right)}\left(\text{IV}\right)$
+\end_inset
+
+ è la funzione 
+\begin_inset Formula $E_{k}$
+\end_inset
+
+ applicata in modo ricorsivo per 
+\begin_inset Formula $i$
+\end_inset
+
+ volte all'IV.
+\end_layout
+
+\begin_layout Subsection*
+Counter Mode (CTR)
+\end_layout
+
+\begin_layout Standard
+Questo modo 
+\bar under
+non
+\bar default
+ è concatenato.
+ Consiste nel cifrare un IV con la chiave, per poi sommarlo al blocco in
+ chiaro; per ciascun blocco in chiaro 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo viene usato un 
+\begin_inset Formula $\text{IV}^{\left(i\right)}\coloneqq\text{IV}+i$
+\end_inset
+
+, e ogni blocco cifrato è prodotto in modo indipendente; la sicurezza di
+ questo modo si basa unicamente su quella della funzione di cifratura (in
+ caso di ottima diffusione e confusione, un attaccante non può sapere se
+ a IV sta venendo sommato un intero e quale esso sia).
+\end_layout
+
+\begin_layout Standard
+LE funzioni di cifratura e decifratura sono definite come:
+\begin_inset Formula 
+\[
+c_{i}=p_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right),\quad p_{i}=c_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Sicurezza del DES
+\end_layout
+
+\begin_layout Subsection
+Doppio DES
+\end_layout
+
+\begin_layout Standard
+Per aumentare la sicurezza di DES potremmo provare ad utilizzare una chiave
+ più lunga; in tal caso, ci chiediamo se esista una chiave 
+\begin_inset Formula $K^{\prime}=K_{1}|K_{2}$
+\end_inset
+
+ tale che 
+\begin_inset Formula $\left|K^{\prime}\right|=56+56=112\text{bit}$
+\end_inset
+
+, e per essa si verifichi che 
+\begin_inset Formula $E_{K^{\prime}}\left(p\right)\equiv E_{K_{2}}\left(E_{K_{1}}\left(c\right)\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Se prendiamo la funzione di cifratura 
+\emph on
+affine
+\emph default
+ (si veda 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "subsec:Cifrario-affine"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), dove abbiamo 
+\begin_inset Formula $K_{1}=\left(a,\,b\right)$
+\end_inset
+
+, allora possiamo cifrare un testo in chiaro 
+\begin_inset Formula $p$
+\end_inset
+
+ come 
+\begin_inset Formula $c_{1}=E_{K_{1}}\left(p\right)=\mod{a\cdot p+b}n$
+\end_inset
+
+; prendiamo un'altra chiave 
+\begin_inset Formula $K_{2}=\left(c,\,d\right)$
+\end_inset
+
+ e con essa cifriamo di nuovo il messaggio 
+\begin_inset Formula $p$
+\end_inset
+
+, ottenendo 
+\begin_inset Formula $c_{2}=E_{K_{2}}\left(p\right)=\mod{c\cdot p+d}n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Si nota subito che, per le caratteristiche della funzione di cifratura (combinaz
+ione lineare con la chiave), esiste 
+\begin_inset Formula $K^{\prime}=\left(a\cdot c,\,b+d\right)$
+\end_inset
+
+ per cui vale 
+\begin_inset Formula $c^{\prime}=E_{K_{2}}\left(E_{K_{1}}\left(p\right)\right)\equiv E_{K^{\prime}}\left(p\right)=\mod{ac\cdot p+b+d}n$
+\end_inset
+
+.
+ Dato che il cifrario affine forma un gruppo algebrico (chiuso rispetto
+ alla composizione), cifrando due volte con due chiavi 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ e 
+\begin_inset Formula $K_{2}$
+\end_inset
+
+ non viene aumentata la cardinalità dello spazio delle chiavi, dato che
+ esiste in ogni caso una chiave equivalente 
+\begin_inset Formula $K^{\prime}$
+\end_inset
+
+ di lunghezza identica alle singole chiavi.
+\end_layout
+
+\begin_layout Standard
+Il DES non gode di questa proprietà: cifrando più volte il messaggio in
+ chiaro con due chiavi differenti, aumenta di 
+\begin_inset Formula $2^{\left|K\right|}$
+\end_inset
+
+ la cardinalità dello spazio delle chiavi.
+ Nel caso del doppio DES (2DES), si ha una chiave 
+\begin_inset Formula $K=K_{1}|K_{2}$
+\end_inset
+
+ lunga il doppio di una chiave singola, dunque 
+\begin_inset Formula $\left|\mathscr{K}\right|=2^{112}\simeq2^{2}\cdot10^{33}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Il doppio DES è suscettibile dell'attacco Meet-in-the-Middle (MiM): questa
+ vulnerabilità permette di analizzare al più 
+\begin_inset Formula $2^{57}$
+\end_inset
+
+ chiavi, invece delle 
+\begin_inset Formula $2^{112}$
+\end_inset
+
+ totali; per ovviare al problema si è scelto di proseguire con la composizione,
+ ottenendo il triplo DES.
+\end_layout
+
+\begin_layout Subsection
+Triplo DES
+\end_layout
+
+\begin_layout Standard
+Questo cifrario è la composizione di tre chiavi DES, che portano la cardinalità
+ dello spazio delle chiavi a 
+\begin_inset Formula $2^{168}$
+\end_inset
+
+; anche con un attacco MiM lo spazio delle chiavi si riduce al più a 
+\begin_inset Formula $2^{112}$
+\end_inset
+
+, e al giorno d'oggi è considerato sicuro almeno quanto l'AES, ma è meno
+ veloce (bisogna cifrare 3 volte con DES).
+\end_layout
+
+\begin_layout Standard
+Il metodo più intuitivo per implementare il 3DES è effettuare tre volte
+ la cifratura con tre chiavi differenti: 
+\begin_inset Formula $c=E_{K_{1}}\left(E_{K_{2}}\left(E_{K_{3}}\left(p\right)\right)\right)$
+\end_inset
+
+; un approccio che utilizza solo due chiavi, senza ridurre lo spazio delle
+ chiavi, è il seguente:
+\begin_inset Formula 
+\[
+c=E_{K_{1}}\left(D_{K_{2}}\left(E_{K_{1}}\left(p\right)\right)\right),\quad p=D_{K_{1}}\left(E_{K_{2}}\left(D_{K_{1}}\left(c\right)\right)\right)
+\]
+
+\end_inset
+
+Questa implementazione del triplo DES è compatibile con l'hardware per il
+ singolo DES.
+\end_layout
+
+\begin_layout Standard
+Rivest ha proposto la seguente alternativa, chiamata DESX, che usa tre chiavi
+ ma effettua una sola cifratura DES, ed è sicura quanto il 3DES standard:
+\begin_inset Formula 
+\[
+c=K_{3}\oplus E_{K_{2}}\left(K_{1}\oplus p\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Attacco Meet-in-the-Middle
+\end_layout
+
+\begin_layout Standard
+Abbiamo già osservato che DES non è un gruppo; ci chiediamo come possiamo
+ affrontare questa caratteristica, per ridurre lo spazio delle chiavi nel
+ caso di una composizione.
+ Conduciamo un attacco di testo in chiaro noto, partendo da una coppia corrispon
+dente di testo in chiaro e testo cifrato 
+\begin_inset Formula $p\leftrightarrows c$
+\end_inset
+
+, senza conoscere la chiave.
+\end_layout
+
+\begin_layout Standard
+Poniamoci nel caso di un testo cifrato ricavato tramite 2DES come 
+\begin_inset Formula $c=E_{K_{2}}\left(E_{K_{1}}\left(p\right)\right)$
+\end_inset
+
+, e vogliamo ottenere 
+\begin_inset Formula $K^{\prime}=K_{1}|K_{2}$
+\end_inset
+
+.
+ Se quanto affermato sul testo cifrato è vero, allora applicando a 
+\begin_inset Formula $c$
+\end_inset
+
+ la decifratura con 
+\begin_inset Formula $K_{2}$
+\end_inset
+
+ si ottiene
+\begin_inset Formula 
+\begin{equation}
+D_{K_{2}}\left(c\right)=E_{K_{1}}\left(p\right)\label{eq:MiM-2DES}
+\end{equation}
+
+\end_inset
+
+Effettuiamo una esplorazione esaustiva dello spazio delle chiavi 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ memorizzando i risultati in una tabella, per cui sarà necessario memorizzare
+ 
+\begin_inset Formula $2^{56}$
+\end_inset
+
+ valori da 8Byte (64bit) ovvero circa 0.5EB; poi effettuiamo la stessa analisi
+ per lo spazio delle chiavi 
+\begin_inset Formula $K_{2}$
+\end_inset
+
+, questa volta evitando di memorizzare i risultati ma confrontando ciascuna
+ chiave trovata con i valori di 
+\begin_inset Formula $K_{1}$
+\end_inset
+
+ salvati.
+\end_layout
+
+\begin_layout Standard
+Notiamo che saranno necessarie al più 
+\begin_inset Formula $2\cdot2^{56}=2^{57}$
+\end_inset
+
+ operazioni di cifratura e decifratura con DES, e al più 
+\begin_inset Formula $2^{112}$
+\end_inset
+
+ confronti.
+\end_layout
+
+\begin_layout Section
+Sicurezza delle password
+\end_layout
+
+\begin_layout Subsection
+Funzioni di hash
+\end_layout
+
+\begin_layout Standard
+Per ragioni di sicurezza, una password non viene mai memorizzata in chiaro;
+ in pratica, si usa una funzione di 
+\emph on
+hash
+\emph default
+.
+ Si tratta di una funzione con le seguenti caratteristiche:
+\end_layout
+
+\begin_layout Itemize
+accetta un ingresso di lunghezza arbitraria, produce una uscita di lunghezza
+ fissa;
+\end_layout
+
+\begin_layout Itemize
+non è invertibile (ci sono infiniti messaggi con lo stesso hash in uscita
+ dalla funzione);
+\end_layout
+
+\begin_layout Itemize
+sia unidirezionale (presa una uscita 
+\begin_inset Formula $y\left(x\right)$
+\end_inset
+
+, sia impossibile trovare uno qualunque degli infiniti 
+\begin_inset Formula $x$
+\end_inset
+
+ che produca quell'uscita);
+\end_layout
+
+\begin_layout Itemize
+goda di ottima diffusione.
+\end_layout
+
+\begin_layout Standard
+Usando una simile funzione, possiamo memorizzare lo hash della password,
+ e confrontarlo con l'hash calcolato sulla password quando fornita.
+\end_layout
+
+\begin_layout Standard
+È possibile attaccare queste funzioni provando un gran numero di ingressi
+ casuali differenti, rispetto al numero delle possibili uscite; la sicurezza
+ viene determinata dalla lunghezza dell'uscita.
+\end_layout
+
+\begin_layout Standard
+Si può mitigare questo attacco scegliendo una funzione di hash particolarmente
+ lenta.
+\end_layout
+
+\begin_layout Subsection
+Attacco del vocabolario
+\end_layout
+
+\begin_layout Standard
+Dato che quasi nessuno sceglie una stringa veramente casuale come password,
+ è possibile attaccare l'hash corrispondente generando tutti gli hash di
+ tutte le parole di una lingua, apportando eventuali variazioni sulle singole
+ parole (aggiunta di un numero, iniziale maiuscola, eccetera...) e poi confrontando
+ gli hash ottenuti con quelli nel file delle password.
+\end_layout
+
+\begin_layout Standard
+All'interno di sistemi con un gran numero di utenti, la probabilità di trovare
+ una password 
+\begin_inset Quotes eld
+\end_inset
+
+banale
+\begin_inset Quotes erd
+\end_inset
+
+ per almeno qualche utenza è molto elevata.
+\end_layout
+
+\begin_layout Standard
+La contromisura migliore è applicare un 
+\emph on
+salt
+\emph default
+ (
+\begin_inset Quotes eld
+\end_inset
+
+sale
+\begin_inset Quotes erd
+\end_inset
+
+) alla password; esso è una stringa di bit, memorizzata in chiaro nel file
+ delle password.
+ L'hash 
+\begin_inset Quotes eld
+\end_inset
+
+salato
+\begin_inset Quotes erd
+\end_inset
+
+ è calcolato sulla stringa ottenuta dalla concatenazione del sale con la
+ password.
+\end_layout
+
+\begin_layout Standard
+Il sale non aumenta la complessità dell'attacco sul singolo utente, bensì
+ ha il vantaggio che, nel caso di un attacco del vocabolario su numerose
+ utenze, essi abbiano tutti un hash diverso, anche a parità di password,
+ per via del sale (che sarà diverso per ogni utente).
+ Un attaccante dovrà calcolare l'hash per ogni parola del vocabolario, per
+ ogni sale possibile.
+\end_layout
+
+\begin_layout Standard
+Nei sistemi UNIX, le password sono salate con un salt a 12bit, e la funzione
+ di hash è basata su DES; tradizionalmente si troncava la password utente
+ a 64bit (8 caratteri), da questi si ottenevano i primi 7 bit di ciascun
+ Byte (per rappresentare solo i caratteri stampabili), e i 56bit così ottenuti
+ erano usati come chiave DES.
+ Questa chiave 
+\begin_inset Formula $K_{h}$
+\end_inset
+
+ è poi usata per cifrare un blocco di 0 da 64bit, con 25 round di DES; a
+ ogni round, i 12bit del sale sono usati per perturbare la funzione di cifratura
+ (modificando le S-Box, rende inutile l'implementazione hardware a priori).
+ Infine sale e blocco cifrato sono codificati in base 64.
+\end_layout
+
+\begin_layout Standard
+La funzione così realizzata è reputata unidirezionale: infatti ottenere
+ la password senza conoscere la chiave e con un DES da più di 16 round,
+ per giunta perturbato dal sale, è un problema difficile.
 \end_layout
 
 \begin_layout Chapter*
