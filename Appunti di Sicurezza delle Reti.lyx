@@ -8135,6 +8135,726 @@ Al giorno d'oggi sono considerate sicure chiavi a 265 bit (
  anni, nelle condizioni descritte in precedenza!
 \end_layout
 
+\begin_layout Chapter
+Campi di Galois
+\end_layout
+
+\begin_layout Section
+Costruzione con polinomi
+\end_layout
+
+\begin_layout Standard
+Per comprendere la struttura e le proprietà dei campi di Galois, analizziamo
+ il seguente esempio: sia dato l'insieme 
+\begin_inset Formula $\mathcal{GF}\left(4\right)=\left\{ 0,\,1,\,\omega,\,\omega^{2}\right\} ,$
+\end_inset
+
+che chiamiamo 
+\begin_inset Quotes eld
+\end_inset
+
+campo di Galois 4
+\begin_inset Quotes erd
+\end_inset
+
+; su questo insieme siano definite le seguenti proprietà, posto 
+\begin_inset Formula $\forall x\in\mathcal{GF}\left(4\right)$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+Ogni elemento del campo ha un inverso additivo: 
+\begin_inset Formula $x+0=x$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $x+x=0$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Ogni elemento del campo ha un inverso moltiplicativo: 
+\begin_inset Formula $1\cdot x=x$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\omega+1=\omega^{2}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+somma e prodotto godono delle proprietà commutativa, associativa e distributiva.
+\end_layout
+
+\begin_layout Standard
+Usando queste proprietà possiamo calcolare 
+\begin_inset Formula $\omega^{2}+1\overset{{\scriptscriptstyle 4}}{\rightarrow}\omega+1+1\overset{{\scriptscriptstyle 2}}{\rightarrow}\omega$
+\end_inset
+
+.
+ Notiamo dalle proprietà enunciate, che con 0 indichiamo l'elemento neutro
+ rispetto alla somma e con 1 l'elemento neutro rispetto al prodotto; rispetto
+ alla somma inoltre, ogni elemento è l'inverso di sé stesso.
+ L'inverso moltiplicativo invece, non è definito per 0, e vale 1 per l'elemento
+ 1; negli altri casi, (
+\begin_inset Formula $\omega$
+\end_inset
+
+ e 
+\begin_inset Formula $\omega^{2}$
+\end_inset
+
+) si ha che l'inverso è 
+\begin_inset Formula $\omega^{2}$
+\end_inset
+
+; infatti si ricava che 
+\begin_inset Formula 
+\[
+\omega\cdot\omega^{2}=\omega\cdot\left(\omega+1\right)=\omega+\omega^{2}=\omega+\omega+1=1\implies\omega\cdot\omega^{2}=1\implies\boxed{\omega^{-1}=\omega^{2}}
+\]
+
+\end_inset
+
+Vale alche l'opposto, ovvero l'inverso di 
+\begin_inset Formula $\omega^{2}$
+\end_inset
+
+ è 
+\begin_inset Formula $\omega$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Possiamo enunciare la definizione di 
+\emph on
+campo
+\emph default
+:
+\end_layout
+
+\begin_layout Definition
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Campo
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Campo
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "def:Campo"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-0.2cm]
+\end_layout
+
+\end_inset
+
+Un campo è un insieme che abbia almeno una operazione di somma e una di
+ prodotto, includa come minimo gli elementi 0 e 1, dove 0 è l'elemento neutro
+ rispetto alla somma e 1 l'elemento neutro rispetto al prodotto; l'insieme
+ deve soddisfare inoltre le proprietà 
+\begin_inset Formula ${\scriptstyle \left(1\right)}$
+\end_inset
+
+, 
+\begin_inset Formula ${\scriptstyle \left(3\right)}$
+\end_inset
+
+ e 
+\begin_inset Formula ${\scriptstyle \left(5\right)}$
+\end_inset
+
+ tra quelle elencate in precedenza.
+\end_layout
+
+\begin_layout Standard
+Questo implica che un insieme che soddisfa la definizione di campo sarà
+ chiuso rispetto alle operazioni di somma e prodotto.
+\end_layout
+
+\begin_layout Example
+L'insieme dei numeri reali forma un campo, infatti in esso sono contenuti
+ 0 e 1, e per ciascun numero reale esiste un inverso definito all'interno
+ dell'insieme.
+\end_layout
+
+\begin_layout Example
+L'insieme degli interi non è un campo, poiché l'inverso degli elementi non
+ appartiene all'insieme.
+\end_layout
+
+\begin_layout Example
+Consideriamo l'insieme 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+ con 
+\begin_inset Formula $p$
+\end_inset
+
+ un primo, e l'insieme 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+ con 
+\begin_inset Formula $n$
+\end_inset
+
+ composto: il primo è un campo, mentre il secondo no, dato che i suoi elementi
+ hanno inverso moltiplicativo solo se primi relativi rispetto a 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Infine, l'insieme delle matrici 
+\begin_inset Formula $2\times2$
+\end_inset
+
+ non forma un campo, perché non gode della proprietà commutativa e non tutti
+ i suoi elementi sono invertibili.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vale in generale la seguente proprietà, che lega i campi di Galois alla
+ cardinalità degli insiemi di interi:
+\end_layout
+
+\begin_layout Proposition
+Per ogni intero, esprimibile come potenza di un primo, esiste esattamente
+ un solo campo finito di 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ elementi, chiamato campo di Galois 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\forall p^{n}\exists!\,\mathcal{GF}\left(p^{n}\right)\tc\left|\mathcal{GF}\left(p^{n}\right)\right|=p^{n}\label{eq:GF-p^n-cardinalità}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo domandarci se l'insieme dei residui modulo 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ (
+\begin_inset Formula $\mathbb{Z}_{p^{n}}$
+\end_inset
+
+) sia un campo di Galois: esso non lo è, perché solo i suoi elementi primi
+ relativi rispetto a 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ ammettono inverso.
+ Usiamo la seguente procedura, che permette di costruire in generale un
+ insieme che sia un campo 
+\begin_inset Formula $\mathcal{GF}\left(p^{n}\right)$
+\end_inset
+
+ tramite l'impiego dei polinomi (avremmo potuto rappresentare il campo di
+ Galois tramite qualsiasi simbolo di qualunque alfabeto).
+\end_layout
+
+\begin_layout Standard
+Usiamo l'insieme dei residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, e l'insieme di tutti i polinomi nella variabile 
+\begin_inset Formula $x$
+\end_inset
+
+, di qualunque grado, con coefficienti modulo 
+\begin_inset Formula $p$
+\end_inset
+
+: 
+\begin_inset Formula 
+\[
+\mathbb{Z}_{p},\quad\mathbb{Z}_{p}\left[x\right]=\serie{i=0}n{a_{i}x^{i}}\,\forall a_{i}\in\mathbb{Z}_{p}
+\]
+
+\end_inset
+
+prendiamo un polinomio 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ di grado 
+\begin_inset Formula $n$
+\end_inset
+
+, con coefficienti 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+ in 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+, che sia irriducibile (impossibile da scomporre nel prodotto di polinomi
+ di grado inferiore).
+\end_layout
+
+\begin_layout Example
+Prendiamo 
+\begin_inset Formula $p=2$
+\end_inset
+
+, 
+\begin_inset Formula $n=2$
+\end_inset
+
+.
+ Scriviamo allora 
+\begin_inset Formula $P\left(x\right)=\mod{x^{2}+1}2$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Notiamo che 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ è riducibile, infatti 
+\begin_inset Formula $\cgm{x^{2}+1}{\left(x+1\right)\cdot\left(x+1\right)}2$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+Invece, possiamo usare il polinomio irriducibile 
+\begin_inset Formula $x^{2}+x+1$
+\end_inset
+
+ per definire 
+\begin_inset Formula $\mathcal{GF}\left(4\right)$
+\end_inset
+
+.
+ Per provare che un polinomio sia riducibile o meno è necessario provare
+ la divisione tra polinomi, tenendo presente che le operazioni sono modulo
+ 
+\begin_inset Formula $p$
+\end_inset
+
+, provando tutti i possibili divisori fino al grado 
+\begin_inset Formula $n/2$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Adesso definiamo il campo di Galois 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ nel modo seguente:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Campo di Galois
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Galois, campo di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.3cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathcal{GF}\left(p^{n}\right)=\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-definizione}
+\end{equation}
+
+\end_inset
+
+Possiamo osservare un'analogia con l'insieme dei resti interi modulo 
+\begin_inset Formula $p$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align left
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="40text%">
+<column alignment="center" valignment="top" width="40text%">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathcal{GF}\left(p^{n}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+residui della divisione per un 
+\bar under
+primo
+\bar default
+ 
+\begin_inset Formula $p$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+residui della divisione per un polinomio 
+\bar under
+irriducibile
+\bar default
+ 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ di grado 
+\begin_inset Formula $n$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cardinalità 
+\begin_inset Formula $p$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+cardinalità 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Un generico polinomio ottenuto secondo questa costruzione è al massimo di
+ grado 
+\begin_inset Formula $n-1$
+\end_inset
+
+, essendo il resto di una divisione per un polinomio di grado 
+\begin_inset Formula $n$
+\end_inset
+
+; possiamo scrivere il polinomio 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ nella seguente forma:
+\begin_inset Formula 
+\[
+P\left(x\right)=a_{n-1}\cdot x^{n-1}+a_{n-2}\cdot x^{n-2}+\ldots+a_{1}\cdot x+a_{0}
+\]
+
+\end_inset
+
+I possibili polinomi di questa forma sono 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+, dato che ogni singolo coefficiente è in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, e si hanno in totale 
+\begin_inset Formula $n$
+\end_inset
+
+ coefficienti.
+\end_layout
+
+\begin_layout Remark
+Qualunque polinomio appartenente a un campo di Galois ammette inverso.
+ Prendiamo dunque 
+\begin_inset Formula $a\left(x\right)\in\mathcal{GF}\left(p^{n}\right)$
+\end_inset
+
+, definito come descritto in questa sezione, l'inverso di 
+\begin_inset Formula $a\left(x\right)$
+\end_inset
+
+ è l'elemento 
+\begin_inset Formula $a^{-1}\left(x\right)\in\mathcal{GF}\left(p^{n}\right)$
+\end_inset
+
+ tale che
+\begin_inset Formula 
+\[
+\cgm{a^{-1}\left(x\right)\cdot a\left(x\right)}1{P\left(x\right)}
+\]
+
+\end_inset
+
+Questo vale se 
+\begin_inset Formula $\mcd{a\left(x\right)}{P\left(x\right)}=1$
+\end_inset
+
+, ma ciò è sicuramente vero perché 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ è definito irriducibile; se avessimo un polinomio composto (riducibile)
+ al posto di 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+, avremmo un'analogia con l'insieme 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+ (
+\begin_inset Formula $n$
+\end_inset
+
+ composto), nel quale solo gli elementi primi relativi rispetto a 
+\begin_inset Formula $n$
+\end_inset
+
+ hanno l'inverso.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Per definire un campo di Galois 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ abbiamo bisogno di un polinomio irriducibile di grado 
+\begin_inset Formula $n$
+\end_inset
+
+; tuttavia vi è più di un solo polinomio irriducibile, fissato il grado.
+ Si verifica che, usando polinomi irriducibili diversi dello stesso grado,
+ si ottiene lo stesso campo di Galois da entrambi: esso è uno e uno solo,
+ da 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:GF-p^n-cardinalità"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Dal punto di vista algebrico, si ottengono due campi 
+\emph on
+isomorfi
+\emph default
+, ovvero le relazioni biunivoche tra elementi di uno stesso insieme coincidono
+ con quelle dell'altro insieme.
+\end_layout
+
 \begin_layout Standard
 \begin_inset ERT
 status open

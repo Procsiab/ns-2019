@@ -9,6 +9,7 @@
 \setlength{\parskip}{\smallskipamount}
 \setlength{\parindent}{0pt}
 \usepackage{babel}
+\usepackage{array}
 \usepackage{varioref}
 \usepackage{refstyle}
 \usepackage{units}
@@ -40,6 +41,8 @@
 \AtBeginDocument{\providecommand\subsecref[1]{\ref{subsec:#1}}}
 \AtBeginDocument{\providecommand\secref[1]{\ref{sec:#1}}}
 \newcommand{\noun}[1]{\textsc{#1}}
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
 \RS@ifundefined{subsecref}
   {\newref{subsec}{name = \RSsectxt}}
   {}
@@ -98,6 +101,12 @@
     \else
       \newtheorem{sol}{\protect\solutionname}[chapter]
     \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
+      \newtheorem{defn}{\protect\definitionname}
+    \else
+      \newtheorem{defn}{\protect\definitionname}[chapter]
+    \fi
 
 \@ifundefined{date}{}{\date{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
@@ -124,6 +133,7 @@
 \makeatother
 
 \providecommand{\corollaryname}{Corollario}
+\providecommand{\definitionname}{Definizione}
 \providecommand{\examplename}{Esempio}
 \providecommand{\exercisename}{Esercizio}
 \providecommand{\propositionname}{Proposizione}
@@ -2195,5 +2205,155 @@ Al giorno d'oggi sono considerate sicure chiavi a 265 bit ($\sim10^{77}$):
 per analizzare in modo esaustivo un simile spazio delle chiavi sarebbero
 necessari $10^{60}$ anni, nelle condizioni descritte in precedenza!
 
+\chapter{Campi di Galois}
+
+\section{Costruzione con polinomi}
+
+Per comprendere la struttura e le proprietà dei campi di Galois, analizziamo
+il seguente esempio: sia dato l'insieme $\mathcal{GF}\left(4\right)=\left\{ 0,\,1,\,\omega,\,\omega^{2}\right\} ,$che
+chiamiamo ``campo di Galois 4''; su questo insieme siano definite
+le seguenti proprietà, posto $\forall x\in\mathcal{GF}\left(4\right)$:
+\begin{enumerate}
+\item Ogni elemento del campo ha un inverso additivo: $x+0=x$;
+\item $x+x=0$;
+\item Ogni elemento del campo ha un inverso moltiplicativo: $1\cdot x=x$;
+\item $\omega+1=\omega^{2}$;
+\item somma e prodotto godono delle proprietà commutativa, associativa e
+distributiva.
+\end{enumerate}
+Usando queste proprietà possiamo calcolare $\omega^{2}+1\overset{{\scriptscriptstyle 4}}{\rightarrow}\omega+1+1\overset{{\scriptscriptstyle 2}}{\rightarrow}\omega$.
+Notiamo dalle proprietà enunciate, che con 0 indichiamo l'elemento
+neutro rispetto alla somma e con 1 l'elemento neutro rispetto al prodotto;
+rispetto alla somma inoltre, ogni elemento è l'inverso di sé stesso.
+L'inverso moltiplicativo invece, non è definito per 0, e vale 1 per
+l'elemento 1; negli altri casi, ($\omega$ e $\omega^{2}$) si ha
+che l'inverso è $\omega^{2}$; infatti si ricava che 
+\[
+\omega\cdot\omega^{2}=\omega\cdot\left(\omega+1\right)=\omega+\omega^{2}=\omega+\omega+1=1\implies\omega\cdot\omega^{2}=1\implies\boxed{\omega^{-1}=\omega^{2}}
+\]
+Vale alche l'opposto, ovvero l'inverso di $\omega^{2}$ è $\omega$.
+
+Possiamo enunciare la definizione di \emph{campo}:
+\begin{defn}
+\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Campo}{\footnotesize{}\index{Campo@{\footnotesize{}Campo}}\label{def:Campo}}}[-0.2cm]Un campo è un insieme che abbia almeno una operazione di
+somma e una di prodotto, includa come minimo gli elementi 0 e 1, dove
+0 è l'elemento neutro rispetto alla somma e 1 l'elemento neutro rispetto
+al prodotto; l'insieme deve soddisfare inoltre le proprietà ${\scriptstyle \left(1\right)}$,
+${\scriptstyle \left(3\right)}$ e ${\scriptstyle \left(5\right)}$
+tra quelle elencate in precedenza.
+\end{defn}
+Questo implica che un insieme che soddisfa la definizione di campo
+sarà chiuso rispetto alle operazioni di somma e prodotto.
+\begin{example}
+L'insieme dei numeri reali forma un campo, infatti in esso sono contenuti
+0 e 1, e per ciascun numero reale esiste un inverso definito all'interno
+dell'insieme.
+
+L'insieme degli interi non è un campo, poiché l'inverso degli elementi
+non appartiene all'insieme.
+
+Consideriamo l'insieme $\mathbb{Z}_{p}$ con $p$ un primo, e l'insieme
+$\mathbb{Z}_{n}$ con $n$ composto: il primo è un campo, mentre il
+secondo no, dato che i suoi elementi hanno inverso moltiplicativo
+solo se primi relativi rispetto a $n$.
+
+Infine, l'insieme delle matrici $2\times2$ non forma un campo, perché
+non gode della proprietà commutativa e non tutti i suoi elementi sono
+invertibili.\demo
+\end{example}
+Vale in generale la seguente proprietà, che lega i campi di Galois
+alla cardinalità degli insiemi di interi:
+\begin{prop}
+Per ogni intero, esprimibile come potenza di un primo, esiste esattamente
+un solo campo finito di $p^{n}$ elementi, chiamato campo di Galois
+$p^{n}$:
+\begin{equation}
+\forall p^{n}\exists!\,\mathcal{GF}\left(p^{n}\right)\tc\left|\mathcal{GF}\left(p^{n}\right)\right|=p^{n}\label{eq:GF-p^n-cardinalit=0000E0}
+\end{equation}
+\end{prop}
+Possiamo domandarci se l'insieme dei residui modulo $p^{n}$ ($\mathbb{Z}_{p^{n}}$)
+sia un campo di Galois: esso non lo è, perché solo i suoi elementi
+primi relativi rispetto a $p^{n}$ ammettono inverso. Usiamo la seguente
+procedura, che permette di costruire in generale un insieme che sia
+un campo $\mathcal{GF}\left(p^{n}\right)$ tramite l'impiego dei polinomi
+(avremmo potuto rappresentare il campo di Galois tramite qualsiasi
+simbolo di qualunque alfabeto).
+
+Usiamo l'insieme dei residui modulo $p$, e l'insieme di tutti i polinomi
+nella variabile $x$, di qualunque grado, con coefficienti modulo
+$p$: 
+\[
+\mathbb{Z}_{p},\quad\mathbb{Z}_{p}\left[x\right]=\serie{i=0}n{a_{i}x^{i}}\,\forall a_{i}\in\mathbb{Z}_{p}
+\]
+prendiamo un polinomio $P\left(x\right)$ di grado $n$, con coefficienti
+$a_{i}$ in $\mathbb{Z}_{p}$, che sia irriducibile (impossibile da
+scomporre nel prodotto di polinomi di grado inferiore).
+\begin{example}
+Prendiamo $p=2$, $n=2$. Scriviamo allora $P\left(x\right)=\mod{x^{2}+1}2$
+
+Notiamo che $P\left(x\right)$ è riducibile, infatti $\cgm{x^{2}+1}{\left(x+1\right)\cdot\left(x+1\right)}2$.
+
+Invece, possiamo usare il polinomio irriducibile $x^{2}+x+1$ per
+definire $\mathcal{GF}\left(4\right)$. Per provare che un polinomio
+sia riducibile o meno è necessario provare la divisione tra polinomi,
+tenendo presente che le operazioni sono modulo $p$, provando tutti
+i possibili divisori fino al grado $n/2$.\demo
+\end{example}
+Adesso definiamo il campo di Galois $p^{n}$ nel modo seguente:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Campo di Galois}{\footnotesize{}\index{Galois, campo di@{\footnotesize{}Galois, campo di}}}}[0.3cm]
+\begin{equation}
+\mathcal{GF}\left(p^{n}\right)=\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-definizione}
+\end{equation}
+Possiamo osservare un'analogia con l'insieme dei resti interi modulo
+$p$:
+\begin{flushleft}
+\begin{table}[!h]
+\begin{tabular}{>{\centering}p{0.4\textwidth}>{\centering}p{0.4\textwidth}}
+$\mathbb{Z}_{p}$ & $\mathcal{GF}\left(p^{n}\right)$\tabularnewline
+\hline 
+residui della divisione per un \uline{primo} $p$ & residui della divisione per un polinomio \uline{irriducibile} $P\left(x\right)$
+di grado $n$\tabularnewline
+\hline 
+cardinalità $p$ & cardinalità $p^{n}$\tabularnewline
+\end{tabular}
+\end{table}
+Un generico polinomio ottenuto secondo questa costruzione è al massimo
+di grado $n-1$, essendo il resto di una divisione per un polinomio
+di grado $n$; possiamo scrivere il polinomio $P\left(x\right)$ nella
+seguente forma:
+\[
+P\left(x\right)=a_{n-1}\cdot x^{n-1}+a_{n-2}\cdot x^{n-2}+\ldots+a_{1}\cdot x+a_{0}
+\]
+I possibili polinomi di questa forma sono $p^{n}$, dato che ogni
+singolo coefficiente è in modulo $p$, e si hanno in totale $n$ coefficienti.
+\par\end{flushleft}
+\begin{rem}
+Qualunque polinomio appartenente a un campo di Galois ammette inverso.
+Prendiamo dunque $a\left(x\right)\in\mathcal{GF}\left(p^{n}\right)$,
+definito come descritto in questa sezione, l'inverso di $a\left(x\right)$
+è l'elemento $a^{-1}\left(x\right)\in\mathcal{GF}\left(p^{n}\right)$
+tale che
+\[
+\cgm{a^{-1}\left(x\right)\cdot a\left(x\right)}1{P\left(x\right)}
+\]
+Questo vale se $\mcd{a\left(x\right)}{P\left(x\right)}=1$, ma ciò
+è sicuramente vero perché $P\left(x\right)$ è definito irriducibile;
+se avessimo un polinomio composto (riducibile) al posto di $P\left(x\right)$,
+avremmo un'analogia con l'insieme $\mathbb{Z}_{n}$ ($n$ composto),
+nel quale solo gli elementi primi relativi rispetto a $n$ hanno l'inverso.
+\end{rem}
+%
+\begin{rem}
+Per definire un campo di Galois $p^{n}$ abbiamo bisogno di un polinomio
+irriducibile di grado $n$; tuttavia vi è più di un solo polinomio
+irriducibile, fissato il grado. Si verifica che, usando polinomi irriducibili
+diversi dello stesso grado, si ottiene lo stesso campo di Galois da
+entrambi: esso è uno e uno solo, da (\ref{eq:GF-p^n-cardinalit=0000E0}).
+
+Dal punto di vista algebrico, si ottengono due campi \emph{isomorfi},
+ovvero le relazioni biunivoche tra elementi di uno stesso insieme
+coincidono con quelle dell'altro insieme.
+\end{rem}
 \renewcommand{\chaptername}{}\printindex
 \end{document}
