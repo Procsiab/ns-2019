@@ -288,6 +288,14 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\nirr}[2]{N_{{\scriptscriptstyle irr}}\left(#1,\,#2\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\tc}{\,:\,}
 \end_inset
 
@@ -779,12 +787,11 @@ La funzione principale di questo algoritmo, è calcolare il massimo comune
 
 ; definendo la seguente successione:
 \begin_inset Formula 
-\begin{equation}
-\begin{array}{c}
-\mcd mn=\mcd{\mod nm}n=\mcd{\mod{\left(\mod nm\right)}n}n=\\
-\ldots=\mcd 0n=n
-\end{array}\label{eq:Successione-Euclide}
-\end{equation}
+\begin{align}
+\mcd mn & =\mcd{\mod nm}n\label{eq:Successione-Euclide}\\
+ & =\mcd{\mod{\left(\mod nm\right)}n}n\nonumber \\
+ & =\mcd 0n=n\nonumber 
+\end{align}
 
 \end_inset
 
@@ -835,14 +842,12 @@ noprefix "false"
 proseguiamo lavorando col resto del passo precedente (216) e col valore
  precedentemente usato per calcolare il modulo (482)
 \begin_inset Formula 
-\[
-\begin{array}{c}
-\mcd{216}{482}\rightarrow482=2\cdot216+50\\
-\mcd{50}{216}\rightarrow216=4\cdot50+16\\
-\mcd{16}{50}\rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
-\mcd 2{16}\rightarrow8\cdot2+\boxed{0}
-\end{array}
-\]
+\begin{align*}
+\mcd{216}{482} & \rightarrow482=2\cdot216+50\\
+\mcd{50}{216} & \rightarrow216=4\cdot50+16\\
+\mcd{16}{50} & \rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
+\mcd 2{16} & \rightarrow8\cdot2+\boxed{0}
+\end{align*}
 
 \end_inset
 
@@ -8390,7 +8395,7 @@ Vale in generale la seguente proprietà, che lega i campi di Galois alla
  cardinalità degli insiemi di interi:
 \end_layout
 
-\begin_layout Proposition
+\begin_layout Definition
 Per ogni intero, esprimibile come potenza di un primo, esiste esattamente
  un solo campo finito di 
 \begin_inset Formula $p^{n}$
@@ -8541,62 +8546,18 @@ demo
 
 \end_layout
 
-\begin_layout Standard
+\begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "oss:Analogia-GF-insieme-residui"
+
+\end_inset
+
 Adesso definiamo il campo di Galois 
 \begin_inset Formula $p^{n}$
 \end_inset
 
  nel modo seguente:
-\begin_inset Marginal
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset CommandInset line
-LatexCommand rule
-offset "0.5ex"
-width "3cm"
-height "1pt"
-
-\end_inset
-
-
-\series bold
-\size footnotesize
-
-\begin_inset Newline newline
-\end_inset
-
-Campo di Galois
-\series default
-
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-
-\size footnotesize
-Galois, campo di
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-[0.3cm]
-\end_layout
-
-\end_inset
-
-
 \begin_inset Formula 
 \begin{equation}
 \mathcal{GF}\left(p^{n}\right)=\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-definizione}
@@ -8621,7 +8582,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="3" columns="2">
+<lyxtabular version="3" rows="4" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="40text%">
 <column alignment="center" valignment="top" width="40text%">
@@ -8630,7 +8591,8 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathbb{Z}_{p}$
+primo 
+\begin_inset Formula $p$
 \end_inset
 
 
@@ -8642,7 +8604,34 @@ status open
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $\mathcal{GF}\left(p^{n}\right)$
+irriducibile 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$
 \end_inset
 
 
@@ -8764,6 +8753,13 @@ I possibili polinomi di questa forma sono
  coefficienti.
 \end_layout
 
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
 \begin_layout Remark
 Qualunque polinomio appartenente a un campo di Galois ammette inverso.
  Prendiamo dunque 
@@ -8853,6 +8849,638 @@ isomorfi
 \emph default
 , ovvero le relazioni biunivoche tra elementi di uno stesso insieme coincidono
  con quelle dell'altro insieme.
+\end_layout
+
+\begin_layout Definition
+Un campo di Galois può essere definito tramite i resti 
+\begin_inset Formula $R\left(x\right)$
+\end_inset
+
+ che derivano dalla divisione dei polinomi di qualunque grado 
+\begin_inset Formula $\mathbb{Z}_{p}\left[x\right]$
+\end_inset
+
+ per il polinomio irriducibile 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Campo di Galois
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Galois, campo di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mathcal{GF}\left(p^{n}\right)\doteq\cgm{R\left(x\right)}{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-residui}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Polinomi come elementi generatori
+\end_layout
+
+\begin_layout Standard
+Come visto nell'Osservazione 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "oss:Analogia-GF-insieme-residui"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, il grado massimo di 
+\begin_inset Formula $R\left(x\right)$
+\end_inset
+
+ sarà 
+\begin_inset Formula $n-1$
+\end_inset
+
+, mentre i possibili polinomi di grado fino a 
+\begin_inset Formula $n-1$
+\end_inset
+
+ sono in totale 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+.
+ Nella stessa Osservazione, abbiamo mostrato un'analogia tra l'insieme dei
+ residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ e i campi di Galois definiti come residui della divisione dei polinomi
+ con coefficienti modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, per 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Possiamo estendere questa analogia al concetto di radice primitiva 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "def:Radice-primitiva"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, ovvero anche in 
+\begin_inset Formula $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$
+\end_inset
+
+ ci saranno dei polinomi 
+\begin_inset Formula $g\left(x\right)$
+\end_inset
+
+, chiamati elementi generatori, tali che
+\begin_inset Formula 
+\[
+\cgm{g\left(x\right)^{n}}1{P\left(x\right)}
+\]
+
+\end_inset
+
+Il minimo 
+\begin_inset Formula $n$
+\end_inset
+
+ per il quale si verifica la precedente condizione è chiamato ordine 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Ordine-di-intero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ del campo, e vale:
+\begin_inset Formula 
+\begin{equation}
+\ord{g\left(x\right)}=p^{n}-1\label{eq:Ordine-polinomio-irriducibile}
+\end{equation}
+
+\end_inset
+
+Questo polinomio 
+\begin_inset Formula $g\left(x\right)$
+\end_inset
+
+ sarà una radice primitiva del campo; il numero di radici primitive di un
+ campo sarà determinato dal toziente dell'ordine, come 
+\begin_inset Formula $\varphi\left(p^{n}-1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="40text%">
+<column alignment="center" valignment="top" width="40text%">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ord{\alpha}=p-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\ord{g\left(x\right)}=p^{n}-1$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varphi\left(p-1\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\varphi\left(p^{n}-1\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Chiediamoci se esiste un caso in cui tutti gli elementi di un insieme 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+ sono anche elementi generatori; dovrebbe valere 
+\begin_inset Formula $\varphi\left(p-1\right)=p-1$
+\end_inset
+
+, ma questo è impossibile, poiché 
+\begin_inset Formula $q$
+\end_inset
+
+ è primo e 
+\begin_inset Formula $q-1$
+\end_inset
+
+ risulta pari.
+\end_layout
+
+\begin_layout Remark
+Nel campo 
+\begin_inset Formula $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$
+\end_inset
+
+ invece deve valere 
+\begin_inset Formula $\varphi\left(p^{n}-1\right)=p^{n}-1$
+\end_inset
+
+, e ciò è possibile poiché 
+\begin_inset Formula $p^{n}-1$
+\end_inset
+
+ è primo per alcuni 
+\begin_inset Formula $n$
+\end_inset
+
+, a patto che valga 
+\begin_inset Formula $p=2$
+\end_inset
+
+ (per esempio, con 
+\begin_inset Formula $p=2$
+\end_inset
+
+ e 
+\begin_inset Formula $n=5$
+\end_inset
+
+, vale 
+\begin_inset Formula $p^{n}-1=31$
+\end_inset
+
+ e il campo 
+\begin_inset Formula $\mathcal{GF}\left(2^{5}\right)$
+\end_inset
+
+ avrà tutti gli elementi che sono anche generatori del campo).
+\end_layout
+
+\begin_layout Example
+Consideriamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Il polinomio di 
+\begin_inset Formula $\mathcal{GF}\left(256\right)$
+\end_inset
+
+ mostrato in questo esempio è quello utilizzato nel cifrario AES
+\end_layout
+
+\end_inset
+
+ il campo 
+\begin_inset Formula $\mathcal{GF}\left(256\right)$
+\end_inset
+
+, ovvero 
+\begin_inset Formula $p=2$
+\end_inset
+
+ e 
+\begin_inset Formula $n=8$
+\end_inset
+
+; possiamo definire questo campo a partire da qualunque polinomio irriducibile
+ 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ di grado 8, con i coefficienti modulo 2: prendiamo
+\begin_inset Formula 
+\[
+P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1
+\]
+
+\end_inset
+
+Gli elementi del campo, resti della divisione con 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+, avranno grado massimo 7; possiamo scriverli come
+\begin_inset Formula 
+\[
+R\left(x\right)=b_{7}\cdot x^{7}+b_{7}\cdot x^{7}+\ldots+b_{1}\cdot x+b_{0}
+\]
+
+\end_inset
+
+I coefficienti di un polinomio 
+\begin_inset Formula $R\left(x\right)\in\mathcal{GF}\left(256\right)$
+\end_inset
+
+ sono 8 e sono tutti in modulo 2 (valgono 0 o 1): essi possono essere rappresent
+ati da un Byte, e l'algoritmo dell'AES usa questa rappresentazione per effettuar
+e operazioni tra polinomi, all'interno di 
+\begin_inset Formula $\mathcal{GF}\left(256\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Cardinalità dei polinomi irriducibili
+\end_layout
+
+\begin_layout Standard
+Abbiamo già concluso che il numero di elementi di un campo di Galois 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ è proprio 
+\begin_inset Formula $p^{n}$
+\end_inset
+
+ (
+\begin_inset Formula $\left|\mathcal{GF}\left(p^{n}\right)\right|=p^{n}$
+\end_inset
+
+); per definire il campo è necessario un polinomio irriducibile 
+\begin_inset Formula $P\left(x\right)$
+\end_inset
+
+ di grado 
+\begin_inset Formula $n$
+\end_inset
+
+ coi coefficienti modulo 
+\begin_inset Formula $p$
+\end_inset
+
+.
+ Ci chiediamo il numero di tali polinomi; indichiamo allora il numero di
+ polinomi irriducibili con coefficienti modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ e grado 
+\begin_inset Formula $n$
+\end_inset
+
+ come:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Numero di polinomi irriducibili
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Polinomi irriducibili, numero
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.3cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\nirr pn=\frac{1}{n}\serie{i=1,\,i\backslash n}n{\mu\left(\frac{n}{i}\right)\cdot p^{i}}\label{eq:Numero-polinomi-irriducibili}
+\end{equation}
+
+\end_inset
+
+La funzione 
+\begin_inset Formula $\mu\left(\right)$
+\end_inset
+
+ si chiama funzione di Möbius ed è definita nel modo seguente:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Funzione di Möbius
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Möbius, funzione di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.7cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\mu\left(n\right)=\begin{cases}
+0 & n=\text{ prodotto di primi, almeno uno ripetuto}\\
+1 & n=1\\
+\left(-1\right)^{k} & n=\text{ prodotto di \ensuremath{k} primi distinti}
+\end{cases}\label{eq:Funzione-Mobius}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Prendiamo i polinomi con coefficienti in modulo 2 e grado 6: determinare
+ il numero di polinomi irriducibili tra di essi.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Sappiamo che il numero totale di polinomi con queste caratteristiche è 
+\begin_inset Formula $p^{n}=2^{6}=64$
+\end_inset
+
+; usiamo la formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Numero-polinomi-irriducibili"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\nirr 26 & =\frac{1}{6}\left(\mu\left(6\right)\cdot2^{1}+\mu\left(3\right)\cdot2^{2}+\mu\left(2\right)\cdot2^{3}+\mu\left(1\right)\cdot2^{6}\right)\\
+ & =\frac{1}{6}\left(2-2^{2}-2^{3}+2^{6}\right)=\frac{54}{6}=\boxed{9}
+\end{align*}
+
+\end_inset
+
+Abbiamo usato nella sommatoria i valori da 0 a 6 che dividono 6, ovvero
+ 
+\begin_inset Formula $i\in\left\{ 1,\,2,\,3,\,6\right\} $
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard

@@ -178,6 +178,8 @@ is included in the file called \textquotedbl LICENSE\textquotedbl .}
 
 \global\long\def\ord#1{\mathrm{{\scriptstyle ORD}}\left(#1\right)}%
 
+\global\long\def\nirr#1#2{N_{{\scriptscriptstyle irr}}\left(#1,\,#2\right)}%
+
 \global\long\def\tc{\,:\,}%
 
 
@@ -290,12 +292,11 @@ comune divisore di due numeri; presi due interi $m$ e $n$ tali che
 $m<n$, vogliamo calcolare $\mcd mn$. Tramite questo algoritmo otteniamo
 il risultato desiderato, senza passare per la scomposizione in fattori
 primi di $m$ e $n$; definendo la seguente successione:
-\begin{equation}
-\begin{array}{c}
-\mcd mn=\mcd{\mod nm}n=\mcd{\mod{\left(\mod nm\right)}n}n=\\
-\ldots=\mcd 0n=n
-\end{array}\label{eq:Successione-Euclide}
-\end{equation}
+\begin{align}
+\mcd mn & =\mcd{\mod nm}n\label{eq:Successione-Euclide}\\
+ & =\mcd{\mod{\left(\mod nm\right)}n}n\nonumber \\
+ & =\mcd 0n=n\nonumber 
+\end{align}
 
 Osserviamo come calcolare questa successione con un esempio.
 \begin{example}
@@ -311,14 +312,12 @@ da usare nel termine successivo della successione
 \]
 proseguiamo lavorando col resto del passo precedente (216) e col valore
 precedentemente usato per calcolare il modulo (482)
-\[
-\begin{array}{c}
-\mcd{216}{482}\rightarrow482=2\cdot216+50\\
-\mcd{50}{216}\rightarrow216=4\cdot50+16\\
-\mcd{16}{50}\rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
-\mcd 2{16}\rightarrow8\cdot2+\boxed{0}
-\end{array}
-\]
+\begin{align*}
+\mcd{216}{482} & \rightarrow482=2\cdot216+50\\
+\mcd{50}{216} & \rightarrow216=4\cdot50+16\\
+\mcd{16}{50} & \rightarrow3\cdot16+\boldsymbol{2}=\boldsymbol{d}\\
+\mcd 2{16} & \rightarrow8\cdot2+\boxed{0}
+\end{align*}
 La successione termina quando si ottiene resto zero; il resto chiamato
 $d$, ottenuto alla penultima riga (sopra a quella con resto 0, vale
 2 in questo caso) è effettivamente il risultato della richiesta: $\mcd{482}{1180}=2$\demo
@@ -2264,14 +2263,14 @@ invertibili.\demo
 \end{example}
 Vale in generale la seguente proprietà, che lega i campi di Galois
 alla cardinalità degli insiemi di interi:
-\begin{prop}
+\begin{defn}
 Per ogni intero, esprimibile come potenza di un primo, esiste esattamente
 un solo campo finito di $p^{n}$ elementi, chiamato campo di Galois
 $p^{n}$:
 \begin{equation}
 \forall p^{n}\exists!\,\mathcal{GF}\left(p^{n}\right)\tc\left|\mathcal{GF}\left(p^{n}\right)\right|=p^{n}\label{eq:GF-p^n-cardinalit=0000E0}
 \end{equation}
-\end{prop}
+\end{defn}
 Possiamo domandarci se l'insieme dei residui modulo $p^{n}$ ($\mathbb{Z}_{p^{n}}$)
 sia un campo di Galois: esso non lo è, perché solo i suoi elementi
 primi relativi rispetto a $p^{n}$ ammettono inverso. Usiamo la seguente
@@ -2300,18 +2299,21 @@ sia riducibile o meno è necessario provare la divisione tra polinomi,
 tenendo presente che le operazioni sono modulo $p$, provando tutti
 i possibili divisori fino al grado $n/2$.\demo
 \end{example}
-Adesso definiamo il campo di Galois $p^{n}$ nel modo seguente:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
-\textbf{\footnotesize{}Campo di Galois}{\footnotesize{}\index{Galois, campo di@{\footnotesize{}Galois, campo di}}}}[0.3cm]
+\begin{rem}
+\label{oss:Analogia-GF-insieme-residui}Adesso definiamo il campo
+di Galois $p^{n}$ nel modo seguente:
 \begin{equation}
 \mathcal{GF}\left(p^{n}\right)=\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-definizione}
 \end{equation}
 Possiamo osservare un'analogia con l'insieme dei resti interi modulo
 $p$:
+\end{rem}
 \begin{flushleft}
 \begin{table}[!h]
 \begin{tabular}{>{\centering}p{0.4\textwidth}>{\centering}p{0.4\textwidth}}
-$\mathbb{Z}_{p}$ & $\mathcal{GF}\left(p^{n}\right)$\tabularnewline
+primo $p$ & irriducibile $P\left(x\right)$\tabularnewline
 \hline 
+$\mathbb{Z}_{p}$ & $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$\tabularnewline
 residui della divisione per un \uline{primo} $p$ & residui della divisione per un polinomio \uline{irriducibile} $P\left(x\right)$
 di grado $n$\tabularnewline
 \hline 
@@ -2328,6 +2330,7 @@ P\left(x\right)=a_{n-1}\cdot x^{n-1}+a_{n-2}\cdot x^{n-2}+\ldots+a_{1}\cdot x+a_
 I possibili polinomi di questa forma sono $p^{n}$, dato che ogni
 singolo coefficiente è in modulo $p$, e si hanno in totale $n$ coefficienti.
 \par\end{flushleft}
+
 \begin{rem}
 Qualunque polinomio appartenente a un campo di Galois ammette inverso.
 Prendiamo dunque $a\left(x\right)\in\mathcal{GF}\left(p^{n}\right)$,
@@ -2355,5 +2358,117 @@ Dal punto di vista algebrico, si ottengono due campi \emph{isomorfi},
 ovvero le relazioni biunivoche tra elementi di uno stesso insieme
 coincidono con quelle dell'altro insieme.
 \end{rem}
+\begin{defn}
+Un campo di Galois può essere definito tramite i resti $R\left(x\right)$
+che derivano dalla divisione dei polinomi di qualunque grado $\mathbb{Z}_{p}\left[x\right]$
+per il polinomio irriducibile $P\left(x\right)$:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Campo di Galois}{\footnotesize{}\index{Galois, campo di@{\footnotesize{}Galois, campo di}}}}[0.2cm]
+\begin{equation}
+\mathcal{GF}\left(p^{n}\right)\doteq\cgm{R\left(x\right)}{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}\label{eq:GF-p^n-residui}
+\end{equation}
+\end{defn}
+
+\section{Polinomi come elementi generatori}
+
+Come visto nell'Osservazione \ref{oss:Analogia-GF-insieme-residui},
+il grado massimo di $R\left(x\right)$ sarà $n-1$, mentre i possibili
+polinomi di grado fino a $n-1$ sono in totale $p^{n}$. Nella stessa
+Osservazione, abbiamo mostrato un'analogia tra l'insieme dei residui
+modulo $p$ e i campi di Galois definiti come residui della divisione
+dei polinomi con coefficienti modulo $p$, per $P\left(x\right)$.
+
+Possiamo estendere questa analogia al concetto di radice primitiva
+(\ref{def:Radice-primitiva}), ovvero anche in $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$
+ci saranno dei polinomi $g\left(x\right)$, chiamati elementi generatori,
+tali che
+\[
+\cgm{g\left(x\right)^{n}}1{P\left(x\right)}
+\]
+Il minimo $n$ per il quale si verifica la precedente condizione è
+chiamato ordine (\ref{eq:Ordine-di-intero}) del campo, e vale:
+\begin{equation}
+\ord{g\left(x\right)}=p^{n}-1\label{eq:Ordine-polinomio-irriducibile}
+\end{equation}
+Questo polinomio $g\left(x\right)$ sarà una radice primitiva del
+campo; il numero di radici primitive di un campo sarà determinato
+dal toziente dell'ordine, come $\varphi\left(p^{n}-1\right)$
+
+\begin{table}[!h]
+\begin{tabular}{>{\centering}p{0.4\textwidth}>{\centering}p{0.4\textwidth}}
+$\mathbb{Z}_{p}$ & $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$\tabularnewline
+\hline 
+$\ord{\alpha}=p-1$ & $\ord{g\left(x\right)}=p^{n}-1$\tabularnewline
+\hline 
+$\varphi\left(p-1\right)$ & $\varphi\left(p^{n}-1\right)$\tabularnewline
+\end{tabular}
+\end{table}
+
+\begin{rem}
+Chiediamoci se esiste un caso in cui tutti gli elementi di un insieme
+$\mathbb{Z}_{p}$ sono anche elementi generatori; dovrebbe valere
+$\varphi\left(p-1\right)=p-1$, ma questo è impossibile, poiché $q$
+è primo e $q-1$ risulta pari.
+
+Nel campo $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$ invece
+deve valere $\varphi\left(p^{n}-1\right)=p^{n}-1$, e ciò è possibile
+poiché $p^{n}-1$ è primo per alcuni $n$, a patto che valga $p=2$
+(per esempio, con $p=2$ e $n=5$, vale $p^{n}-1=31$ e il campo $\mathcal{GF}\left(2^{5}\right)$
+avrà tutti gli elementi che sono anche generatori del campo).
+\end{rem}
+\begin{example}
+Consideriamo\marginpar{Il polinomio di $\mathcal{GF}\left(256\right)$ mostrato in questo
+esempio è quello utilizzato nel cifrario AES} il campo $\mathcal{GF}\left(256\right)$, ovvero $p=2$ e $n=8$;
+possiamo definire questo campo a partire da qualunque polinomio irriducibile
+$P\left(x\right)$ di grado 8, con i coefficienti modulo 2: prendiamo
+\[
+P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1
+\]
+Gli elementi del campo, resti della divisione con $P\left(x\right)$,
+avranno grado massimo 7; possiamo scriverli come
+\[
+R\left(x\right)=b_{7}\cdot x^{7}+b_{7}\cdot x^{7}+\ldots+b_{1}\cdot x+b_{0}
+\]
+I coefficienti di un polinomio $R\left(x\right)\in\mathcal{GF}\left(256\right)$
+sono 8 e sono tutti in modulo 2 (valgono 0 o 1): essi possono essere
+rappresentati da un Byte, e l'algoritmo dell'AES usa questa rappresentazione
+per effettuare operazioni tra polinomi, all'interno di $\mathcal{GF}\left(256\right)$.
+\end{example}
+
+\section{Cardinalità dei polinomi irriducibili}
+
+Abbiamo già concluso che il numero di elementi di un campo di Galois
+$p^{n}$ è proprio $p^{n}$ ($\left|\mathcal{GF}\left(p^{n}\right)\right|=p^{n}$);
+per definire il campo è necessario un polinomio irriducibile $P\left(x\right)$
+di grado $n$ coi coefficienti modulo $p$. Ci chiediamo il numero
+di tali polinomi; indichiamo allora il numero di polinomi irriducibili
+con coefficienti modulo $p$ e grado $n$ come:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Numero di polinomi irriducibili}{\footnotesize{}\index{Polinomi irriducibili, numero@{\footnotesize{}Polinomi irriducibili, numero}}}}[0.3cm]
+\begin{equation}
+\nirr pn=\frac{1}{n}\serie{i=1,\,i\backslash n}n{\mu\left(\frac{n}{i}\right)\cdot p^{i}}\label{eq:Numero-polinomi-irriducibili}
+\end{equation}
+La funzione $\mu\left(\right)$ si chiama funzione di Möbius ed è
+definita nel modo seguente:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Funzione di Möbius}{\footnotesize{}\index{Möbius, funzione di@{\footnotesize{}Möbius, funzione di}}}}[0.7cm]
+\begin{equation}
+\mu\left(n\right)=\begin{cases}
+0 & n=\text{ prodotto di primi, almeno uno ripetuto}\\
+1 & n=1\\
+\left(-1\right)^{k} & n=\text{ prodotto di \ensuremath{k} primi distinti}
+\end{cases}\label{eq:Funzione-Mobius}
+\end{equation}
+
+\begin{example}
+\emph{Prendiamo i polinomi con coefficienti in modulo 2 e grado 6:
+determinare il numero di polinomi irriducibili tra di essi.}
+\end{example}
+$\checked$Sappiamo che il numero totale di polinomi con queste caratteristiche
+è $p^{n}=2^{6}=64$; usiamo la formula (\ref{eq:Numero-polinomi-irriducibili}):
+\begin{align*}
+\nirr 26 & =\frac{1}{6}\left(\mu\left(6\right)\cdot2^{1}+\mu\left(3\right)\cdot2^{2}+\mu\left(2\right)\cdot2^{3}+\mu\left(1\right)\cdot2^{6}\right)\\
+ & =\frac{1}{6}\left(2-2^{2}-2^{3}+2^{6}\right)=\frac{54}{6}=\boxed{9}
+\end{align*}
+Abbiamo usato nella sommatoria i valori da 0 a 6 che dividono 6, ovvero
+$i\in\left\{ 1,\,2,\,3,\,6\right\} $.\demo
+
 \renewcommand{\chaptername}{}\printindex
 \end{document}
