@@ -6172,6 +6172,13 @@ ingrediente
 
 \begin_layout Section
 Modi operativi
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Modi-operativi-cifrario-blocchi"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -6716,6 +6723,569 @@ Nei sistemi UNIX, le password sono salate con un salt a 12bit, e la funzione
 La funzione così realizzata è reputata unidirezionale: infatti ottenere
  la password senza conoscere la chiave e con un DES da più di 16 round,
  per giunta perturbato dal sale, è un problema difficile.
+\end_layout
+
+\begin_layout Chapter
+Cifrario AES
+\end_layout
+
+\begin_layout Section
+Introduzione
+\end_layout
+
+\begin_layout Standard
+Nel '97, quando DES era ancora in vigore, il NIST fece un bando per la creazione
+ di un nuovo standard crittografico, destinato alle informazioni governative;
+ l'algoritmo selezionato fu chiamato AES.
+ Si tratta di un cifrario a blocchi da 128bit, con chiave a 128, 192 o 256bit.
+\end_layout
+
+\begin_layout Standard
+La procedura per selezionare l'algoritmo fu gestita in modo pubblico e trasparen
+te, attraverso delle conferenze; prima di selezionare l'algoritmo che sarebbe
+ divenuto AES, arrivarono 
+\begin_inset Quotes eld
+\end_inset
+
+in finale
+\begin_inset Quotes erd
+\end_inset
+
+ i cinque seguenti algoritmi (oggi ancora usati, perché paragonabili all'AES
+ nella sicurezza): MARS, RC6, Rijndael, Serpent, Twofish.
+\end_layout
+
+\begin_layout Standard
+Nel 2000 viene infine selezionato Rijndael, che viene rinominato in AES;
+ in particolare, Rijndael definisce una famiglia di cifrari: per AES viene
+ selezionato una dimensione del blocco di 128bit e chiavi da 128 a 265bit.
+\end_layout
+
+\begin_layout Standard
+Dal punto di vista matematico, AES non si basa su uno schema Feistel, ma
+ su una rete di sostituzioni e trasformazioni; a seconda della dimensione
+ della chiave, il Rijndael effettua 10, 12 o 14 cicli su ciascun blocco,
+ e può essere utilizzato in tutti i modi operativi concatenati mostrati
+ per il DES (vedere 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "sec:Modi-operativi-cifrario-blocchi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Algoritmo AES
+\end_layout
+
+\begin_layout Standard
+Per maggiore semplicità, analizziamo il caso di Rijndael con chiave a 128bit,
+ e 10 round.
+ Osserviamo che i blocchi da 128bit sono suddivisi in 16Byte, organizzati
+ in matrici 
+\begin_inset Formula $4\times4$
+\end_inset
+
+; tutti gli elementi di queste matrici sono ottetti del campo 
+\begin_inset Formula $\mathcal{GF}\left(2^{8}\right)$
+\end_inset
+
+ e rappresentano i polinomi al suo interno, dove il polinomio irriducibile
+ per definire il campo è 
+\begin_inset Formula $P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1$
+\end_inset
+
+.
+ L'ottetto di zeri non è invertibile, tuttavia deve essere ammissibile nel
+ cifrario: si consideri l'elemento nullo come inverso di sé stesso.
+\end_layout
+
+\begin_layout Standard
+Ogni round del Rijndael è composto d 4 livelli, che operano sulla matrice
+ 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ che rappresenta il blocco da 128bit:
+\end_layout
+
+\begin_layout Itemize
+Substitute Byte (SB): tabella di sostituzione, simile alle S-Box del DES,
+ ma costruita algebricamente in maniera trasparente;
+\end_layout
+
+\begin_layout Itemize
+Shift Row (SR): scorrimento delle righe della matrice a sinistra;
+\end_layout
+
+\begin_layout Itemize
+Mix Column (MC): scorrimento delle colonne a sinistra, evita la degenerazione
+ del cifrario in 4 cifrari applicati alle singole colonne della matrice;
+\end_layout
+
+\begin_layout Itemize
+Add Round Key (ARK): per ciascun ciclo si aggiunge una chiave di round,
+ derivata da quella iniziale a 128bit.
+\end_layout
+
+\begin_layout Standard
+L'algoritmo usa round e livelli nel modo seguente:
+\end_layout
+
+\begin_layout Enumerate
+ARK con chiave di round 0;
+\end_layout
+
+\begin_layout Enumerate
+nove round che usano i livelli 
+\begin_inset Formula $\text{SB}\rightarrow\text{SR}\rightarrow\text{MC}\rightarrow\text{ARK}$
+\end_inset
+
+, con le chiavi di round dalla 1 alla 9;
+\end_layout
+
+\begin_layout Enumerate
+un ultimo round che usa i livelli 
+\begin_inset Formula $\text{SB}\rightarrow\text{SR}\rightarrow\text{ARK}$
+\end_inset
+
+, con la chiave di round 10.
+\end_layout
+
+\begin_layout Standard
+Le differenze col DES riguardano l'assenza del Feistel, rispetto al rimescolamen
+to dei bit dato dai quattro livelli di ciascun round; il risultato è una
+ apparente diffusione perfetta già dal secondo round.
+ Inoltre, tutte le operazioni sugli ottetti del blocco, sono all'interno
+ del campo 
+\begin_inset Formula $\mathcal{GF}\left(256\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+SB
+\end_layout
+
+\begin_layout Standard
+Sostituzione
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La notazione 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ in maiuscolo corsivo e grassetto, indica che A è una matrice
+\end_layout
+
+\end_inset
+
+ non lineare applicata ai Byte (elementi) della matrice; secondo una matrice
+ di sostituzione con 16 righe e 16 colonne, numerate a partire da 0, indirizzate
+ tramite gli stessi bit degli ottetti, nel modo seguente: sia 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ la matrice che rappresenta il blocco di partenza, e sia 
+\begin_inset Formula $a_{1,0}=10001011$
+\end_inset
+
+; sia 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ la matrice ottenuta al termine del livello SB; allora 
+\begin_inset Formula $b_{1,0}$
+\end_inset
+
+ si ottiene prendendo il valore indicato all'incrocio della riga 8 con la
+ colonna 11, nella tabella di sostituzione, e sostituendolo al valore di
+ un elemento di 
+\begin_inset Formula $\boldsymbol{A}$
+\end_inset
+
+ ( per esempio 
+\begin_inset Formula $a_{i,j}=\overset{\text{riga}}{\overbrace{1000}}\underset{\text{colonna}}{\underbrace{1011}}\rightarrow61$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Questa tabella si calcola nel modo seguente:
+\end_layout
+
+\begin_layout Itemize
+l'input è un ottetto di bit 
+\begin_inset Formula $a_{i,j}=x_{7}x_{6}x_{5}x_{4}x_{3}x_{2}x_{1}x_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+calcoliamo il suo inverso in 
+\begin_inset Formula $\mathcal{GF}\left(256\right)\ni a_{i,j}^{-1}=y_{7}y_{6}y_{5}y_{4}y_{3}y_{2}y_{1}y_{0}$
+\end_inset
+
+ (assumendo che 000000000 sia l'inverso di sé stesso)
+\end_layout
+
+\begin_layout Itemize
+prendiamo l'ottetto 
+\begin_inset Formula $a_{i,j}^{-1}$
+\end_inset
+
+, scriviamolo partendo dal bit meno significativo e come un vettore colonna
+ 
+\begin_inset Formula $\left(y_{0}y_{1}y_{2}y_{3}y_{4}y_{5}y_{6}y_{7}\right)^{\text{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+computiamo 
+\begin_inset Formula $b_{i,j}=z_{7}z_{6}z_{5}z_{4}z_{3}z_{2}z_{1}z_{0}$
+\end_inset
+
+ e scriviamolo come 
+\begin_inset Formula $\left(z_{0}z_{1}z_{2}z_{3}z_{4}z_{5}z_{6}z_{7}\right)^{\text{T}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+per computare 
+\begin_inset Formula $b_{i,j}$
+\end_inset
+
+ usiamo la seguente trasformazione, per diffondere e confondere ulteriormente
+ i bit:
+\begin_inset Formula 
+\[
+b_{i,j}=\begin{bmatrix}1 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+1 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & 0 & 1 & 1 & 1 & 1 & 1
+\end{bmatrix}\cdot\begin{bmatrix}y_{0}\\
+y_{1}\\
+y_{2}\\
+y_{3}\\
+y_{4}\\
+y_{5}\\
+y_{6}\\
+y_{7}
+\end{bmatrix}+\begin{bmatrix}1\\
+1\\
+0\\
+0\\
+0\\
+1\\
+1\\
+0
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+SR
+\end_layout
+
+\begin_layout Standard
+Spostamento a sinistra delle 4 righe rispettivamente di 0, 1, 2, 3 passi
+ (la prima riga rimane immutata, la seconda è spostata di 1, ecc...); sia 
+\begin_inset Formula $\boldsymbol{B}$
+\end_inset
+
+ la matrice proveniente dal livello SB, allora da questo livello otteniamo
+ la seguente matrice 
+\begin_inset Formula $\boldsymbol{C}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+C=\begin{bmatrix}c_{0,0} & c_{0,1} & c_{0,2} & c_{0,3}\\
+c_{1,0} & c_{1,1} & c_{1,2} & c_{1,3}\\
+c_{2,0} & c_{2,1} & c_{2,2} & c_{2,3}\\
+c_{3,0} & c_{3,1} & c_{3,2} & c_{3,3}
+\end{bmatrix}=\begin{bmatrix}b_{0,0} & b_{0,1} & b_{0,2} & b_{0,3}\\
+b_{1,1} & b_{1,2} & b_{1,3} & b_{1,0}\\
+b_{2,2} & b_{2,3} & b_{2,0} & b_{2,1}\\
+b_{3,3} & b_{3,0} & b_{3,1} & b_{3,2}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+MC
+\end_layout
+
+\begin_layout Standard
+Prendiamo la matrice 
+\begin_inset Formula $\boldsymbol{C}$
+\end_inset
+
+ ottenuta dal livello precedente ed effettuiamo il suo prodotto per una
+ matrice 
+\begin_inset Formula $M$
+\end_inset
+
+ per ottenere 
+\begin_inset Formula $\boldsymbol{D}=\boldsymbol{M}\cdot\boldsymbol{C}$
+\end_inset
+
+, nel modo seguente:
+\begin_inset Formula 
+\[
+D=\begin{bmatrix}00000010 & 00000011 & 00000001 & 00000001\\
+00000001 & 00000010 & 00000011 & 00000001\\
+00000001 & 00000001 & 00000010 & 00000011\\
+00000011 & 00000001 & 00000001 & 00000001
+\end{bmatrix}\cdot\begin{bmatrix}c_{0,0} & c_{0,1} & c_{0,2} & c_{0,3}\\
+c_{1,0} & c_{1,1} & c_{1,2} & c_{1,3}\\
+c_{2,0} & c_{2,1} & c_{2,2} & c_{2,3}\\
+c_{3,0} & c_{3,1} & c_{3,2} & c_{3,3}
+\end{bmatrix}
+\]
+
+\end_inset
+
+Per garantire la decifratura, sarà necessario che la matrice 
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+ sia invertibile; l'inversa 
+\begin_inset Formula $\boldsymbol{M}^{-1}$
+\end_inset
+
+ avrà più 1 che 0, e per questo la decifratura in AES è più lenta (di poco)
+ della cifratura.
+\end_layout
+
+\begin_layout Subsection*
+ARK
+\end_layout
+
+\begin_layout Standard
+La chiave di round viene sommata bit a bit col blocco ottenuto al livello
+ precedente: 
+\begin_inset Formula $\boldsymbol{E}=\boldsymbol{D}\oplus\boldsymbol{K}^{\left(i\right)}$
+\end_inset
+
+.
+ Ad ogni round 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo ricaviamo una chiave di 16Byte a partire da quella iniziale; se abbiamo
+ chiavi da 128bit l'algoritmo prevede 10 round e quindi saranno necessarie
+ 11 chiavi di round.
+\end_layout
+
+\begin_layout Standard
+Esprimendo la chiave iniziale come matrice 
+\begin_inset Formula $4\times4$
+\end_inset
+
+ chiamata 
+\begin_inset Formula $\boldsymbol{K}$
+\end_inset
+
+, possiamo indicarla come la giustapposizione di 4 colonne di 4 elementi
+ ciascuna; le 11 chiavi necessarie saranno costituite in totale da 44 colonne
+ di 4Byte ciascuna.
+ Allora le colonne 0, 1, 2, 3 appartengono alla chiave 
+\begin_inset Formula $\boldsymbol{K}^{\left(0\right)}$
+\end_inset
+
+, le colonne 4, 5, 6, 7 costituiscono 
+\begin_inset Formula $\boldsymbol{K}^{\left(1\right)}$
+\end_inset
+
+, e così via.
+\end_layout
+
+\begin_layout Standard
+Le altre 40 colonne si ottengono dalle 4 iniziali nel modo seguente; sia
+ 
+\begin_inset Formula $\vec{w}\left(i\right)$
+\end_inset
+
+ la 
+\begin_inset Formula $i$
+\end_inset
+
+-esima colonna:
+\begin_inset Formula 
+\[
+\begin{cases}
+\vec{w}\left(i\right)=\vec{w}\left(i-4\right)\oplus\vec{w}\left(i-1\right) & \mod i4\neq0\\
+\vec{w}\left(i\right)=\vec{w}\left(i-4\right)\oplus T\left[\vec{w}\left(i-1\right)\right] & \mod i4=0
+\end{cases}
+\]
+
+\end_inset
+
+La trasformazione 
+\begin_inset Formula $T$
+\end_inset
+
+ è definita nel modo seguente; sia 
+\begin_inset Formula $r\left(i\right)=00000010^{\left(i-4\right)/4}\in\mathcal{GF}\left(2^{8}\right)$
+\end_inset
+
+, e sia SB il livello Substitute Byte dell'algoritmo Rijndael:
+\begin_inset Formula 
+\[
+T\left[\left(a,\,b,\,c,\,d\right)\right]=\begin{bmatrix}a\\
+b\\
+c\\
+d
+\end{bmatrix}\rightarrow\begin{bmatrix}b\\
+c\\
+d\\
+a
+\end{bmatrix}\rightarrow\text{SB}\rightarrow\begin{bmatrix}e\\
+f\\
+g\\
+h
+\end{bmatrix}\rightarrow\begin{bmatrix}e\oplus r\left(i\right)\\
+f\\
+g\\
+h
+\end{bmatrix}
+\]
+
+\end_inset
+
+In questo modo si ottiene la chiave di round come:
+\begin_inset Formula 
+\[
+\boldsymbol{K}^{\left(i\right)}=\left[\vec{w}\left(4i\right),\,\vec{w}\left(4i+1\right),\,\vec{w}\left(4i+2\right),\,\vec{w}\left(4i+3\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Decifratura
+\end_layout
+
+\begin_layout Standard
+I quattro livelli di ciascun ciclo dell'algoritmo Rijndael sono invertibili:
+\end_layout
+
+\begin_layout Itemize
+Inverted Substitute Byte (ISB): tabella di sostituzione inversa a quella
+ del livello SB;
+\end_layout
+
+\begin_layout Itemize
+Inverted Shift Row (ISR): scorrimento delle righe a destra invece che a
+ sinistra;
+\end_layout
+
+\begin_layout Itemize
+Inverted Mix Column (IMC): si usa l'inversa della matrice 
+\begin_inset Formula $\boldsymbol{M}$
+\end_inset
+
+: 
+\begin_inset Formula $\boldsymbol{C}=\boldsymbol{M}^{-1}\cdot\boldsymbol{D}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+Add Round Key (ARK): questo livello, basato sulla somma bit a bit, è l'inverso
+ di sé stesso.
+\end_layout
+
+\begin_layout Standard
+Possiamo decifrare un blocco applicando all'inverso i 10 round:
+\end_layout
+
+\begin_layout Enumerate
+il primo round usa 
+\begin_inset Formula $\boldsymbol{K}^{\left(10\right)}$
+\end_inset
+
+ e i livelli 
+\begin_inset Formula $\text{ARK}\rightarrow\text{ISR}\rightarrow\text{ISB}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+i nove round successivi usano le chiavi dalla 9 alla 1, con i livelli 
+\begin_inset Formula $\text{ARK}\rightarrow\text{IMC}\rightarrow\text{ISR}\rightarrow\text{ISB}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+un ultimo round usa ARK con la chiave 
+\begin_inset Formula $\boldsymbol{K}^{\left(0\right)}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Sicurezza dell'AES
+\end_layout
+
+\begin_layout Standard
+Al contrario del DES, le cui S-Box avevano fatto sorgere il dubbio della
+ presenza di trapdoor segrete, in AES la tabella di sostituzione è ottenuta
+ tramite una procedura algebrica definita; inoltre, il livello Substitute
+ Byte consente di ottenere un elevato livello di non linearità, con la trasposiz
+ione dei vettori.
+\end_layout
+
+\begin_layout Standard
+Ad oggi, gli unici attacchi che funzionano contro AES, sfruttano debolezze
+ dell'implementazione, e non dell'algoritmo.
+\end_layout
+
+\begin_layout Chapter
+Sequenze Pseudo-casuali
+\end_layout
+
+\begin_layout Section
+Sequenze binarie pseudo-casuali (PRBS)
+\end_layout
+
+\begin_layout Standard
+.
 \end_layout
 
 \begin_layout Chapter*
