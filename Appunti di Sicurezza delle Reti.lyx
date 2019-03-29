@@ -256,6 +256,14 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\mcm}[2]{\mathrm{{\scriptstyle mcm}}\left(#1,\,#2\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\cgm}[3]{#1\equiv#2\left(\text{mod}\,#3\right)}
 \end_inset
 
@@ -7285,7 +7293,952 @@ Sequenze binarie pseudo-casuali (PRBS)
 \end_layout
 
 \begin_layout Standard
+Se pensiamo che l'AES sia sicuro, dobbiamo limitare questa osservazione
+ alla pratica: infatti, anche se non è possibile trovare la chiave di cifratura
+ in un periodo di tempo accettabile, dal punto di vista teorico e con un
+ tempo infinito a disposizione, è possibile eludere la sicurezza di AES.
+\end_layout
+
+\begin_layout Standard
+Esiste tuttavia un cifrario inviolabile anche dal punto di vista teorico:
+ prendiamo una sequenza di bit da cifrare 
+\begin_inset Formula $p$
+\end_inset
+
+ e la sommiamo bit a bit con una sequenza casuale 
+\begin_inset Formula $r$
+\end_inset
+
+, ottenendo la sequenza cifrata:
+\begin_inset Formula 
+\[
+c=p\oplus r
+\]
+
+\end_inset
+
+La sequenza 
+\begin_inset Formula $r$
+\end_inset
+
+ deve essere veramente casuale (nessuna autocorrelazione del primo o secondo
+ ordine) e impredicibile, ottenuta per esempio osservando un fenomeno aleatorio.
+ Per decifrare un 
+\begin_inset Formula $c$
+\end_inset
+
+ ottenuto in questo modo, è necessario sommare bit a bit a 
+\begin_inset Formula $c$
+\end_inset
+
+ la stessa sequenza casuale 
+\begin_inset Formula $r$
+\end_inset
+
+ usata nella cifratura.
+\end_layout
+
+\begin_layout Standard
+Osserviamo che la sequenza casuale 
+\begin_inset Formula $r$
+\end_inset
+
+ deve avere la stessa lunghezza dei dati da cifrare (
+\begin_inset Formula $\left|r\right|=\left|p\right|$
+\end_inset
+
+, per consentire la somma bit a bit con 
+\begin_inset Formula $p$
+\end_inset
+
+), ed essa deve essere trasportata in modo sicuro al destinatario; inoltre,
+ la sequenza 
+\begin_inset Formula $r$
+\end_inset
+
+ va usata una volta sola, per mantenere la sua impredicibilità.
+\end_layout
+
+\begin_layout Standard
+Questo sistema di cifratura ha rilevanza se possiamo generare una sequenza
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ pseudo-casuale, ovvero a parità di inizializzazione, è possibile generare
+ in modo indipendente la stessa sequenza 
+\begin_inset Formula $r$
+\end_inset
+
 .
+\end_layout
+
+\begin_layout Subsection
+Generatore lineare congruenziale
+\end_layout
+
+\begin_layout Standard
+Ricaviamo l'elemento 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo della sequenza pseudo-casuale attraverso una trasformazione lineare
+ applicata al precedente, modulo un composto:
+\begin_inset Formula 
+\[
+x_{i}=\mod{\left(a\cdot x_{i-1}+b\right)}n
+\]
+
+\end_inset
+
+La sequenza viene generata a partire dai tre parametri 
+\begin_inset Formula $a$
+\end_inset
+
+, 
+\begin_inset Formula $b$
+\end_inset
+
+, 
+\begin_inset Formula $n$
+\end_inset
+
+ e il suo sviluppo è determinato dal seme iniziale, il primo elemento 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Anche se il modulo aggiunge della complessità alla trasformazione lineare,
+ in molti casi è possibile ottenere i tre parametri osservando abbastanza
+ a lungo la sequenza 
+\begin_inset Formula $r$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Funzione unidirezionale
+\end_layout
+
+\begin_layout Standard
+Un metodo algoritmicamente sicuro ma computazionalmente non efficiente,
+ consiste nell'impiego di funzioni unidirezionali nella generazione della
+ sequenza.
+ Le funzioni non invertibili 
+\begin_inset Formula $y=f\left(x\right)$
+\end_inset
+
+ permettono di tentare di trovare un 
+\begin_inset Formula $\overline{y}$
+\end_inset
+
+ provando per tentativi degli 
+\begin_inset Formula $\overline{x}$
+\end_inset
+
+ tali che 
+\begin_inset Formula $\overline{y}=f\left(\overline{x}\right)$
+\end_inset
+
+, mentre le funzioni unidirezionali (invertibili o meno) non permettono
+ di 
+\begin_inset Quotes eld
+\end_inset
+
+tirare a indovinare
+\begin_inset Quotes erd
+\end_inset
+
+ l'
+\begin_inset Formula $\overline{x}$
+\end_inset
+
+ che genera un 
+\begin_inset Formula $\overline{y}$
+\end_inset
+
+ (anche provando per tentativi non è possibile trovare 
+\begin_inset Formula $\overline{x}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Una sequenza pseudo-casuale del genere si inizializza con un seme 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+, mentre l'elemento 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo si ottiene come:
+\begin_inset Formula 
+\[
+x_{i}=f\left(x_{0}+i\right)
+\]
+
+\end_inset
+
+Se la funzione unidirezionale 
+\begin_inset Formula $f\left(\right)$
+\end_inset
+
+ è la funzione di cifratura del DES con chiave 
+\begin_inset Formula $K=x_{0}+i$
+\end_inset
+
+ (va applicata la funzione per generare ciascun bit 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo), abbiamo una buona funzione unidirezionale (genera una sequenza
+ apparentemente casuale, per invertire la funzione sarebbe necessario trovare
+ la chiave DES) che tuttavia risulta non pratica per l'elevato costo computazion
+ale.
+\end_layout
+
+\begin_layout Subsection
+Generatore ai residui quadratici (Blum, Blum e Shub)
+\end_layout
+
+\begin_layout Standard
+Si prendano due primi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ grandi, entrambi congruenti a 3 in modulo 4:
+\begin_inset Formula 
+\[
+p\gg1,\,q\gg1\tc\cgm p34\land\cgm q34
+\]
+
+\end_inset
+
+Definiamo il prodotto 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+, e prendiamo un numero casuale che non abbia 
+\begin_inset Formula $p$
+\end_inset
+
+ o 
+\begin_inset Formula $q$
+\end_inset
+
+ tra i suoi fattori (
+\begin_inset Formula $x\perp n$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+La successione viene inizializzata a partire da un residuo quadratico 
+\begin_inset Formula $\cgm{x_{0}}{x^{2}}n$
+\end_inset
+
+; l'
+\begin_inset Formula $i$
+\end_inset
+
+-esimo elemento viene calcolato come:
+\begin_inset Formula 
+\[
+\cgm{x_{i}}{x_{i-1}^{2}}n
+\]
+
+\end_inset
+
+mentre il bit 
+\begin_inset Formula $i$
+\end_inset
+
+-esimo della sequenza sarà il bit meno significativo dell'elemento 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ (
+\begin_inset Formula $b_{i}={\scriptstyle \text{LSB}}\left(x_{i}\right)$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Standard
+Normalmente, la sequenza di bit 
+\begin_inset Formula $\left\{ b_{i}\right\} $
+\end_inset
+
+ ha una statistica ben fatta (probabilità circa
+\begin_inset Formula $\nicefrac{1}{2}$
+\end_inset
+
+ che esca 0 o 1), ha autocorrelazione nulla, ed assenza di memoria (
+\begin_inset Formula $b_{i}$
+\end_inset
+
+ non dipende da 
+\begin_inset Formula $b_{i-1}$
+\end_inset
+
+).
+ La differenza con una sequenza casuale vera è che essa è periodica (dovrà
+ essere garantito un periodo lungo); inoltre si tratta di un generatore
+ lento (per il calcolo di un quadrato per ciascun bit).
+\end_layout
+
+\begin_layout Standard
+Con una sequenza generata in questo modo, è possibile prevedere un bit successiv
+o 
+\begin_inset Formula $b_{i+k}$
+\end_inset
+
+ una volta noti un 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ e 
+\begin_inset Formula $n$
+\end_inset
+
+; tuttavia è impossibile ottenere un 
+\begin_inset Formula $b_{i-h}$
+\end_inset
+
+, poiché sarebbe necessario calcolare la radice quadrata modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, e quindi sono necessari i fattori 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ (e con 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ scelti adeguatamente il problema della fattorizzazione risulta impraticabile).
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Usare il generatore di Blum, Blum e Shub con 
+\begin_inset Formula $p=43$
+\end_inset
+
+ e 
+\begin_inset Formula $q=31$
+\end_inset
+
+, cercando di determinare il suo periodo.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Ricaviamo subito 
+\begin_inset Formula $n=p\cdot q=1333$
+\end_inset
+
+; scegliamo inoltre 
+\begin_inset Formula $x_{0}=50\perp1333$
+\end_inset
+
+.
+ Applichiamo l'algoritmo:
+\begin_inset Formula 
+\[
+\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+0 & \cgm{50^{2}}{\boldsymbol{1167}}{1333} & 1\\
+1 & \cgm{1167^{2}}{\boldsymbol{896}}{1333} & 0\\
+2 & \cgm{896^{2}}{\boldsymbol{350}}{1333} & 0\\
+3 & \cgm{350^{2}}{\boldsymbol{1197}}{1333} & 1\\
+4 & \cgm{1197^{2}}{\boldsymbol{1167}}{1333} & 1
+\end{array}
+\]
+
+\end_inset
+
+Notiamo che il periodo vale 4 (il generatore continuerà a produrre 
+\begin_inset Formula $1,\,0,\,0,\,1\ldots$
+\end_inset
+
+).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Periodo del generatore ai residui quadratici
+\end_layout
+
+\begin_layout Subsection
+Calcolare il periodo
+\end_layout
+
+\begin_layout Standard
+Gli studi di Blum, Blum e Shub hanno mostrato che il periodo 
+\begin_inset Formula $\tau$
+\end_inset
+
+ della sequenza del loro generatore, è un divisore della funzione della
+ funzione di Carmichael, del prodotto 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\tau\backslash\lambda\left(\lambda\left(n\right)\right),\,n=p\cdot q
+\]
+
+\end_inset
+
+La funzione di Carmichael di un numero 
+\begin_inset Formula $n$
+\end_inset
+
+ è, a sua volta, un divisore del toziente di 
+\begin_inset Formula $n$
+\end_inset
+
+ (
+\begin_inset Formula $\lambda\left(n\right)\backslash\varphi\left(n\right)$
+\end_inset
+
+); essa si calcola nel modo seguente; preso un intero composto positivo
+ 
+\begin_inset Formula $n$
+\end_inset
+
+, esso può essere espresso come prodotto di fattori primi 
+\begin_inset Formula $p_{i}$
+\end_inset
+
+, ciascuno con la propria potenza 
+\begin_inset Formula $a_{i}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+n=p_{1}^{a_{1}}\cdot p_{2}^{a_{2}}\cdot\ldots\cdot p_{r}^{a_{r}}
+\]
+
+\end_inset
+
+La funzione di Carmichael è pari al minimo comune multiplo degli ordini
+ (tozienti) di ciascuno dei 
+\begin_inset Formula $p_{i}^{a_{i}}$
+\end_inset
+
+, per 
+\begin_inset Formula $i$
+\end_inset
+
+ da 1 a 
+\begin_inset Formula $r$
+\end_inset
+
+ (elementi del gruppo moltiplicativo degli elementi invertibili di 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+):
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Funzione di Carmichael
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Carmichael, funzione di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\lambda\left(n\right)=\mcm{\left\{ \varphi\left(p_{i}^{a_{i}}\right)\right\} }{i\in\left[1,\,r\right]}\label{eq:Funzione-di-Carmichael}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Prendiamo in mano le ipotesi del Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, il quale afferma che preso un intero 
+\begin_inset Formula $a$
+\end_inset
+
+ e un primo 
+\begin_inset Formula $p$
+\end_inset
+
+, vale 
+\begin_inset Formula $\cgm{a^{p-1}}1p$
+\end_inset
+
+; se 
+\begin_inset Formula $p$
+\end_inset
+
+ non fosse primo, il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ci dice che 
+\begin_inset Formula $\cgm{a^{\varphi\left(p\right)}}1p$
+\end_inset
+
+.
+ Nel primo caso, ci chiediamo infine se esista un intero 
+\begin_inset Formula $q<p-1$
+\end_inset
+
+ per cui il residuo modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ di 
+\begin_inset Formula $a$
+\end_inset
+
+ vale sempre 1 (
+\begin_inset Formula $\cgm{a^{q}}1p$
+\end_inset
+
+); in generale questo dipende da 
+\begin_inset Formula $a$
+\end_inset
+
+, e chiamiamo questo intero 
+\begin_inset Formula $\ord a=q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Nel secondo caso, ci chiediamo se esista un divisore di 
+\begin_inset Formula $\varphi\left(p\right)$
+\end_inset
+
+ per cui il residuo modulo 
+\begin_inset Formula $p$
+\end_inset
+
+ di 
+\begin_inset Formula $a$
+\end_inset
+
+ sia sempre 1; questo accade per 
+\begin_inset Formula $\lambda\left(p\right)$
+\end_inset
+
+, che possiamo considerare come l'analogo dell'ordine di 
+\begin_inset Formula $a$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Facciamo un paragone tra ordine e funzione di Carmichael:
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\ord a\in\mathbb{Z}_{p}$
+\end_inset
+
+ è il minimo intero 
+\begin_inset Formula $n$
+\end_inset
+
+ tale che 
+\begin_inset Formula $\cgm{a^{n}}1p$
+\end_inset
+
+; l'ordine di 
+\begin_inset Formula $a$
+\end_inset
+
+ è massimo 
+\begin_inset Formula $p-1$
+\end_inset
+
+ o comunque un suo divisore.
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\lambda\left(n\right)\in\mathbb{Z}_{p}$
+\end_inset
+
+ è il minimo intero 
+\begin_inset Formula $N$
+\end_inset
+
+ tale che 
+\begin_inset Formula $\cgm{a^{N}}1p$
+\end_inset
+
+; 
+\begin_inset Formula $\lambda\left(n\right)$
+\end_inset
+
+ è al massimo 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+ o comunque un suo divisore.
+\end_layout
+
+\begin_layout Example
+Calcolare il periodo del generatore BBS (Blum, Blum e Shub), con 
+\begin_inset Formula $p=23,\,q=19,\,x_{0}=7$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Sia 
+\begin_inset Formula $p$
+\end_inset
+
+ che 
+\begin_inset Formula $q$
+\end_inset
+
+ sono congruenti a 3 modulo 4, inoltre 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ essendo primo è sicuramente primo relativo rispetto a 
+\begin_inset Formula $p\cdot q=n=437$
+\end_inset
+
+.
+ Calcoliamo la successione (si ricorda che tutti i conti per la colonna
+ 
+\begin_inset Formula $x_{i}$
+\end_inset
+
+ sono quadrati in modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, mentre la colonna 
+\begin_inset Formula $b_{i}$
+\end_inset
+
+ contiene l'LSB corrispondente):
+\end_layout
+
+\begin_layout Standard
+\noindent
+\align center
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="1" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+0 & 49 & 1\\
+1 & 216 & 0\\
+2 & 334 & 0\\
+3 & 121 & 1\\
+4 & 220 & 0\\
+5 & 330 & 0
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+6 & 87 & 1\\
+7 & 140 & 0\\
+8 & 372 & 0\\
+9 & 292 & 0\\
+10 & \boxed{49} & 1\\
+\\
+\end{array}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dalla successione costruita osserviamo che il periodo vale 10.
+ Sappiamo che il periodo sarà un divisore di 
+\begin_inset Formula $\lambda\left(\lambda\left(n\right)\right)$
+\end_inset
+
+; calcoliamo 
+\begin_inset Formula $\lambda\left(n\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\lambda\left(n\right) & =\lambda\left(437\right)=\lambda\left(23\cdot19\right)=\mcm{\varphi\left(23\right)}{\varphi\left(19\right)}\\
+ & =\mcm{22}{18}=\mcm{2\cdot11}{2\cdot3^{2}}=11\cdot2\cdot9\\
+ & =198
+\end{align*}
+
+\end_inset
+
+Ora possiamo calcolare 
+\begin_inset Formula $\lambda\left(\lambda\left(n\right)\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\lambda\left(198\right) & =\lambda\left(2\cdot3^{2}\cdot11\right)=\mcm{\varphi\left(2\right)}{\varphi\left(9\right),\,\varphi\left(11\right)}\\
+ & =\mcm 1{2\cdot3,\,2\cdot5}=2\cdot3\cdot5=30
+\end{align*}
+
+\end_inset
+
+Concludiamo che il periodo 
+\begin_inset Formula $\tau$
+\end_inset
+
+ sarà uno tra i possibili divisori di 30, a seconda dal 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ selezionato: 
+\begin_inset Formula $\tau\in\left\{ 1,\,2,\,3,\,5,\,6,\,10,\,15,\,30\right\} $
+\end_inset
+
+; presi 
+\begin_inset Formula $p=23,\,q=19$
+\end_inset
+
+ il periodo è un divisore di 30; con 
+\begin_inset Formula $x_{0}=7$
+\end_inset
+
+ si ha esattamente 
+\begin_inset Formula $\pi=10$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Massimizzare il periodo
+\end_layout
+
+\begin_layout Standard
+Per avere un periodo lungo di una sequenza BBS, è necessario scegliere un
+ 
+\begin_inset Formula $x_{0}$
+\end_inset
+
+ tale che 
+\begin_inset Formula $\pi=\lambda\left(\lambda\left(n\right)\right)\gg1$
+\end_inset
+
+; perché ciò si verifichi, scegliamo 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ nel modo seguente:
+\end_layout
+
+\begin_layout Itemize
+prendiamo un primo 
+\begin_inset Formula $p_{2}$
+\end_inset
+
+, tale che anche un 
+\begin_inset Formula $p_{1}=2p_{2}+1$
+\end_inset
+
+ sia primo; scegliamo il primo 
+\begin_inset Formula $p=2\cdot p_{1}+1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+prendiamo un primo 
+\begin_inset Formula $q_{2}$
+\end_inset
+
+, tale che anche un 
+\begin_inset Formula $q_{1}=2q_{2}+1$
+\end_inset
+
+ sia primo; scegliamo il primo 
+\begin_inset Formula $q=2\cdot q_{1}+1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+deve valere 
+\begin_inset Formula $p\neq q$
+\end_inset
+
+, e 
+\begin_inset Formula $p,\,q\gg1$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Scegliendo i due primi col criterio appena mostrato, si otterrà in periodo
+ più lungo possibile.
 \end_layout
 
 \begin_layout Chapter*

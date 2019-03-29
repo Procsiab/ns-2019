@@ -170,6 +170,8 @@ is included in the file called \textquotedbl LICENSE\textquotedbl .}
 
 \global\long\def\mcd#1#2{\mathrm{{\scriptstyle MCD}}\left(#1,\,#2\right)}%
 
+\global\long\def\mcm#1#2{\mathrm{{\scriptstyle mcm}}\left(#1,\,#2\right)}%
+
 \global\long\def\cgm#1#2#3{#1\equiv#2\left(\text{mod}\,#3\right)}%
 
 \global\long\def\ncgm#1#2#3{#1\not\equiv#2\left(\text{mod}\,#3\right)}%
@@ -1579,7 +1581,7 @@ pubblico e ben definito. L'algoritmo è infatti progettato per rendere
 l'analisi esaustiva dello spazio delle chiavi l'unico tipo di attacco
 possibile.
 
-\section{Modi operativi}
+\section{Modi operativi\label{sec:Modi-operativi-cifrario-blocchi}}
 
 I cifrari a blocchi, come DES, supportano i modi operativi descritti
 nelle seguenti sotto-sezioni.
@@ -1806,6 +1808,478 @@ base 64.
 La funzione così realizzata è reputata unidirezionale: infatti ottenere
 la password senza conoscere la chiave e con un DES da più di 16 round,
 per giunta perturbato dal sale, è un problema difficile.
+
+\chapter{Cifrario AES}
+
+\section{Introduzione}
+
+Nel '97, quando DES era ancora in vigore, il NIST fece un bando per
+la creazione di un nuovo standard crittografico, destinato alle informazioni
+governative; l'algoritmo selezionato fu chiamato AES. Si tratta di
+un cifrario a blocchi da 128bit, con chiave a 128, 192 o 256bit.
+
+La procedura per selezionare l'algoritmo fu gestita in modo pubblico
+e trasparente, attraverso delle conferenze; prima di selezionare l'algoritmo
+che sarebbe divenuto AES, arrivarono ``in finale'' i cinque seguenti
+algoritmi (oggi ancora usati, perché paragonabili all'AES nella sicurezza):
+MARS, RC6, Rijndael, Serpent, Twofish.
+
+Nel 2000 viene infine selezionato Rijndael, che viene rinominato in
+AES; in particolare, Rijndael definisce una famiglia di cifrari: per
+AES viene selezionato una dimensione del blocco di 128bit e chiavi
+da 128 a 265bit.
+
+Dal punto di vista matematico, AES non si basa su uno schema Feistel,
+ma su una rete di sostituzioni e trasformazioni; a seconda della dimensione
+della chiave, il Rijndael effettua 10, 12 o 14 cicli su ciascun blocco,
+e può essere utilizzato in tutti i modi operativi concatenati mostrati
+per il DES (vedere \secref{Modi-operativi-cifrario-blocchi}).
+
+\section{Algoritmo AES}
+
+Per maggiore semplicità, analizziamo il caso di Rijndael con chiave
+a 128bit, e 10 round. Osserviamo che i blocchi da 128bit sono suddivisi
+in 16Byte, organizzati in matrici $4\times4$; tutti gli elementi
+di queste matrici sono ottetti del campo $\mathcal{GF}\left(2^{8}\right)$
+e rappresentano i polinomi al suo interno, dove il polinomio irriducibile
+per definire il campo è $P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1$.
+L'ottetto di zeri non è invertibile, tuttavia deve essere ammissibile
+nel cifrario: si consideri l'elemento nullo come inverso di sé stesso.
+
+Ogni round del Rijndael è composto d 4 livelli, che operano sulla
+matrice $4\times4$ che rappresenta il blocco da 128bit:
+\begin{itemize}
+\item Substitute Byte (SB): tabella di sostituzione, simile alle S-Box del
+DES, ma costruita algebricamente in maniera trasparente;
+\item Shift Row (SR): scorrimento delle righe della matrice a sinistra;
+\item Mix Column (MC): scorrimento delle colonne a sinistra, evita la degenerazione
+del cifrario in 4 cifrari applicati alle singole colonne della matrice;
+\item Add Round Key (ARK): per ciascun ciclo si aggiunge una chiave di round,
+derivata da quella iniziale a 128bit.
+\end{itemize}
+L'algoritmo usa round e livelli nel modo seguente:
+\begin{enumerate}
+\item ARK con chiave di round 0;
+\item nove round che usano i livelli $\text{SB}\rightarrow\text{SR}\rightarrow\text{MC}\rightarrow\text{ARK}$,
+con le chiavi di round dalla 1 alla 9;
+\item un ultimo round che usa i livelli $\text{SB}\rightarrow\text{SR}\rightarrow\text{ARK}$,
+con la chiave di round 10.
+\end{enumerate}
+Le differenze col DES riguardano l'assenza del Feistel, rispetto al
+rimescolamento dei bit dato dai quattro livelli di ciascun round;
+il risultato è una apparente diffusione perfetta già dal secondo round.
+Inoltre, tutte le operazioni sugli ottetti del blocco, sono all'interno
+del campo $\mathcal{GF}\left(256\right)$.
+
+\subsection*{SB}
+
+Sostituzione\marginpar{La notazione $\boldsymbol{A}$ in maiuscolo corsivo e grassetto, indica
+che A è una matrice} non lineare applicata ai Byte (elementi) della matrice; secondo una
+matrice di sostituzione con 16 righe e 16 colonne, numerate a partire
+da 0, indirizzate tramite gli stessi bit degli ottetti, nel modo seguente:
+sia $\boldsymbol{A}$ la matrice che rappresenta il blocco di partenza,
+e sia $a_{1,0}=10001011$; sia $\boldsymbol{B}$ la matrice ottenuta
+al termine del livello SB; allora $b_{1,0}$ si ottiene prendendo
+il valore indicato all'incrocio della riga 8 con la colonna 11, nella
+tabella di sostituzione, e sostituendolo al valore di un elemento
+di $\boldsymbol{A}$ ( per esempio $a_{i,j}=\overset{\text{riga}}{\overbrace{1000}}\underset{\text{colonna}}{\underbrace{1011}}\rightarrow61$).
+
+Questa tabella si calcola nel modo seguente:
+\begin{itemize}
+\item l'input è un ottetto di bit $a_{i,j}=x_{7}x_{6}x_{5}x_{4}x_{3}x_{2}x_{1}x_{0}$
+\item calcoliamo il suo inverso in $\mathcal{GF}\left(256\right)\ni a_{i,j}^{-1}=y_{7}y_{6}y_{5}y_{4}y_{3}y_{2}y_{1}y_{0}$
+(assumendo che 000000000 sia l'inverso di sé stesso)
+\item prendiamo l'ottetto $a_{i,j}^{-1}$, scriviamolo partendo dal bit
+meno significativo e come un vettore colonna $\left(y_{0}y_{1}y_{2}y_{3}y_{4}y_{5}y_{6}y_{7}\right)^{\text{T}}$
+\item computiamo $b_{i,j}=z_{7}z_{6}z_{5}z_{4}z_{3}z_{2}z_{1}z_{0}$ e scriviamolo
+come $\left(z_{0}z_{1}z_{2}z_{3}z_{4}z_{5}z_{6}z_{7}\right)^{\text{T}}$
+\end{itemize}
+per computare $b_{i,j}$ usiamo la seguente trasformazione, per diffondere
+e confondere ulteriormente i bit:
+\[
+b_{i,j}=\begin{bmatrix}1 & 0 & 0 & 0 & 1 & 1 & 1 & 1\\
+1 & 1 & 0 & 0 & 0 & 1 & 1 & 1\\
+1 & 1 & 1 & 0 & 0 & 0 & 1 & 1\\
+1 & 1 & 1 & 1 & 0 & 0 & 0 & 1\\
+1 & 1 & 1 & 1 & 1 & 0 & 0 & 0\\
+0 & 1 & 1 & 1 & 1 & 1 & 0 & 0\\
+0 & 0 & 1 & 1 & 1 & 1 & 1 & 0\\
+0 & 0 & 0 & 1 & 1 & 1 & 1 & 1
+\end{bmatrix}\cdot\begin{bmatrix}y_{0}\\
+y_{1}\\
+y_{2}\\
+y_{3}\\
+y_{4}\\
+y_{5}\\
+y_{6}\\
+y_{7}
+\end{bmatrix}+\begin{bmatrix}1\\
+1\\
+0\\
+0\\
+0\\
+1\\
+1\\
+0
+\end{bmatrix}
+\]
+
+
+\subsection*{SR}
+
+Spostamento a sinistra delle 4 righe rispettivamente di 0, 1, 2, 3
+passi (la prima riga rimane immutata, la seconda è spostata di 1,
+ecc...); sia $\boldsymbol{B}$ la matrice proveniente dal livello
+SB, allora da questo livello otteniamo la seguente matrice $\boldsymbol{C}$:
+\[
+C=\begin{bmatrix}c_{0,0} & c_{0,1} & c_{0,2} & c_{0,3}\\
+c_{1,0} & c_{1,1} & c_{1,2} & c_{1,3}\\
+c_{2,0} & c_{2,1} & c_{2,2} & c_{2,3}\\
+c_{3,0} & c_{3,1} & c_{3,2} & c_{3,3}
+\end{bmatrix}=\begin{bmatrix}b_{0,0} & b_{0,1} & b_{0,2} & b_{0,3}\\
+b_{1,1} & b_{1,2} & b_{1,3} & b_{1,0}\\
+b_{2,2} & b_{2,3} & b_{2,0} & b_{2,1}\\
+b_{3,3} & b_{3,0} & b_{3,1} & b_{3,2}
+\end{bmatrix}
+\]
+
+
+\subsection*{MC}
+
+Prendiamo la matrice $\boldsymbol{C}$ ottenuta dal livello precedente
+ed effettuiamo il suo prodotto per una matrice $M$ per ottenere $\boldsymbol{D}=\boldsymbol{M}\cdot\boldsymbol{C}$,
+nel modo seguente:
+\[
+D=\begin{bmatrix}00000010 & 00000011 & 00000001 & 00000001\\
+00000001 & 00000010 & 00000011 & 00000001\\
+00000001 & 00000001 & 00000010 & 00000011\\
+00000011 & 00000001 & 00000001 & 00000001
+\end{bmatrix}\cdot\begin{bmatrix}c_{0,0} & c_{0,1} & c_{0,2} & c_{0,3}\\
+c_{1,0} & c_{1,1} & c_{1,2} & c_{1,3}\\
+c_{2,0} & c_{2,1} & c_{2,2} & c_{2,3}\\
+c_{3,0} & c_{3,1} & c_{3,2} & c_{3,3}
+\end{bmatrix}
+\]
+Per garantire la decifratura, sarà necessario che la matrice $\boldsymbol{M}$
+sia invertibile; l'inversa $\boldsymbol{M}^{-1}$ avrà più 1 che 0,
+e per questo la decifratura in AES è più lenta (di poco) della cifratura.
+
+\subsection*{ARK}
+
+La chiave di round viene sommata bit a bit col blocco ottenuto al
+livello precedente: $\boldsymbol{E}=\boldsymbol{D}\oplus\boldsymbol{K}^{\left(i\right)}$.
+Ad ogni round $i$-esimo ricaviamo una chiave di 16Byte a partire
+da quella iniziale; se abbiamo chiavi da 128bit l'algoritmo prevede
+10 round e quindi saranno necessarie 11 chiavi di round.
+
+Esprimendo la chiave iniziale come matrice $4\times4$ chiamata $\boldsymbol{K}$,
+possiamo indicarla come la giustapposizione di 4 colonne di 4 elementi
+ciascuna; le 11 chiavi necessarie saranno costituite in totale da
+44 colonne di 4Byte ciascuna. Allora le colonne 0, 1, 2, 3 appartengono
+alla chiave $\boldsymbol{K}^{\left(0\right)}$, le colonne 4, 5, 6,
+7 costituiscono $\boldsymbol{K}^{\left(1\right)}$, e così via.
+
+Le altre 40 colonne si ottengono dalle 4 iniziali nel modo seguente;
+sia $\vec{w}\left(i\right)$ la $i$-esima colonna:
+\[
+\begin{cases}
+\vec{w}\left(i\right)=\vec{w}\left(i-4\right)\oplus\vec{w}\left(i-1\right) & \mod i4\neq0\\
+\vec{w}\left(i\right)=\vec{w}\left(i-4\right)\oplus T\left[\vec{w}\left(i-1\right)\right] & \mod i4=0
+\end{cases}
+\]
+La trasformazione $T$ è definita nel modo seguente; sia $r\left(i\right)=00000010^{\left(i-4\right)/4}\in\mathcal{GF}\left(2^{8}\right)$,
+e sia SB il livello Substitute Byte dell'algoritmo Rijndael:
+\[
+T\left[\left(a,\,b,\,c,\,d\right)\right]=\begin{bmatrix}a\\
+b\\
+c\\
+d
+\end{bmatrix}\rightarrow\begin{bmatrix}b\\
+c\\
+d\\
+a
+\end{bmatrix}\rightarrow\text{SB}\rightarrow\begin{bmatrix}e\\
+f\\
+g\\
+h
+\end{bmatrix}\rightarrow\begin{bmatrix}e\oplus r\left(i\right)\\
+f\\
+g\\
+h
+\end{bmatrix}
+\]
+In questo modo si ottiene la chiave di round come:
+\[
+\boldsymbol{K}^{\left(i\right)}=\left[\vec{w}\left(4i\right),\,\vec{w}\left(4i+1\right),\,\vec{w}\left(4i+2\right),\,\vec{w}\left(4i+3\right)\right]
+\]
+
+
+\subsection*{Decifratura}
+
+I quattro livelli di ciascun ciclo dell'algoritmo Rijndael sono invertibili:
+\begin{itemize}
+\item Inverted Substitute Byte (ISB): tabella di sostituzione inversa a
+quella del livello SB;
+\item Inverted Shift Row (ISR): scorrimento delle righe a destra invece
+che a sinistra;
+\item Inverted Mix Column (IMC): si usa l'inversa della matrice $\boldsymbol{M}$:
+$\boldsymbol{C}=\boldsymbol{M}^{-1}\cdot\boldsymbol{D}$;
+\item Add Round Key (ARK): questo livello, basato sulla somma bit a bit,
+è l'inverso di sé stesso.
+\end{itemize}
+Possiamo decifrare un blocco applicando all'inverso i 10 round:
+\begin{enumerate}
+\item il primo round usa $\boldsymbol{K}^{\left(10\right)}$ e i livelli
+$\text{ARK}\rightarrow\text{ISR}\rightarrow\text{ISB}$;
+\item i nove round successivi usano le chiavi dalla 9 alla 1, con i livelli
+$\text{ARK}\rightarrow\text{IMC}\rightarrow\text{ISR}\rightarrow\text{ISB}$;
+\item un ultimo round usa ARK con la chiave $\boldsymbol{K}^{\left(0\right)}$.
+\end{enumerate}
+
+\section{Sicurezza dell'AES}
+
+Al contrario del DES, le cui S-Box avevano fatto sorgere il dubbio
+della presenza di trapdoor segrete, in AES la tabella di sostituzione
+è ottenuta tramite una procedura algebrica definita; inoltre, il livello
+Substitute Byte consente di ottenere un elevato livello di non linearità,
+con la trasposizione dei vettori.
+
+Ad oggi, gli unici attacchi che funzionano contro AES, sfruttano debolezze
+dell'implementazione, e non dell'algoritmo.
+
+\chapter{Sequenze Pseudo-casuali}
+
+\section{Sequenze binarie pseudo-casuali (PRBS)}
+
+Se pensiamo che l'AES sia sicuro, dobbiamo limitare questa osservazione
+alla pratica: infatti, anche se non è possibile trovare la chiave
+di cifratura in un periodo di tempo accettabile, dal punto di vista
+teorico e con un tempo infinito a disposizione, è possibile eludere
+la sicurezza di AES.
+
+Esiste tuttavia un cifrario inviolabile anche dal punto di vista teorico:
+prendiamo una sequenza di bit da cifrare $p$ e la sommiamo bit a
+bit con una sequenza casuale $r$, ottenendo la sequenza cifrata:
+\[
+c=p\oplus r
+\]
+La sequenza $r$ deve essere veramente casuale (nessuna autocorrelazione
+del primo o secondo ordine) e impredicibile, ottenuta per esempio
+osservando un fenomeno aleatorio. Per decifrare un $c$ ottenuto in
+questo modo, è necessario sommare bit a bit a $c$ la stessa sequenza
+casuale $r$ usata nella cifratura.
+
+Osserviamo che la sequenza casuale $r$ deve avere la stessa lunghezza
+dei dati da cifrare ($\left|r\right|=\left|p\right|$, per consentire
+la somma bit a bit con $p$), ed essa deve essere trasportata in modo
+sicuro al destinatario; inoltre, la sequenza $r$ va usata una volta
+sola, per mantenere la sua impredicibilità.
+
+Questo sistema di cifratura ha rilevanza se possiamo generare una
+sequenza $r$ pseudo-casuale, ovvero a parità di inizializzazione,
+è possibile generare in modo indipendente la stessa sequenza $r$.
+
+\subsection{Generatore lineare congruenziale}
+
+Ricaviamo l'elemento $i$-esimo della sequenza pseudo-casuale attraverso
+una trasformazione lineare applicata al precedente, modulo un composto:
+\[
+x_{i}=\mod{\left(a\cdot x_{i-1}+b\right)}n
+\]
+La sequenza viene generata a partire dai tre parametri $a$, $b$,
+$n$ e il suo sviluppo è determinato dal seme iniziale, il primo elemento
+$x_{0}$.
+
+Anche se il modulo aggiunge della complessità alla trasformazione
+lineare, in molti casi è possibile ottenere i tre parametri osservando
+abbastanza a lungo la sequenza $r$.
+
+\subsection{Funzione unidirezionale}
+
+Un metodo algoritmicamente sicuro ma computazionalmente non efficiente,
+consiste nell'impiego di funzioni unidirezionali nella generazione
+della sequenza. Le funzioni non invertibili $y=f\left(x\right)$ permettono
+di tentare di trovare un $\overline{y}$ provando per tentativi degli
+$\overline{x}$ tali che $\overline{y}=f\left(\overline{x}\right)$,
+mentre le funzioni unidirezionali (invertibili o meno) non permettono
+di ``tirare a indovinare'' l'$\overline{x}$ che genera un $\overline{y}$
+(anche provando per tentativi non è possibile trovare $\overline{x}$).
+
+Una sequenza pseudo-casuale del genere si inizializza con un seme
+$x_{0}$, mentre l'elemento $i$-esimo si ottiene come:
+\[
+x_{i}=f\left(x_{0}+i\right)
+\]
+Se la funzione unidirezionale $f\left(\right)$ è la funzione di cifratura
+del DES con chiave $K=x_{0}+i$ (va applicata la funzione per generare
+ciascun bit $i$-esimo), abbiamo una buona funzione unidirezionale
+(genera una sequenza apparentemente casuale, per invertire la funzione
+sarebbe necessario trovare la chiave DES) che tuttavia risulta non
+pratica per l'elevato costo computazionale.
+
+\subsection{Generatore ai residui quadratici (Blum, Blum e Shub)}
+
+Si prendano due primi $p$ e $q$ grandi, entrambi congruenti a 3
+in modulo 4:
+\[
+p\gg1,\,q\gg1\tc\cgm p34\land\cgm q34
+\]
+Definiamo il prodotto $n=p\cdot q$, e prendiamo un numero casuale
+che non abbia $p$ o $q$ tra i suoi fattori ($x\perp n$).
+
+La successione viene inizializzata a partire da un residuo quadratico
+$\cgm{x_{0}}{x^{2}}n$; l'$i$-esimo elemento viene calcolato come:
+\[
+\cgm{x_{i}}{x_{i-1}^{2}}n
+\]
+mentre il bit $i$-esimo della sequenza sarà il bit meno significativo
+dell'elemento $x_{i}$ ($b_{i}={\scriptstyle \text{LSB}}\left(x_{i}\right)$):
+
+Normalmente, la sequenza di bit $\left\{ b_{i}\right\} $ ha una statistica
+ben fatta (probabilità circa$\nicefrac{1}{2}$ che esca 0 o 1), ha
+autocorrelazione nulla, ed assenza di memoria ($b_{i}$ non dipende
+da $b_{i-1}$). La differenza con una sequenza casuale vera è che
+essa è periodica (dovrà essere garantito un periodo lungo); inoltre
+si tratta di un generatore lento (per il calcolo di un quadrato per
+ciascun bit).
+
+Con una sequenza generata in questo modo, è possibile prevedere un
+bit successivo $b_{i+k}$ una volta noti un $x_{i}$ e $n$; tuttavia
+è impossibile ottenere un $b_{i-h}$, poiché sarebbe necessario calcolare
+la radice quadrata modulo $n$, e quindi sono necessari i fattori
+$p$ e $q$ (e con $p$ e $q$ scelti adeguatamente il problema della
+fattorizzazione risulta impraticabile).
+\begin{example}
+\emph{Usare il generatore di Blum, Blum e Shub con $p=43$ e $q=31$,
+cercando di determinare il suo periodo.}
+\end{example}
+$\checked$Ricaviamo subito $n=p\cdot q=1333$; scegliamo inoltre
+$x_{0}=50\perp1333$. Applichiamo l'algoritmo:
+\[
+\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+0 & \cgm{50^{2}}{\boldsymbol{1167}}{1333} & 1\\
+1 & \cgm{1167^{2}}{\boldsymbol{896}}{1333} & 0\\
+2 & \cgm{896^{2}}{\boldsymbol{350}}{1333} & 0\\
+3 & \cgm{350^{2}}{\boldsymbol{1197}}{1333} & 1\\
+4 & \cgm{1197^{2}}{\boldsymbol{1167}}{1333} & 1
+\end{array}
+\]
+Notiamo che il periodo vale 4 (il generatore continuerà a produrre
+$1,\,0,\,0,\,1\ldots$).\demo
+
+\section{Periodo del generatore ai residui quadratici}
+
+\subsection{Calcolare il periodo}
+
+Gli studi di Blum, Blum e Shub hanno mostrato che il periodo $\tau$
+della sequenza del loro generatore, è un divisore della funzione della
+funzione di Carmichael, del prodotto $n=p\cdot q$:
+\[
+\tau\backslash\lambda\left(\lambda\left(n\right)\right),\,n=p\cdot q
+\]
+La funzione di Carmichael di un numero $n$ è, a sua volta, un divisore
+del toziente di $n$ ($\lambda\left(n\right)\backslash\varphi\left(n\right)$);
+essa si calcola nel modo seguente; preso un intero composto positivo
+$n$, esso può essere espresso come prodotto di fattori primi $p_{i}$,
+ciascuno con la propria potenza $a_{i}$:
+\[
+n=p_{1}^{a_{1}}\cdot p_{2}^{a_{2}}\cdot\ldots\cdot p_{r}^{a_{r}}
+\]
+La funzione di Carmichael è pari al minimo comune multiplo degli ordini
+(tozienti) di ciascuno dei $p_{i}^{a_{i}}$, per $i$ da 1 a $r$
+(elementi del gruppo moltiplicativo degli elementi invertibili di
+$\mathbb{Z}_{n}$):\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Funzione di Carmichael}{\footnotesize{}\index{Carmichael, funzione di@{\footnotesize{}Carmichael, funzione di}}}}[0.2cm]
+\begin{equation}
+\lambda\left(n\right)=\mcm{\left\{ \varphi\left(p_{i}^{a_{i}}\right)\right\} }{i\in\left[1,\,r\right]}\label{eq:Funzione-di-Carmichael}
+\end{equation}
+
+Prendiamo in mano le ipotesi del Teorema \ref{thm:Teorema-piccolo-Fermat},
+il quale afferma che preso un intero $a$ e un primo $p$, vale $\cgm{a^{p-1}}1p$;
+se $p$ non fosse primo, il Teorema \ref{thm:Teorema-Eulero} ci dice
+che $\cgm{a^{\varphi\left(p\right)}}1p$. Nel primo caso, ci chiediamo
+infine se esista un intero $q<p-1$ per cui il residuo modulo $p$
+di $a$ vale sempre 1 ($\cgm{a^{q}}1p$); in generale questo dipende
+da $a$, e chiamiamo questo intero $\ord a=q$.
+
+Nel secondo caso, ci chiediamo se esista un divisore di $\varphi\left(p\right)$
+per cui il residuo modulo $p$ di $a$ sia sempre 1; questo accade
+per $\lambda\left(p\right)$, che possiamo considerare come l'analogo
+dell'ordine di $a$.
+
+Facciamo un paragone tra ordine e funzione di Carmichael:
+\begin{itemize}
+\item $\ord a\in\mathbb{Z}_{p}$ è il minimo intero $n$ tale che $\cgm{a^{n}}1p$;
+l'ordine di $a$ è massimo $p-1$ o comunque un suo divisore.
+\item $\lambda\left(n\right)\in\mathbb{Z}_{p}$ è il minimo intero $N$
+tale che $\cgm{a^{N}}1p$; $\lambda\left(n\right)$ è al massimo $\varphi\left(n\right)$
+o comunque un suo divisore.
+\end{itemize}
+\begin{example}
+Calcolare il periodo del generatore BBS (Blum, Blum e Shub), con $p=23,\,q=19,\,x_{0}=7$.
+\end{example}
+$\checked$Sia $p$ che $q$ sono congruenti a 3 modulo 4, inoltre
+$x_{0}$ essendo primo è sicuramente primo relativo rispetto a $p\cdot q=n=437$.
+Calcoliamo la successione (si ricorda che tutti i conti per la colonna
+$x_{i}$ sono quadrati in modulo $n$, mentre la colonna $b_{i}$
+contiene l'LSB corrispondente):
+\begin{center}
+\begin{table}[!h]
+\begin{tabular}{cc}
+$\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+0 & 49 & 1\\
+1 & 216 & 0\\
+2 & 334 & 0\\
+3 & 121 & 1\\
+4 & 220 & 0\\
+5 & 330 & 0
+\end{array}$ & $\begin{array}{ccc}
+i & x_{i} & b_{i}\\
+6 & 87 & 1\\
+7 & 140 & 0\\
+8 & 372 & 0\\
+9 & 292 & 0\\
+10 & \boxed{49} & 1\\
+\\
+\end{array}$\tabularnewline
+\end{tabular}
+\end{table}
+\par\end{center}
+
+Dalla successione costruita osserviamo che il periodo vale 10. Sappiamo
+che il periodo sarà un divisore di $\lambda\left(\lambda\left(n\right)\right)$;
+calcoliamo $\lambda\left(n\right)$:
+\begin{align*}
+\lambda\left(n\right) & =\lambda\left(437\right)=\lambda\left(23\cdot19\right)=\mcm{\varphi\left(23\right)}{\varphi\left(19\right)}\\
+ & =\mcm{22}{18}=\mcm{2\cdot11}{2\cdot3^{2}}=11\cdot2\cdot9\\
+ & =198
+\end{align*}
+Ora possiamo calcolare $\lambda\left(\lambda\left(n\right)\right)$:
+\begin{align*}
+\lambda\left(198\right) & =\lambda\left(2\cdot3^{2}\cdot11\right)=\mcm{\varphi\left(2\right)}{\varphi\left(9\right),\,\varphi\left(11\right)}\\
+ & =\mcm 1{2\cdot3,\,2\cdot5}=2\cdot3\cdot5=30
+\end{align*}
+Concludiamo che il periodo $\tau$ sarà uno tra i possibili divisori
+di 30, a seconda dal $x_{0}$ selezionato: $\tau\in\left\{ 1,\,2,\,3,\,5,\,6,\,10,\,15,\,30\right\} $;
+presi $p=23,\,q=19$ il periodo è un divisore di 30; con $x_{0}=7$
+si ha esattamente $\pi=10$.\demo
+
+\subsection{Massimizzare il periodo}
+
+Per avere un periodo lungo di una sequenza BBS, è necessario scegliere
+un $x_{0}$ tale che $\pi=\lambda\left(\lambda\left(n\right)\right)\gg1$;
+perché ciò si verifichi, scegliamo $p$ e $q$ nel modo seguente:
+\begin{itemize}
+\item prendiamo un primo $p_{2}$, tale che anche un $p_{1}=2p_{2}+1$ sia
+primo; scegliamo il primo $p=2\cdot p_{1}+1$
+\item prendiamo un primo $q_{2}$, tale che anche un $q_{1}=2q_{2}+1$ sia
+primo; scegliamo il primo $q=2\cdot q_{1}+1$
+\item deve valere $p\neq q$, e $p,\,q\gg1$
+\end{itemize}
+Scegliendo i due primi col criterio appena mostrato, si otterrà in
+periodo più lungo possibile.
 
 \chapter*{Esercizi}
 
