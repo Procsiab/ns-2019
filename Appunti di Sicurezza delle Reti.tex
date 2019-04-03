@@ -40,6 +40,7 @@
 \AtBeginDocument{\providecommand\propref[1]{\ref{prop:#1}}}
 \AtBeginDocument{\providecommand\subsecref[1]{\ref{subsec:#1}}}
 \AtBeginDocument{\providecommand\secref[1]{\ref{sec:#1}}}
+\AtBeginDocument{\providecommand\figref[1]{\ref{fig:#1}}}
 \newcommand{\noun}[1]{\textsc{#1}}
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
@@ -89,6 +90,12 @@
 \else
       \newtheorem{cor}{\protect\corollaryname}[chapter]
     \fi
+\theoremstyle{plain}
+    \ifx\thechapter\undefined
+      \newtheorem{fact}{\protect\factname}
+    \else
+      \newtheorem{fact}{\protect\factname}[chapter]
+    \fi
 \theoremstyle{definition}
     \ifx\thechapter\undefined
       \newtheorem{xca}{\protect\exercisename}
@@ -136,6 +143,7 @@
 \providecommand{\definitionname}{Definizione}
 \providecommand{\examplename}{Esempio}
 \providecommand{\exercisename}{Esercizio}
+\providecommand{\factname}{Fatto}
 \providecommand{\propositionname}{Proposizione}
 \providecommand{\remarkname}{Osservazione}
 \providecommand{\solutionname}{Soluzione}
@@ -803,10 +811,11 @@ in queste condizioni possiamo enunciare il seguente Teorema \ref{thm:Teorema-Eul
 \begin{thm}
 Sia\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
 \textbf{\footnotesize{}Teorema di Eulero}{\footnotesize{}\index{Eulero, teorema di@{\footnotesize{}Eulero, teorema di}}\label{thm:Teorema-Eulero}}}[0.0cm] $a$ un intero qualunque e $n$ un intero composto, tali
-che $a\perp n$, allora è vero che
+che $a\perp n$, allora è vero che\emph{
 \begin{equation}
 \cgm{a^{\varphi\left(n\right)}}1n\label{eq:Teorema-Eulero}
 \end{equation}
+}
 \end{thm}
 La funzione \emph{toziente} $\varphi\left(p\right)$ con $p$ numero
 primo, è il numero di primi relativi rispetto a $p$, in questo caso
@@ -844,9 +853,9 @@ si equivalgono.\demo
 \begin{rem}
 Se vogliamo calcolare l'inverso di un intero $a$ modulo $n$ non
 primo, posto che $a\perp n$ possiamo scrivere la congruenza
-\[
-\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n
-\]
+\begin{equation}
+\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n\label{eq:Inverso-residuo-toziente}
+\end{equation}
 Questa relazione ci permette di calcolare un inverso utilizzando il
 modulo di un elevamento a potenza (evitando la strada di Euclide esteso
 (\ref{eq:Algoritmo-Euclide-esteso})), per esempio tramite square
@@ -1746,7 +1755,7 @@ di cifratura e decifratura con DES, e al più $2^{112}$ confronti.
 
 \section{Sicurezza delle password}
 
-\subsection{Funzioni di hash}
+\subsection{Funzioni di hash\label{subsec:Funzioni-di-hash} }
 
 Per ragioni di sicurezza, una password non viene mai memorizzata in
 chiaro; in pratica, si usa una funzione di \emph{hash}. Si tratta
@@ -2047,9 +2056,9 @@ con la trasposizione dei vettori.
 Ad oggi, gli unici attacchi che funzionano contro AES, sfruttano debolezze
 dell'implementazione, e non dell'algoritmo.
 
-\chapter{Sequenze Pseudo-casuali}
+\chapter{Successioni Pseudo-casuali}
 
-\section{Sequenze binarie pseudo-casuali (PRBS)}
+\section{Sequenze binarie pseudo-casuali (PRBS)\label{sec:Sequenze-binarie-pseudo-casuali}}
 
 Se pensiamo che l'AES sia sicuro, dobbiamo limitare questa osservazione
 alla pratica: infatti, anche se non è possibile trovare la chiave
@@ -2223,8 +2232,7 @@ $\checked$Sia $p$ che $q$ sono congruenti a 3 modulo 4, inoltre
 $x_{0}$ essendo primo è sicuramente primo relativo rispetto a $p\cdot q=n=437$.
 Calcoliamo la successione (si ricorda che tutti i conti per la colonna
 $x_{i}$ sono quadrati in modulo $n$, mentre la colonna $b_{i}$
-contiene l'LSB corrispondente):
-\begin{center}
+contiene l'LSB corrispondente):\\
 \begin{table}[!h]
 \begin{tabular}{cc}
 $\begin{array}{ccc}
@@ -2246,8 +2254,7 @@ i & x_{i} & b_{i}\\
 \end{array}$\tabularnewline
 \end{tabular}
 \end{table}
-\par\end{center}
-
+\\
 Dalla successione costruita osserviamo che il periodo vale 10. Sappiamo
 che il periodo sarà un divisore di $\lambda\left(\lambda\left(n\right)\right)$;
 calcoliamo $\lambda\left(n\right)$:
@@ -2280,6 +2287,488 @@ primo; scegliamo il primo $q=2\cdot q_{1}+1$
 \end{itemize}
 Scegliendo i due primi col criterio appena mostrato, si otterrà in
 periodo più lungo possibile.
+
+\section{Successioni LFSR\label{sec:Successioni-LFSR}}
+
+Si tratta di successioni lineari di bit, con aritmetica modulo 2;
+definiamo una sequenza PRBS con la seguente costruzione:
+\[
+\cgm{x_{n+5}}{x_{n}+x_{n+2}}2
+\]
+Una notazione equivalente per la precedente congruenza è:
+\begin{equation}
+\cgm{x_{n}}{x_{n-5}+x_{n-3}}2\label{eq:successione-LFSR-5}
+\end{equation}
+Chiamiamo successione LFSR con memoria 5 la congruenza (\ref{eq:successione-LFSR-5}).
+
+In generale, data una memoria di $M$ bit (la quale genera una ricorrenza
+di ordine $M$), possiamo definire una successione LFSR come:
+\[
+\cgm{x_{n+M}}{c_{M}\cdot x_{n}+c_{M-1}\cdot x_{n+1}+\ldots+c_{1}\cdot x_{n+M-1}}2
+\]
+Come prima, una costruzione alternativa (vedremo che essa semplificherà
+la sintesi di un circuito sequenziale) per la precedente è:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Successione LFSR}{\footnotesize{}\index{Successione LFSR@{\footnotesize{}Successione LFSR}}}}[0.2cm]
+\begin{equation}
+\cgm{x_{n}}{c_{M}\cdot x_{n-M}+c_{M-1}\cdot x_{n-M+1}+\ldots+c_{1}\cdot x_{n-1}}2\label{eq:successione-LFSR-M}
+\end{equation}
+Possiamo descrivere la ricorrenza $M$ relativa alla successione (\ref{eq:successione-LFSR-M})
+tramite il seguente polinomio, che ha per coefficienti i $c_{i}$
+della ricorrenza:
+\begin{equation}
+P\left(Y\right)=c_{M}Y^{M}+c_{M-1}Y^{M-1}+\ldots+c_{1}Y+c_{0}\label{eq:polinomio-LFSR-M}
+\end{equation}
+Il polinomio è nella variabile $Y$ per distinguere chiaramente la
+sua variabile da quella della successione (\ref{eq:successione-LFSR-M});
+usiamo un polinomio per descrivere la ricorrenza, per lavorare con
+i campi di Galois.
+
+Il polinomio (\ref{eq:polinomio-LFSR-M}) ha grado $M$ e descrive
+una successione con periodo al più $2^{M}-1$; i polinomi di grado
+esattamente $M$ sono in numero $2^{M}-1$: infatti possiamo affermare
+che $c_{0}=1$ (riferito all'elemento presente) e $c_{M}=1$ (altrimenti
+il polinomio non arriverebbe al grado $M$), sottraendo due gradi
+di libertà dal numero totale di polinomi di grado $M$.
+
+Per avere una ricorrenza di periodo massimo, dovremo scegliere un
+polinomio \emph{irriducibile}, da cercare tra i $2^{M}-1$ disponibili.
+
+Questa ricorrenza può essere implementata via hardware, tramite dei
+registri a scorrimento; per esempio per avere una ricorrenza con periodo
+di un milione serviranno almeno 20 celle di memoria ($2^{20}-1\simeq10^{6}$).
+La sequenza $\left\{ x_{M}\right\} $ generata in questo modo potrà
+essere usata come sequenza pseudo-casuale $r$, nel sistema di cifratura
+introdotto all'inizio de \secref{Sequenze-binarie-pseudo-casuali}.
+In tal caso la chiave sarà costituita da:
+\begin{itemize}
+\item i coefficienti del polinomio (\ref{eq:polinomio-LFSR-M}), tranne
+il primo e l'ultimo \--- sappiamo che essi valgono sempre 1 \---
+ovvero $M-1$ bit in totale, a rappresentare i rimanenti coefficienti
+(che essendo residui modulo 2 valgono 0 o 1);
+\item i valori degli $x$ con i quali inizializzare il polinomio, ovvero
+$M$ bit.
+\end{itemize}
+Questo metodo è vulnerabile all'attacco del testo in chiaro, ed è
+usato quando la velocità di cifratura va privilegiata rispetto alla
+sicurezza.
+
+\begin{minipage}[c]{0.5\textwidth}%
+\begin{example}
+\emph{Consideriamo la successione LFSR definita con la congruenza
+seguente:}
+\[
+\cgm{x_{n}}{x_{n-2}+x_{n-3}}2
+\]
+\emph{Implementare la ricorrenza in esame con un circuito sequenziale.}
+\end{example}
+$\checked$Possiamo rappresentare la successione col seguente polinomio:
+\[
+P\left(Y\right)=Y^{3}+Y^{2}+1
+\]
+
+Infatti l'ordine della ricorrenza è 3 (ottenuto osservando gli indici
+delle $x$), sappiamo che $c_{3}=c_{0}=1$ e infine i termini $x_{n-2}$
+e $x_{n-3}$ rappresentano $Y^{2}$ e $Y^{3}$ rispettivamente; il
+periodo massimo della sequenza vale $2^{3}-1=7$ (sarebbe sicuramente
+massimo se $P\left(Y\right)$ fosse irriducibile).
+
+Implementiamo la successione LFSR col circuito ne \figref{registro-scorrimento-3}.\demo%
+\end{minipage}%
+\begin{minipage}[c]{0.5\textwidth}%
+\begin{center}
+\includegraphics{\string"Illustrazioni/5_2-1 Successione LFSR v1\string".pdf}
+\par\end{center}
+\captionof{figure}{Registro a scorrimento con 3 celle di memoria}\label{fig:registro-scorrimento-3}%
+\end{minipage}
+\begin{rem}
+Abbiamo già concluso che il periodo di una successione LFSR definita
+dal polinomio (\ref{eq:successione-LFSR-M}) \emph{irriducibile},
+sarà al massimo $2^{M}-1$, oppure un suo sottomultiplo (può essere
+un numero diverso se $P\left(Y\right)$ non è irriducibile); tuttavia,
+se $2^{M}-1$ è \emph{primo}, il suo unico sottomultiplo è lui stesso
+(si ottiene il periodo massimo possibile). In breve vale la seguente
+condizione:
+\[
+P\left(Y\right)\text{ irriducibile}\land2^{M}-1\text{ primo}\implies\left\{ x_{M}\right\} \text{ periodo massimo }\left(2^{M}-1\right)
+\]
+\end{rem}
+
+\section{Stato della successione}
+
+Supponiamo di prendere il polinomio $P\left(Y\right)$ irriducibile
+(\ref{eq:polinomio-LFSR-M}), allora possiamo definire il campo di
+Galois con questo polinomio:
+\[
+\mathcal{GF}\left(2^{M}\right)=\mod{\mathbb{Z}_{2}\left[Y\right]}{P\left(Y\right)}
+\]
+I polinomi appartenenti a questo campo, che chiamiamo $s_{j}\left(Y\right)$,
+avranno al massimo grado $M-1$ e gli $M$ coefficienti di ciascun
+polinomio rappresentano lo stato al passo $j$-esimo di un circuito
+sequenziale che genera una successione LFSR, che chiameremo \emph{scrambler}.
+
+Possiamo anche considerare $s_{j}\left(Y\right)\in\mathcal{GF}\left(2^{M}\right)$
+come un vettore a $M$ dimensioni, dove le coordinate valgono in modulo
+2 (0 o 1).
+
+Se moltiplichiamo per $Y$ un polinomio $s_{j}\left(Y\right)$ \---
+il quale rappresenta lo stato delle $M$ celle di memoria \--- otteniamo
+lo shift in avanti di un passo del circuito combinatorio:
+\[
+Y\cdot s_{j}\left(Y\right)=s_{j+1}\left(Y\right)
+\]
+A questo punto, possiamo scrivere lo stato al passo $j$-esimo come
+un residuo in modulo $P\left(Y\right)$, rispetto allo stato iniziale:
+\[
+\cgm{s_{j}\left(Y\right)}{s_{0}\left(Y\right)\cdot Y^{j}}{P\left(Y\right)}
+\]
+Chiediamoci dunque sotto quali condizioni $s_{j}\left(Y\right)=s_{0}\left(Y\right)$,
+o in altre parole quanto vale il passo al quale inizia il secondo
+periodo; questo si verifica quando $\cgm{Y^{j}}1{P\left(Y\right)}$.
+Ci interessa il $j$ per cui questa congruenza è vera, quindi ci interessa
+l'intero minimo per cui $Y$ (elemento del campo) elevato a quell'intero
+dia 1 come residuo: in pratica cerchiamo l'ordine dell'elemento $Y$:
+\[
+s_{j}\left(Y\right)=s_{0}\left(Y\right)\implies j=\ord Y,\,Y\in\mathcal{GF}\left(2^{M}\right)
+\]
+
+\begin{prop}
+\label{prop:Ordine-massimo-da-elemento-GF}L'ordine di un elemento
+del campo sarà del tipo $\left(2^{M}-1\right)/d$, con $d$ un qualche
+intero; si verifica $d=1$ (ordine massimo, pari a $2^{M}-1$) quando
+$Y$ è un elemento generatore del campo:
+\[
+\ord Y=2^{M}-1\implies Y\text{ elemento generatore}
+\]
+\end{prop}
+%
+\begin{prop}
+\label{prop:Condizione-tutti-elementi-GF-generatori}Condizione sufficiente
+perché il periodo della ricorrenza sia $2^{M}-1$ è che il numero
+$2^{M}-1$ sia primo; in tal caso tutti gli elementi del campo $\mathcal{GF}\left(2^{M}\right)$
+saranno generatori.
+\end{prop}
+
+\section{Scrambler}
+
+Consideriamo un apparato di telecomunicazioni: esso avrà un canale
+che trasporta una sequenza di bit; in generale le proprietà statistiche
+della sequenza di bit, emessi dalla sorgente, non saranno uniformi.
+È possibile che una sorgente trasmetta sequenze lunghe di 0 o 1 (sia
+per volontà degli utenti, che per segnalare una condizione o un evento,
+o uno stato dell'infrastruttura).
+
+Il modo più banale per codificare bit su un canale di comunicazione,
+per esempio sulla fibra ottica, è quello di emettere potenza (luce)
+quando si vuole inviare un 1, e non emettere nulla quando si vuole
+inviare uno 0. In ricezione, si pone il problema di capire se sia
+arrivato un 1 o uno 0: si misura la potenza ricevuta, a intervalli
+di tempo regolari $T$ (periodo di cifra), e si determina dell'intensità
+del segnale in arrivo è maggiore di una certa soglia e può essere
+considerata la codifica di un 1 piuttosto che di uno 0.
+
+Tuttavia i componenti che costituiscono i circuiti del trasmettitore
+e del ricevitore, a causa della propria tolleranza di fabbricazione,
+non possono essere allineati in partenza sulla frequenza di trasmissione
+(sarà sempre presente uno sfasamento del segnale ricevuto, chiamato
+\emph{jitter}, o rumore di fase). Si usa quindi un circuito chiamato
+\emph{clock recovery}, che estrae il sincronismo dal segnale ricevuto;
+questo è usato come base per generare un segnale di clock che pilota
+un campionatore, facendolo agire esattamente a metà del periodo di
+cifra ($T/2$); per estrarre il clock si utilizzano i fronti di salita
+e discesa del segnale in ricezione.
+
+Il\marginpar{Un test a livello fisico che si effettua sul ricevitore è chiamato
+CID (consecutive identical digits, ovvero cifre identiche consecutive)} problema del clock recovery è l'incapacità dei estrarre il sincronismo
+da una sequenza di cifre uguali (tutti 1 o 0). VI sono due strade
+per ovviare al problema:
+\begin{enumerate}
+\item usare una modulazione differente per codificare il segnale nel canale
+(per esempio HDB3 trasmette transizioni di potenza a prescindere dalla
+cifra codificata);
+\item su fibra, dove si trasmette con la modulazione on/off, si usa uno
+\emph{scrambler}.
+\end{enumerate}
+La seconda strada prevede l'impiego dello scrambler, che genera una
+sequenza pseudo-casuale (non ci saranno più sequenze lunghe di cifre
+ripetute); esso dovrà avere le seguenti proprietà:
+\begin{itemize}
+\item equalizza la statistica del primo ordine (la \emph{media} degli 1
+e 0 trasmessi sia \emph{uguale});
+\item equalizza la statistica del secondo ordine (l'autocorrelazione degli
+1 e degli 0 deve essere uguale, ovvero la sequenza deve avere \emph{assenza
+di memoria} \--- essere non periodica).
+\end{itemize}
+Per realizzare uno scrambler si usa una successione LFSR (si veda
+\secref{Successioni-LFSR}); possiamo realizzare gli scrambler in
+due modi.
+
+\subsection{Scrambler auto-sincronizzante}
+
+Si prenda la sequenza $\left\{ I_{k}\right\} $ dei dati da confondere,
+la si somma in modulo 2 al contenuto di una serie di celle di memoria,
+collegando in retroazione solo quelle identificate dal polinomio caratteristico
+che descrive la successione LFSR usata. Si ottiene la sequenza $\left\{ U_{k}\right\} $
+dei dati confusi.\bigskip{}
+
+\begin{minipage}[c]{0.7\textwidth}%
+\begin{example}
+\emph{Consideriamo la successione LFSR definita dal polinomio:}
+\[
+P\left(Y\right)=Y^{3}+X+1
+\]
+\emph{Implementare uno scrambler descritto da $P\left(Y\right)$.}
+\end{example}
+$\checked$Possiamo rappresentare il polinomio con la congruenza:
+\[
+\cgm{x_{n}}{x_{n-1}+x_{n-3}}2
+\]
+
+Infatti l'ordine della ricorrenza è 3 (ottenuto osservando il grado
+di $P\left(Y\right)$), sappiamo che $c_{3}=c_{0}=1$ e infine i termini
+$Y$ e $Y^{3}$ rappresentano rispettivamente $x_{n-1}$ e $x_{n-3}$;
+il periodo massimo della sequenza vale $2^{3}-1=7$ (sarebbe sicuramente
+massimo se $P\left(Y\right)$ fosse irriducibile).
+
+Lo scrambler è implementato dal circuito ne \figref{scrambler-auto-sincronizzante-3}.\demo%
+\end{minipage}%
+\begin{minipage}[c]{0.4\textwidth}%
+\begin{center}
+\includegraphics[scale=0.65]{\string"Illustrazioni/5_5-1 Scrambler auto-sincronizzante ord 3\string".pdf}
+\par\end{center}
+\captionof{figure}{Scrambler auto-sincronizzante di ordine 3}\label{fig:scrambler-auto-sincronizzante-3}%
+\end{minipage}
+
+Uno scrambler come quello realizzato nell'esempio, avrà periodo massimo
+7, nel caso in cui l'ingresso sia costituito da una sequenza si cifre
+uguali.
+
+Per effettuare l'operazione inversa dello scrambling, basta invertire
+il senso delle frecce che escono da $\left\{ I_{k}\right\} $ e entrano
+in $\left\{ U_{k}\right\} $ (grazie alle somme modulo 2, bisogna
+solamente invertire la direzione di ingresso e uscita); inoltre non
+è necessario conoscere il contenuto di $M_{1}$, $M_{2}$ e $M_{3}$,
+tuttavia saranno necessari 3 passi iniziali per inizializzare lo stato
+dello scrambler. In pratica sarà necessario conoscere unicamente il
+polinomio $P\left(Y\right)$.
+
+\subsection{Scrambler additivo}
+
+~
+
+\begin{minipage}[c]{0.5\textwidth}%
+Il funzionamento di questo scrambler è simile al precedente, con la
+differenza che l'ingresso viene spento (sostituito da zeri), e il
+circuito LFSR genera una sequenza casuale $\left\{ R_{k}\right\} $
+(come un generatore PRBS), che viene infine sommata all'ingresso per
+generare l'uscita. In questo caso è necessario conoscere anche l'inizializzazione
+delle celle $M_{i}$, oltre al polinomio $P\left(Y\right)$.
+
+Lo scrambler additivo sopperisce a un difetto di quello auto-sincronizzante:
+quest'ultimo infatti propaga gli errori; un bit sbagliato ricevuto
+da uno scrambler auto-sincronizzante interrompe la sequenza, e sono
+necessari $M$ passi per inizializzare nuovamente il registro a scorrimento.%
+\end{minipage}%
+\begin{minipage}[c]{0.6\textwidth}%
+\begin{center}
+\includegraphics[scale=0.7]{\string"Illustrazioni/5_5-2 Scrambler additivo ord M\string".pdf}
+\par\end{center}
+\captionof{figure}{Scrambler additivo di ordine $M$}\label{fig:registro-scorrimento-3-1-1}%
+\end{minipage}
+
+Per effettuare il \emph{descrambling} (operazione inversa dello scrambling),
+si effettua di nuovo l'inversione delle frecce collegate all'ingresso
+e all'uscita.\pagebreak{}
+\begin{fact}
+Tutti i dati trasmessi da un utente, prima di essere mappati nel canale
+trasmissivo tramite un protocollo di livello 2 o 1, passano attraverso
+un scrambler auto-sincronizzante con polinomio $P\left(Y\right)=Y^{43}+1$;
+questa configurazione comporta una propagazione di eventuali errori,
+tuttavia garantisce maggiore sicurezza, impedendo che un attaccante
+manipoli l'uscita $\left\{ U_{k}\right\} $ dello scrambler (sarebbe
+necessario conoscere lo stato del registro a scorrimento, è possibile
+ottenerlo tramite $2^{43}$ tentativi \--- circa $10^{12}$).\marginpar{In tutti i sistemi di comunicazione si disaccoppiano i dati trasmessi
+dall'utente da quelli che circolano sul mezzo trasmissivo}[-2.5cm]
+\end{fact}
+
+\chapter{RSA}
+
+\section{Introduzione}
+
+Trattiamo l'algoritmo di cifratura a chiave pubblica Rivest-Shamir-Adleman
+(RSA). La peculiarità degli algoritmi a chiave pubblica è la condivisione
+di una chiave pubblica con chiunque voglia cifrare un messaggio, il
+quale potrà essere decifrato solo dalla chiave privata, custodita
+dal destinatario. La generazione della coppia di chiavi pubblica e
+privata è realizzata mediante una funzione unidirezionale (si veda
+\subsecref{Funzioni-di-hash}); in questo modo, si ricava la chiave
+pubblica da quella privata. In questo modo chi entrerà in possesso
+della chiave pubblica non sarà in grado di ricavarne la chiave privata.
+
+Nel caso dell'RSA, la funzione unidirezionale è la seguente. Prendiamo
+una coppia di primi $p$ e $q$ molto grandi, e scelti secondo un
+criterio (mostrato più avanti); calcoliamo $n=p\cdot q$, e a questo
+punto avremo un intero composto computazionalmente impossibile da
+fattorizzare. Il prodotto dei due primi costituisce una funzione invertibile,
+e se essi sono scelti correttamente è anche unidirezionale; il composto
+$n$ sarà pubblico, e i primi $p,\,q$ saranno mantenuti segreti.
+
+\section{Algoritmo}
+
+Prendiamo un composto $n=p\cdot q$, costituito da due primi $p$
+e $q$ scelti adeguatamente; prendiamo un intero $e$, che chiamiamo
+esponente di cifratura, tale che $e\perp\varphi\left(n\right)$. Dato
+che $n$ è costituito da due primi, vale $\varphi\left(n\right)=\left(p-1\right)\left(q-1\right)$.
+
+Il messaggio in chiaro $m$ e quello cifrato $c$ sono entrambi elementi
+di $\mathbb{Z}_{n}$; le funzioni di cifratura e decifratura sono
+definite come:
+\begin{equation}
+\begin{array}{c}
+\cgm c{p^{e}}n\\
+\cgm m{c^{d}}n
+\end{array}\label{eq:RSA-cifra-decifra}
+\end{equation}
+L'intero $d$, chiamato esponente di decifratura, è legato a $e$
+nel modo seguente:
+\[
+\cgm{e\cdot d}1{\varphi\left(n\right)}\implies\boxed{\cgm d{e^{-1}}{\varphi\left(n\right)}}
+\]
+Dalla congruenza con 1 modulo $\varphi\left(n\right)$ e il prodotto
+degli esponenti di cifratura, si deduce che:
+\[
+e\cdot d=1+k\cdot\varphi\left(n\right)
+\]
+A questo punto dalla funzione di decifratura (\ref{eq:RSA-cifra-decifra})
+otteniamo:
+\[
+c^{d}=m^{e\cdot d}=m^{1+k\cdot\varphi\left(n\right)}\overset{*}{=}\boxed{m}\cdot1^{k}
+\]
+Nella relazione $*$ abbiamo usato (\ref{eq:Teorema-Eulero}); si
+è voluto mostrare che esiste una corrispondenza univoca tra $m$ e
+$c$, per l'ipotesi che $e\perp\varphi\left(n\right)$ (esiste un
+solo $d$ che sia inverso di $e$ in modulo $\varphi\left(n\right)$,
+e vice versa).
+
+La \emph{chiave pubblica} è costituita da $n,\,e$ mentre la \emph{chiave
+privata} è $d$, insieme a $p,\,q$ oppure a $\varphi\left(n\right)$.
+\begin{example}
+\emph{Siano dati due primi $p_{{\scriptscriptstyle \mathbb{S}}}=3,\,q_{{\scriptscriptstyle \mathbb{S}}}=11$
+e un intero $e_{{\scriptscriptstyle \mathbb{P}}}=7$, cifrare tramite
+RSA il messaggio $m=19$.}
+\end{example}
+$\checked$Calcoliamo\marginpar{All'interno di questo esempio, abbiamo usato i pedici ${\scriptscriptstyle \mathbb{P}}$
+e ${\scriptscriptstyle \mathbb{S}}$ per indicare un elemento della
+chiave pubblica o della chiave privata} il composto $n_{{\scriptscriptstyle \mathbb{P}}}=p\cdot q=33$; calcoliamo
+inoltre $\varphi\left(n\right)_{{\scriptscriptstyle \mathbb{S}}}=\varphi\left(33\right)=\left(3-1\right)\left(11-1\right)=2\cdot10=20$.
+A questo punto possiamo calcolare $d$:
+\[
+\begin{array}{c}
+\cgm d{e^{-1}}{\varphi\left(n\right)}\\
+\cgm d{e^{\varphi\left(\varphi\left(n\right)\right)-1}}{\varphi\left(n\right)}\\
+\cgm d{7^{7}}{20}\\
+\boxed{\cgm{d_{{\scriptscriptstyle \mathbb{S}}}}3{20}}
+\end{array}
+\]
+Nella precedente relazione abbiamo usato (\ref{eq:Inverso-residuo-toziente}),
+e abbiamo calcolato $\varphi\left(\varphi\left(n\right)\right)=\left(2^{2}-2\right)\left(5-1\right)=8$.
+
+Cifriamo il messaggio $m=19$ applicando (\ref{eq:RSA-cifra-decifra}):
+\[
+c=\mod{19^{7}}{33}=13
+\]
+Si noti che possiamo riottenere $m=\mod{13^{3}}{33}=19$.\demo
+\begin{rem}
+Per effettuare la decifratura (operazione adibita alla chiave privata)
+è necessario l'esponente $d$, il quale a sua volta viene calcolato
+tramite $\varphi\left(n\right)$, che a sua volta deriva dai due primi
+$p,\,q$. Ebbene, la conoscenza dei primi $p,\,q$ o del toziente
+del loro prodotto $\varphi\left(n\right)$, compromette nello stesso
+modo la sicurezza dell'algoritmo, e permette di calcolare $d$ (la
+chiave privata).
+\end{rem}
+\begin{example}
+Sia dato il composto $n=p\cdot q=11413$, prodotto di due primi, e
+il suo toziente sia noto $\varphi\left(n\right)=$$\left(p-1\right)\left(q-1\right)=11200$.
+Calcolare i due primi $p$ e $q$.
+\end{example}
+$\checked$Analizziamo la relazione $n-\varphi\left(n\right)+1$,
+con le seguenti riscritture:
+\begin{align*}
+n-\varphi\left(n\right)+1 & =p\cdot q-\left(p-1\right)\left(q-1\right)+1\\
+214 & =p+q
+\end{align*}
+Con la conoscenza della somma dei primi cercati, possiamo risolvere
+la seguente equazione:
+\[
+\begin{array}{c}
+\left(x-p\right)\left(x-q\right)=0\\
+x^{2}-\overset{n-\varphi\left(n\right)+1}{\overbrace{\left(p+q\right)}}x+\overset{n}{\overbrace{p\cdot q}}=0\\
+x^{2}-214x+11413
+\end{array}
+\]
+Otteniamo le seguenti soluzioni:\marginpar{Nella formula risolutiva deve valere $\Delta>0$, altrimenti $n$
+e $\varphi\left(n\right)$ non sarebbero corretti}
+\[
+x=\frac{214\pm\sqrt{214^{2}-4\cdot11413}}{2}=\left\{ 101,\,113\right\} 
+\]
+Abbiamo ottenuto $p=101,\,q=113$. Avremmo ottenuto il risultato con
+una bassa complessità computazionale (risolvere un'equazione di secondo
+grado), anche nel caso di $p$ e $q$ molto grandi.\demo
+
+\section{Sicurezza di RSA}
+
+In teoria, l'RSA correttamente implementato è sicuro, fintanto che
+la scomposizione in fattori primi molto grandi rimane un problema
+difficile; tuttavia esistono delle insidie che influenzano la corretta
+realizzazione, di cui parleremo in questa sezione.
+\begin{thm}
+Sia\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Debolezza sulle cifre dei primi in RSA}{\footnotesize{}\index{RSA, debolezza sulle cifre dei primi@{\footnotesize{}RSA, debolezza sulle cifre dei primi}}\label{thm:RSA-debolezza-sulle-cifre-primi}}}[-0.3cm] $m$ il numero di cifre di $n=p\cdot q$ ($m=\left\lceil \log_{10}\left(p\cdot q\right)\right\rceil $);
+se si conoscono almeno le \uline{prime} o le \uline{ultime}
+$m/4$ cifre di uno dei due primi $p$ o $q$, allora è possibile
+fattorizzare in modo efficiente $n$.
+\end{thm}
+\begin{rem}
+Se $n$ ha $m$ cifre, e $p$ e $q$ sono confrontabili, allora essi
+avranno ciascuno $m/2$ cifre.
+\end{rem}
+Il Teorema \ref{thm:RSA-debolezza-sulle-cifre-primi} può essere sfruttato
+se il metodo che il mittente utilizza per ricavare i primi $p$ e
+$q$ è noto e predicibile: provando per tentativi le cifre dei primi
+in un intorno di candidati, è possibile trovare le prime o le ultime
+$m/4$ cifre di $p$ o $q$.
+\begin{cor}
+Consideriamo una chiave pubblica RSA costituita da $n,\,e$, sia $m$
+il numero di cifre di $n$; se si conoscono almeno le ultime $m/4$
+cifre di $d$ (esponente di decifratura, segreto) allora è possibile
+fattorizzare in modo efficiente $d$.
+\end{cor}
+\begin{rem}
+Dato che $\cgm d{e^{-1}}{\varphi\left(n\right)}$, esso avrà da 1
+a $m$ cifre, per il limite imposto dal modulo di $\varphi\left(n\right)$
+(il toziente avrà al più il numero di cifre di $n$).
+\end{rem}
+Abbiamo enunciato nelle sezioni precedenti che la scelta di $p$ e
+$q$ deve essere fatta prendendo due primi grandi (nella pratica si
+usano numero di 150 cifra, ottenendo un $n$ di 300 cifre). per la
+scelta dell'esponente di cifratura, bisogna evitare invece un $e$
+troppo piccolo, il quale favorirebbe va velocità di cifratura ma sicuramente
+causerebbe la comparsa di un $d$ molto grande. Nella scelta di $e$
+bisogna anche tenere a mente l'ipotesi che esso sia $e\perp\varphi\left(n\right)$.
+
+Un valore per l'esponente di cifratura comunemente usato e comprovato
+è il seguente:
+\[
+e_{{\scriptscriptstyle \text{RSA}}}=2^{16}+10=65537
+\]
+Esso è un numero primo (è altamente improbabile che abbia fattori
+in comune con $p-1$ o $q-1$, possiamo verificarlo con (\ref{eq:Algoritmo-Euclide-esteso}));
+inoltre è facile calcolare il suo valore, tramite square\&multiply
+(si veda \secref{Square-=000026-multiply}).
+
+Un altro approccio consiste nello scegliere un $d$ sufficientemente
+robusto (50 cifre sono sufficienti), e a partire da esso si calcola
+$e$ effettuando l'inverso in modulo $\varphi\left(n\right)$.
 
 \chapter*{Esercizi}
 
@@ -2517,6 +3006,96 @@ a_{q}=\left\{ 1,\,3,\,4,\,9,\,10,\,12\right\}
 \]
 Si noti che ci troviamo nel caso $\cgm p14$, per cui se non esiste
 $\sqrt{a}$ nemmeno $\sqrt{-a}$ è definita rispetto a $p$.\demo
+\end{sol}
+
+\section*{Scrambling}
+\begin{xca}
+Si\marginpar{$\blacktriangleright$ \emph{Esercizio: scrambler auto-sincronizzante}}
+consideri uni scrambler auto-sincronizzante con polinomio caratteristico
+$P\left(Y\right)=Y^{3}+Y+1$; esso è inizializzato come $M_{1}M_{2}M_{3}=000$,
+in ingresso si ha una sequenza di soli 1 ($\left\{ I_{k}\right\} =111\ldots$);
+determinare la sequenza di uscita $\left\{ U_{k}\right\} $.
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Innanzitutto cerchiamo il periodo della successione, analizzando la
+riducibilità del polinomio $P\left(Y\right)$; esso non è divisibile
+per $Y$, tuttavia può esserlo per $Y+1$; dalla divisione tra polinomi
+si ottiene:\marginpar{Si ricorda che le operazioni su questo polinomio sono tutte in \uline{modulo
+2}}
+\[
+\begin{array}{rl}
+Y^{3}\quad\quad+Y+1 & \underline{\left(\div\,Y+1\right)}\\
+\underline{Y^{3}+Y^{2}\quad\;\qquad} & \quad Y^{2}+Y\\
+Y^{2}+Y+1 & \,\\
+\underline{Y^{2}+Y\quad\,\,\,\,} & \,\\
+1
+\end{array}
+\]
+Ottenendo resto non nullo, confermiamo che il polinomio non può essere
+diviso nemmeno per $Y+1$; in tal caso possiamo affermare che $P\left(Y\right)$
+sia irriducibile, e quindi il periodo della sequenza pseudo-casuale
+generata sarà determinato dal suo grado $M=3$ come $\pi=2^{3}-1=7$.
+
+Lo scrambler descritto dal polinomio $P\left(Y\right)$ può essere
+implementato col circuito ne \figref{scrambler-auto-sincronizzante-3};
+l'andamento della sua uscita si ricava riempiendo la seguente tabella
+(viene mostrato anche il descrambling della sequenza $\left\{ U_{k}\right\} $
+ottenuta):\bigskip{}
+\\
+\begin{minipage}[c]{0.5\textwidth}%
+\begin{center}
+\begin{tabular}{c|cccc|c}
+$k$ & $\overset{\bullet}{I}_{k}$ & $\overset{\bullet}{M}_{1,k}$ & $M_{2,k}$ & $\overset{\bullet}{M}_{3,k}$ & $U_{k}$\tabularnewline
+\hline 
+0 & 1 & \emph{0} & \emph{0} & \emph{0} & 1\tabularnewline
+1 & 1 & 1 & 0 & 0 & 0\tabularnewline
+2 & 1 & 0 & 1 & 0 & 1\tabularnewline
+3 & 1 & 1 & 0 & 1 & 1\tabularnewline
+4 & 1 & 1 & 1 & 0 & 0\tabularnewline
+5 & 1 & 0 & 1 & 1 & 0\tabularnewline
+6 & 1 & 0 & 0 & 1 & 0\tabularnewline
+\hline 
+\hline 
+7 & 1 & 0 & 0 & 0 & 1\tabularnewline
+\end{tabular}\captionof{table}{Uscita dello scrambler}
+\par\end{center}%
+\end{minipage}%
+\begin{minipage}[c]{0.5\textwidth}%
+\begin{center}
+\begin{tabular}{c|cccc|c}
+$k$ & $\overset{\bullet}{U}_{k}$ & $\overset{\bullet}{M}_{1,k}$ & $M_{2,k}$ & $\overset{\bullet}{M}_{3,k}$ & $I_{k}$\tabularnewline
+\hline 
+0 & 1 & \emph{1} & \emph{0} & \emph{0} & \textbf{0}\tabularnewline
+1 & 0 & 1 & 1 & 0 & \textbf{1}\tabularnewline
+2 & 1 & 0 & 1 & 1 & \textbf{0}\tabularnewline
+\hline 
+3 & 1 & 1 & 0 & 1 & 1\tabularnewline
+4 & 0 & 1 & 1 & 0 & 1\tabularnewline
+5 & 0 & 0 & 1 & 1 & 1\tabularnewline
+6 & 0 & 0 & 0 & 1 & 1\tabularnewline
+7 & 1 & 0 & 0 & 0 & 1\tabularnewline
+\end{tabular}\captionof{table}{Uscita del descrambler}
+\par\end{center}%
+\end{minipage}\\
+La tabella indica lo stato al passo $k$-esimo delle celle di memoria
+e dell'uscita; la consegna prevede di assegnare all'ingresso 1 in
+ciascun passo ($\forall k\in\left[0,\,\infty\right)\tc I_{k}=1$).
+Le colonne con un cerchio pieno sopra l'etichetta di una colonna relativa
+a una cella di memoria, indica che essa è collegata in retroazione;
+in pratica l'uscita sarà influenzata dalla somma modulo 2 dell'ingresso
+con tutte le celle $\overset{\bullet}{M}_{i,k}$.
+
+Possiamo notare che l'uscita ha proprio periodo 7; infatti lo stato
+delle celle di memoria al passo 7 è uguale a quello al passo 0.
+
+SI noti che, nella tabella del descrambler, le tre celle di memoria
+sono state inizializzate in modo arbitrario ($M_{1}M_{2}M_{3}=100$),
+inoltre sono stati necessari 3 passi per avere la traduzione corretta
+della sequenza \--- lo scrambler auto-sincronizzante descritto da
+$P\left(Y\right)$ impiega $M=3$ passi per raggiungere da solo la
+configurazione corretta.\demo
 \end{sol}
 
 \part{Protocolli e sistemi per la comunicazione sicura}

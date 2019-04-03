@@ -1,0 +1,29 @@
+﻿% Definizione dei blocchi
+\tikzset{%
+  block/.style    = {draw, thick, rectangle, minimum height = 3em,
+    minimum width = 3em, node distance=8em},
+  sum/.style      = {draw, circle, node distance = 2cm}, % Nodo somma
+  input/.style    = {coordinate}, % Input
+  output/.style   = {coordinate} % Output
+}
+% Definizioen contenuto blocchi come label
+\newcommand{\adder}{\Large$+$}
+
+\begin{tikzpicture}[auto, thick, node distance=2cm, >=triangle 45]
+	\draw
+		% Circuito sequenziale a 3 blocchi di memoria
+		node at (0,0) [sum] (adder1) {\adder}
+		node at (3, 0) [output, name=output] {}
+		node at (2, -2) [block] (mem1) {$M_1$}
+		node [block, below of=mem1] (mem2) {$M_2$}
+		node [block, below of=mem2] (mem3) {$M_3$}
+	% Termina tracciato
+	;
+	% Frecce e collegamneti
+	\draw[->](adder1) -- node [near end]{$x_n$}(output);
+	\draw[*->](2,0.1) -- node{}(mem1);
+	\draw[->](mem1) -- node[near end]{$x_{n-1}$}(mem2);
+	\draw[->](mem2) -- node[near end]{$x_{n-2}$}(mem3);
+	\draw[->](mem3) -| node[near start]{$x_{n-3}$}(adder1);
+	\draw[*->]($(mem2)!0.5!(mem3) + (0.1,0)$) --+ (-2.1, 0);
+\end{tikzpicture}

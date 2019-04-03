@@ -3017,6 +3017,8 @@ status open
 \end_inset
 
 , allora è vero che
+\emph on
+
 \begin_inset Formula 
 \begin{equation}
 \cgm{a^{\varphi\left(n\right)}}1n\label{eq:Teorema-Eulero}
@@ -3224,9 +3226,9 @@ Se vogliamo calcolare l'inverso di un intero
 
  possiamo scrivere la congruenza
 \begin_inset Formula 
-\[
-\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n
-\]
+\begin{equation}
+\cgm{a^{-1}}{a^{\varphi\left(n\right)-1}}n\label{eq:Inverso-residuo-toziente}
+\end{equation}
 
 \end_inset
 
@@ -6596,6 +6598,13 @@ Sicurezza delle password
 
 \begin_layout Subsection
 Funzioni di hash
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Funzioni-di-hash"
+
+\end_inset
+
+ 
 \end_layout
 
 \begin_layout Standard
@@ -7285,11 +7294,18 @@ Ad oggi, gli unici attacchi che funzionano contro AES, sfruttano debolezze
 \end_layout
 
 \begin_layout Chapter
-Sequenze Pseudo-casuali
+Successioni Pseudo-casuali
 \end_layout
 
 \begin_layout Section
 Sequenze binarie pseudo-casuali (PRBS)
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Sequenze-binarie-pseudo-casuali"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -8024,11 +8040,10 @@ Sia
 \end_inset
 
  contiene l'LSB corrispondente):
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
-\noindent
-\align center
+
 \begin_inset Float table
 wide false
 sideways false
@@ -8092,9 +8107,9 @@ i & x_{i} & b_{i}\\
 \end_inset
 
 
-\end_layout
+\begin_inset Newline newline
+\end_inset
 
-\begin_layout Standard
 Dalla successione costruita osserviamo che il periodo vale 10.
  Sappiamo che il periodo sarà un divisore di 
 \begin_inset Formula $\lambda\left(\lambda\left(n\right)\right)$
@@ -8239,6 +8254,2167 @@ deve valere
 \begin_layout Standard
 Scegliendo i due primi col criterio appena mostrato, si otterrà in periodo
  più lungo possibile.
+\end_layout
+
+\begin_layout Section
+Successioni LFSR
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Successioni-LFSR"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si tratta di successioni lineari di bit, con aritmetica modulo 2; definiamo
+ una sequenza PRBS con la seguente costruzione:
+\begin_inset Formula 
+\[
+\cgm{x_{n+5}}{x_{n}+x_{n+2}}2
+\]
+
+\end_inset
+
+Una notazione equivalente per la precedente congruenza è:
+\begin_inset Formula 
+\begin{equation}
+\cgm{x_{n}}{x_{n-5}+x_{n-3}}2\label{eq:successione-LFSR-5}
+\end{equation}
+
+\end_inset
+
+Chiamiamo successione LFSR con memoria 5 la congruenza 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:successione-LFSR-5"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In generale, data una memoria di 
+\begin_inset Formula $M$
+\end_inset
+
+ bit (la quale genera una ricorrenza di ordine 
+\begin_inset Formula $M$
+\end_inset
+
+), possiamo definire una successione LFSR come:
+\begin_inset Formula 
+\[
+\cgm{x_{n+M}}{c_{M}\cdot x_{n}+c_{M-1}\cdot x_{n+1}+\ldots+c_{1}\cdot x_{n+M-1}}2
+\]
+
+\end_inset
+
+Come prima, una costruzione alternativa (vedremo che essa semplificherà
+ la sintesi di un circuito sequenziale) per la precedente è:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Successione LFSR
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Successione LFSR
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\cgm{x_{n}}{c_{M}\cdot x_{n-M}+c_{M-1}\cdot x_{n-M+1}+\ldots+c_{1}\cdot x_{n-1}}2\label{eq:successione-LFSR-M}
+\end{equation}
+
+\end_inset
+
+Possiamo descrivere la ricorrenza 
+\begin_inset Formula $M$
+\end_inset
+
+ relativa alla successione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:successione-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ tramite il seguente polinomio, che ha per coefficienti i 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ della ricorrenza:
+\begin_inset Formula 
+\begin{equation}
+P\left(Y\right)=c_{M}Y^{M}+c_{M-1}Y^{M-1}+\ldots+c_{1}Y+c_{0}\label{eq:polinomio-LFSR-M}
+\end{equation}
+
+\end_inset
+
+Il polinomio è nella variabile 
+\begin_inset Formula $Y$
+\end_inset
+
+ per distinguere chiaramente la sua variabile da quella della successione
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:successione-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; usiamo un polinomio per descrivere la ricorrenza, per lavorare con i campi
+ di Galois.
+\end_layout
+
+\begin_layout Standard
+Il polinomio 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:polinomio-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ha grado 
+\begin_inset Formula $M$
+\end_inset
+
+ e descrive una successione con periodo al più 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+; i polinomi di grado esattamente 
+\begin_inset Formula $M$
+\end_inset
+
+ sono in numero 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+: infatti possiamo affermare che 
+\begin_inset Formula $c_{0}=1$
+\end_inset
+
+ (riferito all'elemento presente) e 
+\begin_inset Formula $c_{M}=1$
+\end_inset
+
+ (altrimenti il polinomio non arriverebbe al grado 
+\begin_inset Formula $M$
+\end_inset
+
+), sottraendo due gradi di libertà dal numero totale di polinomi di grado
+ 
+\begin_inset Formula $M$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Per avere una ricorrenza di periodo massimo, dovremo scegliere un polinomio
+ 
+\emph on
+irriducibile
+\emph default
+, da cercare tra i 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+ disponibili.
+\end_layout
+
+\begin_layout Standard
+Questa ricorrenza può essere implementata via hardware, tramite dei registri
+ a scorrimento; per esempio per avere una ricorrenza con periodo di un milione
+ serviranno almeno 20 celle di memoria (
+\begin_inset Formula $2^{20}-1\simeq10^{6}$
+\end_inset
+
+).
+ La sequenza 
+\begin_inset Formula $\left\{ x_{M}\right\} $
+\end_inset
+
+ generata in questo modo potrà essere usata come sequenza pseudo-casuale
+ 
+\begin_inset Formula $r$
+\end_inset
+
+, nel sistema di cifratura introdotto all'inizio de 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "sec:Sequenze-binarie-pseudo-casuali"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+ In tal caso la chiave sarà costituita da:
+\end_layout
+
+\begin_layout Itemize
+i coefficienti del polinomio 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:polinomio-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, tranne il primo e l'ultimo 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ sappiamo che essi valgono sempre 1 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ ovvero 
+\begin_inset Formula $M-1$
+\end_inset
+
+ bit in totale, a rappresentare i rimanenti coefficienti (che essendo residui
+ modulo 2 valgono 0 o 1);
+\end_layout
+
+\begin_layout Itemize
+i valori degli 
+\begin_inset Formula $x$
+\end_inset
+
+ con i quali inizializzare il polinomio, ovvero 
+\begin_inset Formula $M$
+\end_inset
+
+ bit.
+\end_layout
+
+\begin_layout Standard
+Questo metodo è vulnerabile all'attacco del testo in chiaro, ed è usato
+ quando la velocità di cifratura va privilegiata rispetto alla sicurezza.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Example
+
+\emph on
+Consideriamo la successione LFSR definita con la congruenza seguente:
+\emph default
+
+\begin_inset Formula 
+\[
+\cgm{x_{n}}{x_{n-2}+x_{n-3}}2
+\]
+
+\end_inset
+
+
+\emph on
+Implementare la ricorrenza in esame con un circuito sequenziale.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checked$
+\end_inset
+
+Possiamo rappresentare la successione col seguente polinomio:
+\begin_inset Formula 
+\[
+P\left(Y\right)=Y^{3}+Y^{2}+1
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Infatti l'ordine della ricorrenza è 3 (ottenuto osservando gli indici delle
+ 
+\begin_inset Formula $x$
+\end_inset
+
+), sappiamo che 
+\begin_inset Formula $c_{3}=c_{0}=1$
+\end_inset
+
+ e infine i termini 
+\begin_inset Formula $x_{n-2}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{n-3}$
+\end_inset
+
+ rappresentano 
+\begin_inset Formula $Y^{2}$
+\end_inset
+
+ e 
+\begin_inset Formula $Y^{3}$
+\end_inset
+
+ rispettivamente; il periodo massimo della sequenza vale 
+\begin_inset Formula $2^{3}-1=7$
+\end_inset
+
+ (sarebbe sicuramente massimo se 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ fosse irriducibile).
+\end_layout
+
+\begin_layout Plain Layout
+Implementiamo la successione LFSR col circuito ne 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:registro-scorrimento-3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Illustrazioni/5_2-1 Successione LFSR v1.pdf
+	display false
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Registro a scorrimento con 3 celle di memoria}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:registro-scorrimento-3"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Abbiamo già concluso che il periodo di una successione LFSR definita dal
+ polinomio 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:successione-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ 
+\emph on
+irriducibile
+\emph default
+, sarà al massimo 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+, oppure un suo sottomultiplo (può essere un numero diverso se 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ non è irriducibile); tuttavia, se 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+ è 
+\emph on
+primo
+\emph default
+, il suo unico sottomultiplo è lui stesso (si ottiene il periodo massimo
+ possibile).
+ In breve vale la seguente condizione:
+\begin_inset Formula 
+\[
+P\left(Y\right)\text{ irriducibile}\land2^{M}-1\text{ primo}\implies\left\{ x_{M}\right\} \text{ periodo massimo }\left(2^{M}-1\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Stato della successione
+\end_layout
+
+\begin_layout Standard
+Supponiamo di prendere il polinomio 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ irriducibile 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:polinomio-LFSR-M"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, allora possiamo definire il campo di Galois con questo polinomio:
+\begin_inset Formula 
+\[
+\mathcal{GF}\left(2^{M}\right)=\mod{\mathbb{Z}_{2}\left[Y\right]}{P\left(Y\right)}
+\]
+
+\end_inset
+
+I polinomi appartenenti a questo campo, che chiamiamo 
+\begin_inset Formula $s_{j}\left(Y\right)$
+\end_inset
+
+, avranno al massimo grado 
+\begin_inset Formula $M-1$
+\end_inset
+
+ e gli 
+\begin_inset Formula $M$
+\end_inset
+
+ coefficienti di ciascun polinomio rappresentano lo stato al passo 
+\begin_inset Formula $j$
+\end_inset
+
+-esimo di un circuito sequenziale che genera una successione LFSR, che chiamerem
+o 
+\emph on
+scrambler
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Possiamo anche considerare 
+\begin_inset Formula $s_{j}\left(Y\right)\in\mathcal{GF}\left(2^{M}\right)$
+\end_inset
+
+ come un vettore a 
+\begin_inset Formula $M$
+\end_inset
+
+ dimensioni, dove le coordinate valgono in modulo 2 (0 o 1).
+\end_layout
+
+\begin_layout Standard
+Se moltiplichiamo per 
+\begin_inset Formula $Y$
+\end_inset
+
+ un polinomio 
+\begin_inset Formula $s_{j}\left(Y\right)$
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ il quale rappresenta lo stato delle 
+\begin_inset Formula $M$
+\end_inset
+
+ celle di memoria 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ otteniamo lo shift in avanti di un passo del circuito combinatorio:
+\begin_inset Formula 
+\[
+Y\cdot s_{j}\left(Y\right)=s_{j+1}\left(Y\right)
+\]
+
+\end_inset
+
+A questo punto, possiamo scrivere lo stato al passo 
+\begin_inset Formula $j$
+\end_inset
+
+-esimo come un residuo in modulo 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+, rispetto allo stato iniziale:
+\begin_inset Formula 
+\[
+\cgm{s_{j}\left(Y\right)}{s_{0}\left(Y\right)\cdot Y^{j}}{P\left(Y\right)}
+\]
+
+\end_inset
+
+Chiediamoci dunque sotto quali condizioni 
+\begin_inset Formula $s_{j}\left(Y\right)=s_{0}\left(Y\right)$
+\end_inset
+
+, o in altre parole quanto vale il passo al quale inizia il secondo periodo;
+ questo si verifica quando 
+\begin_inset Formula $\cgm{Y^{j}}1{P\left(Y\right)}$
+\end_inset
+
+.
+ Ci interessa il 
+\begin_inset Formula $j$
+\end_inset
+
+ per cui questa congruenza è vera, quindi ci interessa l'intero minimo per
+ cui 
+\begin_inset Formula $Y$
+\end_inset
+
+ (elemento del campo) elevato a quell'intero dia 1 come residuo: in pratica
+ cerchiamo l'ordine dell'elemento 
+\begin_inset Formula $Y$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+s_{j}\left(Y\right)=s_{0}\left(Y\right)\implies j=\ord Y,\,Y\in\mathcal{GF}\left(2^{M}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:Ordine-massimo-da-elemento-GF"
+
+\end_inset
+
+L'ordine di un elemento del campo sarà del tipo 
+\begin_inset Formula $\left(2^{M}-1\right)/d$
+\end_inset
+
+, con 
+\begin_inset Formula $d$
+\end_inset
+
+ un qualche intero; si verifica 
+\begin_inset Formula $d=1$
+\end_inset
+
+ (ordine massimo, pari a 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+) quando 
+\begin_inset Formula $Y$
+\end_inset
+
+ è un elemento generatore del campo:
+\begin_inset Formula 
+\[
+\ord Y=2^{M}-1\implies Y\text{ elemento generatore}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:Condizione-tutti-elementi-GF-generatori"
+
+\end_inset
+
+Condizione sufficiente perché il periodo della ricorrenza sia 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+ è che il numero 
+\begin_inset Formula $2^{M}-1$
+\end_inset
+
+ sia primo; in tal caso tutti gli elementi del campo 
+\begin_inset Formula $\mathcal{GF}\left(2^{M}\right)$
+\end_inset
+
+ saranno generatori.
+\end_layout
+
+\begin_layout Section
+Scrambler
+\end_layout
+
+\begin_layout Standard
+Consideriamo un apparato di telecomunicazioni: esso avrà un canale che trasporta
+ una sequenza di bit; in generale le proprietà statistiche della sequenza
+ di bit, emessi dalla sorgente, non saranno uniformi.
+ È possibile che una sorgente trasmetta sequenze lunghe di 0 o 1 (sia per
+ volontà degli utenti, che per segnalare una condizione o un evento, o uno
+ stato dell'infrastruttura).
+\end_layout
+
+\begin_layout Standard
+Il modo più banale per codificare bit su un canale di comunicazione, per
+ esempio sulla fibra ottica, è quello di emettere potenza (luce) quando
+ si vuole inviare un 1, e non emettere nulla quando si vuole inviare uno
+ 0.
+ In ricezione, si pone il problema di capire se sia arrivato un 1 o uno
+ 0: si misura la potenza ricevuta, a intervalli di tempo regolari 
+\begin_inset Formula $T$
+\end_inset
+
+ (periodo di cifra), e si determina dell'intensità del segnale in arrivo
+ è maggiore di una certa soglia e può essere considerata la codifica di
+ un 1 piuttosto che di uno 0.
+\end_layout
+
+\begin_layout Standard
+Tuttavia i componenti che costituiscono i circuiti del trasmettitore e del
+ ricevitore, a causa della propria tolleranza di fabbricazione, non possono
+ essere allineati in partenza sulla frequenza di trasmissione (sarà sempre
+ presente uno sfasamento del segnale ricevuto, chiamato 
+\emph on
+jitter
+\emph default
+, o rumore di fase).
+ Si usa quindi un circuito chiamato 
+\emph on
+clock recovery
+\emph default
+, che estrae il sincronismo dal segnale ricevuto; questo è usato come base
+ per generare un segnale di clock che pilota un campionatore, facendolo
+ agire esattamente a metà del periodo di cifra (
+\begin_inset Formula $T/2$
+\end_inset
+
+); per estrarre il clock si utilizzano i fronti di salita e discesa del
+ segnale in ricezione.
+\end_layout
+
+\begin_layout Standard
+Il
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Un test a livello fisico che si effettua sul ricevitore è chiamato CID (consecut
+ive identical digits, ovvero cifre identiche consecutive)
+\end_layout
+
+\end_inset
+
+ problema del clock recovery è l'incapacità dei estrarre il sincronismo
+ da una sequenza di cifre uguali (tutti 1 o 0).
+ VI sono due strade per ovviare al problema:
+\end_layout
+
+\begin_layout Enumerate
+usare una modulazione differente per codificare il segnale nel canale (per
+ esempio HDB3 trasmette transizioni di potenza a prescindere dalla cifra
+ codificata);
+\end_layout
+
+\begin_layout Enumerate
+su fibra, dove si trasmette con la modulazione on/off, si usa uno 
+\emph on
+scrambler
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+La seconda strada prevede l'impiego dello scrambler, che genera una sequenza
+ pseudo-casuale (non ci saranno più sequenze lunghe di cifre ripetute);
+ esso dovrà avere le seguenti proprietà:
+\end_layout
+
+\begin_layout Itemize
+equalizza la statistica del primo ordine (la 
+\emph on
+media
+\emph default
+ degli 1 e 0 trasmessi sia 
+\emph on
+uguale
+\emph default
+);
+\end_layout
+
+\begin_layout Itemize
+equalizza la statistica del secondo ordine (l'autocorrelazione degli 1 e
+ degli 0 deve essere uguale, ovvero la sequenza deve avere 
+\emph on
+assenza di memoria
+\emph default
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ essere non periodica).
+\end_layout
+
+\begin_layout Standard
+Per realizzare uno scrambler si usa una successione LFSR (si veda 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "sec:Successioni-LFSR"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+); possiamo realizzare gli scrambler in due modi.
+\end_layout
+
+\begin_layout Subsection
+Scrambler auto-sincronizzante
+\end_layout
+
+\begin_layout Standard
+Si prenda la sequenza 
+\begin_inset Formula $\left\{ I_{k}\right\} $
+\end_inset
+
+ dei dati da confondere, la si somma in modulo 2 al contenuto di una serie
+ di celle di memoria, collegando in retroazione solo quelle identificate
+ dal polinomio caratteristico che descrive la successione LFSR usata.
+ Si ottiene la sequenza 
+\begin_inset Formula $\left\{ U_{k}\right\} $
+\end_inset
+
+ dei dati confusi.
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "70text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Example
+
+\emph on
+Consideriamo la successione LFSR definita dal polinomio:
+\emph default
+
+\begin_inset Formula 
+\[
+P\left(Y\right)=Y^{3}+X+1
+\]
+
+\end_inset
+
+
+\emph on
+Implementare uno scrambler descritto da 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Formula $\checked$
+\end_inset
+
+Possiamo rappresentare il polinomio con la congruenza:
+\begin_inset Formula 
+\[
+\cgm{x_{n}}{x_{n-1}+x_{n-3}}2
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Infatti l'ordine della ricorrenza è 3 (ottenuto osservando il grado di 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+), sappiamo che 
+\begin_inset Formula $c_{3}=c_{0}=1$
+\end_inset
+
+ e infine i termini 
+\begin_inset Formula $Y$
+\end_inset
+
+ e 
+\begin_inset Formula $Y^{3}$
+\end_inset
+
+ rappresentano rispettivamente 
+\begin_inset Formula $x_{n-1}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{n-3}$
+\end_inset
+
+; il periodo massimo della sequenza vale 
+\begin_inset Formula $2^{3}-1=7$
+\end_inset
+
+ (sarebbe sicuramente massimo se 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ fosse irriducibile).
+\end_layout
+
+\begin_layout Plain Layout
+Lo scrambler è implementato dal circuito ne 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:scrambler-auto-sincronizzante-3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "40text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Illustrazioni/5_5-1 Scrambler auto-sincronizzante ord 3.pdf
+	display false
+	scale 65
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Scrambler auto-sincronizzante di ordine 3}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:scrambler-auto-sincronizzante-3"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Uno scrambler come quello realizzato nell'esempio, avrà periodo massimo
+ 7, nel caso in cui l'ingresso sia costituito da una sequenza si cifre uguali.
+\end_layout
+
+\begin_layout Standard
+Per effettuare l'operazione inversa dello scrambling, basta invertire il
+ senso delle frecce che escono da 
+\begin_inset Formula $\left\{ I_{k}\right\} $
+\end_inset
+
+ e entrano in 
+\begin_inset Formula $\left\{ U_{k}\right\} $
+\end_inset
+
+ (grazie alle somme modulo 2, bisogna solamente invertire la direzione di
+ ingresso e uscita); inoltre non è necessario conoscere il contenuto di
+ 
+\begin_inset Formula $M_{1}$
+\end_inset
+
+, 
+\begin_inset Formula $M_{2}$
+\end_inset
+
+ e 
+\begin_inset Formula $M_{3}$
+\end_inset
+
+, tuttavia saranno necessari 3 passi iniziali per inizializzare lo stato
+ dello scrambler.
+ In pratica sarà necessario conoscere unicamente il polinomio 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Scrambler additivo
+\end_layout
+
+\begin_layout Standard
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Il funzionamento di questo scrambler è simile al precedente, con la differenza
+ che l'ingresso viene spento (sostituito da zeri), e il circuito LFSR genera
+ una sequenza casuale 
+\begin_inset Formula $\left\{ R_{k}\right\} $
+\end_inset
+
+ (come un generatore PRBS), che viene infine sommata all'ingresso per generare
+ l'uscita.
+ In questo caso è necessario conoscere anche l'inizializzazione delle celle
+ 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+, oltre al polinomio 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Plain Layout
+Lo scrambler additivo sopperisce a un difetto di quello auto-sincronizzante:
+ quest'ultimo infatti propaga gli errori; un bit sbagliato ricevuto da uno
+ scrambler auto-sincronizzante interrompe la sequenza, e sono necessari
+ 
+\begin_inset Formula $M$
+\end_inset
+
+ passi per inizializzare nuovamente il registro a scorrimento.
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "60text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Graphics
+	filename Illustrazioni/5_5-2 Scrambler additivo ord M.pdf
+	display false
+	scale 70
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{figure}{Scrambler additivo di ordine $M$}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:registro-scorrimento-3-1-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Per effettuare il 
+\emph on
+descrambling
+\emph default
+ (operazione inversa dello scrambling), si effettua di nuovo l'inversione
+ delle frecce collegate all'ingresso e all'uscita.
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Fact
+Tutti i dati trasmessi da un utente, prima di essere mappati nel canale
+ trasmissivo tramite un protocollo di livello 2 o 1, passano attraverso
+ un scrambler auto-sincronizzante con polinomio 
+\begin_inset Formula $P\left(Y\right)=Y^{43}+1$
+\end_inset
+
+; questa configurazione comporta una propagazione di eventuali errori, tuttavia
+ garantisce maggiore sicurezza, impedendo che un attaccante manipoli l'uscita
+ 
+\begin_inset Formula $\left\{ U_{k}\right\} $
+\end_inset
+
+ dello scrambler (sarebbe necessario conoscere lo stato del registro a scorrimen
+to, è possibile ottenerlo tramite 
+\begin_inset Formula $2^{43}$
+\end_inset
+
+ tentativi 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ circa 
+\begin_inset Formula $10^{12}$
+\end_inset
+
+).
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+In tutti i sistemi di comunicazione si disaccoppiano i dati trasmessi dall'utent
+e da quelli che circolano sul mezzo trasmissivo
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-2.5cm]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+RSA
+\end_layout
+
+\begin_layout Section
+Introduzione
+\end_layout
+
+\begin_layout Standard
+Trattiamo l'algoritmo di cifratura a chiave pubblica Rivest-Shamir-Adleman
+ (RSA).
+ La peculiarità degli algoritmi a chiave pubblica è la condivisione di una
+ chiave pubblica con chiunque voglia cifrare un messaggio, il quale potrà
+ essere decifrato solo dalla chiave privata, custodita dal destinatario.
+ La generazione della coppia di chiavi pubblica e privata è realizzata mediante
+ una funzione unidirezionale (si veda 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "subsec:Funzioni-di-hash"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+); in questo modo, si ricava la chiave pubblica da quella privata.
+ In questo modo chi entrerà in possesso della chiave pubblica non sarà in
+ grado di ricavarne la chiave privata.
+\end_layout
+
+\begin_layout Standard
+Nel caso dell'RSA, la funzione unidirezionale è la seguente.
+ Prendiamo una coppia di primi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ molto grandi, e scelti secondo un criterio (mostrato più avanti); calcoliamo
+ 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+, e a questo punto avremo un intero composto computazionalmente impossibile
+ da fattorizzare.
+ Il prodotto dei due primi costituisce una funzione invertibile, e se essi
+ sono scelti correttamente è anche unidirezionale; il composto 
+\begin_inset Formula $n$
+\end_inset
+
+ sarà pubblico, e i primi 
+\begin_inset Formula $p,\,q$
+\end_inset
+
+ saranno mantenuti segreti.
+\end_layout
+
+\begin_layout Section
+Algoritmo
+\end_layout
+
+\begin_layout Standard
+Prendiamo un composto 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+, costituito da due primi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ scelti adeguatamente; prendiamo un intero 
+\begin_inset Formula $e$
+\end_inset
+
+, che chiamiamo esponente di cifratura, tale che 
+\begin_inset Formula $e\perp\varphi\left(n\right)$
+\end_inset
+
+.
+ Dato che 
+\begin_inset Formula $n$
+\end_inset
+
+ è costituito da due primi, vale 
+\begin_inset Formula $\varphi\left(n\right)=\left(p-1\right)\left(q-1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Il messaggio in chiaro 
+\begin_inset Formula $m$
+\end_inset
+
+ e quello cifrato 
+\begin_inset Formula $c$
+\end_inset
+
+ sono entrambi elementi di 
+\begin_inset Formula $\mathbb{Z}_{n}$
+\end_inset
+
+; le funzioni di cifratura e decifratura sono definite come:
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{c}
+\cgm c{p^{e}}n\\
+\cgm m{c^{d}}n
+\end{array}\label{eq:RSA-cifra-decifra}
+\end{equation}
+
+\end_inset
+
+L'intero 
+\begin_inset Formula $d$
+\end_inset
+
+, chiamato esponente di decifratura, è legato a 
+\begin_inset Formula $e$
+\end_inset
+
+ nel modo seguente:
+\begin_inset Formula 
+\[
+\cgm{e\cdot d}1{\varphi\left(n\right)}\implies\boxed{\cgm d{e^{-1}}{\varphi\left(n\right)}}
+\]
+
+\end_inset
+
+Dalla congruenza con 1 modulo 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+ e il prodotto degli esponenti di cifratura, si deduce che:
+\begin_inset Formula 
+\[
+e\cdot d=1+k\cdot\varphi\left(n\right)
+\]
+
+\end_inset
+
+A questo punto dalla funzione di decifratura 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:RSA-cifra-decifra"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ otteniamo:
+\begin_inset Formula 
+\[
+c^{d}=m^{e\cdot d}=m^{1+k\cdot\varphi\left(n\right)}\overset{*}{=}\boxed{m}\cdot1^{k}
+\]
+
+\end_inset
+
+Nella relazione 
+\begin_inset Formula $*$
+\end_inset
+
+ abbiamo usato 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; si è voluto mostrare che esiste una corrispondenza univoca tra 
+\begin_inset Formula $m$
+\end_inset
+
+ e 
+\begin_inset Formula $c$
+\end_inset
+
+, per l'ipotesi che 
+\begin_inset Formula $e\perp\varphi\left(n\right)$
+\end_inset
+
+ (esiste un solo 
+\begin_inset Formula $d$
+\end_inset
+
+ che sia inverso di 
+\begin_inset Formula $e$
+\end_inset
+
+ in modulo 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+, e vice versa).
+\end_layout
+
+\begin_layout Standard
+La 
+\emph on
+chiave pubblica
+\emph default
+ è costituita da 
+\begin_inset Formula $n,\,e$
+\end_inset
+
+ mentre la 
+\emph on
+chiave privata
+\emph default
+ è 
+\begin_inset Formula $d$
+\end_inset
+
+, insieme a 
+\begin_inset Formula $p,\,q$
+\end_inset
+
+ oppure a 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Siano dati due primi 
+\begin_inset Formula $p_{{\scriptscriptstyle \mathbb{S}}}=3,\,q_{{\scriptscriptstyle \mathbb{S}}}=11$
+\end_inset
+
+ e un intero 
+\begin_inset Formula $e_{{\scriptscriptstyle \mathbb{P}}}=7$
+\end_inset
+
+, cifrare tramite RSA il messaggio 
+\begin_inset Formula $m=19$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Calcoliamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+All'interno di questo esempio, abbiamo usato i pedici 
+\begin_inset Formula ${\scriptscriptstyle \mathbb{P}}$
+\end_inset
+
+ e 
+\begin_inset Formula ${\scriptscriptstyle \mathbb{S}}$
+\end_inset
+
+ per indicare un elemento della chiave pubblica o della chiave privata
+\end_layout
+
+\end_inset
+
+ il composto 
+\begin_inset Formula $n_{{\scriptscriptstyle \mathbb{P}}}=p\cdot q=33$
+\end_inset
+
+; calcoliamo inoltre 
+\begin_inset Formula $\varphi\left(n\right)_{{\scriptscriptstyle \mathbb{S}}}=\varphi\left(33\right)=\left(3-1\right)\left(11-1\right)=2\cdot10=20$
+\end_inset
+
+.
+ A questo punto possiamo calcolare 
+\begin_inset Formula $d$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm d{e^{-1}}{\varphi\left(n\right)}\\
+\cgm d{e^{\varphi\left(\varphi\left(n\right)\right)-1}}{\varphi\left(n\right)}\\
+\cgm d{7^{7}}{20}\\
+\boxed{\cgm{d_{{\scriptscriptstyle \mathbb{S}}}}3{20}}
+\end{array}
+\]
+
+\end_inset
+
+Nella precedente relazione abbiamo usato 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Inverso-residuo-toziente"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, e abbiamo calcolato 
+\begin_inset Formula $\varphi\left(\varphi\left(n\right)\right)=\left(2^{2}-2\right)\left(5-1\right)=8$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Cifriamo il messaggio 
+\begin_inset Formula $m=19$
+\end_inset
+
+ applicando 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:RSA-cifra-decifra"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+c=\mod{19^{7}}{33}=13
+\]
+
+\end_inset
+
+Si noti che possiamo riottenere 
+\begin_inset Formula $m=\mod{13^{3}}{33}=19$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Per effettuare la decifratura (operazione adibita alla chiave privata) è
+ necessario l'esponente 
+\begin_inset Formula $d$
+\end_inset
+
+, il quale a sua volta viene calcolato tramite 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+, che a sua volta deriva dai due primi 
+\begin_inset Formula $p,\,q$
+\end_inset
+
+.
+ Ebbene, la conoscenza dei primi 
+\begin_inset Formula $p,\,q$
+\end_inset
+
+ o del toziente del loro prodotto 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+, compromette nello stesso modo la sicurezza dell'algoritmo, e permette
+ di calcolare 
+\begin_inset Formula $d$
+\end_inset
+
+ (la chiave privata).
+\end_layout
+
+\begin_layout Example
+Sia dato il composto 
+\begin_inset Formula $n=p\cdot q=11413$
+\end_inset
+
+, prodotto di due primi, e il suo toziente sia noto 
+\begin_inset Formula $\varphi\left(n\right)=$
+\end_inset
+
+
+\begin_inset Formula $\left(p-1\right)\left(q-1\right)=11200$
+\end_inset
+
+.
+ Calcolare i due primi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Analizziamo la relazione 
+\begin_inset Formula $n-\varphi\left(n\right)+1$
+\end_inset
+
+, con le seguenti riscritture:
+\begin_inset Formula 
+\begin{align*}
+n-\varphi\left(n\right)+1 & =p\cdot q-\left(p-1\right)\left(q-1\right)+1\\
+214 & =p+q
+\end{align*}
+
+\end_inset
+
+Con la conoscenza della somma dei primi cercati, possiamo risolvere la seguente
+ equazione:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\left(x-p\right)\left(x-q\right)=0\\
+x^{2}-\overset{n-\varphi\left(n\right)+1}{\overbrace{\left(p+q\right)}}x+\overset{n}{\overbrace{p\cdot q}}=0\\
+x^{2}-214x+11413
+\end{array}
+\]
+
+\end_inset
+
+Otteniamo le seguenti soluzioni:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Nella formula risolutiva deve valere 
+\begin_inset Formula $\Delta>0$
+\end_inset
+
+, altrimenti 
+\begin_inset Formula $n$
+\end_inset
+
+ e 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+ non sarebbero corretti
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+x=\frac{214\pm\sqrt{214^{2}-4\cdot11413}}{2}=\left\{ 101,\,113\right\} 
+\]
+
+\end_inset
+
+Abbiamo ottenuto 
+\begin_inset Formula $p=101,\,q=113$
+\end_inset
+
+.
+ Avremmo ottenuto il risultato con una bassa complessità computazionale
+ (risolvere un'equazione di secondo grado), anche nel caso di 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ molto grandi.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Sicurezza di RSA
+\end_layout
+
+\begin_layout Standard
+In teoria, l'RSA correttamente implementato è sicuro, fintanto che la scomposizi
+one in fattori primi molto grandi rimane un problema difficile; tuttavia
+ esistono delle insidie che influenzano la corretta realizzazione, di cui
+ parleremo in questa sezione.
+\end_layout
+
+\begin_layout Theorem
+Sia
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Debolezza sulle cifre dei primi in RSA
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+RSA, debolezza sulle cifre dei primi
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "thm:RSA-debolezza-sulle-cifre-primi"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-0.3cm]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Formula $m$
+\end_inset
+
+ il numero di cifre di 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+ (
+\begin_inset Formula $m=\left\lceil \log_{10}\left(p\cdot q\right)\right\rceil $
+\end_inset
+
+); se si conoscono almeno le 
+\bar under
+prime
+\bar default
+ o le 
+\bar under
+ultime
+\bar default
+ 
+\begin_inset Formula $m/4$
+\end_inset
+
+ cifre di uno dei due primi 
+\begin_inset Formula $p$
+\end_inset
+
+ o 
+\begin_inset Formula $q$
+\end_inset
+
+, allora è possibile fattorizzare in modo efficiente 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Se 
+\begin_inset Formula $n$
+\end_inset
+
+ ha 
+\begin_inset Formula $m$
+\end_inset
+
+ cifre, e 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ sono confrontabili, allora essi avranno ciascuno 
+\begin_inset Formula $m/2$
+\end_inset
+
+ cifre.
+\end_layout
+
+\begin_layout Standard
+Il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:RSA-debolezza-sulle-cifre-primi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ può essere sfruttato se il metodo che il mittente utilizza per ricavare
+ i primi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ è noto e predicibile: provando per tentativi le cifre dei primi in un intorno
+ di candidati, è possibile trovare le prime o le ultime 
+\begin_inset Formula $m/4$
+\end_inset
+
+ cifre di 
+\begin_inset Formula $p$
+\end_inset
+
+ o 
+\begin_inset Formula $q$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Corollary
+Consideriamo una chiave pubblica RSA costituita da 
+\begin_inset Formula $n,\,e$
+\end_inset
+
+, sia 
+\begin_inset Formula $m$
+\end_inset
+
+ il numero di cifre di 
+\begin_inset Formula $n$
+\end_inset
+
+; se si conoscono almeno le ultime 
+\begin_inset Formula $m/4$
+\end_inset
+
+ cifre di 
+\begin_inset Formula $d$
+\end_inset
+
+ (esponente di decifratura, segreto) allora è possibile fattorizzare in
+ modo efficiente 
+\begin_inset Formula $d$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Dato che 
+\begin_inset Formula $\cgm d{e^{-1}}{\varphi\left(n\right)}$
+\end_inset
+
+, esso avrà da 1 a 
+\begin_inset Formula $m$
+\end_inset
+
+ cifre, per il limite imposto dal modulo di 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+ (il toziente avrà al più il numero di cifre di 
+\begin_inset Formula $n$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Abbiamo enunciato nelle sezioni precedenti che la scelta di 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ deve essere fatta prendendo due primi grandi (nella pratica si usano numero
+ di 150 cifra, ottenendo un 
+\begin_inset Formula $n$
+\end_inset
+
+ di 300 cifre).
+ per la scelta dell'esponente di cifratura, bisogna evitare invece un 
+\begin_inset Formula $e$
+\end_inset
+
+ troppo piccolo, il quale favorirebbe va velocità di cifratura ma sicuramente
+ causerebbe la comparsa di un 
+\begin_inset Formula $d$
+\end_inset
+
+ molto grande.
+ Nella scelta di 
+\begin_inset Formula $e$
+\end_inset
+
+ bisogna anche tenere a mente l'ipotesi che esso sia 
+\begin_inset Formula $e\perp\varphi\left(n\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Un valore per l'esponente di cifratura comunemente usato e comprovato è
+ il seguente:
+\begin_inset Formula 
+\[
+e_{{\scriptscriptstyle \text{RSA}}}=2^{16}+10=65537
+\]
+
+\end_inset
+
+Esso è un numero primo (è altamente improbabile che abbia fattori in comune
+ con 
+\begin_inset Formula $p-1$
+\end_inset
+
+ o 
+\begin_inset Formula $q-1$
+\end_inset
+
+, possiamo verificarlo con 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+); inoltre è facile calcolare il suo valore, tramite square&multiply (si
+ veda 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "sec:Square-&-multiply"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Un altro approccio consiste nello scegliere un 
+\begin_inset Formula $d$
+\end_inset
+
+ sufficientemente robusto (50 cifre sono sufficienti), e a partire da esso
+ si calcola 
+\begin_inset Formula $e$
+\end_inset
+
+ effettuando l'inverso in modulo 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Chapter*
@@ -9067,6 +11243,1388 @@ Si noti che ci troviamo nel caso
 \end_inset
 
 .
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Scrambling
+\end_layout
+
+\begin_layout Exercise
+Si
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: scrambler auto-sincronizzante
+\end_layout
+
+\end_inset
+
+ consideri uni scrambler auto-sincronizzante con polinomio caratteristico
+ 
+\begin_inset Formula $P\left(Y\right)=Y^{3}+Y+1$
+\end_inset
+
+; esso è inizializzato come 
+\begin_inset Formula $M_{1}M_{2}M_{3}=000$
+\end_inset
+
+, in ingresso si ha una sequenza di soli 1 (
+\begin_inset Formula $\left\{ I_{k}\right\} =111\ldots$
+\end_inset
+
+); determinare la sequenza di uscita 
+\begin_inset Formula $\left\{ U_{k}\right\} $
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Innanzitutto cerchiamo il periodo della successione, analizzando la riducibilità
+ del polinomio 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+; esso non è divisibile per 
+\begin_inset Formula $Y$
+\end_inset
+
+, tuttavia può esserlo per 
+\begin_inset Formula $Y+1$
+\end_inset
+
+; dalla divisione tra polinomi si ottiene:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Si ricorda che le operazioni su questo polinomio sono tutte in 
+\bar under
+modulo 2
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\begin{array}{rl}
+Y^{3}\quad\quad+Y+1 & \underline{\left(\div\,Y+1\right)}\\
+\underline{Y^{3}+Y^{2}\quad\;\qquad} & \quad Y^{2}+Y\\
+Y^{2}+Y+1 & \,\\
+\underline{Y^{2}+Y\quad\,\,\,\,} & \,\\
+1
+\end{array}
+\]
+
+\end_inset
+
+Ottenendo resto non nullo, confermiamo che il polinomio non può essere diviso
+ nemmeno per 
+\begin_inset Formula $Y+1$
+\end_inset
+
+; in tal caso possiamo affermare che 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ sia irriducibile, e quindi il periodo della sequenza pseudo-casuale generata
+ sarà determinato dal suo grado 
+\begin_inset Formula $M=3$
+\end_inset
+
+ come 
+\begin_inset Formula $\pi=2^{3}-1=7$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Lo scrambler descritto dal polinomio 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ può essere implementato col circuito ne 
+\begin_inset CommandInset ref
+LatexCommand formatted
+reference "fig:scrambler-auto-sincronizzante-3"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; l'andamento della sua uscita si ricava riempiendo la seguente tabella
+ (viene mostrato anche il descrambling della sequenza 
+\begin_inset Formula $\left\{ U_{k}\right\} $
+\end_inset
+
+ ottenuta):
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $k$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{I}_{k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{M}_{1,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M_{2,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{M}_{3,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $U_{k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{table}{Uscita dello scrambler}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "c"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "50text%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+\noindent
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $k$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{U}_{k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{M}_{1,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $M_{2,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\overset{\bullet}{M}_{3,k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $I_{k}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+captionof{table}{Uscita del descrambler}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+La tabella indica lo stato al passo 
+\begin_inset Formula $k$
+\end_inset
+
+-esimo delle celle di memoria e dell'uscita; la consegna prevede di assegnare
+ all'ingresso 1 in ciascun passo (
+\begin_inset Formula $\forall k\in\left[0,\,\infty\right)\tc I_{k}=1$
+\end_inset
+
+).
+ Le colonne con un cerchio pieno sopra l'etichetta di una colonna relativa
+ a una cella di memoria, indica che essa è collegata in retroazione; in
+ pratica l'uscita sarà influenzata dalla somma modulo 2 dell'ingresso con
+ tutte le celle 
+\begin_inset Formula $\overset{\bullet}{M}_{i,k}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Possiamo notare che l'uscita ha proprio periodo 7; infatti lo stato delle
+ celle di memoria al passo 7 è uguale a quello al passo 0.
+\end_layout
+
+\begin_layout Solution
+SI noti che, nella tabella del descrambler, le tre celle di memoria sono
+ state inizializzate in modo arbitrario (
+\begin_inset Formula $M_{1}M_{2}M_{3}=100$
+\end_inset
+
+), inoltre sono stati necessari 3 passi per avere la traduzione corretta
+ della sequenza 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ lo scrambler auto-sincronizzante descritto da 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+ impiega 
+\begin_inset Formula $M=3$
+\end_inset
+
+ passi per raggiungere da solo la configurazione corretta.
 \begin_inset ERT
 status open
 
