@@ -10417,6 +10417,664 @@ Un altro approccio consiste nello scegliere un
 .
 \end_layout
 
+\begin_layout Section
+Test di primalità
+\end_layout
+
+\begin_layout Standard
+Normalmente testare la primalità di un numero e fattorizzarlo sono problemi
+ differenti: è molto più semplice determinare che un numero sia primo o
+ meno.
+ Vi sono per esempio numeri molto grandi di cui si sa con certezza che sono
+ composti, ma nessuno è stato in grado di determinare i loro fattori.
+\end_layout
+
+\begin_layout Subsection
+Test di Fermat
+\end_layout
+
+\begin_layout Standard
+Richiamiamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Si ricorda che è possibile testare che due interi siano primi relativi (
+\begin_inset Formula $a\perp b$
+\end_inset
+
+) tramite Euclide Esteso 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: 
+\begin_inset Formula $\cgm{a\perp p\land\,p\text{ primo}\implies a^{p-1}}1p$
+\end_inset
+
+; usando questo risultato, ci chiediamo se, preso un 
+\begin_inset Formula $n$
+\end_inset
+
+ intero da testare e un 
+\begin_inset Formula $a\perp n$
+\end_inset
+
+ qualunque, valga
+\begin_inset Formula 
+\begin{equation}
+\cgm{a^{n-1}}1n\label{eq:Test-prim-Fermat}
+\end{equation}
+
+\end_inset
+
+In caso di residuo esattamente 1, possiamo essere abbastanza sicuri che
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ sia un primo: lo chiameremo 
+\emph on
+pseudo-primo di Fermat rispetto alla base
+\emph default
+ 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ Se il residuo della congruenza fosse diverso da 1, potremo affermare che
+ 
+\begin_inset Formula $n$
+\end_inset
+
+ sia composto.
+\end_layout
+
+\begin_layout Remark
+Gli interi primi diventano rarefatti tanto più si cercano con un valore
+ grande, quindi per 
+\begin_inset Formula $n\gg1$
+\end_inset
+
+ la probabilità che uno pseudo-primo di Fermat sia davvero un primo è elevata.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Applicare il test di Fermat all'intero
+\emph default
+ 
+\begin_inset Formula $n=341$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Scegliamo una base che sia prima relativa rispetto a 
+\begin_inset Formula $n$
+\end_inset
+
+; dato che 341 è dispari, prendiamo 
+\begin_inset Formula $a=2$
+\end_inset
+
+.
+ Applichiamo 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-prim-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Gli pseudo-primi di Fermat rispetto alla base 2 sono detti anche 
+\emph on
+numeri di Poulet, Sarrus o Fermatians
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\[
+\mod{2^{340}}{341}=1
+\]
+
+\end_inset
+
+Possiamo affermare che 341 sia uno pseudo-primo di Fermat rispetto alla
+ base 2; con un'analisi veloce tuttavia, otteniamo che 
+\begin_inset Formula $11\backslash341$
+\end_inset
+
+ (infatti 
+\begin_inset Formula $341=11\cdot31$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Ripetiamo il test per un'altra base, rispettando l'ipotesi che sia prima
+ relativa rispetto a 
+\begin_inset Formula $n$
+\end_inset
+
+; scegliamo 
+\begin_inset Formula $a^{\prime}=3$
+\end_inset
+
+, dal test si ottiene:
+\begin_inset Formula 
+\[
+\mod{3^{340}}{341}=56\neq1
+\]
+
+\end_inset
+
+Dato che il candidato al test 
+\begin_inset Formula $n$
+\end_inset
+
+ non passa il test di Fermat per qualunque base 
+\begin_inset Formula $a$
+\end_inset
+
+, possiamo affermare che si tratta di un composto.
+ La condizione appena enunciata è rappresentata da:
+\begin_inset Formula 
+\[
+\exists a\in\mathbb{Z}\tc\ncgm{a^{n-1}}1n\implies n\text{ composto}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+
+\emph on
+\begin_inset CommandInset label
+LatexCommand label
+name "exa:Esempio-pseudo-primo-assoluto"
+
+\end_inset
+
+
+\emph default
+Applicare il test di Fermat all'intero 
+\begin_inset Formula $n=561$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Example
+\begin_inset Formula $\checked$
+\end_inset
+
+Prendiamo la base 
+\begin_inset Formula $a=2$
+\end_inset
+
+, e applichiamo il test:
+\begin_inset Formula 
+\[
+\mod{2^{560}}{561}=1
+\]
+
+\end_inset
+
+Possiamo quindi affermare che 561 è uno pseudo-primo di Fermat rispetto
+ alla base 2; proviamo a usare un'altra base 
+\begin_inset Formula $a=3$
+\end_inset
+
+, in tal caso il test vale:
+\begin_inset Formula 
+\[
+\mod{3^{560}}{561}=375
+\]
+
+\end_inset
+
+Da quest'ultimo risultato deduciamo che 561 è composto; tuttavia quello
+ che abbiamo appena effettuato 
+\bar under
+non
+\bar default
+ era un test di Fermat! Infatti 3 è un fattore di 561 (
+\begin_inset Formula $561=3\cdot11\cdot17$
+\end_inset
+
+); inoltre l'intero 561 appare pseudo-primo per tutte le basi, ad eccezione
+ dei suoi fattori.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+\begin_inset CommandInset label
+LatexCommand label
+name "def:pseudoprimo-assoluto-Carmichael"
+
+\end_inset
+
+Un
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Numeri di Carmichael
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Carmichael, numeri di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-0.2cm]
+\end_layout
+
+\end_inset
+
+ intero pseudo-primo di Fermat rispetto ad ogni base, ad eccezione di quelle
+ che sono i suoi fattori, è chiamato 
+\emph on
+pseudo-primo assoluto
+\emph default
+, oppure 
+\emph on
+numero di Carmichael
+\emph default
+.
+\end_layout
+
+\begin_layout Remark
+La distribuzione dei primi di Carmichael è estremamente rarefatta: il promo
+ elemento è proprio 561, il secondo è 41041, ecc
+\begin_inset Formula $\ldots$
+\end_inset
+
+ Il numero 
+\begin_inset Formula $\mathscr{C}\left(x\right)$
+\end_inset
+
+ dei primi di Carmichael da 0 a 
+\begin_inset Formula $x$
+\end_inset
+
+ è limitato superiormente nel modo seguente:
+\begin_inset Formula 
+\begin{equation}
+\mathscr{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantità-nuemri-Carmichael}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Non esistono pseudo-primi che siano forti e assoluti; tuttavia, sia 
+\begin_inset Formula $\mathbb{B}$
+\end_inset
+
+ un insieme finito di basi, 
+\begin_inset Formula $b$
+\end_inset
+
+ un suo elemento, e 
+\begin_inset Formula $\#_{\text{F}}\left(b\right)$
+\end_inset
+
+ il numero di pseudo-primi forti rispetto a una base 
+\begin_inset Formula $b$
+\end_inset
+
+, allora
+\begin_inset Formula 
+\[
+\forall b\in\mathbb{B}\tc\#_{\text{F}}\left(b\right)=\infty
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Test del principio fondamentale
+\end_layout
+
+\begin_layout Standard
+Richiamiamo il principio fondamentale 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Principio-fondamentale"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; possiamo usare questo risultato per dedurre:
+\begin_inset Formula 
+\begin{equation}
+\exists a,\,b\in\mathbb{Z}\tc\cgm{a^{2}}{b^{2}}n\land\ncgm a{\pm b}n\implies n\text{ composto}\label{eq:Test-prim-principio-fondamentale}
+\end{equation}
+
+\end_inset
+
+Il test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-prim-principio-fondamentale"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ci fornisce anche la seguente informazione: il massimo comune divisore
+ tra 
+\begin_inset Formula $a-b$
+\end_inset
+
+ e 
+\begin_inset Formula $n$
+\end_inset
+
+ è un fattore non banale di 
+\begin_inset Formula $n$
+\end_inset
+
+ (diverso da 1 e da 
+\begin_inset Formula $n$
+\end_inset
+
+), ovvero vale:
+\begin_inset Formula 
+\[
+\mcd{a-b}n\neq\left\{ 1,\,\text{n}\right\} 
+\]
+
+\end_inset
+
+Tramite la conoscenza di un fattore non banale, si può scomporre 
+\begin_inset Formula $n$
+\end_inset
+
+ e ridurre il problema alla fattorizzazione di un intero più piccolo.
+\end_layout
+
+\begin_layout Subsection
+Test di Miller-Rabin
+\end_layout
+
+\begin_layout Standard
+Dato un candidato 
+\begin_inset Formula $n$
+\end_inset
+
+ da testare, esso viene prima testato con Fermat 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-prim-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; se 
+\begin_inset Formula $n$
+\end_inset
+
+ si rivela uno pseudo-primo di Fermat, viene sottoposto al test del principio
+ fondamentale 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-prim-principio-fondamentale"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; gli interi che passano anche il secondo test sono chiamati 
+\emph on
+pseudo-primi forti
+\emph default
+ (non sono sicuramente dei primi, ma lo sono con alta probabilità).
+ Gli interi che non passano il test di Miller-Rabin sono sicuramente composti.
+\end_layout
+
+\begin_layout Standard
+Se prendiamo il candidato 
+\begin_inset Formula $n=561$
+\end_inset
+
+ dell'Esempio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "exa:Esempio-pseudo-primo-assoluto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, esso non passa il test di Miller-Rabin, quindi è uno pseudo-primo assoluto
+ ma non uno pseudo-primo forte.
+\end_layout
+
+\begin_layout Subsection
+Densità dei primi
+\end_layout
+
+\begin_layout Standard
+Vogliamo trovare un intero primo che abbia 100 cifre; la densità dei numeri
+ primi intorno a 
+\begin_inset Formula $10^{100}$
+\end_inset
+
+ può essere calcolata usando la quantità di primi dal Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Numeri-primi"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\frac{\text{\# primi}}{\text{\# interi}}=\frac{\pi\left(10^{100}\right)}{10^{100}}=\frac{1}{\ln\left(10^{100}\right)}=\frac{1}{100\cdot\ln\left(10\right)}\simeq\frac{1}{230}
+\]
+
+\end_inset
+
+Possiamo scrivere in generale, chiamando 
+\begin_inset Formula $\delta\left(x\right)$
+\end_inset
+
+ la densità di primi intorno a 
+\begin_inset Formula $x$
+\end_inset
+
+:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Densità di interi primi
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Densità di interi primi
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.4cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\delta\left(x\right)=\frac{1}{\ln\left(x\right)}\label{eq:Densità-interi-primi}
+\end{equation}
+
+\end_inset
+
+La densità calcolata attorno a 
+\begin_inset Formula $10^{100}$
+\end_inset
+
+ si traduce nella seguente osservazione: prendendo a caso un intero di 10
+ cifre, la probabilità che sia primo è circa 
+\begin_inset Formula $1/230$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Fattorizzazione
+\end_layout
+
 \begin_layout Chapter*
 Esercizi
 \end_layout

@@ -98,6 +98,12 @@
     \fi
 \theoremstyle{definition}
     \ifx\thechapter\undefined
+      \newtheorem{defn}{\protect\definitionname}
+    \else
+      \newtheorem{defn}{\protect\definitionname}[chapter]
+    \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
       \newtheorem{xca}{\protect\exercisename}
     \else
       \newtheorem{xca}{\protect\exercisename}[chapter]
@@ -107,12 +113,6 @@
       \newtheorem{sol}{\protect\solutionname}
     \else
       \newtheorem{sol}{\protect\solutionname}[chapter]
-    \fi
-\theoremstyle{definition}
-    \ifx\thechapter\undefined
-      \newtheorem{defn}{\protect\definitionname}
-    \else
-      \newtheorem{defn}{\protect\definitionname}[chapter]
     \fi
 
 \@ifundefined{date}{}{\date{}}
@@ -2769,6 +2769,153 @@ inoltre è facile calcolare il suo valore, tramite square\&multiply
 Un altro approccio consiste nello scegliere un $d$ sufficientemente
 robusto (50 cifre sono sufficienti), e a partire da esso si calcola
 $e$ effettuando l'inverso in modulo $\varphi\left(n\right)$.
+
+\section{Test di primalità}
+
+Normalmente testare la primalità di un numero e fattorizzarlo sono
+problemi differenti: è molto più semplice determinare che un numero
+sia primo o meno. Vi sono per esempio numeri molto grandi di cui si
+sa con certezza che sono composti, ma nessuno è stato in grado di
+determinare i loro fattori.
+
+\subsection{Test di Fermat}
+
+Richiamiamo\marginpar{Si ricorda che è possibile testare che due interi siano primi relativi
+($a\perp b$) tramite Euclide Esteso (\ref{eq:Algoritmo-Euclide-esteso})} il Teorema \ref{thm:Teorema-piccolo-Fermat}: $\cgm{a\perp p\land\,p\text{ primo}\implies a^{p-1}}1p$;
+usando questo risultato, ci chiediamo se, preso un $n$ intero da
+testare e un $a\perp n$ qualunque, valga
+\begin{equation}
+\cgm{a^{n-1}}1n\label{eq:Test-prim-Fermat}
+\end{equation}
+In caso di residuo esattamente 1, possiamo essere abbastanza sicuri
+che $n$ sia un primo: lo chiameremo \emph{pseudo-primo di Fermat
+rispetto alla base} $a$. Se il residuo della congruenza fosse diverso
+da 1, potremo affermare che $n$ sia composto.
+\begin{rem}
+Gli interi primi diventano rarefatti tanto più si cercano con un valore
+grande, quindi per $n\gg1$ la probabilità che uno pseudo-primo di
+Fermat sia davvero un primo è elevata.
+\end{rem}
+\begin{example}
+\emph{Applicare il test di Fermat all'intero} $n=341$.
+\end{example}
+$\checked$Scegliamo una base che sia prima relativa rispetto a $n$;
+dato che 341 è dispari, prendiamo $a=2$. Applichiamo (\ref{eq:Test-prim-Fermat}):\marginpar{Gli pseudo-primi di Fermat rispetto alla base 2 sono detti anche \emph{numeri
+di Poulet, Sarrus o Fermatians}}
+\[
+\mod{2^{340}}{341}=1
+\]
+Possiamo affermare che 341 sia uno pseudo-primo di Fermat rispetto
+alla base 2; con un'analisi veloce tuttavia, otteniamo che $11\backslash341$
+(infatti $341=11\cdot31$).
+
+Ripetiamo il test per un'altra base, rispettando l'ipotesi che sia
+prima relativa rispetto a $n$; scegliamo $a^{\prime}=3$, dal test
+si ottiene:
+\[
+\mod{3^{340}}{341}=56\neq1
+\]
+Dato che il candidato al test $n$ non passa il test di Fermat per
+qualunque base $a$, possiamo affermare che si tratta di un composto.
+La condizione appena enunciata è rappresentata da:
+\[
+\exists a\in\mathbb{Z}\tc\ncgm{a^{n-1}}1n\implies n\text{ composto}
+\]
+\demo
+\begin{example}
+\emph{\label{exa:Esempio-pseudo-primo-assoluto}}Applicare il test
+di Fermat all'intero $n=561$.
+
+$\checked$Prendiamo la base $a=2$, e applichiamo il test:
+\[
+\mod{2^{560}}{561}=1
+\]
+Possiamo quindi affermare che 561 è uno pseudo-primo di Fermat rispetto
+alla base 2; proviamo a usare un'altra base $a=3$, in tal caso il
+test vale:
+\[
+\mod{3^{560}}{561}=375
+\]
+Da quest'ultimo risultato deduciamo che 561 è composto; tuttavia quello
+che abbiamo appena effettuato \uline{non} era un test di Fermat!
+Infatti 3 è un fattore di 561 ($561=3\cdot11\cdot17$); inoltre l'intero
+561 appare pseudo-primo per tutte le basi, ad eccezione dei suoi fattori.\demo
+\end{example}
+\begin{defn}
+\label{def:pseudoprimo-assoluto-Carmichael}Un\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Numeri di Carmichael}{\footnotesize{}\index{Carmichael, numeri di@{\footnotesize{}Carmichael, numeri di}}}}[-0.2cm] intero pseudo-primo di Fermat rispetto ad ogni base, ad
+eccezione di quelle che sono i suoi fattori, è chiamato \emph{pseudo-primo
+assoluto}, oppure \emph{numero di Carmichael}.
+\end{defn}
+\begin{rem}
+La distribuzione dei primi di Carmichael è estremamente rarefatta:
+il promo elemento è proprio 561, il secondo è 41041, ecc$\ldots$
+Il numero $\mathscr{C}\left(x\right)$ dei primi di Carmichael da
+0 a $x$ è limitato superiormente nel modo seguente:
+\begin{equation}
+\mathscr{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantit=0000E0-nuemri-Carmichael}
+\end{equation}
+\end{rem}
+%
+\begin{rem}
+Non esistono pseudo-primi che siano forti e assoluti; tuttavia, sia
+$\mathbb{B}$ un insieme finito di basi, $b$ un suo elemento, e $\#_{\text{F}}\left(b\right)$
+il numero di pseudo-primi forti rispetto a una base $b$, allora
+\[
+\forall b\in\mathbb{B}\tc\#_{\text{F}}\left(b\right)=\infty
+\]
+\end{rem}
+
+\subsection{Test del principio fondamentale}
+
+Richiamiamo il principio fondamentale (\ref{eq:Principio-fondamentale});
+possiamo usare questo risultato per dedurre:
+\begin{equation}
+\exists a,\,b\in\mathbb{Z}\tc\cgm{a^{2}}{b^{2}}n\land\ncgm a{\pm b}n\implies n\text{ composto}\label{eq:Test-prim-principio-fondamentale}
+\end{equation}
+Il test (\ref{eq:Test-prim-principio-fondamentale}) ci fornisce anche
+la seguente informazione: il massimo comune divisore tra $a-b$ e
+$n$ è un fattore non banale di $n$ (diverso da 1 e da $n$), ovvero
+vale:
+\[
+\mcd{a-b}n\neq\left\{ 1,\,\text{n}\right\} 
+\]
+Tramite la conoscenza di un fattore non banale, si può scomporre $n$
+e ridurre il problema alla fattorizzazione di un intero più piccolo.
+
+\subsection{Test di Miller-Rabin}
+
+Dato un candidato $n$ da testare, esso viene prima testato con Fermat
+(\ref{eq:Test-prim-Fermat}); se $n$ si rivela uno pseudo-primo di
+Fermat, viene sottoposto al test del principio fondamentale (\ref{eq:Test-prim-principio-fondamentale});
+gli interi che passano anche il secondo test sono chiamati \emph{pseudo-primi
+forti} (non sono sicuramente dei primi, ma lo sono con alta probabilità).
+Gli interi che non passano il test di Miller-Rabin sono sicuramente
+composti.
+
+Se prendiamo il candidato $n=561$ dell'Esempio \ref{exa:Esempio-pseudo-primo-assoluto},
+esso non passa il test di Miller-Rabin, quindi è uno pseudo-primo
+assoluto ma non uno pseudo-primo forte.
+
+\subsection{Densità dei primi}
+
+Vogliamo trovare un intero primo che abbia 100 cifre; la densità dei
+numeri primi intorno a $10^{100}$ può essere calcolata usando la
+quantità di primi dal Teorema \ref{thm:Numeri-primi}:
+\[
+\frac{\text{\# primi}}{\text{\# interi}}=\frac{\pi\left(10^{100}\right)}{10^{100}}=\frac{1}{\ln\left(10^{100}\right)}=\frac{1}{100\cdot\ln\left(10\right)}\simeq\frac{1}{230}
+\]
+Possiamo scrivere in generale, chiamando $\delta\left(x\right)$ la
+densità di primi intorno a $x$:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Densità di interi primi}{\footnotesize{}\index{Densità di interi primi@{\footnotesize{}Densità di interi primi}}}}[0.4cm]
+\begin{equation}
+\delta\left(x\right)=\frac{1}{\ln\left(x\right)}\label{eq:Densit=0000E0-interi-primi}
+\end{equation}
+La densità calcolata attorno a $10^{100}$ si traduce nella seguente
+osservazione: prendendo a caso un intero di 10 cifre, la probabilità
+che sia primo è circa $1/230$.
+
+\section{Fattorizzazione}
 
 \chapter*{Esercizi}
 
