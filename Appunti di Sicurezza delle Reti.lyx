@@ -10786,7 +10786,7 @@ La distribuzione dei primi di Carmichael è estremamente rarefatta: il promo
 \end_inset
 
  Il numero 
-\begin_inset Formula $\mathscr{C}\left(x\right)$
+\begin_inset Formula $\mathcal{C}\left(x\right)$
 \end_inset
 
  dei primi di Carmichael da 0 a 
@@ -10796,7 +10796,7 @@ La distribuzione dei primi di Carmichael è estremamente rarefatta: il promo
  è limitato superiormente nel modo seguente:
 \begin_inset Formula 
 \begin{equation}
-\mathscr{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantità-nuemri-Carmichael}
+\mathcal{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantità-nuemri-Carmichael}
 \end{equation}
 
 \end_inset
@@ -10906,6 +10906,13 @@ Tramite la conoscenza di un fattore non banale, si può scomporre
 
 \begin_layout Subsection
 Test di Miller-Rabin
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Test-di-Miller-Rabin"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -11073,6 +11080,430 @@ La densità calcolata attorno a
 
 \begin_layout Section
 Fattorizzazione
+\end_layout
+
+\begin_layout Standard
+Consideriamo un numero 
+\begin_inset Formula $n$
+\end_inset
+
+ che sappiamo essere composto (possiamo prendere un intero che non abbia
+ passato il test di Miller-Rabin §
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Test-di-Miller-Rabin"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+); possiamo adottare dei metodi algoritmici per trovare i suoi fattori primi,
+ se 
+\begin_inset Formula $n$
+\end_inset
+
+ soddisfa certe condizioni, da evitare nella scelta dei primi per RSA.
+\end_layout
+
+\begin_layout Subsection
+Metodo di fattorizzazione di Fermat
+\end_layout
+
+\begin_layout Standard
+Proviamo ad esprimere il numero che sappiamo essere composto, come differenza
+ di due quadrati; otteniamo:
+\begin_inset Formula 
+\[
+n=x^{2}-y^{2}=\bigl(\overset{p}{\overbrace{x+y}}\bigr)\bigl(\overset{q}{\overbrace{x-y}}\bigr)
+\]
+
+\end_inset
+
+Costruiamo la sequenza 
+\begin_inset Formula $\left\{ x^{2}\right\} $
+\end_inset
+
+ seguente, e ci fermiamo quando 
+\begin_inset Formula $n+y^{2}$
+\end_inset
+
+ è un quadrato perfetto:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Fattorizzazione di Fermat
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Fermat, fattorizzazione
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\left\{ x^{2}\right\} =\left\{ y\in\left[0,\,\infty\right)\tc n+y^{2}=x^{2}\right\} \label{eq:Successione-fattorizzazione-Fermat}
+\end{equation}
+
+\end_inset
+
+Una volta trovato un quadrato perfetto, siamo anche a conoscenza della 
+\begin_inset Formula $x$
+\end_inset
+
+ e della 
+\begin_inset Formula $y$
+\end_inset
+
+, con le quali possiamo calcolare i fattori di 
+\begin_inset Formula $n$
+\end_inset
+
+: 
+\begin_inset Formula $p=\left(x+y\right)$
+\end_inset
+
+ e 
+\begin_inset Formula $q=\left(x-y\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+L'efficienza computazionale di questo metodo dipende da quanto siano vicini
+ i fattori di 
+\begin_inset Formula $n$
+\end_inset
+
+; infatti se 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+ e 
+\begin_inset Formula $p\sim q$
+\end_inset
+
+, allora avremo un 
+\begin_inset Formula $y$
+\end_inset
+
+ piccolo che permetterà di arrivare velocemente alla soluzione.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Fattorizzare l'intero 
+\begin_inset Formula $n=295927$
+\end_inset
+
+ col metodo di Fermat.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Costruiamo la successione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-fattorizzazione-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+295927+1 & \neq x^{2}\\
+295927+4 & \neq x^{2}\\
+295927+9 & =544^{2}
+\end{align*}
+
+\end_inset
+
+Possiamo affermare che 
+\begin_inset Formula $x=544$
+\end_inset
+
+, 
+\begin_inset Formula $y=3$
+\end_inset
+
+ e vale 
+\begin_inset Formula $n=\left(544+3\right)\left(544-3\right)$
+\end_inset
+
+.
+ Si noti che i fattori ottenuti 
+\bar under
+non
+\bar default
+ sono necessariamente primi.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Algoritmo di Pollard 
+\begin_inset Formula $\boldsymbol{\left(p-1\right)}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consideriamo un primo 
+\begin_inset Formula $p$
+\end_inset
+
+, in tal caso 
+\begin_inset Formula $p-1$
+\end_inset
+
+ sarà pari, quindi composto:
+\begin_inset Formula 
+\[
+p-1=2\cdot\prod_{i=1}^{i=\ldots}q_{i}
+\]
+
+\end_inset
+
+Possiamo sfruttare questa osservazione solo quando i fattori 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ sono piccoli: se abbiamo almeno un fattore 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ grande, l'algoritmo di Pollard non semplifica il problema della fattorizzazione.
+\end_layout
+
+\begin_layout Standard
+Dato un intero 
+\begin_inset Formula $n$
+\end_inset
+
+ da fattorizzare, si scelga una base 
+\begin_inset Formula $a>1$
+\end_inset
+
+, poi si sviluppi la successione 
+\begin_inset Formula $\left\{ b_{j}\right\} $
+\end_inset
+
+ come:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{b_{1}}an\\
+\cgm{b_{2}}{b_{1}^{2}}n\\
+\cgm{b_{3}}{b_{2}^{3}}n\\
+\vdots
+\end{array}
+\]
+
+\end_inset
+
+Formalizziamo la successione con le seguenti scritture:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Algoritmo di Pollard
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Pollard, algoritmo di
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+\cgm{b_{j}}{b_{j-1}^{j}}n,\quad d_{j}=\mcd{b_{j}-1}n\label{eq:Successione-fattorizzazione-Pollard}
+\end{equation}
+
+\end_inset
+
+Continuiamo per ogni 
+\begin_inset Formula $j$
+\end_inset
+
+ fino a che 
+\begin_inset Formula $d_{j}\neq1$
+\end_inset
+
+; in tal caso 
+\begin_inset Formula $d_{j}$
+\end_inset
+
+ è un fattore non banale di 
+\begin_inset Formula $n$
+\end_inset
+
+, e l'algoritmo termina.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Fattorizzare l'intero 
+\begin_inset Formula $n=11413$
+\end_inset
+
+ con l'algoritmo di Pollard.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Scegliamo la base 
+\begin_inset Formula $a=2$
+\end_inset
+
+, e costruiamo la successione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Successione-fattorizzazione-Pollard"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{ll}
+\cgm{b_{1}}2{11413},\:d_{1}=\mcd 1{11413}=1 & \cgm{b_{6}}{-309^{6}}{11413},\:d_{6}=\mcd{9992}{11413}=1\\
+\cgm{b_{2}}{2^{2}}{11413},\:d_{2}=\mcd 3{11413}=1 & \cgm{b_{7}}{9993^{7}}{11413},\:d_{7}=\mcd{5085}{11413}=1\\
+\cgm{b_{3}}{4^{3}}{11413},\:d_{3}=\mcd{63}{11413}=1 & \cgm{b_{8}}{5086^{8}}{11413},\:d_{8}=\mcd{-1017}{11413}=1\\
+\cgm{b_{4}}{64^{4}}{11413},\:d_{4}=\mcd{105}{11413}=1 & \cgm{b_{9}}{-1016^{9}}{11413},\:d_{9}=\mcd{5537}{11413}=\boxed{113}\\
+\cgm{b_{5}}{106^{5}}{11413},\:d_{5}=\mcd{-309}{11413}=1
+\end{array}
+\]
+
+\end_inset
+
+Otteniamo che un fattore non banale di 
+\begin_inset Formula $n$
+\end_inset
+
+ è proprio 
+\begin_inset Formula $p=d_{9}=113$
+\end_inset
+
+, mentre il secondo fattore di 
+\begin_inset Formula $q=n/p=101$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter*

@@ -13,6 +13,7 @@
 \usepackage{varioref}
 \usepackage{refstyle}
 \usepackage{units}
+\usepackage{textcomp}
 \usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{amsbsy}
@@ -2850,10 +2851,10 @@ assoluto}, oppure \emph{numero di Carmichael}.
 \begin{rem}
 La distribuzione dei primi di Carmichael è estremamente rarefatta:
 il promo elemento è proprio 561, il secondo è 41041, ecc$\ldots$
-Il numero $\mathscr{C}\left(x\right)$ dei primi di Carmichael da
+Il numero $\mathcal{C}\left(x\right)$ dei primi di Carmichael da
 0 a $x$ è limitato superiormente nel modo seguente:
 \begin{equation}
-\mathscr{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantit=0000E0-nuemri-Carmichael}
+\mathcal{C}\left(x\right)<x\cdot e^{\frac{-k\cdot\ln\left(x\right)\cdot\ln\left(\ln\left(\ln x\right)\right)}{\ln\left(\ln\left(x\right)\right)}}\label{eq:Quantit=0000E0-nuemri-Carmichael}
 \end{equation}
 \end{rem}
 %
@@ -2883,7 +2884,7 @@ vale:
 Tramite la conoscenza di un fattore non banale, si può scomporre $n$
 e ridurre il problema alla fattorizzazione di un intero più piccolo.
 
-\subsection{Test di Miller-Rabin}
+\subsection{Test di Miller-Rabin\label{subsec:Test-di-Miller-Rabin}}
 
 Dato un candidato $n$ da testare, esso viene prima testato con Fermat
 (\ref{eq:Test-prim-Fermat}); se $n$ si rivela uno pseudo-primo di
@@ -2916,6 +2917,89 @@ osservazione: prendendo a caso un intero di 10 cifre, la probabilità
 che sia primo è circa $1/230$.
 
 \section{Fattorizzazione}
+
+Consideriamo un numero $n$ che sappiamo essere composto (possiamo
+prendere un intero che non abbia passato il test di Miller-Rabin §\ref{subsec:Test-di-Miller-Rabin});
+possiamo adottare dei metodi algoritmici per trovare i suoi fattori
+primi, se $n$ soddisfa certe condizioni, da evitare nella scelta
+dei primi per RSA.
+
+\subsection{Metodo di fattorizzazione di Fermat}
+
+Proviamo ad esprimere il numero che sappiamo essere composto, come
+differenza di due quadrati; otteniamo:
+\[
+n=x^{2}-y^{2}=\bigl(\overset{p}{\overbrace{x+y}}\bigr)\bigl(\overset{q}{\overbrace{x-y}}\bigr)
+\]
+Costruiamo la sequenza $\left\{ x^{2}\right\} $ seguente, e ci fermiamo
+quando $n+y^{2}$ è un quadrato perfetto:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Fattorizzazione di Fermat}{\footnotesize{}\index{Fermat, fattorizzazione@{\footnotesize{}Fermat, fattorizzazione}}}}[0.2cm]
+\begin{equation}
+\left\{ x^{2}\right\} =\left\{ y\in\left[0,\,\infty\right)\tc n+y^{2}=x^{2}\right\} \label{eq:Successione-fattorizzazione-Fermat}
+\end{equation}
+Una volta trovato un quadrato perfetto, siamo anche a conoscenza della
+$x$ e della $y$, con le quali possiamo calcolare i fattori di $n$:
+$p=\left(x+y\right)$ e $q=\left(x-y\right)$.
+
+L'efficienza computazionale di questo metodo dipende da quanto siano
+vicini i fattori di $n$; infatti se $n=p\cdot q$ e $p\sim q$, allora
+avremo un $y$ piccolo che permetterà di arrivare velocemente alla
+soluzione.
+\begin{example}
+\emph{Fattorizzare l'intero $n=295927$ col metodo di Fermat.}
+\end{example}
+$\checked$Costruiamo la successione (\ref{eq:Successione-fattorizzazione-Fermat}):
+\begin{align*}
+295927+1 & \neq x^{2}\\
+295927+4 & \neq x^{2}\\
+295927+9 & =544^{2}
+\end{align*}
+Possiamo affermare che $x=544$, $y=3$ e vale $n=\left(544+3\right)\left(544-3\right)$.
+Si noti che i fattori ottenuti \uline{non} sono necessariamente
+primi.\demo
+
+\subsection{Algoritmo di Pollard $\boldsymbol{\left(p-1\right)}$}
+
+Consideriamo un primo $p$, in tal caso $p-1$ sarà pari, quindi composto:
+\[
+p-1=2\cdot\prod_{i=1}^{i=\ldots}q_{i}
+\]
+Possiamo sfruttare questa osservazione solo quando i fattori $q_{i}$
+sono piccoli: se abbiamo almeno un fattore $q_{i}$ grande, l'algoritmo
+di Pollard non semplifica il problema della fattorizzazione.
+
+Dato un intero $n$ da fattorizzare, si scelga una base $a>1$, poi
+si sviluppi la successione $\left\{ b_{j}\right\} $ come:
+\[
+\begin{array}{c}
+\cgm{b_{1}}an\\
+\cgm{b_{2}}{b_{1}^{2}}n\\
+\cgm{b_{3}}{b_{2}^{3}}n\\
+\vdots
+\end{array}
+\]
+Formalizziamo la successione con le seguenti scritture:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Algoritmo di Pollard}{\footnotesize{}\index{Pollard, algoritmo di@{\footnotesize{}Pollard, algoritmo di}}}}[0.2cm]
+\begin{equation}
+\cgm{b_{j}}{b_{j-1}^{j}}n,\quad d_{j}=\mcd{b_{j}-1}n\label{eq:Successione-fattorizzazione-Pollard}
+\end{equation}
+Continuiamo per ogni $j$ fino a che $d_{j}\neq1$; in tal caso $d_{j}$
+è un fattore non banale di $n$, e l'algoritmo termina.
+\begin{example}
+\emph{Fattorizzare l'intero $n=11413$ con l'algoritmo di Pollard.}
+\end{example}
+$\checked$Scegliamo la base $a=2$, e costruiamo la successione (\ref{eq:Successione-fattorizzazione-Pollard}):
+\[
+\begin{array}{ll}
+\cgm{b_{1}}2{11413},\:d_{1}=\mcd 1{11413}=1 & \cgm{b_{6}}{-309^{6}}{11413},\:d_{6}=\mcd{9992}{11413}=1\\
+\cgm{b_{2}}{2^{2}}{11413},\:d_{2}=\mcd 3{11413}=1 & \cgm{b_{7}}{9993^{7}}{11413},\:d_{7}=\mcd{5085}{11413}=1\\
+\cgm{b_{3}}{4^{3}}{11413},\:d_{3}=\mcd{63}{11413}=1 & \cgm{b_{8}}{5086^{8}}{11413},\:d_{8}=\mcd{-1017}{11413}=1\\
+\cgm{b_{4}}{64^{4}}{11413},\:d_{4}=\mcd{105}{11413}=1 & \cgm{b_{9}}{-1016^{9}}{11413},\:d_{9}=\mcd{5537}{11413}=\boxed{113}\\
+\cgm{b_{5}}{106^{5}}{11413},\:d_{5}=\mcd{-309}{11413}=1
+\end{array}
+\]
+Otteniamo che un fattore non banale di $n$ è proprio $p=d_{9}=113$,
+mentre il secondo fattore di $q=n/p=101$.\demo
 
 \chapter*{Esercizi}
 
