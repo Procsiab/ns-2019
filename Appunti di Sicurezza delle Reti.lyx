@@ -304,6 +304,14 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\logd}[2]{\mathrm{\mathcal{L}_{#1}}\left(#2\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\tc}{\,:\,}
 \end_inset
 
@@ -11504,6 +11512,1219 @@ demo
 \end_inset
 
 
+\end_layout
+
+\begin_layout Chapter
+Firma digitale
+\end_layout
+
+\begin_layout Section
+Logaritmo discreto
+\end_layout
+
+\begin_layout Subsection
+Definizione
+\end_layout
+
+\begin_layout Standard
+Consideriamo la congruenza seguente:
+\begin_inset Formula 
+\begin{equation}
+\cgm{\beta}{\alpha^{x}}p\label{eq:Equazione-congruenziale-log-discreto}
+\end{equation}
+
+\end_inset
+
+dove 
+\begin_inset Formula $p$
+\end_inset
+
+ è un primo e 
+\begin_inset Formula $\alpha,\,\beta\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+; essa è una equazione congruenziale nell'incognita 
+\begin_inset Formula $x$
+\end_inset
+
+, a cui dovremo assegnare il valore a cui elevare 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ per ottenere 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Dunque, abbiamo un problema analogo a quello del logaritmo; osserviamo inoltre
+ che l'equazione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Equazione-congruenziale-log-discreto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ha sempre soluzione se la base 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è radice primitiva di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+, infatti in tal caso si ha 
+\begin_inset Formula $\ord{\alpha}=p-1$
+\end_inset
+
+, quindi elevando 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ a tutti gli interi da 1 a 
+\begin_inset Formula $p-1$
+\end_inset
+
+ si ottengono tutti gli elementi di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+; dal momento che anche 
+\begin_inset Formula $\beta$
+\end_inset
+
+ è contenuto in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+, sarà certo produrre 
+\begin_inset Formula $\beta$
+\end_inset
+
+ da una alle potenze di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Chiamiamo 
+\emph on
+logaritmo discreto
+\emph default
+ questo problema, e lo indichiamo come:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Logaritmo discreto
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Logaritmo discreto
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+x=\logd{\alpha}{\beta}\label{eq:Logaritmo-discreto}
+\end{equation}
+
+\end_inset
+
+Risolvendo un logaritmo discreto, si ottengono infinite soluzioni 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+---
+\end_layout
+
+\end_inset
+
+ una classe di congruenze del tipo 
+\begin_inset Formula $\cgm x{\logd{\alpha}{\beta}}{\ord{\alpha}}$
+\end_inset
+
+; il logaritmo discreto gode delle stesse proprietà dei logaritmi.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Calcolare la soluzione del logaritmo discreto in base 
+\begin_inset Formula $\alpha=2$
+\end_inset
+
+ di 
+\begin_inset Formula $\beta=9$
+\end_inset
+
+, nell'insieme dei residui modulo 
+\begin_inset Formula $p=11$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Le soluzioni apparterranno alla classe di congruenze:
+\begin_inset Formula 
+\[
+\cgm x{\logd 29}{11}
+\]
+
+\end_inset
+
+In questo caso, essendo 10 le possibili soluzioni, possiamo effettuare una
+ esplorazione esaustiva dello spazio delle radici; provando ad elevare 2
+ a tutti gli interi da 1 a 10 si ottiene:
+\begin_inset Formula 
+\[
+\cgm x6{11}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo porci nello stesso caso, considerando 
+\begin_inset Formula $\alpha=3$
+\end_inset
+
+; il problema sarà allora:
+\begin_inset Formula 
+\[
+\cgm{3^{x}}9{11}\implies\cgm x{\logd 39}{11}
+\]
+
+\end_inset
+
+Effettuando di nuovo un'analisi esaustiva dello spazio delle radici otteniamo
+ che:
+\begin_inset Formula 
+\[
+\cgm x25
+\]
+
+\end_inset
+
+Notiamo che la classe di residui non è in modulo 11 questa volta, poiché
+ 3 non è una radice primitiva in 
+\begin_inset Formula $\mathbb{Z}_{11}^{*}$
+\end_inset
+
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+In generale non abbiamo un algoritmo efficiente che risolva il logaritmo
+ discreto per un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ arbitrario.
+ Quindi la funzione logaritmo discreto non è unidirezionale; infatti, dato
+ 
+\begin_inset Formula $\beta$
+\end_inset
+
+, non si riesce a calcolare 
+\begin_inset Formula $x$
+\end_inset
+
+ in modo semplice.
+ Questo rende il logaritmo discreto una funzione adatta a essere usata in
+ un cifrario a chiave pubblica.
+\end_layout
+
+\begin_layout Subsection
+Parità del logaritmo discreto
+\end_layout
+
+\begin_layout Standard
+Possiamo ottenere se la soluzione di un logaritmo discreto sia pari o meno:
+ consideriamo il primo 
+\begin_inset Formula $p$
+\end_inset
+
+, gli interi 
+\begin_inset Formula $\alpha,\,\beta\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ e l'intero 
+\begin_inset Formula $x\in\left[0,\,p-1\right]$
+\end_inset
+
+, tali che:
+\begin_inset Formula 
+\[
+\cgm{\beta}{\alpha^{x}}p
+\]
+
+\end_inset
+
+Vogliamo trovare il valore di 
+\begin_inset Formula $x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Notiamo che, con la seguente riscrittura, se 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ è radice primitiva in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ (implicazione 
+\begin_inset Formula $\star$
+\end_inset
+
+), otteniamo una congruenza a 1:
+\begin_inset Formula 
+\[
+\cgm{\left(\alpha^{\frac{p-1}{2}}\right)^{2}\equiv\alpha^{p-1}}1p\overset{\star}{\implies}\cgm{\alpha^{\frac{p-1}{2}}}{\pm1}p
+\]
+
+\end_inset
+
+Dato che 
+\begin_inset Formula $p-1$
+\end_inset
+
+ è l'esponente minore che verifica la congruenza a 
+\begin_inset Formula $+1$
+\end_inset
+
+, consideriamo nella precedente solo 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $\cgm{}{-1}p$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Elevando entrambi i membri della prima congruenza a 
+\begin_inset Formula $\left(p-1\right)/2$
+\end_inset
+
+ si ottiene:
+\begin_inset Formula 
+\[
+\cgm{\beta^{\frac{p-1}{2}}\equiv\alpha^{\frac{p-1}{2}\cdot x}}{\left(-1\right)^{x}}p
+\]
+
+\end_inset
+
+Nella precedente, se abbiamo 
+\begin_inset Formula $\cgm{\beta^{\left(p-1\right)/2}}{+1}p$
+\end_inset
+
+ allora 
+\begin_inset Formula $x$
+\end_inset
+
+ è pari, altrimenti sarà dispari.
+\end_layout
+
+\begin_layout Subsection
+Algoritmo di Pohlig-Hellman
+\end_layout
+
+\begin_layout Standard
+Osserviamo che 
+\begin_inset Formula $p-1$
+\end_inset
+
+ sarà pari, dato un primo 
+\begin_inset Formula $p$
+\end_inset
+
+: allora 
+\begin_inset Formula $p-1$
+\end_inset
+
+ dovrà essere un composto.
+ Scriviamolo come:
+\begin_inset Formula 
+\[
+p-1=2\cdot\prod_{i=1}^{h}p_{i}^{r_{i}}
+\]
+
+\end_inset
+
+Dato che la soluzione del logaritmo discreto è della forma 
+\begin_inset Formula $\cgm x{\logd{\alpha}{\beta}}{\left(p-1\right)}$
+\end_inset
+
+, possiamo scomporre il problema col Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-cinese-del-resto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ in 
+\begin_inset Formula $h$
+\end_inset
+
+ pezzi diversi, ognuno in modulo 
+\begin_inset Formula $p_{i}^{r_{i}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Questi problemi sono più facili da risolvere perché più piccoli; se tuttavia
+ è presente un fattore 
+\begin_inset Formula $p_{i}^{r_{i}}$
+\end_inset
+
+ molto grande, allora non vi è riduzione della complessità; concludiamo
+ che la difficoltà del problema del logaritmo discreto modulo 
+\begin_inset Formula $p-1$
+\end_inset
+
+ dipende strettamente dalla grandezza del fattore più grande di 
+\begin_inset Formula $p-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Algoritmo baby step, giant step
+\end_layout
+
+\begin_layout Standard
+Consideriamo le ipotesi per il problema descritto dall'equazione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Equazione-congruenziale-log-discreto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, e scegliamo un intero 
+\begin_inset Formula $N\tc N^{2}\geq p-1$
+\end_inset
+
+; segue che:
+\begin_inset Formula 
+\[
+N=\left\lfloor \sqrt{p-1}\right\rfloor +1
+\]
+
+\end_inset
+
+Costruiamo ora due successioni 
+\begin_inset Formula $\left\{ \alpha^{j}\right\} $
+\end_inset
+
+ e 
+\begin_inset Formula $\left\{ \beta\cdot\alpha^{-N\cdot k}\right\} $
+\end_inset
+
+ tali che 
+\begin_inset Formula $0\leq j<N$
+\end_inset
+
+ e 
+\begin_inset Formula $0\leq k<N$
+\end_inset
+
+>; le successioni così fatte saranno sviluppate come:
+\begin_inset Formula 
+\[
+\begin{array}{ccccc}
+\boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
+0 & 1 &  & 0 & \beta\\
+1 & \alpha &  & 1 & \beta\cdot a^{-N}\\
+2 & \alpha^{2} &  & 2 & \beta\cdot a^{-2N}\\
+\vdots & \vdots &  & \vdots & \vdots
+\end{array}
+\]
+
+\end_inset
+
+Tutti i termini delle successioni 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ e 
+\begin_inset Formula $\beta$
+\end_inset
+
+ sono in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+; inoltre, una volta sviluppata la successione 
+\begin_inset Formula $\alpha$
+\end_inset
+
+, cerchiamo la prima corrispondenza con uno dei termini della successione
+ 
+\begin_inset Formula $\beta$
+\end_inset
+
+.
+ Una corrispondenza tra le due successioni vuol dire aver trovato dei valori
+ per 
+\begin_inset Formula $j$
+\end_inset
+
+ e 
+\begin_inset Formula $k$
+\end_inset
+
+ che verificano:
+\begin_inset Formula 
+\[
+\cgm{\alpha^{j}}{\beta\cdot\alpha^{-N\cdot k}}p\implies\cgm{\alpha^{j+N\cdot k}}{\beta}p
+\]
+
+\end_inset
+
+Per il principio fondamentale, dalla precedente possiamo scrivere la congruenza
+ degli esponenti modulo 
+\begin_inset Formula $p-1$
+\end_inset
+
+, trovando la risposta al problema del logaritmo discreto (a quale esponente
+ elevare 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ per ottenere 
+\begin_inset Formula $\beta$
+\end_inset
+
+):
+\begin_inset Formula 
+\[
+\cgm x{j+N\cdot k}{\left(p-1\right)}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Con questo algoritmo esprimiamo il valore del logaritmo discreto in base
+ 
+\begin_inset Formula $N$
+\end_inset
+
+; la complessità computazionale è proporzionale a 
+\begin_inset Formula $\sqrt{p}$
+\end_inset
+
+, rispetto all'analisi esaustiva delle soluzioni del logaritmo discreto,
+ che può essere condotta con 
+\begin_inset Formula $p-1$
+\end_inset
+
+ elevamenti a potenza.
+ Infatti dovremo certamente sviluppare la successione di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ fino a 
+\begin_inset Formula $j=N-1$
+\end_inset
+
+, e nel peggiore dei casi anche la successione di 
+\begin_inset Formula $\beta$
+\end_inset
+
+ fino a 
+\begin_inset Formula $k=N-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Pattuizione della chiave Diffie-Hellman
+\end_layout
+
+\begin_layout Standard
+Il metodo Diffie-Hellman permette di scambiare una chiave simmetrica attraverso
+ un canale non sicuro, sfruttando la complessità del problema del logaritmo
+ discreto.
+ Consideriamo un mittente 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e un destinatario 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+; ipotizziamo che un attaccante 
+\begin_inset Formula $\mathbf{O}$
+\end_inset
+
+ possa osservare tutto il traffico che transita sul canale tra 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+; nel seguente elenco sono indicati i messaggi scambiati tra 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}\leftrightarrows\mathbf{B}$
+\end_inset
+
+: mittente e destinatario concordano un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ e una radice primitiva 
+\begin_inset Formula $\alpha\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ (sia 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ che 
+\begin_inset Formula $p$
+\end_inset
+
+ sono pubblici);
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}\rightarrow\mathbf{B}$
+\end_inset
+
+: 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ sceglie a caso un intero 
+\begin_inset Formula $x\in\left[1,\,p-2\right]$
+\end_inset
+
+, e invia a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ 
+\begin_inset Formula $\mod{\alpha^{x}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}\leftarrow\mathbf{B}$
+\end_inset
+
+: 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ sceglie a caso un intero 
+\begin_inset Formula $y\in\left[1,\,p-2\right]$
+\end_inset
+
+, e invia ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ 
+\begin_inset Formula $\mod{\alpha^{y}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $K_{\mathbf{A}\rightarrow\mathbf{B}}$
+\end_inset
+
+: la chiave che 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ usa per scrivere a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ è costruita come 
+\begin_inset Formula $\mod{\left(\alpha^{x}\right)^{y}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $K_{\mathbf{A}\leftarrow\mathbf{B}}$
+\end_inset
+
+: la chiave che 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ usa per rispondere ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ è costruita come 
+\begin_inset Formula $\mod{\left(\alpha^{y}\right)^{x}}p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Si verifica facilmente che le chiavi generate con questo algoritmo sono
+ uguali:
+\begin_inset Formula 
+\[
+\cgm{K_{\mathbf{A}\rightarrow\mathbf{B}}\equiv K_{\mathbf{A}\leftarrow\mathbf{B}}}{\alpha^{x\cdot y}}p
+\]
+
+\end_inset
+
+Consideriamo il punto di vista di un attaccante 
+\begin_inset Formula $\mathbf{O}$
+\end_inset
+
+ che osserva il traffico sul canale: egli non potrà ricavare 
+\begin_inset Formula $x$
+\end_inset
+
+ e 
+\begin_inset Formula $y$
+\end_inset
+
+ a meno che non risolva il problema del logaritmo discreto; è quindi necessario
+ concordare un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ che renda intrattabile il problema del logaritmo discreto in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Problem
+
+\noun on
+\begin_inset CommandInset label
+LatexCommand label
+name "prob:Problema-computazionale-Diffie-Hellman"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Problema computazionale di Diffie-Hellman}.
+\end_layout
+
+\end_inset
+
+
+\noun default
+ Dati 
+\begin_inset Formula $\alpha^{x}$
+\end_inset
+
+ e 
+\begin_inset Formula $\alpha^{y}$
+\end_inset
+
+, entrambi residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, calcolare 
+\begin_inset Formula $\mod{\alpha^{x\cdot y}}p$
+\end_inset
+
+ non è più difficile di calcolare il logaritmo discreto 
+\begin_inset Formula $\logd{x\cdot y}{\alpha}$
+\end_inset
+
+.
+ Risolvere il logaritmo discreto è quindi condizione sufficiente per il
+ problema computazionale di Diffie-Hellman.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Problem
+
+\noun on
+\begin_inset CommandInset label
+LatexCommand label
+name "prob:Problema-decisionale-Diffie-Hellman"
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+{Problema decisionale di Diffie-Hellman}.
+\end_layout
+
+\end_inset
+
+ 
+\noun default
+Dati 
+\begin_inset Formula $\alpha^{x}$
+\end_inset
+
+, 
+\begin_inset Formula $\alpha^{y}$
+\end_inset
+
+ e un intero 
+\begin_inset Formula $c$
+\end_inset
+
+, tutti residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+, determinare se si verifica 
+\begin_inset Formula $\cgm c{\alpha^{x\cdot y}}p$
+\end_inset
+
+.
+ Risolvere il problema computazionale permette di risolvere anche quello
+ decisionale, tuttavia non è vero il contrario: non sappiamo se risolvere
+ il problema decisionale possa ridurre a priori la complessità di quello
+ computazionale.
+\end_layout
+
+\begin_layout Section
+Crittosistema a chiave pubblica El Gamal
+\end_layout
+
+\begin_layout Standard
+Consideriamo un mittente 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e un destinatario 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+; ipotizziamo che un attaccante 
+\begin_inset Formula $\mathbf{O}$
+\end_inset
+
+ possa osservare tutto il traffico che transita sul canale tra 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+, e il messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ che 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ desidera inviare a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+: sceglie un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ tale che il problema del logaritmo discreto in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ sia intrattabile e una radice primitiva 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ in tale insieme (pubblici); inoltre sceglie un intero 
+\begin_inset Formula $a\in\left[1,\,p-2\right]$
+\end_inset
+
+ (segreto); infine, egli computa 
+\begin_inset Formula $\cgm{\beta}{\alpha^{a}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}\leftarrow\mathbf{B}$
+\end_inset
+
+: 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ invia ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ la propria chiave pubblica, costituita da 
+\begin_inset Formula $\left(\alpha,\,\beta,\,p\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+: sceglie un intero 
+\begin_inset Formula $k\in\left[1,\,p-2\right]$
+\end_inset
+
+, e calcola:
+\begin_inset Formula 
+\[
+\cgm r{\alpha^{k}}p,\quad\cgm t{\beta^{k}\cdot m}p
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}\rightarrow\mathbf{B}$
+\end_inset
+
+: 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ invia il messaggio cifrato costituito da 
+\begin_inset Formula $\left(r,\,t\right)$
+\end_inset
+
+ a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+: decifra il messaggio ricevuto computando 
+\begin_inset Formula $\mod{t\cdot r^{-a}}p$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\cgm{t\cdot r^{-a}\equiv\left(\beta^{k}\cdot m\right)\left(\alpha^{k}\right)^{-a}\equiv\left(\cancel{\alpha^{a\cdot k}}\cdot m\right)\left(\cancel{\alpha^{a\cdot k}}\right)}{\boxed{m}}p.
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Mentre 
+\begin_inset Formula $a$
+\end_inset
+
+ rimane il segreto di 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ fin dall'inizio della comunicazione, il segreto 
+\begin_inset Formula $k$
+\end_inset
+
+ di 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ invece è casuale ed è bene che sia usato una sola volta; esso è un segreto
+ effimero chiamato 
+\emph on
+nonce
+\emph default
+ (da number e once, un numero da usare una sola volta).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Notiamo che il messaggio in chiaro 
+\begin_inset Formula $m$
+\end_inset
+
+ appartiene a 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+, tuttavia il messaggio cifrato è dato dalla coppia di numeri 
+\begin_inset Formula $\left(r,\,t\right)\in\mathbb{Z}_{p}^{*}\times\mathbb{Z}_{p}^{*}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Possiamo calcolare 
+\begin_inset Formula $r^{-a}$
+\end_inset
+
+ sia passando per l'inverso di 
+\begin_inset Formula $r$
+\end_inset
+
+ elevato ad 
+\begin_inset Formula $a$
+\end_inset
+
+, sia considerando che 
+\begin_inset Formula $\cgm{r^{-a}}{r^{p-1-a}}p$
+\end_inset
+
+, per il Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-piccolo-Fermat"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Ipotizziamo di utilizzare lo stesso nonce due volte; chiamiamo 
+\begin_inset Formula $m_{i}$
+\end_inset
+
+ il testo in chiaro, 
+\begin_inset Formula $c_{i}$
+\end_inset
+
+ il messaggio cifrato, e 
+\begin_inset Formula $m_{1}\neq m_{2}$
+\end_inset
+
+, allora dalla cifratura si ottiene:
+\begin_inset Formula 
+\[
+E\left(m_{1}\right)=c_{1}\left(r,\,t_{1}\right),\quad E\left(m_{2}\right)=c_{2}\left(r,\,t_{2}\right)
+\]
+
+\end_inset
+
+I due interi 
+\begin_inset Formula $r$
+\end_inset
+
+ per i messaggi cifrati coincidono, e questo permette all'attaccante (se
+ egli possiede anche un testo in chiaro noto, per esempio 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ associato a 
+\begin_inset Formula $c_{1}$
+\end_inset
+
+) di provare a computare:
+\begin_inset Formula 
+\[
+\cgm{\frac{t_{1}}{m_{1}}}{\frac{t_{2}}{m_{2}}}p\implies\cgm{m_{2}}{\frac{t_{2}}{t_{1}}\cdot m_{1}}p
+\]
+
+\end_inset
+
+Dalla precedente congruenza è possibile ricavare tutti i messaggi successivi
+ alla ripetizione di un nonce, sfruttando la relazione di proporzionalità
+ mostrata.
+\end_layout
+
+\begin_layout Remark
+Se avessimo un dispositivo che risolve il Problema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prob:Problema-computazionale-Diffie-Hellman"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, potremmo usarlo per decifrare i messaggi cifrati tramite il crittosistema
+ di El Gamal; se avessimo un dispositivo che risolve il Problema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prob:Problema-decisionale-Diffie-Hellman"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, potremmo usarlo per decidere se un messaggio cifrato 
+\begin_inset Formula $\left(r,\,t\right)$
+\end_inset
+
+ sia compatibile con un messaggio in chiaro 
+\begin_inset Formula $m$
+\end_inset
+
+ (permette di attuare l'attacco del testo in chiaro noto), non ostante il
+ segreto effimero 
+\begin_inset Formula $k$
+\end_inset
+
+.
+ Questa è la differenza con l'RSA nel quale, dato un messaggio cifrato e
+ uno in chiaro, è possibile verificare direttamente la loro corrispondenza.
 \end_layout
 
 \begin_layout Chapter*

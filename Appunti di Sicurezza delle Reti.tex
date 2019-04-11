@@ -20,6 +20,7 @@
 \usepackage{amstext}
 \usepackage{amsthm}
 \usepackage{amssymb}
+\usepackage{cancel}
 \makeindex
 \usepackage{graphicx}
 \usepackage{wasysym}
@@ -105,6 +106,12 @@
     \fi
 \theoremstyle{definition}
     \ifx\thechapter\undefined
+      \newtheorem{problem}{\protect\problemname}
+    \else
+      \newtheorem{problem}{\protect\problemname}[chapter]
+    \fi
+\theoremstyle{definition}
+    \ifx\thechapter\undefined
       \newtheorem{xca}{\protect\exercisename}
     \else
       \newtheorem{xca}{\protect\exercisename}[chapter]
@@ -145,6 +152,7 @@
 \providecommand{\examplename}{Esempio}
 \providecommand{\exercisename}{Esercizio}
 \providecommand{\factname}{Fatto}
+\providecommand{\problemname}{Problema}
 \providecommand{\propositionname}{Proposizione}
 \providecommand{\remarkname}{Osservazione}
 \providecommand{\solutionname}{Soluzione}
@@ -190,6 +198,8 @@ is included in the file called \textquotedbl LICENSE\textquotedbl .}
 \global\long\def\ord#1{\mathrm{{\scriptstyle ORD}}\left(#1\right)}%
 
 \global\long\def\nirr#1#2{N_{{\scriptscriptstyle irr}}\left(#1,\,#2\right)}%
+
+\global\long\def\logd#1#2{\mathrm{\mathcal{L}_{#1}}\left(#2\right)}%
 
 \global\long\def\tc{\,:\,}%
 
@@ -3000,6 +3010,280 @@ $\checked$Scegliamo la base $a=2$, e costruiamo la successione (\ref{eq:Successi
 \]
 Otteniamo che un fattore non banale di $n$ è proprio $p=d_{9}=113$,
 mentre il secondo fattore di $q=n/p=101$.\demo
+
+\chapter{Firma digitale}
+
+\section{Logaritmo discreto}
+
+\subsection{Definizione}
+
+Consideriamo la congruenza seguente:
+\begin{equation}
+\cgm{\beta}{\alpha^{x}}p\label{eq:Equazione-congruenziale-log-discreto}
+\end{equation}
+dove $p$ è un primo e $\alpha,\,\beta\in\mathbb{Z}_{p}^{*}$; essa
+è una equazione congruenziale nell'incognita $x$, a cui dovremo assegnare
+il valore a cui elevare $\alpha$ per ottenere $\beta$.
+
+Dunque, abbiamo un problema analogo a quello del logaritmo; osserviamo
+inoltre che l'equazione (\ref{eq:Equazione-congruenziale-log-discreto})
+ha sempre soluzione se la base $\alpha$ è radice primitiva di $\mathbb{Z}_{p}^{*}$,
+infatti in tal caso si ha $\ord{\alpha}=p-1$, quindi elevando $\alpha$
+a tutti gli interi da 1 a $p-1$ si ottengono tutti gli elementi di
+$\mathbb{Z}_{p}^{*}$; dal momento che anche $\beta$ è contenuto
+in $\mathbb{Z}_{p}^{*}$, sarà certo produrre $\beta$ da una alle
+potenze di $\alpha$.
+
+Chiamiamo \emph{logaritmo discreto} questo problema, e lo indichiamo
+come:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Logaritmo discreto}{\footnotesize{}\index{Logaritmo discreto@{\footnotesize{}Logaritmo discreto}}}}[0cm]
+\begin{equation}
+x=\logd{\alpha}{\beta}\label{eq:Logaritmo-discreto}
+\end{equation}
+Risolvendo un logaritmo discreto, si ottengono infinite soluzioni
+\--- una classe di congruenze del tipo $\cgm x{\logd{\alpha}{\beta}}{\ord{\alpha}}$;
+il logaritmo discreto gode delle stesse proprietà dei logaritmi.
+\begin{example}
+\emph{Calcolare la soluzione del logaritmo discreto in base $\alpha=2$
+di $\beta=9$, nell'insieme dei residui modulo $p=11$.}
+\end{example}
+$\checked$Le soluzioni apparterranno alla classe di congruenze:
+\[
+\cgm x{\logd 29}{11}
+\]
+In questo caso, essendo 10 le possibili soluzioni, possiamo effettuare
+una esplorazione esaustiva dello spazio delle radici; provando ad
+elevare 2 a tutti gli interi da 1 a 10 si ottiene:
+\[
+\cgm x6{11}
+\]
+
+Possiamo porci nello stesso caso, considerando $\alpha=3$; il problema
+sarà allora:
+\[
+\cgm{3^{x}}9{11}\implies\cgm x{\logd 39}{11}
+\]
+Effettuando di nuovo un'analisi esaustiva dello spazio delle radici
+otteniamo che:
+\[
+\cgm x25
+\]
+Notiamo che la classe di residui non è in modulo 11 questa volta,
+poiché 3 non è una radice primitiva in $\mathbb{Z}_{11}^{*}$.\demo
+\begin{rem}
+In generale non abbiamo un algoritmo efficiente che risolva il logaritmo
+discreto per un primo $p$ arbitrario. Quindi la funzione logaritmo
+discreto non è unidirezionale; infatti, dato $\beta$, non si riesce
+a calcolare $x$ in modo semplice. Questo rende il logaritmo discreto
+una funzione adatta a essere usata in un cifrario a chiave pubblica.
+\end{rem}
+
+\subsection{Parità del logaritmo discreto}
+
+Possiamo ottenere se la soluzione di un logaritmo discreto sia pari
+o meno: consideriamo il primo $p$, gli interi $\alpha,\,\beta\in\mathbb{Z}_{p}^{*}$
+e l'intero $x\in\left[0,\,p-1\right]$, tali che:
+\[
+\cgm{\beta}{\alpha^{x}}p
+\]
+Vogliamo trovare il valore di $x$.
+
+Notiamo che, con la seguente riscrittura, se $\alpha$ è radice primitiva
+in $\mathbb{Z}_{p}^{*}$ (implicazione $\star$), otteniamo una congruenza
+a 1:
+\[
+\cgm{\left(\alpha^{\frac{p-1}{2}}\right)^{2}\equiv\alpha^{p-1}}1p\overset{\star}{\implies}\cgm{\alpha^{\frac{p-1}{2}}}{\pm1}p
+\]
+Dato che $p-1$ è l'esponente minore che verifica la congruenza a
+$+1$, consideriamo nella precedente solo ``$\cgm{}{-1}p$''.
+
+Elevando entrambi i membri della prima congruenza a $\left(p-1\right)/2$
+si ottiene:
+\[
+\cgm{\beta^{\frac{p-1}{2}}\equiv\alpha^{\frac{p-1}{2}\cdot x}}{\left(-1\right)^{x}}p
+\]
+Nella precedente, se abbiamo $\cgm{\beta^{\left(p-1\right)/2}}{+1}p$
+allora $x$ è pari, altrimenti sarà dispari.
+
+\subsection{Algoritmo di Pohlig-Hellman}
+
+Osserviamo che $p-1$ sarà pari, dato un primo $p$: allora $p-1$
+dovrà essere un composto. Scriviamolo come:
+\[
+p-1=2\cdot\prod_{i=1}^{h}p_{i}^{r_{i}}
+\]
+Dato che la soluzione del logaritmo discreto è della forma $\cgm x{\logd{\alpha}{\beta}}{\left(p-1\right)}$,
+possiamo scomporre il problema col Teorema \ref{thm:Teorema-cinese-del-resto}
+in $h$ pezzi diversi, ognuno in modulo $p_{i}^{r_{i}}$.
+
+Questi problemi sono più facili da risolvere perché più piccoli; se
+tuttavia è presente un fattore $p_{i}^{r_{i}}$ molto grande, allora
+non vi è riduzione della complessità; concludiamo che la difficoltà
+del problema del logaritmo discreto modulo $p-1$ dipende strettamente
+dalla grandezza del fattore più grande di $p-1$.
+
+\subsection{Algoritmo baby step, giant step}
+
+Consideriamo le ipotesi per il problema descritto dall'equazione (\ref{eq:Equazione-congruenziale-log-discreto}),
+e scegliamo un intero $N\tc N^{2}\geq p-1$; segue che:
+\[
+N=\left\lfloor \sqrt{p-1}\right\rfloor +1
+\]
+Costruiamo ora due successioni $\left\{ \alpha^{j}\right\} $ e $\left\{ \beta\cdot\alpha^{-N\cdot k}\right\} $
+tali che $0\leq j<N$ e $0\leq k<N$>; le successioni così fatte saranno
+sviluppate come:
+\[
+\begin{array}{ccccc}
+\boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
+0 & 1 &  & 0 & \beta\\
+1 & \alpha &  & 1 & \beta\cdot a^{-N}\\
+2 & \alpha^{2} &  & 2 & \beta\cdot a^{-2N}\\
+\vdots & \vdots &  & \vdots & \vdots
+\end{array}
+\]
+Tutti i termini delle successioni $\alpha$ e $\beta$ sono in modulo
+$p$; inoltre, una volta sviluppata la successione $\alpha$, cerchiamo
+la prima corrispondenza con uno dei termini della successione $\beta$.
+Una corrispondenza tra le due successioni vuol dire aver trovato dei
+valori per $j$ e $k$ che verificano:
+\[
+\cgm{\alpha^{j}}{\beta\cdot\alpha^{-N\cdot k}}p\implies\cgm{\alpha^{j+N\cdot k}}{\beta}p
+\]
+Per il principio fondamentale, dalla precedente possiamo scrivere
+la congruenza degli esponenti modulo $p-1$, trovando la risposta
+al problema del logaritmo discreto (a quale esponente elevare $\alpha$
+per ottenere $\beta$):
+\[
+\cgm x{j+N\cdot k}{\left(p-1\right)}
+\]
+
+\begin{rem}
+Con questo algoritmo esprimiamo il valore del logaritmo discreto in
+base $N$; la complessità computazionale è proporzionale a $\sqrt{p}$,
+rispetto all'analisi esaustiva delle soluzioni del logaritmo discreto,
+che può essere condotta con $p-1$ elevamenti a potenza. Infatti dovremo
+certamente sviluppare la successione di $\alpha$ fino a $j=N-1$,
+e nel peggiore dei casi anche la successione di $\beta$ fino a $k=N-1$.
+\end{rem}
+
+\section{Pattuizione della chiave Diffie-Hellman}
+
+Il metodo Diffie-Hellman permette di scambiare una chiave simmetrica
+attraverso un canale non sicuro, sfruttando la complessità del problema
+del logaritmo discreto. Consideriamo un mittente $\mathbf{A}$ e un
+destinatario $\mathbf{B}$; ipotizziamo che un attaccante $\mathbf{O}$
+possa osservare tutto il traffico che transita sul canale tra $\mathbf{A}$
+e $\mathbf{B}$; nel seguente elenco sono indicati i messaggi scambiati
+tra $\mathbf{A}$ e $\mathbf{B}$:
+\begin{enumerate}
+\item $\mathbf{A}\leftrightarrows\mathbf{B}$: mittente e destinatario concordano
+un primo $p$ e una radice primitiva $\alpha\in\mathbb{Z}_{p}^{*}$
+(sia $\alpha$ che $p$ sono pubblici);
+\item $\mathbf{A}\rightarrow\mathbf{B}$: $\mathbf{A}$ sceglie a caso un
+intero $x\in\left[1,\,p-2\right]$, e invia a $\mathbf{B}$ $\mod{\alpha^{x}}p$;
+\item $\mathbf{A}\leftarrow\mathbf{B}$: $\mathbf{B}$ sceglie a caso un
+intero $y\in\left[1,\,p-2\right]$, e invia ad $\mathbf{A}$ $\mod{\alpha^{y}}p$;
+\item $K_{\mathbf{A}\rightarrow\mathbf{B}}$: la chiave che $\mathbf{A}$
+usa per scrivere a $\mathbf{B}$ è costruita come $\mod{\left(\alpha^{x}\right)^{y}}p$;
+\item $K_{\mathbf{A}\leftarrow\mathbf{B}}$: la chiave che $\mathbf{B}$
+usa per rispondere ad $\mathbf{A}$ è costruita come $\mod{\left(\alpha^{y}\right)^{x}}p$.
+\end{enumerate}
+Si verifica facilmente che le chiavi generate con questo algoritmo
+sono uguali:
+\[
+\cgm{K_{\mathbf{A}\rightarrow\mathbf{B}}\equiv K_{\mathbf{A}\leftarrow\mathbf{B}}}{\alpha^{x\cdot y}}p
+\]
+Consideriamo il punto di vista di un attaccante $\mathbf{O}$ che
+osserva il traffico sul canale: egli non potrà ricavare $x$ e $y$
+a meno che non risolva il problema del logaritmo discreto; è quindi
+necessario concordare un primo $p$ che renda intrattabile il problema
+del logaritmo discreto in $\mathbb{Z}_{p}^{*}$.
+\begin{problem}
+\noun{\label{prob:Problema-computazionale-Diffie-Hellman}{Problema computazionale di Diffie-Hellman}.}
+Dati $\alpha^{x}$ e $\alpha^{y}$, entrambi residui modulo $p$,
+calcolare $\mod{\alpha^{x\cdot y}}p$ non è più difficile di calcolare
+il logaritmo discreto $\logd{x\cdot y}{\alpha}$. Risolvere il logaritmo
+discreto è quindi condizione sufficiente per il problema computazionale
+di Diffie-Hellman.
+\end{problem}
+%
+\begin{problem}
+\noun{\label{prob:Problema-decisionale-Diffie-Hellman}{Problema decisionale di Diffie-Hellman}.
+}Dati $\alpha^{x}$, $\alpha^{y}$ e un intero $c$, tutti residui
+modulo $p$, determinare se si verifica $\cgm c{\alpha^{x\cdot y}}p$.
+Risolvere il problema computazionale permette di risolvere anche quello
+decisionale, tuttavia non è vero il contrario: non sappiamo se risolvere
+il problema decisionale possa ridurre a priori la complessità di quello
+computazionale.
+\end{problem}
+
+\section{Crittosistema a chiave pubblica El Gamal}
+
+Consideriamo un mittente $\mathbf{A}$ e un destinatario $\mathbf{B}$;
+ipotizziamo che un attaccante $\mathbf{O}$ possa osservare tutto
+il traffico che transita sul canale tra $\mathbf{A}$ e $\mathbf{B}$,
+e il messaggio $m$ che $\mathbf{A}$ desidera inviare a $\mathbf{B}$:
+\begin{enumerate}
+\item $\mathbf{B}$: sceglie un primo $p$ tale che il problema del logaritmo
+discreto in $\mathbb{Z}_{p}^{*}$ sia intrattabile e una radice primitiva
+$\alpha$ in tale insieme (pubblici); inoltre sceglie un intero $a\in\left[1,\,p-2\right]$
+(segreto); infine, egli computa $\cgm{\beta}{\alpha^{a}}p$;
+\item $\mathbf{A}\leftarrow\mathbf{B}$: $\mathbf{B}$ invia ad $\mathbf{A}$
+la propria chiave pubblica, costituita da $\left(\alpha,\,\beta,\,p\right)$;
+\item $\mathbf{A}$: sceglie un intero $k\in\left[1,\,p-2\right]$, e calcola:
+\[
+\cgm r{\alpha^{k}}p,\quad\cgm t{\beta^{k}\cdot m}p
+\]
+\item $\mathbf{A}\rightarrow\mathbf{B}$: $\mathbf{A}$ invia il messaggio
+cifrato costituito da $\left(r,\,t\right)$ a $\mathbf{B}$;
+\item $\mathbf{B}$: decifra il messaggio ricevuto computando $\mod{t\cdot r^{-a}}p$:
+\[
+\cgm{t\cdot r^{-a}\equiv\left(\beta^{k}\cdot m\right)\left(\alpha^{k}\right)^{-a}\equiv\left(\cancel{\alpha^{a\cdot k}}\cdot m\right)\left(\cancel{\alpha^{a\cdot k}}\right)}{\boxed{m}}p.
+\]
+\end{enumerate}
+\begin{rem}
+Mentre $a$ rimane il segreto di $\mathbf{B}$ fin dall'inizio della
+comunicazione, il segreto $k$ di $\mathbf{A}$ invece è casuale ed
+è bene che sia usato una sola volta; esso è un segreto effimero chiamato
+\emph{nonce} (da number e once, un numero da usare una sola volta).
+\end{rem}
+%
+\begin{rem}
+Notiamo che il messaggio in chiaro $m$ appartiene a $\mathbb{Z}_{p}^{*}$,
+tuttavia il messaggio cifrato è dato dalla coppia di numeri $\left(r,\,t\right)\in\mathbb{Z}_{p}^{*}\times\mathbb{Z}_{p}^{*}$.
+\end{rem}
+%
+\begin{rem}
+Possiamo calcolare $r^{-a}$ sia passando per l'inverso di $r$ elevato
+ad $a$, sia considerando che $\cgm{r^{-a}}{r^{p-1-a}}p$, per il
+Teorema \ref{thm:Teorema-piccolo-Fermat}.
+\end{rem}
+Ipotizziamo di utilizzare lo stesso nonce due volte; chiamiamo $m_{i}$
+il testo in chiaro, $c_{i}$ il messaggio cifrato, e $m_{1}\neq m_{2}$,
+allora dalla cifratura si ottiene:
+\[
+E\left(m_{1}\right)=c_{1}\left(r,\,t_{1}\right),\quad E\left(m_{2}\right)=c_{2}\left(r,\,t_{2}\right)
+\]
+I due interi $r$ per i messaggi cifrati coincidono, e questo permette
+all'attaccante (se egli possiede anche un testo in chiaro noto, per
+esempio $m_{1}$ associato a $c_{1}$) di provare a computare:
+\[
+\cgm{\frac{t_{1}}{m_{1}}}{\frac{t_{2}}{m_{2}}}p\implies\cgm{m_{2}}{\frac{t_{2}}{t_{1}}\cdot m_{1}}p
+\]
+Dalla precedente congruenza è possibile ricavare tutti i messaggi
+successivi alla ripetizione di un nonce, sfruttando la relazione di
+proporzionalità mostrata.
+\begin{rem}
+Se avessimo un dispositivo che risolve il Problema \ref{prob:Problema-computazionale-Diffie-Hellman},
+potremmo usarlo per decifrare i messaggi cifrati tramite il crittosistema
+di El Gamal; se avessimo un dispositivo che risolve il Problema \ref{prob:Problema-decisionale-Diffie-Hellman},
+potremmo usarlo per decidere se un messaggio cifrato $\left(r,\,t\right)$
+sia compatibile con un messaggio in chiaro $m$ (permette di attuare
+l'attacco del testo in chiaro noto), non ostante il segreto effimero
+$k$. Questa è la differenza con l'RSA nel quale, dato un messaggio
+cifrato e uno in chiaro, è possibile verificare direttamente la loro
+corrispondenza.
+\end{rem}
 
 \chapter*{Esercizi}
 
