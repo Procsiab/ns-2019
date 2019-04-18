@@ -193,6 +193,8 @@ is included in the file called \textquotedbl LICENSE\textquotedbl .}
 
 \global\long\def\ncgm#1#2#3{#1\not\equiv#2\left(\text{mod}\,#3\right)}%
 
+\global\long\def\cgms#1#2#3#4{#1\overset{#4}{\equiv}#2\left(\text{mod}\,#3\right)}%
+
 \global\long\def\mod#1#2{#1\,\text{mod}\,#2}%
 
 \global\long\def\ord#1{\mathrm{{\scriptstyle ORD}}\left(#1\right)}%
@@ -558,7 +560,7 @@ che 5 e 11 sono primi relativi, usiamo il prodotto invece della divisione:
 \]
 L'inverso di un numero $n$ è quel numero $m$ tale che $n\cdot m=1$;
 dunque cerchiamo l'elemento di $\mathbb{Z}_{11}$ che moltiplicato
-per 5 risulta 1; troviamo $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$,
+per 5 risulta 1; troviamo $m\cdot5=1\parallel_{\mathbb{Z}_{11}}\implies m=9$,
 da cui segue che
 \[
 \cgm x{7\cdot9}{11}
@@ -586,7 +588,7 @@ In tal caso, l'equazione può non ammettere soluzione o ammetterne
 $d$.
 
 Se $d\backslash b$ allora dividiamo per $d$ tutte le quantità costanti,
-ottenendo 
+ottenendo
 \[
 \overline{E}:\,\cgm{\frac{a}{d}x}{\frac{b}{d}}{\frac{n}{d}}
 \]
@@ -1510,9 +1512,10 @@ modo da avere la sinistra $L_{1}$ e la destra $R_{1}$;
 \item usiamo la chiave $K$ per generare una sotto-chiave di round $K_{i}$;
 \item permutiamo le due metà al round $i$-esimo, facendo passare la metà
 di sinistra attraverso una funzione fortemente non lineare che utilizzi
-la chiave: $B_{i}=R_{i-1}|L_{i-1}\oplus f\left(R_{i-1},\,K_{i}\right)$;\marginpar{La notazione $A|B$ indica la concatenazione di $B$ dopo di $A$}
+la chiave: $B_{i}=R_{i-1}\parallel L_{i-1}\oplus f\left(R_{i-1},\,K_{i}\right)$;\marginpar{La notazione $A\parallel B$ indica la concatenazione di $B$ dopo
+di $A$}
 \item se vi sono $n$ round in totale, non si effettua la permutazione di
-$L_{i}$ ed $R_{i}$ al round $n$-esimo, e si ottiene $B_{n}=R_{n}|L_{n}$
+$L_{i}$ ed $R_{i}$ al round $n$-esimo, e si ottiene $B_{n}=R_{n}\parallel L_{n}$
 \end{itemize}
 Possiamo presumere che, continuando a permutare le due metà del blocco,
 grazie alla funzione $f\left(\right)$, vi sarà un'ottima diffusione
@@ -1539,7 +1542,7 @@ due blocchi da 28bit, rispettivamente $C_{0}$ e $D_{0}$;
 \item si produce la chiave di round secondo una tabella di shift fissa (funzione
 $LS_{i}$), che fa scorrere i bit delle due metà della chiave ($C_{i}$,
 $D_{i}$) in modo circolare di 1 o 2 posizioni, a seconda del numero
-$i$ del round: $C_{i}=LS_{i}\left(C_{i-1}\right),\,D_{i}=LS_{i}\left(D_{i-1}\right)\implies K_{i}=C_{i}|D_{i}$;
+$i$ del round: $C_{i}=LS_{i}\left(C_{i-1}\right),\,D_{i}=LS_{i}\left(D_{i-1}\right)\implies K_{i}=C_{i}\parallel D_{i}$;
 \item tramite una tabella di riduzione, si estraggono dalla chiave di round
 48bit, da usare nella funzione $f\left(\right)$.
 \end{enumerate}
@@ -1683,7 +1686,7 @@ c_{i}=p_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right),\quad p_{i}=c_{i}
 \subsection{Doppio DES}
 
 Per aumentare la sicurezza di DES potremmo provare ad utilizzare una
-chiave più lunga; in tal caso, ci chiediamo se esista una chiave $K^{\prime}=K_{1}|K_{2}$
+chiave più lunga; in tal caso, ci chiediamo se esista una chiave $K^{\prime}=K_{1}\parallel K_{2}$
 tale che $\left|K^{\prime}\right|=56+56=112\text{bit}$, e per essa
 si verifichi che $E_{K^{\prime}}\left(p\right)\equiv E_{K_{2}}\left(E_{K_{1}}\left(c\right)\right)$.
 
@@ -1705,8 +1708,8 @@ identica alle singole chiavi.
 Il DES non gode di questa proprietà: cifrando più volte il messaggio
 in chiaro con due chiavi differenti, aumenta di $2^{\left|K\right|}$
 la cardinalità dello spazio delle chiavi. Nel caso del doppio DES
-(2DES), si ha una chiave $K=K_{1}|K_{2}$ lunga il doppio di una chiave
-singola, dunque $\left|\mathscr{K}\right|=2^{112}\simeq2^{2}\cdot10^{33}$.
+(2DES), si ha una chiave $K=K_{1}\parallel K_{2}$ lunga il doppio
+di una chiave singola, dunque $\left|\mathscr{K}\right|=2^{112}\simeq2^{2}\cdot10^{33}$.
 
 Il doppio DES è suscettibile dell'attacco Meet-in-the-Middle (MiM):
 questa vulnerabilità permette di analizzare al più $2^{57}$ chiavi,
@@ -1749,8 +1752,9 @@ cifrato $p\leftrightarrows c$, senza conoscere la chiave.
 
 Poniamoci nel caso di un testo cifrato ricavato tramite 2DES come
 $c=E_{K_{2}}\left(E_{K_{1}}\left(p\right)\right)$, e vogliamo ottenere
-$K^{\prime}=K_{1}|K_{2}$. Se quanto affermato sul testo cifrato è
-vero, allora applicando a $c$ la decifratura con $K_{2}$ si ottiene
+$K^{\prime}=K_{1}\parallel K_{2}$. Se quanto affermato sul testo
+cifrato è vero, allora applicando a $c$ la decifratura con $K_{2}$
+si ottiene
 \begin{equation}
 D_{K_{2}}\left(c\right)=E_{K_{1}}\left(p\right)\label{eq:MiM-2DES}
 \end{equation}
@@ -2353,9 +2357,9 @@ introdotto all'inizio de \secref{Sequenze-binarie-pseudo-casuali}.
 In tal caso la chiave sarà costituita da:
 \begin{itemize}
 \item i coefficienti del polinomio (\ref{eq:polinomio-LFSR-M}), tranne
-il primo e l'ultimo \--- sappiamo che essi valgono sempre 1 \---
-ovvero $M-1$ bit in totale, a rappresentare i rimanenti coefficienti
-(che essendo residui modulo 2 valgono 0 o 1);
+il primo e l'ultimo \textemdash~sappiamo che essi valgono sempre
+1 \textemdash~ovvero $M-1$ bit in totale, a rappresentare i rimanenti
+coefficienti (che essendo residui modulo 2 valgono 0 o 1);
 \item i valori degli $x$ con i quali inizializzare il polinomio, ovvero
 $M$ bit.
 \end{itemize}
@@ -2421,8 +2425,8 @@ Possiamo anche considerare $s_{j}\left(Y\right)\in\mathcal{GF}\left(2^{M}\right)
 come un vettore a $M$ dimensioni, dove le coordinate valgono in modulo
 2 (0 o 1).
 
-Se moltiplichiamo per $Y$ un polinomio $s_{j}\left(Y\right)$ \---
-il quale rappresenta lo stato delle $M$ celle di memoria \--- otteniamo
+Se moltiplichiamo per $Y$ un polinomio $s_{j}\left(Y\right)$ \textemdash~il
+quale rappresenta lo stato delle $M$ celle di memoria \textemdash~otteniamo
 lo shift in avanti di un passo del circuito combinatorio:
 \[
 Y\cdot s_{j}\left(Y\right)=s_{j+1}\left(Y\right)
@@ -2507,7 +2511,7 @@ ripetute); esso dovrà avere le seguenti proprietà:
 e 0 trasmessi sia \emph{uguale});
 \item equalizza la statistica del secondo ordine (l'autocorrelazione degli
 1 e degli 0 deve essere uguale, ovvero la sequenza deve avere \emph{assenza
-di memoria} \--- essere non periodica).
+di memoria} \textemdash~essere non periodica).
 \end{itemize}
 Per realizzare uno scrambler si usa una successione LFSR (si veda
 \secref{Successioni-LFSR}); possiamo realizzare gli scrambler in
@@ -2597,7 +2601,7 @@ questa configurazione comporta una propagazione di eventuali errori,
 tuttavia garantisce maggiore sicurezza, impedendo che un attaccante
 manipoli l'uscita $\left\{ U_{k}\right\} $ dello scrambler (sarebbe
 necessario conoscere lo stato del registro a scorrimento, è possibile
-ottenerlo tramite $2^{43}$ tentativi \--- circa $10^{12}$).\marginpar{In tutti i sistemi di comunicazione si disaccoppiano i dati trasmessi
+ottenerlo tramite $2^{43}$ tentativi \textemdash~circa $10^{12}$).\marginpar{In tutti i sistemi di comunicazione si disaccoppiano i dati trasmessi
 dall'utente da quelli che circolano sul mezzo trasmissivo}[-2.5cm]
 \end{fact}
 
@@ -3001,11 +3005,15 @@ Continuiamo per ogni $j$ fino a che $d_{j}\neq1$; in tal caso $d_{j}$
 $\checked$Scegliamo la base $a=2$, e costruiamo la successione (\ref{eq:Successione-fattorizzazione-Pollard}):
 \[
 \begin{array}{ll}
-\cgm{b_{1}}2{11413},\:d_{1}=\mcd 1{11413}=1 & \cgm{b_{6}}{-309^{6}}{11413},\:d_{6}=\mcd{9992}{11413}=1\\
-\cgm{b_{2}}{2^{2}}{11413},\:d_{2}=\mcd 3{11413}=1 & \cgm{b_{7}}{9993^{7}}{11413},\:d_{7}=\mcd{5085}{11413}=1\\
-\cgm{b_{3}}{4^{3}}{11413},\:d_{3}=\mcd{63}{11413}=1 & \cgm{b_{8}}{5086^{8}}{11413},\:d_{8}=\mcd{-1017}{11413}=1\\
-\cgm{b_{4}}{64^{4}}{11413},\:d_{4}=\mcd{105}{11413}=1 & \cgm{b_{9}}{-1016^{9}}{11413},\:d_{9}=\mcd{5537}{11413}=\boxed{113}\\
-\cgm{b_{5}}{106^{5}}{11413},\:d_{5}=\mcd{-309}{11413}=1
+\cgm{b_{1}}2{11413}, & d_{1}=\mcd 1{11413}=1\\
+\cgm{b_{2}}{2^{2}}{11413}, & d_{2}=\mcd 3{11413}=1\\
+\cgm{b_{3}}{4^{3}}{11413}, & d_{3}=\mcd{63}{11413}=1\\
+\cgm{b_{4}}{64^{4}}{11413}, & d_{4}=\mcd{105}{11413}=1\\
+\cgm{b_{5}}{106^{5}}{11413}, & d_{5}=\mcd{-309}{11413}=1\\
+\cgm{b_{6}}{-309^{6}}{11413}, & d_{6}=\mcd{9992}{11413}=1\\
+\cgm{b_{7}}{9993^{7}}{11413}, & d_{7}=\mcd{5085}{11413}=1\\
+\cgm{b_{8}}{5086^{8}}{11413}, & d_{8}=\mcd{-1017}{11413}=1\\
+\cgm{b_{9}}{-1016^{9}}{11413}, & d_{9}=\mcd{5537}{11413}=\boxed{113}
 \end{array}
 \]
 Otteniamo che un fattore non banale di $n$ è proprio $p=d_{9}=113$,
@@ -3041,7 +3049,7 @@ come:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
 x=\logd{\alpha}{\beta}\label{eq:Logaritmo-discreto}
 \end{equation}
 Risolvendo un logaritmo discreto, si ottengono infinite soluzioni
-\--- una classe di congruenze del tipo $\cgm x{\logd{\alpha}{\beta}}{\ord{\alpha}}$;
+\textemdash~una classe di congruenze del tipo $\cgm x{\logd{\alpha}{\beta}}{\ord{\alpha}}$;
 il logaritmo discreto gode delle stesse proprietà dei logaritmi.
 \begin{example}
 \emph{Calcolare la soluzione del logaritmo discreto in base $\alpha=2$
@@ -3122,7 +3130,7 @@ non vi è riduzione della complessità; concludiamo che la difficoltà
 del problema del logaritmo discreto modulo $p-1$ dipende strettamente
 dalla grandezza del fattore più grande di $p-1$.
 
-\subsection{Algoritmo baby step, giant step}
+\subsection{Algoritmo baby step, giant step\label{subsec:Baby-step-giant-step}}
 
 Consideriamo le ipotesi per il problema descritto dall'equazione (\ref{eq:Equazione-congruenziale-log-discreto}),
 e scegliamo un intero $N\tc N^{2}\geq p-1$; segue che:
@@ -3245,7 +3253,8 @@ cifrato costituito da $\left(r,\,t\right)$ a $\mathbf{B}$;
 Mentre $a$ rimane il segreto di $\mathbf{B}$ fin dall'inizio della
 comunicazione, il segreto $k$ di $\mathbf{A}$ invece è casuale ed
 è bene che sia usato una sola volta; esso è un segreto effimero chiamato
-\emph{nonce} (da number e once, un numero da usare una sola volta).
+\emph{nonce} (dalla crasi di number e once, un numero da usare una
+sola volta).
 \end{rem}
 %
 \begin{rem}
@@ -3284,6 +3293,463 @@ $k$. Questa è la differenza con l'RSA nel quale, dato un messaggio
 cifrato e uno in chiaro, è possibile verificare direttamente la loro
 corrispondenza.
 \end{rem}
+
+\section{Funzioni di Hash}
+
+\subsection{Definizione e proprietà}
+
+Una \marginpar{Le funzioni di hash sono state introdotte nella sottosezione §\ref{subsec:Funzioni-di-hash}}[0.5cm]funzione
+di hash è una funzione matematica che prende in ingresso un messaggio
+di lunghezza arbitraria, e produce una uscita (di solito corta) di
+lunghezza prefissata.
+
+La funzione matematica selezionata deve:
+\begin{itemize}
+\item essere veloce da calcolare;
+\item avere uscita pseudo-casuale (deve godere delle proprietà descritte
+dalla Proposizione \ref{prop:Propriet=0000E0-fondamentali-cifrari-Shannon});
+\item essere non-invertibile (non c'è corrispondenza univoca tra ingresso
+e uscita, risulta non-invertibile per definizione);
+\item essere\marginpar{La proprietà di unidirezionalità è anche detta \emph{resistenza alla
+contro-immagine}} unidirezionale (non deve essere possibile trovare nemmeno una uscita
+delle infinite che producono certo ingresso);
+\item non esista una coppia di messaggi differenti $m_{1}\neq m_{1}$, tali
+che i loro hash siano uguali, ovvero (detta $h\left(m\right)$ la
+funzione di hash del messaggio $m$)
+\[
+\forall\left(m_{1},\,m_{2}\right)\tc m_{1}\neq m_{2}\implies h\left(m_{1}\right)\neq h\left(m_{2}\right)
+\]
+se questo si verifica, diremo che la funzione $h\left(\right)$ è
+\emph{fortemente resistente alle collisioni};
+\item dato un messaggio $m$, sia impossibile trovare un messaggio diverso
+$m^{\prime}\neq m$ per il quale gli hash dei due messaggi siano uguali,
+ovvero
+\[
+\forall m\,\nexists m^{\prime}\tc m^{\prime}\neq m\implies h\left(m\right)=h\left(m^{\prime}\right)
+\]
+se questo si verifica, diremo che la funzione $h\left(\right)$ è
+\emph{debolmente resistente alle collisioni}.
+\end{itemize}
+Ottenere la resistenza debole alle collisioni è più difficile: infatti
+essa fornisce un grado di libertà in meno rispetto alla resistenza
+forte (uno dei due messaggi viene fissato).
+\begin{example}
+\emph{Determinare se le seguenti funzioni siano invertibili, unidirezionali
+e prive di collisioni:}
+\end{example}
+\begin{enumerate}
+\item $h\left(x\right)=\mod xn$ con $n$ intero composto qualunque;
+\item $h\left(x\right)=\mod{\alpha^{x}}p$ con $\alpha$ radice primitiva
+di $\mathbb{Z}_{p}$;
+\item $h\left(x\right)=\mod{x^{2}}n$ con $n=p\cdot q$ prodotto di due
+primi;
+\item $h\left(x\right)={\scriptstyle \text{DES}}_{x}\left(000\ldots\right)$
+con chiave $x\in\left[0,\,2^{56}\right]$.
+\end{enumerate}
+$\checked$Analizziamo una alla volta le quattro funzioni, nelle sottosezioni
+seguenti.
+
+\subsubsection*{Funzione $\left(1\right)$}
+
+Questa funzione non è invertibile, poiché esistono infiniti messaggi
+che producono la stessa uscita della funzione ($\forall k\tc h\left(x\right)=\mod{\left(x+k\cdot n\right)}n$);
+per quanto appena osservato, tale funzione non è unidirezionale, poiché
+è possibile trovare uno qualunque di quegli infiniti messaggi che
+producono la stessa uscita (basta provare un $x+k\cdot n$). Per lo
+stesso motivo, è possibile trovare una collisione (per esempio $h\left(x\right)=h\left(x+n\right)$).
+
+\subsubsection*{Funzione $\left(2\right)$}
+
+Questa funzione non è invertibile, poiché esistono infiniti numeri
+nella classe di congruenza $\cgm k{\overline{x}}{\left(p-1\right)}$
+che danno resto $k$; l'inverso di questa funzione ricade nel problema
+del logaritmo discreto (\ref{eq:Logaritmo-discreto}): con un $p$
+scelto in modo opportuno, la funzione risulta unidirezionale.
+
+Possiamo ottenere una collisione prendendo $x_{1}$ e $x_{2}=x_{1}+k\left(p-1\right)$,
+da cui si ottiene la stessa uscita ($h\left(x_{1}\right)=h\left(x_{2}\right)$).
+
+\subsubsection*{Funzione $\left(3\right)$}
+
+Questa funzione non è invertibile, poiché esistono infiniti valori
+di $x$ per cui la congruenza in modulo $n$ possa essere soddisfatta;
+presi $p$ e $q$ tali da rendere computazionalmente intrattabile
+la fattorizzazione di $n$, questa funzione risulta unidirezionale.
+
+Possiamo ottenere una collisione usando il fatto che un quadrato abbia
+due radici opposte: $h\left(x\right)=h\left(-x\right)$.
+
+\subsubsection*{Funzione $\left(4\right)$}
+
+Cifriamo un blocco di 64 zeri col DES, usando il messaggio come chiave
+di 56bit. Dato che il messaggio usato come chiave è da 56bit, e l'uscita
+è un blocco da 64bit, la funzione non è invertibile; grazie alle proprietà
+del DES la funzione risulta unidirezionale (non è possibile ottenere
+la chiave $x$ che produca un'uscita $h\left(x\right)$ desiderata),
+infatti DES resiste all'attacco del testo in chiaro noto.
+
+Per quanto appena affermato, non è possibile trovare collisioni (equivale
+a trovare due chiavi che cifrano nello stesso modo lo stesso blocco).
+
+Osserviamo che non possiamo usare questa funzione come una funzione
+di hash: infatti essa non rispetta la proprietà sulla lunghezza arbitraria
+dell'ingresso, che è limitato a un massimo di 56bit.\demo
+
+\subsection{Algoritmo SHA}
+
+Si tratta di una famiglia di algoritmi classificati, in base alla
+lunghezza dell'uscita, la lunghezza dei blocchi e il numero di round,
+in SHA-0 (160bit), SHA-1 (160bit), SHA-2 (256bit), SHA-3 (512bit,
+standard approvato dal NIST). Il loro funzionamento può essere schematizzato
+nel modo seguente; sia dato un messaggio $m$, di cui si vuole calcolare
+l'hash:
+
+\textbf{\noun{Inizializzazione}}
+\begin{itemize}
+\item concatena al messaggio $m$ dei bit di ``padding'', in modo che
+la sua lunghezza $\ell$ sia un multiplo di 512;
+\item concatena al messaggio $m$ la sua lunghezza $\ell$, sotto forma
+di intero senza segno a 64bit (questo pone un limite intrinseco alla
+lunghezza dell'ingresso);
+\item inizializza 5 registri $H_{0},\,\ldots,\,H_{4}$ con dei valori costanti
+(sono parte della specifica dell'algoritmo).
+\end{itemize}
+\textbf{\noun{Esecuzione}}
+\begin{enumerate}
+\item dividiamo il messaggio $m$ in blocchi da 512bit chiamati $M_{i}$;
+\item dividiamo ciascun blocco $M_{i}$ in 16 blocchi da 32bit, che chiamiamo
+$W_{i,j}$;
+\item per $j$ da 16 a 79:\marginpar{La funzione $f_{j}\left(\right)$ e il valore $K_{j}$ sono specifici
+dell'algoritmo SHA-1; la funzione $B\protect\hookleftarrow r$ fa
+scorrere in modo ciclico i bit di $B$ a sinistra di $r$ posizioni}
+\begin{enumerate}
+\item $W_{i,j}=\left(W_{i,j-3}\oplus W_{i,j-8}\oplus W_{i,j-14}\oplus W_{i,j-16}\right)\hookleftarrow1$;
+\end{enumerate}
+\item assegniamo $A=H_{0},\,B=H_{1},\,C=H_{2},\,D=H_{3},\,E=H_{4}$;
+\item per $j$ da 0 a 79:
+\begin{enumerate}
+\item $T=\left(A\hookleftarrow5\right)+f_{j}\left(B,\,C,\,D\right)+E+W_{j}+K_{j}$;
+\item $E=D$;
+\item $D=C$;
+\item $C=\left(B\hookleftarrow30\right)$;
+\item $B=A$;
+\item $A=T$;
+\end{enumerate}
+\item assegniamo $H_{0}=H_{0}+A,\,H_{1}=H_{1}+B,\,H_{2}=H_{2}+C,\,H_{3}=H_{3}+D,\,H_{4}=H_{4}+E$;
+\item il risultato dell'algoritmo è la stringa $H_{0}\parallel H_{1}\parallel H_{2}\parallel H_{3}\parallel H_{4}$,
+il valore a 160bit dell'hash.
+\end{enumerate}
+
+\subsection{Paradosso del compleanno}
+
+Consideriamo una coppia di persone: la probabilità che esse \uline{non}
+abbiano il compleanno nello stesso giorno è pari a $\frac{364}{365}\simeq99.7\%$
+(stiamo escludendo gli anni bisestili). Prendiamo ora un campione
+di 100 persone; esse possono formare in totale $100\cdot99=990$ coppie
+differenti; allora la probabilità che \uline{nessuna} delle coppie
+abbia il compleanno nello stesso giorno si ottiene come:
+\[
+\left(\frac{364}{365}\right)^{990}\simeq6.6\%
+\]
+Calcoliamo ora la probabilità che, all'interno del campione di 100
+persone, almeno due abbiano il compleanno nello stesso giorno:
+\[
+1-\left(1-\frac{1}{365}\right)\cdot\left(1-\frac{2}{365}\right)\cdot\ldots\cdot\left(1-\frac{99}{365}\right)\underset{N\gg r}{\sim}1-e^{-r^{2}/2N}\rightarrow1-e^{-10000/730}\simeq0.999999
+\]
+Nel caso in esame si ha $r=100$ e $N=365$; se invece vogliamo ottenere
+il numero di persone $r$ che rende la probabilità di avere almeno
+una coppia con lo stesso compleanno, possiamo usare al contrario la
+formula approssimata appena enunciata:
+\[
+1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r^{2}\simeq1.17\sqrt{N}
+\]
+Quando $r$ è circa uguale alla radice di $N$, la probabilità di
+collisioni è superiore al 50\%.
+
+Consideriamo un terzo caso, più rilevante dal punto di vista crittografico;
+prendiamo due insiemi di $r$ persone, ognuna delle quali ha il compleanno
+in uno degli $N$ giorni dell'anno (le ripetizioni vengano considerate):
+si dimostra che la probabilità che vi sia una corrispondenza per i
+compleanni di una coppia di persone, ciascuna da un gruppo differente,
+è pari a:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
+\textbf{\footnotesize{}Collisione nel paradosso del compleanno}{\footnotesize{}\index{Compleanno, collisione nel paradosso del@{\footnotesize{}Compleanno, collisione nel paradosso del}}}}[-0.2cm]
+\begin{equation}
+1-e^{-r^{2}/N}\label{eq:Paradosso-compleanno-prob-corrispondenza}
+\end{equation}
+
+Possiamo adottare questo principio per attaccare la firma digitale
+tramite hash. Sia data una funzione di hash con lunghezza 60bit: vi
+saranno in totale $2^{60}\simeq10^{19}=N$ ``compleanni'' (hash
+possibili); la probabilità di ottenere un hash desiderato scegliendo
+il messaggio è pari a $1/2^{60}$ (pressoché nulla).
+
+Se prendiamo due insiemi di $r$ documenti, e calcoliamo l'hash di
+ciascuno di essi, troveremo una collisione al 50\% di probabilità
+se $r$ vale:
+\[
+r\simeq\sqrt{2^{60}}=2^{30}\simeq10^{10}
+\]
+In pratica, nel caso di un hash a 60bit, possiamo generare un miliardo
+di variazioni per un messaggio legittimo e un miliardo di variazioni
+per un messaggio malevolo (modificando virgole, spazi o lettere maiuscole,
+in modo che un osservatore distratto non noti la differenza); dalla
+(\ref{eq:Paradosso-compleanno-prob-corrispondenza}) sappiamo che
+otterremo una collisione dell'hash con probabilità circa $63.2\%$;
+in questo modo è possibile ottenere un messaggio malevolo che appaia
+firmato dall'autore del messaggio legittimo.
+\begin{example}
+\emph{Sia $h_{n}\left(x\right)$ una funzione di hash con ingresso
+$x$ e lunghezza dell'uscita $n$ (espressa in bit). Calcolare le
+probabilità di collisione per} $h_{4}\left(x\right)$, $h_{8}\left(x\right)$
+e $h_{12}\left(x\right)$.
+\end{example}
+$\checked$Nella seguente tabella sono riassunte le considerazioni
+per le tre funzioni di hash:\smallskip{}
+\begin{table}[!h]
+\begin{tabular}{lll}
+$h_{4}\left(x\right)\implies16$ hash & $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{16}$ & $1-\left(1-\frac{1}{16}\right)^{16}=0.6439$\tabularnewline
+$h_{8}\left(x\right)\implies256$ hash & $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{256}$ & $1-\left(1-\frac{1}{256}\right)^{256}=0.6328$\tabularnewline
+$h_{12}\left(x\right)\implies4096$ hash & $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{4096}$ & $1-\left(1-\frac{1}{4096}\right)^{4096}=0.6321$\tabularnewline
+\end{tabular}
+\end{table}
+\smallskip{}
+Nella terza colonna è stata valutata la probabilità $p$ di trovare
+la collisione desiderata in $2^{n}$ tentativi (con $n$ il numero
+di bit dell'uscita della funzione); osservando i valori di probabilità
+ottenuti, possiamo dimostrare che essi tendono a un valore limite,
+che possiamo descrivere nel seguente modo:
+\[
+\lm n{\infty}{\left(1-\frac{1}{n}\right)^{n}\rightarrow\frac{1}{e}\implies}p=1-\frac{1}{e}
+\]
+\demo
+
+\subsection{Attacco del compleanno al logaritmo discreto}
+
+Riprendiamo le ipotesi del problema del logaritmo discreto (\ref{eq:Logaritmo-discreto}):
+\[
+\cgm{\alpha^{x}}{\beta}p\implies\cgm x{\logd{\alpha}{\beta}}p
+\]
+Per risolvere il logaritmo discreto abbiamo introdotto l'algoritmo
+``baby step, giant step'' (§\ref{subsec:Baby-step-giant-step}),
+che consiste nel generare due liste lunghe al più $\sqrt{p}$; attuiamo
+l'attacco del compleanno costruendo prima di tutto due liste: la prima
+contiene $\left\{ \mod{\alpha^{k}}p\right\} $, la seconda $\left\{ \mod{\beta\cdot\alpha^{-\ell}}p\right\} $,
+dove $k,\ell\in\mathbb{Z}_{p-1}^{*}$ sono scelti a caso.
+
+Troviamo una corrispondenza tra le due liste al 50\% di probabilità,
+calcolando $\sqrt{p}$ valori possibili per $k$ ed $\ell$; indicando
+con $\overline{k}$ ed $\overline{\ell}$ i valori che permettono
+di ottenere una corrispondenza tra le liste, possiamo scrivere:
+\[
+\cgm{\alpha^{\overline{k}}}{\beta\cdot\alpha^{-\overline{\ell}}}p\implies\cgm{\beta}{\alpha^{\overline{k}+\overline{\ell}}}p\implies\cgm{\overline{k}+\overline{\ell}}{\logd{\alpha}{\beta}}p
+\]
+In pratica possiamo affermare che il valore $\overline{k}+\overline{\ell}$
+sia il valore che risolve il logaritmo discreto cercato, tuttavia
+osserviamo che esso non è più efficace dell'algoritmo ``baby step,
+giant step''; infatti, per applicare tale algoritmo non è necessario
+compilare completamente la seconda lista, ma basta fermarsi alla prima
+corrispondenza, inoltre i valori di $\overline{k}$ ed $\overline{\ell}$
+sono casuali e non possono essere computati progressivamente. Infine,
+la probabilità trovare una corrispondenza non è migliore di quella
+ottenuta dall'applicazione del ``baby step, giant step''.
+
+\section{Firma digitale}
+
+La firma digitale è una stringa di bit associata al messaggio da firmare,
+che include un segreto del firmatario. In pratica si utilizza lo hash
+del messaggio da firmare, al quale viene aggiunto un segreto del firmatario,
+cosicché solo chi è a conoscenza del segreto (il firmatario del messaggio)
+è in grado di creare la firma associata; inoltre la firma deve essere
+verificabile pubblicamente \textemdash~è l'opposto della cifratura
+in un crittosistema a chiave pubblica: firmando con la chiave segreta
+si permette a tutti di verificare la firma decifrandola con la chiave
+pubblica; questo garantisce che solo chi è in possesso della chiave
+privata associata alla forma, possa generarla.
+
+Si firma l'hash del messaggio per evitare di avere una firma molto
+lunga (pari o maggiore della lunghezza del messaggio) e questo non
+compromette la sicurezza della firma, per le proprietà della funzione
+di hash.
+
+Altre\marginpar{Autenticazione di questo tipo viene classificata come \emph{HMAC}:
+Hash-based Message Autentication Code} applicazioni delle funzioni di hash sono il controllo di integrità
+(cambiando anche un bit di un messaggio, il suo hash cambia) e l'autenticazione
+del messaggio (si usa una chiave simmetrica insieme al messaggio,
+per generare l'hash).
+
+\subsection{Firma RSA\label{subsec:Firma-RSA}}
+
+Consideriamo due parti \textbf{A} e \textbf{B}, e \textbf{B} voglia
+inviare un messaggio $m$ ad \textbf{A} in modo che lo firmi. L'algoritmo
+per la firma RSA in questo caso si svolge come segue:
+\begin{itemize}
+\item \textbf{A} pubblica $n$ ed $e_{\text{A}}$, mantiene segreto $d_{\text{A}}$
+\begin{itemize}
+\item sceglie due primi grandi $p,\,q$ e li usa per calcolare $n=p\cdot q$
+in modo da rendere questo intero computazionalmente non fattorizzabile;
+\item sceglie\marginpar{Negli intervalli di definizione, 1 e $\varphi\left(n\right)$ sono
+esclusi poiché $e_{\text{A}}$ e $d_{\text{A}}$ sono esponenti (elevando
+a 1 non cambia la base, ed elevare al toziente di $n$ un residuo
+modulo $n$ dà 1)} la sua chiave di cifratura pubblica come $e_{\text{A}}\in\left(1,\,\varphi\left(n\right)\right)$;
+\item crea la sua chiave di decifratura come $d_{\text{A}}\in\left(1,\,\varphi\left(n\right)\right)$,
+che deve essere l'inverso di $e_{\text{A}}$ ($\cgm{d_{\text{A}}\cdot e_{\text{A}}}1{\varphi\left(n\right)}$);
+\end{itemize}
+\item \textbf{B} invia ad \textbf{A} il messaggio $m$ da firmare;
+\item \textbf{A} firma il messaggio, producendo ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)=\mod{m^{d_{\text{A}}}}n$;
+\item \textbf{B} verifica la firma di \textbf{A} provando che valga $\mod{{\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)^{e_{\text{A}}}}{n\overset{?}{=}m}$.
+\end{itemize}
+\begin{rem}
+In RSA, per decifrare un messaggio cifrato da \textbf{A}, conoscendo
+solo i dati pubblici $n$ ed $e_{\text{A}}$, dobbiamo ottenere l'esponente
+di decifratura $\cgm{d_{\text{A}}}{e_{\text{A}}^{-1}}{\varphi\left(n\right)}$;
+per calcolare questo inverso possiamo usare (\ref{eq:Teorema-Eulero})
+oppure (\ref{eq:Algoritmo-Euclide-esteso}) ma in entrambi i casi
+avremo bisogno di $\varphi\left(n\right)=\left(p-1\right)\left(q-1\right)$.
+
+La firma digitale RSA funziona nel modo inverso, usando l'esponente
+di decifratura per firmare e quello di cifratura per verificare la
+firma.
+\end{rem}
+%
+\begin{rem}
+Questo tipo di firma nasconde il messaggio al suo interno; inoltre
+intercettando una qualunque firma ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)$
+ed elevandola ad $e_{\text{A}}$ modulo $n$, otteniamo un messaggio
+valido firmato da A; tuttavia esso risulterà una serie casuale di
+bit.
+\end{rem}
+
+\subsection{Firma cieca}
+
+Consideriamo la seguente variazione dell'algoritmo della firma digitale
+RSA. \textbf{B} vuole che \textbf{A} firmi un messaggio $m$, senza
+che \textbf{A} conosca il suo contenuto:
+\begin{itemize}
+\item \textbf{A} pubblica $n$ ed $e_{\text{A}}$, mantiene segreto $d_{\text{A}}$
+(tutti e tre gli interi sono costruiti come in §\ref{subsec:Firma-RSA});
+\item \textbf{B} sceglie un intero casuale $k\perp n$, da usare una volta
+sola (nonce);
+\begin{itemize}
+\item \textbf{B} calcola $\cgm t{m\cdot k^{e_{\text{A}}}}n$;
+\item \textbf{B} invia ad \textbf{A} il messaggio cifrato $t$;
+\end{itemize}
+\item \textbf{A} firma il messaggio calcolando $\cgm s{t^{d_{\text{A}}}}n={\scriptstyle \text{SIG}}_{\text{A}}\left(t\right)$;
+\begin{itemize}
+\item \textbf{A} invia la firma $s$ a \textbf{B};
+\end{itemize}
+\item \textbf{B} verifica la firma calcolando $\mod{s\cdot k^{-1}}n$, ottenendo
+\[
+\cgm{\overset{s}{\overbrace{m^{d_{\text{A}}}\cdot k^{e_{\text{A}}\cdot d_{\text{A}}}}}\cdot k^{-1}}{m^{d_{\text{A}}}\cdot\bcancel{k}\cdot\cancel{k^{-1}}}n
+\]
+ovvero \textbf{B} computa proprio la firma di \textbf{A} del messaggio
+$m$ (secondo l'algoritmo della firma digitale RSA).
+\end{itemize}
+
+\subsection{Firma di El Gamal}
+
+Seguendo l'applicazione della firma RSA, l'algoritmo per la firma
+di El Gamal si applica firmando con la chiave privata e verificando
+la firma tramite la chiave pubblica; in questo caso la chiave privata
+può essere ottenuta a partire da quella pubblica solo risolvendo il
+problema del logaritmo discreto.
+
+Consideriamo le stesse premesse delle sezioni precedenti \textemdash~\textbf{B}
+ha un messaggio $m$ che vuole far firmare ad \textbf{A} (se il messaggio
+è più lungo di $p$, deve essere spezzato blocchi di dimensione $p$,
+dato che l'algoritmo opera in $\mathbb{Z}_{p}^{*}$):
+\begin{itemize}
+\item A pubblica un primo $p$ e un intero $\alpha$;
+\begin{itemize}
+\item $p$ tale da rendere intrattabile il problema del logaritmo discreto
+in $\mathbb{Z}_{p}^{*}$;
+\item $\alpha$ sia una radice primitiva di $\mathbb{Z}_{p}^{*}$ (per garantire
+l'esistenza di una soluzione al problema del logaritmo discreto);
+\end{itemize}
+\item \textbf{A} sceglie un esponente intero segreto $a\in\left(1,\,p-2\right)$;
+\begin{itemize}
+\item \textbf{A} calcola e pubblica $\cgm{\beta}{\alpha^{a}}p$ (nella pratica
+è impossibile ottenere il segreto $a$ risolvendo questa equazione
+con un logaritmo discreto);
+\end{itemize}
+\item \textbf{A} sceglie un esponente casuale $k\in\left(1,\,p-2\right)$,
+da considerarsi come nonce;
+\begin{itemize}
+\item A produce la firma ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)=\left(r,\,s\right)$;
+\item $\cgm r{\alpha^{k}}p$;
+\item $\cgm s{k^{-1}\left(m-a\cdot r\right)}{\left(p-1\right)}$;
+\end{itemize}
+\item B verifica la firma $\left(r,\,s\right)$ usando solo dati pubblici;
+\begin{itemize}
+\item la firma risulta corretta se si verifica la congruenza $\cgms{\beta^{r}\cdot r^{s}}{\alpha^{m}}p?$;
+\end{itemize}
+\end{itemize}
+%
+Mostriamo ora come la congruenza appena enunciata sia una verifica
+corretta per la firma di El Gamal; dalla definizione di $s$, moltiplichiamo
+per $k$ entrambi i lati della congruenza:
+\[
+\begin{array}{c}
+\cgm{k\cdot s}{\bcancel{k}\cdot\cancel{k^{-1}}\left(m-a\cdot r\right)}{\left(p-1\right)}\\
+\cgm m{k\cdot s+a\cdot r}{\left(p-1\right)}\\
+\cgms{\alpha^{m}}{\overset{\varhexstar}{\overbrace{\alpha^{k\cdot s+a\cdot r}}}}p{{\scriptscriptstyle \bigstar}}\\
+\cgm{\overset{\varhexstar}{\overbrace{\underset{{\scriptscriptstyle \blacktriangle}}{\underbrace{\left(\alpha^{a}\right)^{r}}}\cdot\underset{{\scriptscriptstyle \blacksquare}}{\underbrace{\left(\alpha^{k}\right)^{s}}}}}}{\overset{{\scriptscriptstyle \blacktriangle}}{\overbrace{\beta^{r}}}\cdot\overset{{\scriptscriptstyle \blacksquare}}{\overbrace{r^{s}}}}p\\
+\cgm{\alpha^{m}}{\beta^{r}\cdot r^{s}}p
+\end{array}
+\]
+Nella relazione ${\scriptstyle \bigstar}$ abbiamo usato (\ref{eq:Principio-fondamentale}),
+dato che gli esponenti di $\alpha$ sono congruenti in modulo $p$;
+l'ultima congruenza è proprio quella che verifica la firma di El Gamal.
+\begin{rem}
+La firma generata in questo modo non è sempre la stessa, fissato il
+messaggio: infatti essa dipende dal segreto effimero $k$; quindi
+ci sono $p-2$ firme valide per lo stesso messaggio $m$. Rispetto
+alla firma cieca, in questo modo non è neanche possibile capire se
+è lo stesso messaggio ad essere firmato due volte.
+\end{rem}
+%
+\begin{rem}
+La firma RSA è lunga quanto il messaggio firmato; la firma di El Gamal
+è lunga il doppio del messaggio firmato (essa è espressa da due interi
+$r$ ed $s$, con lo stesso ordine di grandezza); questo riconferma
+la necessità di firmare l'hash del messaggio e non il messaggio stesso,
+altrimenti la firma avrebbe una dimensione troppo grande rispetto
+al messaggio.
+\end{rem}
+
+\subsection{Attacco del nonce ripetuto}
+
+Un attaccante è in grado di firmare con El Gamal un messaggio al posto
+di \textbf{A} in modo che \textbf{B} possa comunque verificare correttamente
+la sua firma; questo accade quando \textbf{A} utilizza due volte lo
+stesso $k$ per firmare.
+
+Dal punto di vista di un osservatore esterno, quando A emette due
+firme differenti ${\scriptstyle \text{SIG}}_{\text{A}}\left(m_{1}\right)=\left(r_{1},\,s_{1}\right)\neq{\scriptstyle \text{SIG}}_{\text{A}}\left(m_{2}\right)=\left(r_{2},\,s_{2}\right)$
+tali che $r_{1}=r_{2}=r^{\prime}$, si può ricavare il nonce $k$
+nel modo seguente:
+\[
+\begin{cases}
+\cgm{-a\cdot r^{\prime}}{s_{1}\cdot k-m_{1}}{\left(p-1\right)}\\
+\cgm{-a\cdot r^{\prime}}{s_{2}\cdot k-m_{2}}{\left(p-1\right)}
+\end{cases}\implies\;\cgm{\left(s_{1}-s_{2}\right)k}{m_{1}-m_{2}}{\left(p-1\right)}
+\]
+La seconda relazione è il frutto della differenza tra le prime due;
+possiamo calcolare $k$ dall'equazione lineare in una incognita:
+\begin{equation}
+\cgm k{\left(m_{1}-m_{2}\right)\cdot\left(s_{1}-s_{2}\right)^{-1}\,}{\left(p-1\right)}\label{eq:Attacco-nonce-ripetuto}
+\end{equation}
+Per risolverla dobbiamo ottenere l'inverso di $s_{1}-s_{2}$ modulo
+$p-1$ (non è detto che esista): calcoliamo quindi $\mcd{s_{1}-s_{2}}{p-1}=d$;
+esso dovrebbe essere un numero relativamente piccolo e rappresenta
+il numero di soluzioni dell'equazione.
+
+Una volta ottenuti $d$ valori di $k$, possiamo ricavare il segreto
+$a$ risolvendo una equazione congruenziale lineare in una incognita:
+\[
+\cgm a{r^{-1}\left(m-k\cdot s\right)}{\left(p-1\right)}
+\]
+Di nuovo, otterremo non uno ma $n$ possibili valori di $a$ che risolvono
+l'equazione.
 
 \chapter*{Esercizi}
 
@@ -3608,9 +4074,9 @@ delle celle di memoria al passo 7 è uguale a quello al passo 0.
 SI noti che, nella tabella del descrambler, le tre celle di memoria
 sono state inizializzate in modo arbitrario ($M_{1}M_{2}M_{3}=100$),
 inoltre sono stati necessari 3 passi per avere la traduzione corretta
-della sequenza \--- lo scrambler auto-sincronizzante descritto da
-$P\left(Y\right)$ impiega $M=3$ passi per raggiungere da solo la
-configurazione corretta.\demo
+della sequenza \textemdash~lo scrambler auto-sincronizzante descritto
+da $P\left(Y\right)$ impiega $M=3$ passi per raggiungere da solo
+la configurazione corretta.\demo
 \end{sol}
 
 \part{Protocolli e sistemi per la comunicazione sicura}
@@ -3654,10 +4120,10 @@ lo codifica usando una funzione di cifratura (un algoritmo crittografico)
 che prende in ingresso anche la sua chiave $k_{{\scriptscriptstyle \text{A}}}$
 e ottiene un \emph{ciphertext $c$} (messaggio cifrato); il messaggio
 $c$ giunge a $\boldsymbol{B}$, il quale usa una funzione di de-cifratura
-\---- tramite la sua chiave $k_{{\scriptscriptstyle \text{B}}}$,
+\textemdash~tramite la sua chiave $k_{{\scriptscriptstyle \text{B}}}$,
 che è associata in qualche modo alla chiave $k_{{\scriptscriptstyle \text{A}}}$
-\---- per ottenere nuovamente il \emph{plaintext} $m$ inviato da
-\textbf{$\boldsymbol{A}$}.
+\textemdash~per ottenere nuovamente il \emph{plaintext} $m$ inviato
+da \textbf{$\boldsymbol{A}$}.
 
 $\boldsymbol{E}$ potrebbe avere le seguenti intenzioni malevole rispetto
 alla comunicazione tra $\boldsymbol{A}$ e $\boldsymbol{B}$:

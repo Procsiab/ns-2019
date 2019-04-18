@@ -280,6 +280,14 @@ LatexCommand tableofcontents
 
 \begin_layout Standard
 \begin_inset FormulaMacro
+\newcommand{\cgms}[4]{#1\overset{#4}{\equiv}#2\left(\text{mod}\,#3\right)}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset FormulaMacro
 \newcommand{\mod}[2]{#1\,\text{mod}\,#2}
 \end_inset
 
@@ -1782,7 +1790,7 @@ L'inverso di un numero
 \end_inset
 
  che moltiplicato per 5 risulta 1; troviamo 
-\begin_inset Formula $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$
+\begin_inset Formula $m\cdot5=1\parallel_{\mathbb{Z}_{11}}\implies m=9$
 \end_inset
 
 , da cui segue che
@@ -1898,7 +1906,7 @@ Se
 \begin_inset Formula $d$
 \end_inset
 
- tutte le quantità costanti, ottenendo 
+ tutte le quantità costanti, ottenendo
 \begin_inset Formula 
 \[
 \overline{E}:\,\cgm{\frac{a}{d}x}{\frac{b}{d}}{\frac{n}{d}}
@@ -5874,7 +5882,7 @@ permutiamo le due metà al round
 
 -esimo, facendo passare la metà di sinistra attraverso una funzione fortemente
  non lineare che utilizzi la chiave: 
-\begin_inset Formula $B_{i}=R_{i-1}|L_{i-1}\oplus f\left(R_{i-1},\,K_{i}\right)$
+\begin_inset Formula $B_{i}=R_{i-1}\parallel L_{i-1}\oplus f\left(R_{i-1},\,K_{i}\right)$
 \end_inset
 
 ;
@@ -5883,7 +5891,7 @@ status collapsed
 
 \begin_layout Plain Layout
 La notazione 
-\begin_inset Formula $A|B$
+\begin_inset Formula $A\parallel B$
 \end_inset
 
  indica la concatenazione di 
@@ -5920,7 +5928,7 @@ se vi sono
 \end_inset
 
 -esimo, e si ottiene 
-\begin_inset Formula $B_{n}=R_{n}|L_{n}$
+\begin_inset Formula $B_{n}=R_{n}\parallel L_{n}$
 \end_inset
 
 
@@ -6017,7 +6025,7 @@ si produce la chiave di round secondo una tabella di shift fissa (funzione
 \end_inset
 
  del round: 
-\begin_inset Formula $C_{i}=LS_{i}\left(C_{i-1}\right),\,D_{i}=LS_{i}\left(D_{i-1}\right)\implies K_{i}=C_{i}|D_{i}$
+\begin_inset Formula $C_{i}=LS_{i}\left(C_{i-1}\right),\,D_{i}=LS_{i}\left(D_{i-1}\right)\implies K_{i}=C_{i}\parallel D_{i}$
 \end_inset
 
 ;
@@ -6358,7 +6366,7 @@ Doppio DES
 \begin_layout Standard
 Per aumentare la sicurezza di DES potremmo provare ad utilizzare una chiave
  più lunga; in tal caso, ci chiediamo se esista una chiave 
-\begin_inset Formula $K^{\prime}=K_{1}|K_{2}$
+\begin_inset Formula $K^{\prime}=K_{1}\parallel K_{2}$
 \end_inset
 
  tale che 
@@ -6450,7 +6458,7 @@ Il DES non gode di questa proprietà: cifrando più volte il messaggio in
 
  la cardinalità dello spazio delle chiavi.
  Nel caso del doppio DES (2DES), si ha una chiave 
-\begin_inset Formula $K=K_{1}|K_{2}$
+\begin_inset Formula $K=K_{1}\parallel K_{2}$
 \end_inset
 
  lunga il doppio di una chiave singola, dunque 
@@ -6546,7 +6554,7 @@ Poniamoci nel caso di un testo cifrato ricavato tramite 2DES come
 \end_inset
 
 , e vogliamo ottenere 
-\begin_inset Formula $K^{\prime}=K_{1}|K_{2}$
+\begin_inset Formula $K^{\prime}=K_{1}\parallel K_{2}$
 \end_inset
 
 .
@@ -8537,12 +8545,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- sappiamo che essi valgono sempre 1 
+
+\begin_inset space ~
+\end_inset
+
+sappiamo che essi valgono sempre 1 
 \begin_inset ERT
 status open
 
@@ -8550,12 +8562,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- ovvero 
+
+\begin_inset space ~
+\end_inset
+
+ovvero 
 \begin_inset Formula $M-1$
 \end_inset
 
@@ -8882,12 +8898,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- il quale rappresenta lo stato delle 
+
+\begin_inset space ~
+\end_inset
+
+il quale rappresenta lo stato delle 
 \begin_inset Formula $M$
 \end_inset
 
@@ -8899,12 +8919,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- otteniamo lo shift in avanti di un passo del circuito combinatorio:
+
+\begin_inset space ~
+\end_inset
+
+otteniamo lo shift in avanti di un passo del circuito combinatorio:
 \begin_inset Formula 
 \[
 Y\cdot s_{j}\left(Y\right)=s_{j+1}\left(Y\right)
@@ -9144,12 +9168,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- essere non periodica).
+
+\begin_inset space ~
+\end_inset
+
+essere non periodica).
 \end_layout
 
 \begin_layout Standard
@@ -9571,12 +9599,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- circa 
+
+\begin_inset space ~
+\end_inset
+
+circa 
 \begin_inset Formula $10^{12}$
 \end_inset
 
@@ -11688,12 +11720,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- una classe di congruenze del tipo 
+
+\begin_inset space ~
+\end_inset
+
+una classe di congruenze del tipo 
 \begin_inset Formula $\cgm x{\logd{\alpha}{\beta}}{\ord{\alpha}}$
 \end_inset
 
@@ -11979,6 +12015,13 @@ Questi problemi sono più facili da risolvere perché più piccoli; se tuttavia
 
 \begin_layout Subsection
 Algoritmo baby step, giant step
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Baby-step-giant-step"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -12581,7 +12624,7 @@ Mentre
 \emph on
 nonce
 \emph default
- (da number e once, un numero da usare una sola volta).
+ (dalla crasi di number e once, un numero da usare una sola volta).
 \end_layout
 
 \begin_layout Standard
@@ -12729,6 +12772,2018 @@ noprefix "false"
 .
  Questa è la differenza con l'RSA nel quale, dato un messaggio cifrato e
  uno in chiaro, è possibile verificare direttamente la loro corrispondenza.
+\end_layout
+
+\begin_layout Section
+Funzioni di Hash
+\end_layout
+
+\begin_layout Subsection
+Definizione e proprietà
+\end_layout
+
+\begin_layout Standard
+Una 
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Le funzioni di hash sono state introdotte nella sottosezione §
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Funzioni-di-hash"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[0.5cm]
+\end_layout
+
+\end_inset
+
+funzione di hash è una funzione matematica che prende in ingresso un messaggio
+ di lunghezza arbitraria, e produce una uscita (di solito corta) di lunghezza
+ prefissata.
+\end_layout
+
+\begin_layout Standard
+La funzione matematica selezionata deve:
+\end_layout
+
+\begin_layout Itemize
+essere veloce da calcolare;
+\end_layout
+
+\begin_layout Itemize
+avere uscita pseudo-casuale (deve godere delle proprietà descritte dalla
+ Proposizione 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "prop:Proprietà-fondamentali-cifrari-Shannon"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Itemize
+essere non-invertibile (non c'è corrispondenza univoca tra ingresso e uscita,
+ risulta non-invertibile per definizione);
+\end_layout
+
+\begin_layout Itemize
+essere
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La proprietà di unidirezionalità è anche detta 
+\emph on
+resistenza alla contro-immagine
+\end_layout
+
+\end_inset
+
+ unidirezionale (non deve essere possibile trovare nemmeno una uscita delle
+ infinite che producono certo ingresso);
+\end_layout
+
+\begin_layout Itemize
+non esista una coppia di messaggi differenti 
+\begin_inset Formula $m_{1}\neq m_{1}$
+\end_inset
+
+, tali che i loro hash siano uguali, ovvero (detta 
+\begin_inset Formula $h\left(m\right)$
+\end_inset
+
+ la funzione di hash del messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+)
+\begin_inset Formula 
+\[
+\forall\left(m_{1},\,m_{2}\right)\tc m_{1}\neq m_{2}\implies h\left(m_{1}\right)\neq h\left(m_{2}\right)
+\]
+
+\end_inset
+
+se questo si verifica, diremo che la funzione 
+\begin_inset Formula $h\left(\right)$
+\end_inset
+
+ è 
+\emph on
+fortemente resistente alle collisioni
+\emph default
+;
+\end_layout
+
+\begin_layout Itemize
+dato un messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+, sia impossibile trovare un messaggio diverso 
+\begin_inset Formula $m^{\prime}\neq m$
+\end_inset
+
+ per il quale gli hash dei due messaggi siano uguali, ovvero
+\begin_inset Formula 
+\[
+\forall m\,\nexists m^{\prime}\tc m^{\prime}\neq m\implies h\left(m\right)=h\left(m^{\prime}\right)
+\]
+
+\end_inset
+
+se questo si verifica, diremo che la funzione 
+\begin_inset Formula $h\left(\right)$
+\end_inset
+
+ è 
+\emph on
+debolmente resistente alle collisioni
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Ottenere la resistenza debole alle collisioni è più difficile: infatti essa
+ fornisce un grado di libertà in meno rispetto alla resistenza forte (uno
+ dei due messaggi viene fissato).
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Determinare se le seguenti funzioni siano invertibili, unidirezionali e
+ prive di collisioni:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $h\left(x\right)=\mod xn$
+\end_inset
+
+ con 
+\begin_inset Formula $n$
+\end_inset
+
+ intero composto qualunque;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $h\left(x\right)=\mod{\alpha^{x}}p$
+\end_inset
+
+ con 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ radice primitiva di 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $h\left(x\right)=\mod{x^{2}}n$
+\end_inset
+
+ con 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+ prodotto di due primi;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $h\left(x\right)={\scriptstyle \text{DES}}_{x}\left(000\ldots\right)$
+\end_inset
+
+ con chiave 
+\begin_inset Formula $x\in\left[0,\,2^{56}\right]$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Analizziamo una alla volta le quattro funzioni, nelle sottosezioni seguenti.
+\end_layout
+
+\begin_layout Subsubsection*
+Funzione 
+\begin_inset Formula $\left(1\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questa funzione non è invertibile, poiché esistono infiniti messaggi che
+ producono la stessa uscita della funzione (
+\begin_inset Formula $\forall k\tc h\left(x\right)=\mod{\left(x+k\cdot n\right)}n$
+\end_inset
+
+); per quanto appena osservato, tale funzione non è unidirezionale, poiché
+ è possibile trovare uno qualunque di quegli infiniti messaggi che producono
+ la stessa uscita (basta provare un 
+\begin_inset Formula $x+k\cdot n$
+\end_inset
+
+).
+ Per lo stesso motivo, è possibile trovare una collisione (per esempio 
+\begin_inset Formula $h\left(x\right)=h\left(x+n\right)$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection*
+Funzione 
+\begin_inset Formula $\left(2\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questa funzione non è invertibile, poiché esistono infiniti numeri nella
+ classe di congruenza 
+\begin_inset Formula $\cgm k{\overline{x}}{\left(p-1\right)}$
+\end_inset
+
+ che danno resto 
+\begin_inset Formula $k$
+\end_inset
+
+; l'inverso di questa funzione ricade nel problema del logaritmo discreto
+ 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Logaritmo-discreto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: con un 
+\begin_inset Formula $p$
+\end_inset
+
+ scelto in modo opportuno, la funzione risulta unidirezionale.
+\end_layout
+
+\begin_layout Standard
+Possiamo ottenere una collisione prendendo 
+\begin_inset Formula $x_{1}$
+\end_inset
+
+ e 
+\begin_inset Formula $x_{2}=x_{1}+k\left(p-1\right)$
+\end_inset
+
+, da cui si ottiene la stessa uscita (
+\begin_inset Formula $h\left(x_{1}\right)=h\left(x_{2}\right)$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Subsubsection*
+Funzione 
+\begin_inset Formula $\left(3\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Questa funzione non è invertibile, poiché esistono infiniti valori di 
+\begin_inset Formula $x$
+\end_inset
+
+ per cui la congruenza in modulo 
+\begin_inset Formula $n$
+\end_inset
+
+ possa essere soddisfatta; presi 
+\begin_inset Formula $p$
+\end_inset
+
+ e 
+\begin_inset Formula $q$
+\end_inset
+
+ tali da rendere computazionalmente intrattabile la fattorizzazione di 
+\begin_inset Formula $n$
+\end_inset
+
+, questa funzione risulta unidirezionale.
+\end_layout
+
+\begin_layout Standard
+Possiamo ottenere una collisione usando il fatto che un quadrato abbia due
+ radici opposte: 
+\begin_inset Formula $h\left(x\right)=h\left(-x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection*
+Funzione 
+\begin_inset Formula $\left(4\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Cifriamo un blocco di 64 zeri col DES, usando il messaggio come chiave di
+ 56bit.
+ Dato che il messaggio usato come chiave è da 56bit, e l'uscita è un blocco
+ da 64bit, la funzione non è invertibile; grazie alle proprietà del DES
+ la funzione risulta unidirezionale (non è possibile ottenere la chiave
+ 
+\begin_inset Formula $x$
+\end_inset
+
+ che produca un'uscita 
+\begin_inset Formula $h\left(x\right)$
+\end_inset
+
+ desiderata), infatti DES resiste all'attacco del testo in chiaro noto.
+\end_layout
+
+\begin_layout Standard
+Per quanto appena affermato, non è possibile trovare collisioni (equivale
+ a trovare due chiavi che cifrano nello stesso modo lo stesso blocco).
+\end_layout
+
+\begin_layout Standard
+Osserviamo che non possiamo usare questa funzione come una funzione di hash:
+ infatti essa non rispetta la proprietà sulla lunghezza arbitraria dell'ingresso
+, che è limitato a un massimo di 56bit.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Algoritmo SHA
+\end_layout
+
+\begin_layout Standard
+Si tratta di una famiglia di algoritmi classificati, in base alla lunghezza
+ dell'uscita, la lunghezza dei blocchi e il numero di round, in SHA-0 (160bit),
+ SHA-1 (160bit), SHA-2 (256bit), SHA-3 (512bit, standard approvato dal NIST).
+ Il loro funzionamento può essere schematizzato nel modo seguente; sia dato
+ un messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+, di cui si vuole calcolare l'hash:
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\noun on
+Inizializzazione
+\end_layout
+
+\begin_layout Itemize
+concatena al messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ dei bit di 
+\begin_inset Quotes eld
+\end_inset
+
+padding
+\begin_inset Quotes erd
+\end_inset
+
+, in modo che la sua lunghezza 
+\begin_inset Formula $\ell$
+\end_inset
+
+ sia un multiplo di 512;
+\end_layout
+
+\begin_layout Itemize
+concatena al messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ la sua lunghezza 
+\begin_inset Formula $\ell$
+\end_inset
+
+, sotto forma di intero senza segno a 64bit (questo pone un limite intrinseco
+ alla lunghezza dell'ingresso);
+\end_layout
+
+\begin_layout Itemize
+inizializza 5 registri 
+\begin_inset Formula $H_{0},\,\ldots,\,H_{4}$
+\end_inset
+
+ con dei valori costanti (sono parte della specifica dell'algoritmo).
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\noun on
+Esecuzione
+\end_layout
+
+\begin_layout Enumerate
+dividiamo il messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ in blocchi da 512bit chiamati 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+dividiamo ciascun blocco 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+ in 16 blocchi da 32bit, che chiamiamo 
+\begin_inset Formula $W_{i,j}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+per 
+\begin_inset Formula $j$
+\end_inset
+
+ da 16 a 79:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La funzione 
+\begin_inset Formula $f_{j}\left(\right)$
+\end_inset
+
+ e il valore 
+\begin_inset Formula $K_{j}$
+\end_inset
+
+ sono specifici dell'algoritmo SHA-1; la funzione 
+\begin_inset Formula $B\hookleftarrow r$
+\end_inset
+
+ fa scorrere in modo ciclico i bit di 
+\begin_inset Formula $B$
+\end_inset
+
+ a sinistra di 
+\begin_inset Formula $r$
+\end_inset
+
+ posizioni
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $W_{i,j}=\left(W_{i,j-3}\oplus W_{i,j-8}\oplus W_{i,j-14}\oplus W_{i,j-16}\right)\hookleftarrow1$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+assegniamo 
+\begin_inset Formula $A=H_{0},\,B=H_{1},\,C=H_{2},\,D=H_{3},\,E=H_{4}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+per 
+\begin_inset Formula $j$
+\end_inset
+
+ da 0 a 79:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $T=\left(A\hookleftarrow5\right)+f_{j}\left(B,\,C,\,D\right)+E+W_{j}+K_{j}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $E=D$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $D=C$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $C=\left(B\hookleftarrow30\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $B=A$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $A=T$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+assegniamo 
+\begin_inset Formula $H_{0}=H_{0}+A,\,H_{1}=H_{1}+B,\,H_{2}=H_{2}+C,\,H_{3}=H_{3}+D,\,H_{4}=H_{4}+E$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+il risultato dell'algoritmo è la stringa 
+\begin_inset Formula $H_{0}\parallel H_{1}\parallel H_{2}\parallel H_{3}\parallel H_{4}$
+\end_inset
+
+, il valore a 160bit dell'hash.
+\end_layout
+
+\begin_layout Subsection
+Paradosso del compleanno
+\end_layout
+
+\begin_layout Standard
+Consideriamo una coppia di persone: la probabilità che esse 
+\bar under
+non
+\bar default
+ abbiano il compleanno nello stesso giorno è pari a 
+\begin_inset Formula $\frac{364}{365}\simeq99.7\%$
+\end_inset
+
+ (stiamo escludendo gli anni bisestili).
+ Prendiamo ora un campione di 100 persone; esse possono formare in totale
+ 
+\begin_inset Formula $100\cdot99=990$
+\end_inset
+
+ coppie differenti; allora la probabilità che 
+\bar under
+nessuna
+\bar default
+ delle coppie abbia il compleanno nello stesso giorno si ottiene come:
+\begin_inset Formula 
+\[
+\left(\frac{364}{365}\right)^{990}\simeq6.6\%
+\]
+
+\end_inset
+
+Calcoliamo ora la probabilità che, all'interno del campione di 100 persone,
+ almeno due abbiano il compleanno nello stesso giorno:
+\begin_inset Formula 
+\[
+1-\left(1-\frac{1}{365}\right)\cdot\left(1-\frac{2}{365}\right)\cdot\ldots\cdot\left(1-\frac{99}{365}\right)\underset{N\gg r}{\sim}1-e^{-r^{2}/2N}\rightarrow1-e^{-10000/730}\simeq0.999999
+\]
+
+\end_inset
+
+Nel caso in esame si ha 
+\begin_inset Formula $r=100$
+\end_inset
+
+ e 
+\begin_inset Formula $N=365$
+\end_inset
+
+; se invece vogliamo ottenere il numero di persone 
+\begin_inset Formula $r$
+\end_inset
+
+ che rende la probabilità di avere almeno una coppia con lo stesso compleanno,
+ possiamo usare al contrario la formula approssimata appena enunciata:
+\begin_inset Formula 
+\[
+1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r^{2}\simeq1.17\sqrt{N}
+\]
+
+\end_inset
+
+Quando 
+\begin_inset Formula $r$
+\end_inset
+
+ è circa uguale alla radice di 
+\begin_inset Formula $N$
+\end_inset
+
+, la probabilità di collisioni è superiore al 50%.
+\end_layout
+
+\begin_layout Standard
+Consideriamo un terzo caso, più rilevante dal punto di vista crittografico;
+ prendiamo due insiemi di 
+\begin_inset Formula $r$
+\end_inset
+
+ persone, ognuna delle quali ha il compleanno in uno degli 
+\begin_inset Formula $N$
+\end_inset
+
+ giorni dell'anno (le ripetizioni vengano considerate): si dimostra che
+ la probabilità che vi sia una corrispondenza per i compleanni di una coppia
+ di persone, ciascuna da un gruppo differente, è pari a:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "3cm"
+height "1pt"
+
+\end_inset
+
+
+\series bold
+\size footnotesize
+
+\begin_inset Newline newline
+\end_inset
+
+Collisione nel paradosso del compleanno
+\series default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Compleanno, collisione nel paradosso del
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+[-0.2cm]
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{equation}
+1-e^{-r^{2}/N}\label{eq:Paradosso-compleanno-prob-corrispondenza}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Possiamo adottare questo principio per attaccare la firma digitale tramite
+ hash.
+ Sia data una funzione di hash con lunghezza 60bit: vi saranno in totale
+ 
+\begin_inset Formula $2^{60}\simeq10^{19}=N$
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+compleanni
+\begin_inset Quotes erd
+\end_inset
+
+ (hash possibili); la probabilità di ottenere un hash desiderato scegliendo
+ il messaggio è pari a 
+\begin_inset Formula $1/2^{60}$
+\end_inset
+
+ (pressoché nulla).
+\end_layout
+
+\begin_layout Standard
+Se prendiamo due insiemi di 
+\begin_inset Formula $r$
+\end_inset
+
+ documenti, e calcoliamo l'hash di ciascuno di essi, troveremo una collisione
+ al 50% di probabilità se 
+\begin_inset Formula $r$
+\end_inset
+
+ vale:
+\begin_inset Formula 
+\[
+r\simeq\sqrt{2^{60}}=2^{30}\simeq10^{10}
+\]
+
+\end_inset
+
+In pratica, nel caso di un hash a 60bit, possiamo generare un miliardo di
+ variazioni per un messaggio legittimo e un miliardo di variazioni per un
+ messaggio malevolo (modificando virgole, spazi o lettere maiuscole, in
+ modo che un osservatore distratto non noti la differenza); dalla 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Paradosso-compleanno-prob-corrispondenza"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ sappiamo che otterremo una collisione dell'hash con probabilità circa 
+\begin_inset Formula $63.2\%$
+\end_inset
+
+; in questo modo è possibile ottenere un messaggio malevolo che appaia firmato
+ dall'autore del messaggio legittimo.
+\end_layout
+
+\begin_layout Example
+
+\emph on
+Sia 
+\begin_inset Formula $h_{n}\left(x\right)$
+\end_inset
+
+ una funzione di hash con ingresso 
+\begin_inset Formula $x$
+\end_inset
+
+ e lunghezza dell'uscita 
+\begin_inset Formula $n$
+\end_inset
+
+ (espressa in bit).
+ Calcolare le probabilità di collisione per
+\emph default
+ 
+\begin_inset Formula $h_{4}\left(x\right)$
+\end_inset
+
+, 
+\begin_inset Formula $h_{8}\left(x\right)$
+\end_inset
+
+ e 
+\begin_inset Formula $h_{12}\left(x\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\checked$
+\end_inset
+
+Nella seguente tabella sono riassunte le considerazioni per le tre funzioni
+ di hash:
+\begin_inset VSpace defskip
+\end_inset
+
+
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{4}\left(x\right)\implies16$
+\end_inset
+
+ hash
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{16}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1-\left(1-\frac{1}{16}\right)^{16}=0.6439$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{8}\left(x\right)\implies256$
+\end_inset
+
+ hash
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{256}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1-\left(1-\frac{1}{256}\right)^{256}=0.6328$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $h_{12}\left(x\right)\implies4096$
+\end_inset
+
+ hash
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\mathbb{P}\left(\text{collisione}\right)=\frac{1}{4096}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1-\left(1-\frac{1}{4096}\right)^{4096}=0.6321$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace defskip
+\end_inset
+
+Nella terza colonna è stata valutata la probabilità 
+\begin_inset Formula $p$
+\end_inset
+
+ di trovare la collisione desiderata in 
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ tentativi (con 
+\begin_inset Formula $n$
+\end_inset
+
+ il numero di bit dell'uscita della funzione); osservando i valori di probabilit
+à ottenuti, possiamo dimostrare che essi tendono a un valore limite, che
+ possiamo descrivere nel seguente modo:
+\begin_inset Formula 
+\[
+\lm n{\infty}{\left(1-\frac{1}{n}\right)^{n}\rightarrow\frac{1}{e}\implies}p=1-\frac{1}{e}
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Attacco del compleanno al logaritmo discreto
+\end_layout
+
+\begin_layout Standard
+Riprendiamo le ipotesi del problema del logaritmo discreto 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Logaritmo-discreto"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\cgm{\alpha^{x}}{\beta}p\implies\cgm x{\logd{\alpha}{\beta}}p
+\]
+
+\end_inset
+
+Per risolvere il logaritmo discreto abbiamo introdotto l'algoritmo 
+\begin_inset Quotes eld
+\end_inset
+
+baby step, giant step
+\begin_inset Quotes erd
+\end_inset
+
+ (§
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Baby-step-giant-step"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+), che consiste nel generare due liste lunghe al più 
+\begin_inset Formula $\sqrt{p}$
+\end_inset
+
+; attuiamo l'attacco del compleanno costruendo prima di tutto due liste:
+ la prima contiene 
+\begin_inset Formula $\left\{ \mod{\alpha^{k}}p\right\} $
+\end_inset
+
+, la seconda 
+\begin_inset Formula $\left\{ \mod{\beta\cdot\alpha^{-\ell}}p\right\} $
+\end_inset
+
+, dove 
+\begin_inset Formula $k,\ell\in\mathbb{Z}_{p-1}^{*}$
+\end_inset
+
+ sono scelti a caso.
+\end_layout
+
+\begin_layout Standard
+Troviamo una corrispondenza tra le due liste al 50% di probabilità, calcolando
+ 
+\begin_inset Formula $\sqrt{p}$
+\end_inset
+
+ valori possibili per 
+\begin_inset Formula $k$
+\end_inset
+
+ ed 
+\begin_inset Formula $\ell$
+\end_inset
+
+; indicando con 
+\begin_inset Formula $\overline{k}$
+\end_inset
+
+ ed 
+\begin_inset Formula $\overline{\ell}$
+\end_inset
+
+ i valori che permettono di ottenere una corrispondenza tra le liste, possiamo
+ scrivere:
+\begin_inset Formula 
+\[
+\cgm{\alpha^{\overline{k}}}{\beta\cdot\alpha^{-\overline{\ell}}}p\implies\cgm{\beta}{\alpha^{\overline{k}+\overline{\ell}}}p\implies\cgm{\overline{k}+\overline{\ell}}{\logd{\alpha}{\beta}}p
+\]
+
+\end_inset
+
+In pratica possiamo affermare che il valore 
+\begin_inset Formula $\overline{k}+\overline{\ell}$
+\end_inset
+
+ sia il valore che risolve il logaritmo discreto cercato, tuttavia osserviamo
+ che esso non è più efficace dell'algoritmo 
+\begin_inset Quotes eld
+\end_inset
+
+baby step, giant step
+\begin_inset Quotes erd
+\end_inset
+
+; infatti, per applicare tale algoritmo non è necessario compilare completamente
+ la seconda lista, ma basta fermarsi alla prima corrispondenza, inoltre
+ i valori di 
+\begin_inset Formula $\overline{k}$
+\end_inset
+
+ ed 
+\begin_inset Formula $\overline{\ell}$
+\end_inset
+
+ sono casuali e non possono essere computati progressivamente.
+ Infine, la probabilità trovare una corrispondenza non è migliore di quella
+ ottenuta dall'applicazione del 
+\begin_inset Quotes eld
+\end_inset
+
+baby step, giant step
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Firma digitale
+\end_layout
+
+\begin_layout Standard
+La firma digitale è una stringa di bit associata al messaggio da firmare,
+ che include un segreto del firmatario.
+ In pratica si utilizza lo hash del messaggio da firmare, al quale viene
+ aggiunto un segreto del firmatario, cosicché solo chi è a conoscenza del
+ segreto (il firmatario del messaggio) è in grado di creare la firma associata;
+ inoltre la firma deve essere verificabile pubblicamente 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textemdash
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+è l'opposto della cifratura in un crittosistema a chiave pubblica: firmando
+ con la chiave segreta si permette a tutti di verificare la firma decifrandola
+ con la chiave pubblica; questo garantisce che solo chi è in possesso della
+ chiave privata associata alla forma, possa generarla.
+\end_layout
+
+\begin_layout Standard
+Si firma l'hash del messaggio per evitare di avere una firma molto lunga
+ (pari o maggiore della lunghezza del messaggio) e questo non compromette
+ la sicurezza della firma, per le proprietà della funzione di hash.
+\end_layout
+
+\begin_layout Standard
+Altre
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Autenticazione di questo tipo viene classificata come 
+\emph on
+HMAC
+\emph default
+: Hash-based Message Autentication Code
+\end_layout
+
+\end_inset
+
+ applicazioni delle funzioni di hash sono il controllo di integrità (cambiando
+ anche un bit di un messaggio, il suo hash cambia) e l'autenticazione del
+ messaggio (si usa una chiave simmetrica insieme al messaggio, per generare
+ l'hash).
+\end_layout
+
+\begin_layout Subsection
+Firma RSA
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Firma-RSA"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Consideriamo due parti 
+\series bold
+A
+\series default
+ e 
+\series bold
+B
+\series default
+, e 
+\series bold
+B
+\series default
+ voglia inviare un messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ ad 
+\series bold
+A
+\series default
+ in modo che lo firmi.
+ L'algoritmo per la firma RSA in questo caso si svolge come segue:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ pubblica 
+\begin_inset Formula $n$
+\end_inset
+
+ ed 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+, mantiene segreto 
+\begin_inset Formula $d_{\text{A}}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+sceglie due primi grandi 
+\begin_inset Formula $p,\,q$
+\end_inset
+
+ e li usa per calcolare 
+\begin_inset Formula $n=p\cdot q$
+\end_inset
+
+ in modo da rendere questo intero computazionalmente non fattorizzabile;
+\end_layout
+
+\begin_layout Itemize
+sceglie
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Negli intervalli di definizione, 1 e 
+\begin_inset Formula $\varphi\left(n\right)$
+\end_inset
+
+ sono esclusi poiché 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+ e 
+\begin_inset Formula $d_{\text{A}}$
+\end_inset
+
+ sono esponenti (elevando a 1 non cambia la base, ed elevare al toziente
+ di 
+\begin_inset Formula $n$
+\end_inset
+
+ un residuo modulo 
+\begin_inset Formula $n$
+\end_inset
+
+ dà 1)
+\end_layout
+
+\end_inset
+
+ la sua chiave di cifratura pubblica come 
+\begin_inset Formula $e_{\text{A}}\in\left(1,\,\varphi\left(n\right)\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+crea la sua chiave di decifratura come 
+\begin_inset Formula $d_{\text{A}}\in\left(1,\,\varphi\left(n\right)\right)$
+\end_inset
+
+, che deve essere l'inverso di 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+ (
+\begin_inset Formula $\cgm{d_{\text{A}}\cdot e_{\text{A}}}1{\varphi\left(n\right)}$
+\end_inset
+
+);
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ invia ad 
+\series bold
+A
+\series default
+ il messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ da firmare;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ firma il messaggio, producendo 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)=\mod{m^{d_{\text{A}}}}n$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ verifica la firma di 
+\series bold
+A
+\series default
+ provando che valga 
+\begin_inset Formula $\mod{{\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)^{e_{\text{A}}}}{n\overset{?}{=}m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+In RSA, per decifrare un messaggio cifrato da 
+\series bold
+A
+\series default
+, conoscendo solo i dati pubblici 
+\begin_inset Formula $n$
+\end_inset
+
+ ed 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+, dobbiamo ottenere l'esponente di decifratura 
+\begin_inset Formula $\cgm{d_{\text{A}}}{e_{\text{A}}^{-1}}{\varphi\left(n\right)}$
+\end_inset
+
+; per calcolare questo inverso possiamo usare 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ oppure 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Algoritmo-Euclide-esteso"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ ma in entrambi i casi avremo bisogno di 
+\begin_inset Formula $\varphi\left(n\right)=\left(p-1\right)\left(q-1\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+La firma digitale RSA funziona nel modo inverso, usando l'esponente di decifratu
+ra per firmare e quello di cifratura per verificare la firma.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+Questo tipo di firma nasconde il messaggio al suo interno; inoltre intercettando
+ una qualunque firma 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)$
+\end_inset
+
+ ed elevandola ad 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+ modulo 
+\begin_inset Formula $n$
+\end_inset
+
+, otteniamo un messaggio valido firmato da A; tuttavia esso risulterà una
+ serie casuale di bit.
+\end_layout
+
+\begin_layout Subsection
+Firma cieca
+\end_layout
+
+\begin_layout Standard
+Consideriamo la seguente variazione dell'algoritmo della firma digitale
+ RSA.
+ 
+\series bold
+B
+\series default
+ vuole che 
+\series bold
+A
+\series default
+ firmi un messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+, senza che 
+\series bold
+A
+\series default
+ conosca il suo contenuto:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ pubblica 
+\begin_inset Formula $n$
+\end_inset
+
+ ed 
+\begin_inset Formula $e_{\text{A}}$
+\end_inset
+
+, mantiene segreto 
+\begin_inset Formula $d_{\text{A}}$
+\end_inset
+
+ (tutti e tre gli interi sono costruiti come in §
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Firma-RSA"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ sceglie un intero casuale 
+\begin_inset Formula $k\perp n$
+\end_inset
+
+, da usare una volta sola (nonce);
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ calcola 
+\begin_inset Formula $\cgm t{m\cdot k^{e_{\text{A}}}}n$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ invia ad 
+\series bold
+A
+\series default
+ il messaggio cifrato 
+\begin_inset Formula $t$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ firma il messaggio calcolando 
+\begin_inset Formula $\cgm s{t^{d_{\text{A}}}}n={\scriptstyle \text{SIG}}_{\text{A}}\left(t\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ invia la firma 
+\begin_inset Formula $s$
+\end_inset
+
+ a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+B
+\series default
+ verifica la firma calcolando 
+\begin_inset Formula $\mod{s\cdot k^{-1}}n$
+\end_inset
+
+, ottenendo
+\begin_inset Formula 
+\[
+\cgm{\overset{s}{\overbrace{m^{d_{\text{A}}}\cdot k^{e_{\text{A}}\cdot d_{\text{A}}}}}\cdot k^{-1}}{m^{d_{\text{A}}}\cdot\bcancel{k}\cdot\cancel{k^{-1}}}n
+\]
+
+\end_inset
+
+ovvero 
+\series bold
+B
+\series default
+ computa proprio la firma di 
+\series bold
+A
+\series default
+ del messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ (secondo l'algoritmo della firma digitale RSA).
+\end_layout
+
+\begin_layout Subsection
+Firma di El Gamal
+\end_layout
+
+\begin_layout Standard
+Seguendo l'applicazione della firma RSA, l'algoritmo per la firma di El
+ Gamal si applica firmando con la chiave privata e verificando la firma
+ tramite la chiave pubblica; in questo caso la chiave privata può essere
+ ottenuta a partire da quella pubblica solo risolvendo il problema del logaritmo
+ discreto.
+\end_layout
+
+\begin_layout Standard
+Consideriamo le stesse premesse delle sezioni precedenti 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textemdash
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+B
+\series default
+ ha un messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ che vuole far firmare ad 
+\series bold
+A
+\series default
+ (se il messaggio è più lungo di 
+\begin_inset Formula $p$
+\end_inset
+
+, deve essere spezzato blocchi di dimensione 
+\begin_inset Formula $p$
+\end_inset
+
+, dato che l'algoritmo opera in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+):
+\end_layout
+
+\begin_layout Itemize
+A pubblica un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ e un intero 
+\begin_inset Formula $\alpha$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $p$
+\end_inset
+
+ tale da rendere intrattabile il problema del logaritmo discreto in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\alpha$
+\end_inset
+
+ sia una radice primitiva di 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ (per garantire l'esistenza di una soluzione al problema del logaritmo discreto)
+;
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ sceglie un esponente intero segreto 
+\begin_inset Formula $a\in\left(1,\,p-2\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ calcola e pubblica 
+\begin_inset Formula $\cgm{\beta}{\alpha^{a}}p$
+\end_inset
+
+ (nella pratica è impossibile ottenere il segreto 
+\begin_inset Formula $a$
+\end_inset
+
+ risolvendo questa equazione con un logaritmo discreto);
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ sceglie un esponente casuale 
+\begin_inset Formula $k\in\left(1,\,p-2\right)$
+\end_inset
+
+, da considerarsi come nonce;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+A produce la firma 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)=\left(r,\,s\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm r{\alpha^{k}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\cgm s{k^{-1}\left(m-a\cdot r\right)}{\left(p-1\right)}$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+B verifica la firma 
+\begin_inset Formula $\left(r,\,s\right)$
+\end_inset
+
+ usando solo dati pubblici;
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+la firma risulta corretta se si verifica la congruenza 
+\begin_inset Formula $\cgms{\beta^{r}\cdot r^{s}}{\alpha^{m}}p?$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Mostriamo ora come la congruenza appena enunciata sia una verifica corretta
+ per la firma di El Gamal; dalla definizione di 
+\begin_inset Formula $s$
+\end_inset
+
+, moltiplichiamo per 
+\begin_inset Formula $k$
+\end_inset
+
+ entrambi i lati della congruenza:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{k\cdot s}{\bcancel{k}\cdot\cancel{k^{-1}}\left(m-a\cdot r\right)}{\left(p-1\right)}\\
+\cgm m{k\cdot s+a\cdot r}{\left(p-1\right)}\\
+\cgms{\alpha^{m}}{\overset{\varhexstar}{\overbrace{\alpha^{k\cdot s+a\cdot r}}}}p{{\scriptscriptstyle \bigstar}}\\
+\cgm{\overset{\varhexstar}{\overbrace{\underset{{\scriptscriptstyle \blacktriangle}}{\underbrace{\left(\alpha^{a}\right)^{r}}}\cdot\underset{{\scriptscriptstyle \blacksquare}}{\underbrace{\left(\alpha^{k}\right)^{s}}}}}}{\overset{{\scriptscriptstyle \blacktriangle}}{\overbrace{\beta^{r}}}\cdot\overset{{\scriptscriptstyle \blacksquare}}{\overbrace{r^{s}}}}p\\
+\cgm{\alpha^{m}}{\beta^{r}\cdot r^{s}}p
+\end{array}
+\]
+
+\end_inset
+
+Nella relazione 
+\begin_inset Formula ${\scriptstyle \bigstar}$
+\end_inset
+
+ abbiamo usato 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Principio-fondamentale"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+, dato che gli esponenti di 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ sono congruenti in modulo 
+\begin_inset Formula $p$
+\end_inset
+
+; l'ultima congruenza è proprio quella che verifica la firma di El Gamal.
+\end_layout
+
+\begin_layout Remark
+La firma generata in questo modo non è sempre la stessa, fissato il messaggio:
+ infatti essa dipende dal segreto effimero 
+\begin_inset Formula $k$
+\end_inset
+
+; quindi ci sono 
+\begin_inset Formula $p-2$
+\end_inset
+
+ firme valide per lo stesso messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+.
+ Rispetto alla firma cieca, in questo modo non è neanche possibile capire
+ se è lo stesso messaggio ad essere firmato due volte.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Remark
+La firma RSA è lunga quanto il messaggio firmato; la firma di El Gamal è
+ lunga il doppio del messaggio firmato (essa è espressa da due interi 
+\begin_inset Formula $r$
+\end_inset
+
+ ed 
+\begin_inset Formula $s$
+\end_inset
+
+, con lo stesso ordine di grandezza); questo riconferma la necessità di
+ firmare l'hash del messaggio e non il messaggio stesso, altrimenti la firma
+ avrebbe una dimensione troppo grande rispetto al messaggio.
+\end_layout
+
+\begin_layout Subsection
+Attacco del nonce ripetuto
+\end_layout
+
+\begin_layout Standard
+Un attaccante è in grado di firmare con El Gamal un messaggio al posto di
+ 
+\series bold
+A
+\series default
+ in modo che 
+\series bold
+B
+\series default
+ possa comunque verificare correttamente la sua firma; questo accade quando
+ 
+\series bold
+A
+\series default
+ utilizza due volte lo stesso 
+\begin_inset Formula $k$
+\end_inset
+
+ per firmare.
+\end_layout
+
+\begin_layout Standard
+Dal punto di vista di un osservatore esterno, quando A emette due firme
+ differenti 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{\text{A}}\left(m_{1}\right)=\left(r_{1},\,s_{1}\right)\neq{\scriptstyle \text{SIG}}_{\text{A}}\left(m_{2}\right)=\left(r_{2},\,s_{2}\right)$
+\end_inset
+
+ tali che 
+\begin_inset Formula $r_{1}=r_{2}=r^{\prime}$
+\end_inset
+
+, si può ricavare il nonce 
+\begin_inset Formula $k$
+\end_inset
+
+ nel modo seguente:
+\begin_inset Formula 
+\[
+\begin{cases}
+\cgm{-a\cdot r^{\prime}}{s_{1}\cdot k-m_{1}}{\left(p-1\right)}\\
+\cgm{-a\cdot r^{\prime}}{s_{2}\cdot k-m_{2}}{\left(p-1\right)}
+\end{cases}\implies\;\cgm{\left(s_{1}-s_{2}\right)k}{m_{1}-m_{2}}{\left(p-1\right)}
+\]
+
+\end_inset
+
+La seconda relazione è il frutto della differenza tra le prime due; possiamo
+ calcolare 
+\begin_inset Formula $k$
+\end_inset
+
+ dall'equazione lineare in una incognita:
+\begin_inset Formula 
+\begin{equation}
+\cgm k{\left(m_{1}-m_{2}\right)\cdot\left(s_{1}-s_{2}\right)^{-1}\,}{\left(p-1\right)}\label{eq:Attacco-nonce-ripetuto}
+\end{equation}
+
+\end_inset
+
+Per risolverla dobbiamo ottenere l'inverso di 
+\begin_inset Formula $s_{1}-s_{2}$
+\end_inset
+
+ modulo 
+\begin_inset Formula $p-1$
+\end_inset
+
+ (non è detto che esista): calcoliamo quindi 
+\begin_inset Formula $\mcd{s_{1}-s_{2}}{p-1}=d$
+\end_inset
+
+; esso dovrebbe essere un numero relativamente piccolo e rappresenta il
+ numero di soluzioni dell'equazione.
+\end_layout
+
+\begin_layout Standard
+Una volta ottenuti 
+\begin_inset Formula $d$
+\end_inset
+
+ valori di 
+\begin_inset Formula $k$
+\end_inset
+
+, possiamo ricavare il segreto 
+\begin_inset Formula $a$
+\end_inset
+
+ risolvendo una equazione congruenziale lineare in una incognita:
+\begin_inset Formula 
+\[
+\cgm a{r^{-1}\left(m-k\cdot s\right)}{\left(p-1\right)}
+\]
+
+\end_inset
+
+Di nuovo, otterremo non uno ma 
+\begin_inset Formula $n$
+\end_inset
+
+ possibili valori di 
+\begin_inset Formula $a$
+\end_inset
+
+ che risolvono l'equazione.
 \end_layout
 
 \begin_layout Chapter*
@@ -14925,12 +16980,16 @@ status open
 
 
 \backslash
----
+textemdash
 \end_layout
 
 \end_inset
 
- lo scrambler auto-sincronizzante descritto da 
+
+\begin_inset space ~
+\end_inset
+
+lo scrambler auto-sincronizzante descritto da 
 \begin_inset Formula $P\left(Y\right)$
 \end_inset
 
@@ -15113,12 +17172,16 @@ status open
 
 
 \backslash
-----
+textemdash
 \end_layout
 
 \end_inset
 
- tramite la sua chiave 
+
+\begin_inset space ~
+\end_inset
+
+tramite la sua chiave 
 \begin_inset Formula $k_{{\scriptscriptstyle \text{B}}}$
 \end_inset
 
@@ -15134,12 +17197,16 @@ status open
 
 
 \backslash
-----
+textemdash
 \end_layout
 
 \end_inset
 
- per ottenere nuovamente il 
+
+\begin_inset space ~
+\end_inset
+
+per ottenere nuovamente il 
 \emph on
 plaintext
 \emph default
