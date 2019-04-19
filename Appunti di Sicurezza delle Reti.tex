@@ -3671,8 +3671,8 @@ l'esistenza di una soluzione al problema del logaritmo discreto);
 è impossibile ottenere il segreto $a$ risolvendo questa equazione
 con un logaritmo discreto);
 \end{itemize}
-\item \textbf{A} sceglie un esponente casuale $k\in\left(1,\,p-2\right)$,
-da considerarsi come nonce;
+\item \textbf{A} sceglie un esponente casuale $k\in\left(1,\,p-2\right)$
+tale che $k\perp p-1$, da considerarsi come nonce;
 \begin{itemize}
 \item A produce la firma ${\scriptstyle \text{SIG}}_{\text{A}}\left(m\right)=\left(r,\,s\right)$;
 \item $\cgm r{\alpha^{k}}p$;
@@ -4077,6 +4077,160 @@ inoltre sono stati necessari 3 passi per avere la traduzione corretta
 della sequenza \textemdash~lo scrambler auto-sincronizzante descritto
 da $P\left(Y\right)$ impiega $M=3$ passi per raggiungere da solo
 la configurazione corretta.\demo
+\end{sol}
+
+\section*{Cifrari a chiave pubblica}
+\begin{xca}
+Adottiamo\marginpar{$\blacktriangleright$ \emph{Esercizio: cifratura RSA}}
+il sistema a chiave pubblica RSA, pubblicando l'intero $n=323$ e
+l'esponente di cifratura $e=17$; verificare la correttezza dei dati
+forniti.
+
+Provare a decifrare il messaggio cifrato $c=55$, senza conoscere
+l'esponente di decifratura. Cifrare il messaggio in chiaro $p=55$.
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Controlliamo che l'esponente di cifratura sia primo relativo al toziente
+dell'intero $n$:
+\[
+e\perp\varphi\left(n\right)\implies17\perp\varphi\left(323\right)=\mcd{17}{\varphi\left(323\right)}\overset{?}{=}1
+\]
+Per calcolare l'ultima uguaglianza è necessario ottenere il toziente
+di 323, e a questo scopo sarà necessario fattorizzare l'intero $n$;
+anche se in generale non sarebbe possibile, nel nostro caso abbiamo
+un intero piccolo, fattorizzabile per tentativi (dividiamo 323 per
+tutti i primi da 3 a $\sqrt{323}$); otteniamo che $17\backslash323$,
+e vale $323=17\cdot19$.
+
+Il suo toziente può essere calcolato come:
+\[
+\varphi\left(323\right)=\left(17-1\right)\cdot\left(19-1\right)=16\cdot18=\boxed{288}=2^{5}\cdot3^{2}
+\]
+Tra i fattori di 288 on compare $e=17$, dunque l'esponente di cifratura
+sarà primo relativo rispetto al toziente dell'intero $n$.
+
+Possiamo decifrare un messaggio cifrato qualunque, data la facilità
+di fattorizzazione dell'intero $n$. In generale, in RSA si decifra
+un messaggio cifrato tramite l'esponente di decifratura, secondo la
+seguente congruenza:
+\[
+\cgm p{c^{d}}n\longrightarrow\cgm p{55^{d}}{323}
+\]
+Possiamo ottenere l'esponente di decifratura se conosciamo il toziente
+dell'intero $n$ (che abbiamo calcolato in precedenza, fattorizzando
+$n$):
+\[
+\cgms{\cgm d{e^{-1}}{\varphi\left(n\right)}}{e^{\varphi\left(\varphi\left(n\right)\right)-1}}{\varphi\left(n\right)}{{\scriptscriptstyle \bigstar}}\longrightarrow\cgm d{17^{\varphi\left(288\right)-1}}{288}
+\]
+Nella congruenza ${\scriptstyle \bigstar}$ abbiamo usato l'osservazione
+(\ref{eq:Inverso-residuo-toziente}) relativa al Teorema \ref{thm:Teorema-Eulero};
+a questo punto vogliamo calcolare il toziente di 288, che risulta
+$\varphi\left(288\right)=\left(2^{5}-2^{4}\right)\cdot\left(3^{2}-3\right)=16\cdot6=96$
+e sostituendo nelle precedenti congruenze si ha:
+\[
+\begin{array}{c}
+d=\mod{17^{95}}{288}=17\\
+p=\mod{55^{17}}{323}=\boxed{123}
+\end{array}
+\]
+Dato che l'esponente di decifratura è l'inverso dell'esponente di
+cifratura modulo $\varphi\left(323\right)$, la cifratura o la decifratura
+di 55 produce sempre 123 (quindi $p=55$ viene cifrato in $c=123$).\demo
+\end{sol}
+
+\section*{Firma digitale}
+\begin{xca}
+Dati\marginpar{$\blacktriangleright$ \emph{Esercizio: firma di El Gamal}}
+i seguenti parametri: un intero $p=43$, un segreto $a=10$, un nonce
+$k_{1}=11$ e un messaggio $m_{1}=15$, calcolare la firma di El Gamal
+per il messaggio $m_{1}$ e poi verificarla.
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Controlliamo le ipotesi del sistema di firma El Gamal: $p$ è un primo
+e inoltre vale $a,\,k\in\left(1,\,p-2\right)$, infine $k\perp p-1$
+($\mcd{11}{42}=1$), quindi le ipotesi sono verificate.
+
+Per calcolare la firma con El Gamal abbiamo ancora bisogno di una
+radice primitiva $\alpha\in\mathbb{Z}_{p}^{*}$; proviamo con $\alpha=3$,
+e controlliamo che si tratta di una radice primitiva col test (\ref{eq:Test-primitivit=0000E0}):
+\[
+\begin{array}{c}
+\cgm{3^{6}}{41}{43}\\
+\cgm{3^{14}}{36}{43}\\
+\cgm{3^{21}}{42}{43}
+\end{array}
+\]
+Abbiamo la conferma che $\alpha=3$ è una radice primitiva di $\mathbb{Z}_{43}^{*}$;
+ora possiamo calcolare $\cgm{\beta}{\alpha^{a}}p\implies\cgm{10}{3^{10}}{43}$,
+e infine pubblichiamo i dati $\left(p,\,\alpha,\,\beta\right)=\left(43,\,3,\,10\right)$.
+
+Firmiamo il messaggio $m_{1}=15$ costruendo i due interi $r_{1}$
+ed $s_{1}$:
+\[
+\begin{array}{l}
+\cgm{r_{1}}{\alpha^{k_{1}}}p=\mod{3^{11}}{43}=30\\
+\cgm{s_{1}}{k_{1}^{-1}\cdot\left(m_{1}-a\cdot r_{1}\right)\,}{42}=\mod{23\cdot\left(15-10\cdot30\right)}{42}=39
+\end{array}
+\]
+Abbiamo calcolato l'inverso di $k$ modulo 42 utilizzando la relazione
+(\ref{eq:Inverso-residuo-toziente}) $\cgm{k_{1}^{-1}}{k_{1}^{\varphi\left(42\right)-1}}{42}=\mod{11^{11}}{42}=23$;
+la firma del messaggio $m_{1}$ corrisponde a $\left(r_{1},\,s_{1}\right)=\left(30,\,39\right)$.
+
+Verifichiamo ora la firma tramite la congruenza:
+\[
+\cgm{10^{30}\cdot30^{39}}{3^{15}}{43}\implies\cgm{22}{22}{43}\,\checked
+\]
+\demo
+\end{sol}
+\begin{xca}
+Dati\marginpar{$\blacktriangleright$ \emph{Esercizio: attacco del nonce ripetuto}}
+i seguenti parametri: un primo $p=43$, una radice primitiva $\alpha=3\in\mathbb{Z}_{43}^{*}$,
+un nonce $k_{1}=11$ e un messaggio $m_{1}=15$, otteniamo ${\scriptstyle \text{SIG}}\left(m_{1}\right)=\left(30,\,39\right)$;
+se abbiamo firmato anche $m_{2}=20$ senza variare il nonce $k_{1}$,
+la sue firma sarà ${\scriptstyle \text{SIG}}\left(m_{2}\right)=\left(30,\,28\right)$.
+Dal punto di vista di un attaccante che osserva le firme dei messaggi,
+effettuare l'attacco del nonce ripetuto per ricavare $k_{1}$.
+
+\rule[0.5ex]{0.9\textwidth}{0.1pt}
+\end{xca}
+\begin{sol}
+Per prima cosa, possiamo verificare la validità delle firme dei due
+messaggi tramite i dati pubblici; per $m_{1}$ abbiamo effettuato
+la verifica nell'esercizio precedente, per $m_{2}$ si ha:
+\[
+\cgm{10^{30}\cdot30^{28}}{3^{20}}{43}\implies\cgm{14}{14}{43}
+\]
+Quindi entrambe le firme sono valide; notando che il valore di $r_{1}=r_{2}$
+possiamo affermare che il nonce abbia lo stesso valore in entrambi
+i casi ($k_{1}=k_{2}=k^{\prime}$) e ad essere cambiato è il messaggio
+($m_{1}\neq m_{2}\implies s_{1}\neq s_{2}$).
+
+Sapendo che $\cgm{-a\cdot r}{s\cdot k-m}{\left(p-1\right)}$, scriviamo
+la formula per entrambe le firme e i messaggi associati:
+\[
+\begin{array}{c}
+\begin{cases}
+\cgm{-a\cdot r_{1}}{s_{1}\cdot k^{\prime}-m_{1}}{\left(p-1\right)}\\
+\cgm{-a\cdot r_{1}}{s_{2}\cdot k^{\prime}-m_{2}}{\left(p-1\right)}
+\end{cases}\\
+\cgm{\left(s_{1}-s_{2}\right)k^{\prime}}{m_{1}-m_{2}}{\left(p-1\right)}\\
+\cgm{k^{\prime}}{\left(15-20\right)\cdot\left(39-28\right)^{-1}\,}{42}\\
+k^{\prime}=\mod{-5\cdot11^{-1}}{42}
+\end{array}
+\]
+Calcolando $\mcd{11}{42}=1$ possiamo affermare che l'equazione in
+$k^{\prime}$ abbia 1 soluzione; sapendo che vale $\cgm{11^{-1}}{23}{42}$
+(come calcolato nell'esercizio precedente), proseguiamo valutando
+l'ultima delle precedenti congruenze:
+\[
+k^{\prime}=\mod{-5\cdot23}{42}=11
+\]
+Abbiamo ottenuto il valore di $k_{1}$, il nonce che è stato ripetuto
+nella firma dei due messaggi $m_{1}$ ed $m_{2}$.\demo
 \end{sol}
 
 \part{Protocolli e sistemi per la comunicazione sicura}

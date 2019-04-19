@@ -14532,6 +14532,10 @@ A
 \begin_inset Formula $k\in\left(1,\,p-2\right)$
 \end_inset
 
+ tale che 
+\begin_inset Formula $k\perp p-1$
+\end_inset
+
 , da considerarsi come nonce;
 \end_layout
 
@@ -16998,6 +17002,597 @@ lo scrambler auto-sincronizzante descritto da
 \end_inset
 
  passi per raggiungere da solo la configurazione corretta.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Cifrari a chiave pubblica
+\end_layout
+
+\begin_layout Exercise
+Adottiamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: cifratura RSA
+\end_layout
+
+\end_inset
+
+ il sistema a chiave pubblica RSA, pubblicando l'intero 
+\begin_inset Formula $n=323$
+\end_inset
+
+ e l'esponente di cifratura 
+\begin_inset Formula $e=17$
+\end_inset
+
+; verificare la correttezza dei dati forniti.
+\end_layout
+
+\begin_layout Exercise
+Provare a decifrare il messaggio cifrato 
+\begin_inset Formula $c=55$
+\end_inset
+
+, senza conoscere l'esponente di decifratura.
+ Cifrare il messaggio in chiaro 
+\begin_inset Formula $p=55$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Controlliamo che l'esponente di cifratura sia primo relativo al toziente
+ dell'intero 
+\begin_inset Formula $n$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+e\perp\varphi\left(n\right)\implies17\perp\varphi\left(323\right)=\mcd{17}{\varphi\left(323\right)}\overset{?}{=}1
+\]
+
+\end_inset
+
+Per calcolare l'ultima uguaglianza è necessario ottenere il toziente di
+ 323, e a questo scopo sarà necessario fattorizzare l'intero 
+\begin_inset Formula $n$
+\end_inset
+
+; anche se in generale non sarebbe possibile, nel nostro caso abbiamo un
+ intero piccolo, fattorizzabile per tentativi (dividiamo 323 per tutti i
+ primi da 3 a 
+\begin_inset Formula $\sqrt{323}$
+\end_inset
+
+); otteniamo che 
+\begin_inset Formula $17\backslash323$
+\end_inset
+
+, e vale 
+\begin_inset Formula $323=17\cdot19$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Il suo toziente può essere calcolato come:
+\begin_inset Formula 
+\[
+\varphi\left(323\right)=\left(17-1\right)\cdot\left(19-1\right)=16\cdot18=\boxed{288}=2^{5}\cdot3^{2}
+\]
+
+\end_inset
+
+Tra i fattori di 288 on compare 
+\begin_inset Formula $e=17$
+\end_inset
+
+, dunque l'esponente di cifratura sarà primo relativo rispetto al toziente
+ dell'intero 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Possiamo decifrare un messaggio cifrato qualunque, data la facilità di fattorizz
+azione dell'intero 
+\begin_inset Formula $n$
+\end_inset
+
+.
+ In generale, in RSA si decifra un messaggio cifrato tramite l'esponente
+ di decifratura, secondo la seguente congruenza:
+\begin_inset Formula 
+\[
+\cgm p{c^{d}}n\longrightarrow\cgm p{55^{d}}{323}
+\]
+
+\end_inset
+
+Possiamo ottenere l'esponente di decifratura se conosciamo il toziente dell'inte
+ro 
+\begin_inset Formula $n$
+\end_inset
+
+ (che abbiamo calcolato in precedenza, fattorizzando 
+\begin_inset Formula $n$
+\end_inset
+
+):
+\begin_inset Formula 
+\[
+\cgms{\cgm d{e^{-1}}{\varphi\left(n\right)}}{e^{\varphi\left(\varphi\left(n\right)\right)-1}}{\varphi\left(n\right)}{{\scriptscriptstyle \bigstar}}\longrightarrow\cgm d{17^{\varphi\left(288\right)-1}}{288}
+\]
+
+\end_inset
+
+Nella congruenza 
+\begin_inset Formula ${\scriptstyle \bigstar}$
+\end_inset
+
+ abbiamo usato l'osservazione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Inverso-residuo-toziente"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ relativa al Teorema 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Teorema-Eulero"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+; a questo punto vogliamo calcolare il toziente di 288, che risulta 
+\begin_inset Formula $\varphi\left(288\right)=\left(2^{5}-2^{4}\right)\cdot\left(3^{2}-3\right)=16\cdot6=96$
+\end_inset
+
+ e sostituendo nelle precedenti congruenze si ha:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+d=\mod{17^{95}}{288}=17\\
+p=\mod{55^{17}}{323}=\boxed{123}
+\end{array}
+\]
+
+\end_inset
+
+Dato che l'esponente di decifratura è l'inverso dell'esponente di cifratura
+ modulo 
+\begin_inset Formula $\varphi\left(323\right)$
+\end_inset
+
+, la cifratura o la decifratura di 55 produce sempre 123 (quindi 
+\begin_inset Formula $p=55$
+\end_inset
+
+ viene cifrato in 
+\begin_inset Formula $c=123$
+\end_inset
+
+).
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Firma digitale
+\end_layout
+
+\begin_layout Exercise
+Dati
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: firma di El Gamal
+\end_layout
+
+\end_inset
+
+ i seguenti parametri: un intero 
+\begin_inset Formula $p=43$
+\end_inset
+
+, un segreto 
+\begin_inset Formula $a=10$
+\end_inset
+
+, un nonce 
+\begin_inset Formula $k_{1}=11$
+\end_inset
+
+ e un messaggio 
+\begin_inset Formula $m_{1}=15$
+\end_inset
+
+, calcolare la firma di El Gamal per il messaggio 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ e poi verificarla.
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Controlliamo le ipotesi del sistema di firma El Gamal: 
+\begin_inset Formula $p$
+\end_inset
+
+ è un primo e inoltre vale 
+\begin_inset Formula $a,\,k\in\left(1,\,p-2\right)$
+\end_inset
+
+, infine 
+\begin_inset Formula $k\perp p-1$
+\end_inset
+
+ (
+\begin_inset Formula $\mcd{11}{42}=1$
+\end_inset
+
+), quindi le ipotesi sono verificate.
+\end_layout
+
+\begin_layout Solution
+Per calcolare la firma con El Gamal abbiamo ancora bisogno di una radice
+ primitiva 
+\begin_inset Formula $\alpha\in\mathbb{Z}_{p}^{*}$
+\end_inset
+
+; proviamo con 
+\begin_inset Formula $\alpha=3$
+\end_inset
+
+, e controlliamo che si tratta di una radice primitiva col test 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Test-primitività"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\cgm{3^{6}}{41}{43}\\
+\cgm{3^{14}}{36}{43}\\
+\cgm{3^{21}}{42}{43}
+\end{array}
+\]
+
+\end_inset
+
+Abbiamo la conferma che 
+\begin_inset Formula $\alpha=3$
+\end_inset
+
+ è una radice primitiva di 
+\begin_inset Formula $\mathbb{Z}_{43}^{*}$
+\end_inset
+
+; ora possiamo calcolare 
+\begin_inset Formula $\cgm{\beta}{\alpha^{a}}p\implies\cgm{10}{3^{10}}{43}$
+\end_inset
+
+, e infine pubblichiamo i dati 
+\begin_inset Formula $\left(p,\,\alpha,\,\beta\right)=\left(43,\,3,\,10\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Firmiamo il messaggio 
+\begin_inset Formula $m_{1}=15$
+\end_inset
+
+ costruendo i due interi 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+ ed 
+\begin_inset Formula $s_{1}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\begin{array}{l}
+\cgm{r_{1}}{\alpha^{k_{1}}}p=\mod{3^{11}}{43}=30\\
+\cgm{s_{1}}{k_{1}^{-1}\cdot\left(m_{1}-a\cdot r_{1}\right)\,}{42}=\mod{23\cdot\left(15-10\cdot30\right)}{42}=39
+\end{array}
+\]
+
+\end_inset
+
+Abbiamo calcolato l'inverso di 
+\begin_inset Formula $k$
+\end_inset
+
+ modulo 42 utilizzando la relazione 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Inverso-residuo-toziente"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ 
+\begin_inset Formula $\cgm{k_{1}^{-1}}{k_{1}^{\varphi\left(42\right)-1}}{42}=\mod{11^{11}}{42}=23$
+\end_inset
+
+; la firma del messaggio 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ corrisponde a 
+\begin_inset Formula $\left(r_{1},\,s_{1}\right)=\left(30,\,39\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Solution
+Verifichiamo ora la firma tramite la congruenza:
+\begin_inset Formula 
+\[
+\cgm{10^{30}\cdot30^{39}}{3^{15}}{43}\implies\cgm{22}{22}{43}\,\checked
+\]
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Exercise
+Dati
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $\blacktriangleright$
+\end_inset
+
+ 
+\emph on
+Esercizio: attacco del nonce ripetuto
+\end_layout
+
+\end_inset
+
+ i seguenti parametri: un primo 
+\begin_inset Formula $p=43$
+\end_inset
+
+, una radice primitiva 
+\begin_inset Formula $\alpha=3\in\mathbb{Z}_{43}^{*}$
+\end_inset
+
+, un nonce 
+\begin_inset Formula $k_{1}=11$
+\end_inset
+
+ e un messaggio 
+\begin_inset Formula $m_{1}=15$
+\end_inset
+
+, otteniamo 
+\begin_inset Formula ${\scriptstyle \text{SIG}}\left(m_{1}\right)=\left(30,\,39\right)$
+\end_inset
+
+; se abbiamo firmato anche 
+\begin_inset Formula $m_{2}=20$
+\end_inset
+
+ senza variare il nonce 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+, la sue firma sarà 
+\begin_inset Formula ${\scriptstyle \text{SIG}}\left(m_{2}\right)=\left(30,\,28\right)$
+\end_inset
+
+.
+ Dal punto di vista di un attaccante che osserva le firme dei messaggi,
+ effettuare l'attacco del nonce ripetuto per ricavare 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Exercise
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "90text%"
+height "0.1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Solution
+Per prima cosa, possiamo verificare la validità delle firme dei due messaggi
+ tramite i dati pubblici; per 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ abbiamo effettuato la verifica nell'esercizio precedente, per 
+\begin_inset Formula $m_{2}$
+\end_inset
+
+ si ha:
+\begin_inset Formula 
+\[
+\cgm{10^{30}\cdot30^{28}}{3^{20}}{43}\implies\cgm{14}{14}{43}
+\]
+
+\end_inset
+
+Quindi entrambe le firme sono valide; notando che il valore di 
+\begin_inset Formula $r_{1}=r_{2}$
+\end_inset
+
+ possiamo affermare che il nonce abbia lo stesso valore in entrambi i casi
+ (
+\begin_inset Formula $k_{1}=k_{2}=k^{\prime}$
+\end_inset
+
+) e ad essere cambiato è il messaggio (
+\begin_inset Formula $m_{1}\neq m_{2}\implies s_{1}\neq s_{2}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Solution
+Sapendo che 
+\begin_inset Formula $\cgm{-a\cdot r}{s\cdot k-m}{\left(p-1\right)}$
+\end_inset
+
+, scriviamo la formula per entrambe le firme e i messaggi associati:
+\begin_inset Formula 
+\[
+\begin{array}{c}
+\begin{cases}
+\cgm{-a\cdot r_{1}}{s_{1}\cdot k^{\prime}-m_{1}}{\left(p-1\right)}\\
+\cgm{-a\cdot r_{1}}{s_{2}\cdot k^{\prime}-m_{2}}{\left(p-1\right)}
+\end{cases}\\
+\cgm{\left(s_{1}-s_{2}\right)k^{\prime}}{m_{1}-m_{2}}{\left(p-1\right)}\\
+\cgm{k^{\prime}}{\left(15-20\right)\cdot\left(39-28\right)^{-1}\,}{42}\\
+k^{\prime}=\mod{-5\cdot11^{-1}}{42}
+\end{array}
+\]
+
+\end_inset
+
+Calcolando 
+\begin_inset Formula $\mcd{11}{42}=1$
+\end_inset
+
+ possiamo affermare che l'equazione in 
+\begin_inset Formula $k^{\prime}$
+\end_inset
+
+ abbia 1 soluzione; sapendo che vale 
+\begin_inset Formula $\cgm{11^{-1}}{23}{42}$
+\end_inset
+
+ (come calcolato nell'esercizio precedente), proseguiamo valutando l'ultima
+ delle precedenti congruenze:
+\begin_inset Formula 
+\[
+k^{\prime}=\mod{-5\cdot23}{42}=11
+\]
+
+\end_inset
+
+Abbiamo ottenuto il valore di 
+\begin_inset Formula $k_{1}$
+\end_inset
+
+, il nonce che è stato ripetuto nella firma dei due messaggi 
+\begin_inset Formula $m_{1}$
+\end_inset
+
+ ed 
+\begin_inset Formula $m_{2}$
+\end_inset
+
+.
 \begin_inset ERT
 status open
 
