@@ -166,7 +166,7 @@ status collapsed
 
 
 \begin_inset Graphics
-	filename /home/l3r0/Documenti/Polimi/Automatica/Illustrazioni/gfdl-logo.pdf
+	filename Illustrazioni/gfdl-logo.pdf
 	display false
 
 \end_inset
@@ -10426,8 +10426,8 @@ noprefix "false"
 
 \end_inset
 
-); inoltre è facile calcolare il suo valore, tramite square&multiply (si
- veda 
+); inoltre è facile calcolare il suo valore, tramite square and multiply
+ (si veda 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "sec:Square-&-multiply"
@@ -12178,6 +12178,13 @@ Con questo algoritmo esprimiamo il valore del logaritmo discreto in base
 
 \begin_layout Section
 Pattuizione della chiave Diffie-Hellman
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Pattuizione-chiave-Diffie-Hellman"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -17609,7 +17616,629 @@ demo
 \end_layout
 
 \begin_layout Part
-Protocolli e sistemi per la comunicazione sicura
+Comunicazione sicura
+\end_layout
+
+\begin_layout Chapter
+Instaurazione e distribuzione della chiave
+\end_layout
+
+\begin_layout Section
+Identificare la chiave
+\end_layout
+
+\begin_layout Subsection
+Introduzione
+\end_layout
+
+\begin_layout Standard
+La matematica che è stata applicata alla crittografia è abbastanza solida
+ da garantire l'impossibilità pratica di decifrare un messaggio se gli algoritmi
+ sono implementati correttamente; in particolare richiamiamo il Teorema
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Principio-di-Kerchoffs"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ che è valido sia per chiavi simmetriche che per chiavi asimmetriche.
+\end_layout
+
+\begin_layout Standard
+Infatti teoricamente è possibile ricavare la chiave privata da quella pubblica,
+ ma in pratica è possibile solo a patto di conoscere un'informazione 
+\begin_inset Quotes eld
+\end_inset
+
+speciale
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+textemdash
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+come i due fattori primi in RSA, o l'esponente usato per l'elevamento a
+ potenza in El Gamal.
+\end_layout
+
+\begin_layout Standard
+In generale, mittente e destinatario devono scambiare un segreto, e possono
+ comunicare solo a distanza, tramite un canale non sicuro; sembrerebbe che
+ la soluzione sia essere usare un crittosistema a chiave pubblica, tuttavia:
+\end_layout
+
+\begin_layout Itemize
+gli algoritmi per implementare i crittosistemi a chiave asimmetrica sono
+ computazionalmente più onerosi delle controparti a chiave simmetrica.
+\end_layout
+
+\begin_layout Standard
+Una seconda possibilità consiste, per esempio, nell'usare un crittosistema
+ a chiave asimmetrica per scambiare in modo sicuro una chiave simmetrica,
+ quest'ultima sarà utilizzata per la successiva cifratura della comunicazione;
+ in questo caso:
+\end_layout
+
+\begin_layout Itemize
+non è possibile fidarsi di una chiave pubblica pubblicata sul web, senza
+ una certificazione adeguata.
+\end_layout
+
+\begin_layout Standard
+Allora è necessario fidarsi di un 
+\emph on
+certificato
+\emph default
+, che autentica una chiave pubblica associandola con l'identità dell'utente
+ che l'ha pubblicata; si tratta di un documento emesso da un ente di certificazi
+one di cui gli utenti si fidano (solitamente si tratta di un ente che attribuisc
+e valore economico alla sua credibilità, dunque la fiducia nei suoi confronti
+ è giustificata).
+\end_layout
+
+\begin_layout Standard
+Distinguiamo e analizziamo nelle sezioni successive gli algoritmi delle
+ seguenti categorie:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+distribuzione
+\series default
+ della chiave: una autorità centrale si occupa di inviare tutte le chiavi
+ a tutti gli utenti (nel caso di 
+\begin_inset Formula $n$
+\end_inset
+
+ utenti e di chiavi simmetriche, bisognerà distribuire circa 
+\begin_inset Formula $n^{2}/2$
+\end_inset
+
+ chiavi differenti);
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+instaurazione
+\series default
+ della chiave: mittente e destinatario scambiano, attraverso un canale non
+ sicuro, gli elementi necessari a costruire la chiave privatamente, senza
+ che chi ne venga a conoscenza possa a sua volta costruirla.
+\end_layout
+
+\begin_layout Subsection
+Attacco man-in-the-middle
+\end_layout
+
+\begin_layout Standard
+Richiamiamo l'algoritmo di pattuizione della chiave Diffie-Hellman (§
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Pattuizione-chiave-Diffie-Hellman"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+); esso presenta il seguente problema di sicurezza: un attaccante potrebbe
+ fingersi il mittente o il destinatario dei messaggi.
+ In effetti, non è possibile sapere a priori se il mittente o il destinatario
+ sia effettivamente chi dice di essere.
+\end_layout
+
+\begin_layout Standard
+Introduciamo l'attacco 
+\emph on
+man-in-the-middle
+\emph default
+ (letteralmente 
+\begin_inset Quotes eld
+\end_inset
+
+uomo nel mezzo
+\begin_inset Quotes erd
+\end_inset
+
+), che consiste nell'impersonare uno degli interlocutori; nel caso dell'algoritm
+o Diffie-Hellman, abbiamo un attaccante 
+\series bold
+E
+\series default
+ che agisce nel modo seguente:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+E
+\series default
+ sceglie un esponente 
+\begin_inset Formula $z\in\left[1,\,p-2\right]$
+\end_inset
+
+ (compatibilmente con le informazioni pubblicate da 
+\series bold
+A
+\series default
+ e 
+\series bold
+B
+\series default
+);
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+E
+\series default
+ intercetta 
+\begin_inset Formula $\alpha^{x}$
+\end_inset
+
+ e 
+\begin_inset Formula $\alpha^{y}$
+\end_inset
+
+ provenienti da 
+\series bold
+A
+\series default
+ e 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+E
+\series default
+ invia 
+\begin_inset Formula $\alpha^{z}$
+\end_inset
+
+ ad 
+\series bold
+A
+\series default
+ (crede di ricevere 
+\begin_inset Formula $\alpha^{y}$
+\end_inset
+
+) e a 
+\series bold
+B
+\series default
+ (crede di ricevere 
+\begin_inset Formula $\alpha^{x}$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+E
+\series default
+ calcola 
+\begin_inset Formula $\cgm{K_{\text{A}\rightleftarrows\text{E}}}{\left(\alpha^{x}\right)^{z}}p$
+\end_inset
+
+ e 
+\begin_inset Formula $\cgm{K_{\text{E}\rightleftarrows\text{B}}}{\left(\alpha^{y}\right)^{z}}p$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+A
+\series default
+ calcola 
+\begin_inset Formula $K_{\text{A}\rightleftarrows\text{E}}$
+\end_inset
+
+ indotto da 
+\series bold
+E
+\series default
+, e anche 
+\series bold
+B
+\series default
+ calcola 
+\begin_inset Formula $K_{\text{E}\rightleftarrows\text{B}}$
+\end_inset
+
+ indotto da 
+\series bold
+E
+\series default
+ (invece di calcolare entrambi 
+\begin_inset Formula $K_{\text{A}\rightleftarrows\text{B}}$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Itemize
+Quando 
+\series bold
+A
+\series default
+ invia un messaggio a 
+\series bold
+B
+\series default
+ cifrato tramite 
+\begin_inset Formula $K_{\text{A}\rightleftarrows\text{E}}$
+\end_inset
+
+ 
+\series bold
+E
+\series default
+ lo intercetta, lo decifra e poi lo cifra con 
+\begin_inset Formula $K_{\text{E}\rightleftarrows\text{B}}$
+\end_inset
+
+, infine lo inoltra a 
+\series bold
+B
+\series default
+.
+\end_layout
+
+\begin_layout Standard
+Per ovviare a questo problema, è stata introdotta una modifica dell'algoritmo
+ Diffie-Hellman, formalizzata nel protocollo 
+\emph on
+Station-to-station
+\emph default
+.
+\end_layout
+
+\begin_layout Subsection
+Station-to-station
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Station-to-station"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Si tratta di una variante dell'algoritmo di pattuizione della chiave Diffie-Hell
+man, con l'aggiunta del concetto delle firme digitali, per autenticare gli
+ interlocutori.
+ Supponiamo che A e B vogliano instaurare una chiave simmetrica 
+\begin_inset Formula $K$
+\end_inset
+
+ da usare nella funzione di cifratura 
+\begin_inset Formula $E_{K}\left(\right)$
+\end_inset
+
+; inoltre, ammettiamo che gli algoritmi di verifica della firma per un dato
+ utente 
+\begin_inset Formula $U$
+\end_inset
+
+ siano disponibili pubblicamente, e sia 
+\series bold
+T
+\series default
+ un'autorità fidata che certifichi che un algoritmo di verifica 
+\begin_inset Formula $\text{\emph{ver}}_{U}$
+\end_inset
+
+ sia adatto a verificare la firma 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{U}$
+\end_inset
+
+ dell'utente 
+\begin_inset Formula $U$
+\end_inset
+
+, e non dell'attaccante 
+\series bold
+E
+\series default
+; essi procedono nel modo seguente:
+\end_layout
+
+\begin_layout Enumerate
+entrambi scelgono un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ molto grande, e una radice primitiva 
+\begin_inset Formula $\alpha\in\mathbb{Z}_{p}$
+\end_inset
+
+ tale che il problema del logaritmo discreto in 
+\begin_inset Formula $\mathbb{Z}_{p}$
+\end_inset
+
+ sia intrattabile;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ sceglie un intero casuale 
+\begin_inset Formula $x\in\left[1,\,p-2\right]$
+\end_inset
+
+, 
+\series bold
+B
+\series default
+ sceglie un intero casuale 
+\begin_inset Formula $y\in\left[1,\,p-2\right]$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ calcola 
+\begin_inset Formula $\mod{\alpha^{x}}p$
+\end_inset
+
+, 
+\series bold
+B
+\series default
+ calcola 
+\begin_inset Formula $\mod{\alpha^{y}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia 
+\begin_inset Formula $\alpha^{x}$
+\end_inset
+
+ a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ calcola 
+\begin_inset Formula $\cgm K{\left(\alpha^{x}\right)^{y}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ invia 
+\begin_inset Formula $a^{y}$
+\end_inset
+
+ e 
+\begin_inset Formula $E_{K}\left({\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)\right)$
+\end_inset
+
+ ad 
+\series bold
+A
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ calcola 
+\begin_inset Formula $\cgm K{\left(\alpha^{y}\right)^{x}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ decifra 
+\begin_inset Formula $E_{K}\left({\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)\right)$
+\end_inset
+
+ ottenendo 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ chiede a 
+\series bold
+T
+\series default
+ di verificare che 
+\begin_inset Formula $\text{\emph{ver}}_{B}$
+\end_inset
+
+ sia l'algoritmo di verifica per la firma di 
+\series bold
+B;
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ usa 
+\begin_inset Formula $\text{\emph{ver}}_{B}$
+\end_inset
+
+ per verificare 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{B}$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia 
+\begin_inset Formula $E_{K}\left({\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)\right)$
+\end_inset
+
+ a B;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ decifra 
+\begin_inset Formula $E_{K}\left({\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)\right)$
+\end_inset
+
+ ottenendo 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ chiede a 
+\series bold
+T
+\series default
+ di verificare che 
+\begin_inset Formula $\text{\emph{ver}}_{A}$
+\end_inset
+
+ sia l'algoritmo di verifica per la firma di 
+\series bold
+A
+\series default
+;
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ usa 
+\begin_inset Formula $\text{\emph{ver}}_{A}$
+\end_inset
+
+ per verificare 
+\begin_inset Formula ${\scriptstyle \text{SIG}}_{A}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+Il ruolo dell'autorità di certificazione e la fiducia riposta in essa sono
+ centrali in questo algoritmo; infatti la sicurezza della comunicazione
+ tra gli interlocutori si fonda ampiamente sulla fiducia nella verifica
+ di 
+\series bold
+T
+\series default
+.
 \end_layout
 
 \begin_layout Chapter

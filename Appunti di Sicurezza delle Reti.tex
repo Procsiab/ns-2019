@@ -165,7 +165,7 @@
 \dedicatory{
 \begin{figure}[!h]
 \vspace{20cm}
-\includegraphics{/home/l3r0/Documenti/Polimi/Automatica/Illustrazioni/gfdl-logo}
+\includegraphics{Illustrazioni/gfdl-logo}
 \end{figure}
 Copyright \textcopyright 2019 Lorenzo Prosseda. Permission is granted
 to copy, distribute and/or modify this document under the terms of
@@ -2778,7 +2778,7 @@ e_{{\scriptscriptstyle \text{RSA}}}=2^{16}+10=65537
 \]
 Esso è un numero primo (è altamente improbabile che abbia fattori
 in comune con $p-1$ o $q-1$, possiamo verificarlo con (\ref{eq:Algoritmo-Euclide-esteso}));
-inoltre è facile calcolare il suo valore, tramite square\&multiply
+inoltre è facile calcolare il suo valore, tramite square and multiply
 (si veda \secref{Square-=000026-multiply}).
 
 Un altro approccio consiste nello scegliere un $d$ sufficientemente
@@ -3174,7 +3174,7 @@ certamente sviluppare la successione di $\alpha$ fino a $j=N-1$,
 e nel peggiore dei casi anche la successione di $\beta$ fino a $k=N-1$.
 \end{rem}
 
-\section{Pattuizione della chiave Diffie-Hellman}
+\section{Pattuizione della chiave Diffie-Hellman\label{sec:Pattuizione-chiave-Diffie-Hellman}}
 
 Il metodo Diffie-Hellman permette di scambiare una chiave simmetrica
 attraverso un canale non sicuro, sfruttando la complessità del problema
@@ -4233,7 +4233,141 @@ Abbiamo ottenuto il valore di $k_{1}$, il nonce che è stato ripetuto
 nella firma dei due messaggi $m_{1}$ ed $m_{2}$.\demo
 \end{sol}
 
-\part{Protocolli e sistemi per la comunicazione sicura}
+\part{Comunicazione sicura}
+
+\chapter{Instaurazione e distribuzione della chiave}
+
+\section{Identificare la chiave}
+
+\subsection{Introduzione}
+
+La matematica che è stata applicata alla crittografia è abbastanza
+solida da garantire l'impossibilità pratica di decifrare un messaggio
+se gli algoritmi sono implementati correttamente; in particolare richiamiamo
+il Teorema \ref{thm:Principio-di-Kerchoffs} che è valido sia per
+chiavi simmetriche che per chiavi asimmetriche.
+
+Infatti teoricamente è possibile ricavare la chiave privata da quella
+pubblica, ma in pratica è possibile solo a patto di conoscere un'informazione
+``speciale'' \textemdash~come i due fattori primi in RSA, o l'esponente
+usato per l'elevamento a potenza in El Gamal.
+
+In generale, mittente e destinatario devono scambiare un segreto,
+e possono comunicare solo a distanza, tramite un canale non sicuro;
+sembrerebbe che la soluzione sia essere usare un crittosistema a chiave
+pubblica, tuttavia:
+\begin{itemize}
+\item gli algoritmi per implementare i crittosistemi a chiave asimmetrica
+sono computazionalmente più onerosi delle controparti a chiave simmetrica.
+\end{itemize}
+Una seconda possibilità consiste, per esempio, nell'usare un crittosistema
+a chiave asimmetrica per scambiare in modo sicuro una chiave simmetrica,
+quest'ultima sarà utilizzata per la successiva cifratura della comunicazione;
+in questo caso:
+\begin{itemize}
+\item non è possibile fidarsi di una chiave pubblica pubblicata sul web,
+senza una certificazione adeguata.
+\end{itemize}
+Allora è necessario fidarsi di un \emph{certificato}, che autentica
+una chiave pubblica associandola con l'identità dell'utente che l'ha
+pubblicata; si tratta di un documento emesso da un ente di certificazione
+di cui gli utenti si fidano (solitamente si tratta di un ente che
+attribuisce valore economico alla sua credibilità, dunque la fiducia
+nei suoi confronti è giustificata).
+
+Distinguiamo e analizziamo nelle sezioni successive gli algoritmi
+delle seguenti categorie:
+\begin{enumerate}
+\item \textbf{distribuzione} della chiave: una autorità centrale si occupa
+di inviare tutte le chiavi a tutti gli utenti (nel caso di $n$ utenti
+e di chiavi simmetriche, bisognerà distribuire circa $n^{2}/2$ chiavi
+differenti);
+\item \textbf{instaurazione} della chiave: mittente e destinatario scambiano,
+attraverso un canale non sicuro, gli elementi necessari a costruire
+la chiave privatamente, senza che chi ne venga a conoscenza possa
+a sua volta costruirla.
+\end{enumerate}
+
+\subsection{Attacco man-in-the-middle}
+
+Richiamiamo l'algoritmo di pattuizione della chiave Diffie-Hellman
+(§\ref{sec:Pattuizione-chiave-Diffie-Hellman}); esso presenta il
+seguente problema di sicurezza: un attaccante potrebbe fingersi il
+mittente o il destinatario dei messaggi. In effetti, non è possibile
+sapere a priori se il mittente o il destinatario sia effettivamente
+chi dice di essere.
+
+Introduciamo l'attacco \emph{man-in-the-middle} (letteralmente ``uomo
+nel mezzo''), che consiste nell'impersonare uno degli interlocutori;
+nel caso dell'algoritmo Diffie-Hellman, abbiamo un attaccante \textbf{E}
+che agisce nel modo seguente:
+\begin{itemize}
+\item \textbf{E} sceglie un esponente $z\in\left[1,\,p-2\right]$ (compatibilmente
+con le informazioni pubblicate da \textbf{A} e \textbf{B});
+\item \textbf{E} intercetta $\alpha^{x}$ e $\alpha^{y}$ provenienti da
+\textbf{A} e \textbf{B};
+\item \textbf{E} invia $\alpha^{z}$ ad \textbf{A} (crede di ricevere $\alpha^{y}$)
+e a \textbf{B} (crede di ricevere $\alpha^{x}$);
+\item \textbf{E} calcola $\cgm{K_{\text{A}\rightleftarrows\text{E}}}{\left(\alpha^{x}\right)^{z}}p$
+e $\cgm{K_{\text{E}\rightleftarrows\text{B}}}{\left(\alpha^{y}\right)^{z}}p$
+\item \textbf{A} calcola $K_{\text{A}\rightleftarrows\text{E}}$ indotto
+da \textbf{E}, e anche \textbf{B} calcola $K_{\text{E}\rightleftarrows\text{B}}$
+indotto da \textbf{E} (invece di calcolare entrambi $K_{\text{A}\rightleftarrows\text{B}}$);
+\item Quando \textbf{A} invia un messaggio a \textbf{B} cifrato tramite
+$K_{\text{A}\rightleftarrows\text{E}}$ \textbf{E} lo intercetta,
+lo decifra e poi lo cifra con $K_{\text{E}\rightleftarrows\text{B}}$,
+infine lo inoltra a \textbf{B}.
+\end{itemize}
+Per ovviare a questo problema, è stata introdotta una modifica dell'algoritmo
+Diffie-Hellman, formalizzata nel protocollo \emph{Station-to-station}.
+
+\subsection{Station-to-station\label{subsec:Station-to-station}}
+
+Si tratta di una variante dell'algoritmo di pattuizione della chiave
+Diffie-Hellman, con l'aggiunta del concetto delle firme digitali,
+per autenticare gli interlocutori. Supponiamo che A e B vogliano instaurare
+una chiave simmetrica $K$ da usare nella funzione di cifratura $E_{K}\left(\right)$;
+inoltre, ammettiamo che gli algoritmi di verifica della firma per
+un dato utente $U$ siano disponibili pubblicamente, e sia \textbf{T}
+un'autorità fidata che certifichi che un algoritmo di verifica $\text{\emph{ver}}_{U}$
+sia adatto a verificare la firma ${\scriptstyle \text{SIG}}_{U}$
+dell'utente $U$, e non dell'attaccante \textbf{E}; essi procedono
+nel modo seguente:
+\begin{enumerate}
+\item entrambi scelgono un primo $p$ molto grande, e una radice primitiva
+$\alpha\in\mathbb{Z}_{p}$ tale che il problema del logaritmo discreto
+in $\mathbb{Z}_{p}$ sia intrattabile;
+\item \textbf{A} sceglie un intero casuale $x\in\left[1,\,p-2\right]$,
+\textbf{B} sceglie un intero casuale $y\in\left[1,\,p-2\right]$;
+\item \textbf{A} calcola $\mod{\alpha^{x}}p$, \textbf{B} calcola $\mod{\alpha^{y}}p$;
+\item \textbf{A} invia $\alpha^{x}$ a \textbf{B};
+\item \textbf{B} calcola $\cgm K{\left(\alpha^{x}\right)^{y}}p$;
+\begin{enumerate}
+\item \textbf{B} invia $a^{y}$ e $E_{K}\left({\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)\right)$
+ad \textbf{A};
+\item \textbf{A} calcola $\cgm K{\left(\alpha^{y}\right)^{x}}p$;
+\item \textbf{A} decifra $E_{K}\left({\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)\right)$
+ottenendo ${\scriptstyle \text{SIG}}_{B}\left(\alpha^{y},\,\alpha^{x}\right)$;
+\item \textbf{A} chiede a \textbf{T} di verificare che $\text{\emph{ver}}_{B}$
+sia l'algoritmo di verifica per la firma di \textbf{B;}
+\end{enumerate}
+\item \textbf{A} usa $\text{\emph{ver}}_{B}$ per verificare ${\scriptstyle \text{SIG}}_{B}$;
+\begin{enumerate}
+\item \textbf{A} invia $E_{K}\left({\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)\right)$
+a B;
+\item \textbf{B} decifra $E_{K}\left({\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)\right)$
+ottenendo ${\scriptstyle \text{SIG}}_{A}\left(\alpha^{x},\,\alpha^{y}\right)$;
+\item \textbf{B} chiede a \textbf{T} di verificare che $\text{\emph{ver}}_{A}$
+sia l'algoritmo di verifica per la firma di \textbf{A};
+\end{enumerate}
+\item \textbf{B} usa $\text{\emph{ver}}_{A}$ per verificare ${\scriptstyle \text{SIG}}_{A}$.
+\end{enumerate}
+\begin{rem}
+Il ruolo dell'autorità di certificazione e la fiducia riposta in essa
+sono centrali in questo algoritmo; infatti la sicurezza della comunicazione
+tra gli interlocutori si fonda ampiamente sulla fiducia nella verifica
+di \textbf{T}.
+\end{rem}
 
 \appendix
 
