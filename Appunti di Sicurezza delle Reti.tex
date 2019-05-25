@@ -4369,6 +4369,191 @@ tra gli interlocutori si fonda ampiamente sulla fiducia nella verifica
 di \textbf{T}.
 \end{rem}
 
+\section{Distribuire la chiave}
+
+Anche se siamo in possesso di un algoritmo crittografico perfettamente
+implementato, la debolezza si nasconde nella password utilizzata per
+la cifratura: in questo senso, la maggior parte degli attacchi prende
+come bersaglio la password stessa, poiché computazionalmente fattibile.
+
+Un'altra problematica riguarda la sicurezza della trasmissione dei
+segreti condivisi (per esempio chiavi simmetriche) dalle due parti
+che vogliono comunicare, quando esse sono distanti. Con la crittografia
+a chiave pubblica il problema della trasmissione dei segreti è risolto,
+tuttavia è impossibile fidarsi della provenienza di una chiave pubblica
+senza ulteriori informazioni correlate.
+
+Affrontiamo ora il problema della distribuzione delle chiavi pubbliche
+a un gruppo di utenti, considerando che il canale di comunicazione
+sia osservato da \textbf{O}, il quale può anche ripetere i messaggi
+ascoltati sul canale.
+
+\subsection{Shamir-Massey-Omura (3\--pass protocol)}
+
+Questo protocollo permette di trasferire una chiave segreta $\bar{K}$
+tra due parti $A,\,B$ tramite un canale non sicuro:
+\begin{enumerate}
+\item $\mathbf{A}$ sceglie e pubblica un primo $p$ tale da rendere difficile
+il problema del logaritmo discreto in $\mathbb{Z}_{p}^{*}$ e abbastanza
+grande da rappresentare $\bar{K}$;
+\item $\mathbf{A},\,\mathbf{B}$ scelgono ciascuno un numero segreto casuale,
+coprimo rispetto a $p-1$ ($\mcd a{p-1}=1\land\mcd b{p-1}=1$);
+\item $\mathbf{A},\,\mathbf{B}$ calcolano rispettivamente $\mod{a^{-1}}{\left(p-1\right)}$
+e $\mod{b^{-1}}{\left(p-1\right)}$;
+\begin{enumerate}
+\item $\mathbf{A\rightarrow B}$ invia $\cgm{K_{1}}{\bar{K}^{a}}p$;
+\item $\mathbf{A\leftarrow B}$ invia $\cgm{K_{2}\equiv K_{1}^{b}}{\bar{K}^{ab}}p$;
+\item $\mathbf{A\rightarrow B}$ invia $\cgm{K_{3}\equiv K_{2}^{a^{-1}}}{\bar{K}^{aba^{-1}}}p$;
+\end{enumerate}
+\item $\mathbf{B}$ calcola $\cgm{\bar{K}\equiv K_{3}^{b^{-1}}}{\bar{K}^{aba^{-1}b^{-1}}}p$.
+\end{enumerate}
+Possiamo generalizzare il protocollo usando RSA (o un'altra funzione
+crittografica che goda di proprietà commutativa) invece dell'elevamento
+a potenza descritto, usando l'intero $n$ prodotto di due primi invece
+del primo $p$.
+
+\subsection{Schema di Blom per pre-distribuzione}
+
+Utilizziamo questo algoritmo quando dobbiamo distribuire a un gran
+numero di utenti di una rete altrettante chiavi, tramite un'autorità
+fidata \textbf{T}:
+\begin{enumerate}
+\item Assegniamo a ogni utente un numero pubblico $\mod{r_{U}\in\mathbb{U}}p$;
+\item $\mathbf{T}$ sceglie tre numeri $a,\,b,\,c$ segreti, casuali e residui
+modulo $p$;
+\item $\mathbf{T}$ calcola, per ogni utente $r_{U}$, le quantità:
+\[
+\cgm{a_{U}}{a+b\cdot r_{U}}p,\qquad\cgm{b_{U}}{b+c\cdot r_{U}}p
+\]
+e li invia all'utente $r_{U}$ su un canale \uline{sicuro};
+\item $\mathbf{\forall r_{U}\in\mathbb{U}}$ calcolano il polinomio $g_{U}\left(x\right)=a_{U}+b_{U}\cdot x$.
+\end{enumerate}
+Ora consideriamo due utenti $A$ e $B$ con i rispettivi numeri $r_{A}$
+e $r_{B}$:
+\begin{itemize}
+\item se $A$ vuole comunicare con $B$, deve computare $g_{A}\left(r_{B}\right)=K_{A\rightarrow B}$;
+\item se $B$ vuole comunicare con $A$, deve computare $g_{B}\left(r_{A}\right)=K_{A\leftarrow B}$;
+\end{itemize}
+inoltre si può dimostrare che $K_{A\rightarrow B}\equiv K_{A\leftarrow B}$,
+per cui la chiave può essere usata per un crittosistema a chiave simmetrica.
+
+\subsection{Cooperazione degli utenti}
+
+Se sue utenti $A$ e $B$ scambiano i propri numeri ricevuti da $T$,
+entrambi vengono a conoscenza di $a_{A},\,b_{A},\,a_{B},\,b_{B}$:
+in tal caso potranno computare i tre numeri segreti $a,\,b,\,c$ selezionati
+da $T$, e quindi scoprire le chiavi per comunicare con tutti gli
+altri utenti.
+
+\section{Distribuzione autenticata}
+
+Trattiamo qui il secondo problema introdotto nella sezione precedente,
+ovvero la fiducia nelle chiavi ricevute dall'autorità fidata \textbf{T}:
+infatti un osservatore $\mathbf{O}$ che intercetta e ripete un messaggio
+inviato da $\mathbf{T}$ sarà scambiato per quest'ultimo dal destinatario
+del messaggio, il quale potrebbe essere indotto a instaurare una chiave
+con $\mathbf{O}$.
+
+Per contrastare un simile attacco è opportuno autenticare gli utenti;
+inoltre si impiegano delle \emph{key encryption key} (KEK) per cifrare
+la comunicazione delle chiavi instaurate con l'autorità fidata.
+
+Un'altro\marginpar{Un timestamp è una stringa che rappresenta l'informazione sul tempo
+di sistema di un dispositivo} metodo consiste nell'identificazione dei messaggi, tramite numero
+di sequenza (bisogna tenerne traccia), \emph{timestamp} (le parti
+che vogliono comunicare devono essere sincronizzate) o nonce (è necessario
+uno schema di \emph{challenge-response}).
+
+\subsection{Protocollo della rana dalla bocca larga}
+
+Si tratta di un protocollo di distribuzione autenticata della chiave
+tramite un'autorità fidata \textbf{T}, che sfrutta i timestamp e si
+basa sull'ipotesi che le KEK tra gli utenti e \textbf{T} siano già
+state distribuite:
+\begin{enumerate}
+\item $\mathbf{A}$ sceglie una chiave di sessione $K_{AB}$ per comunicare
+con $\mathbf{B}$, e chiede a $\mathbf{T}$ di inviargliela in modo
+sicuro;
+\item $\mathbf{A}$ invia a $\mathbf{T}$ un timestamp $t_{A}$, un identificativo
+del destinatario $\text{ID}_{B}$ e la chiave che vuole trasferire
+$K_{AB}$, cifrando il messaggio con la chiave per comunicare con
+$\mathbf{T}$:
+\[
+E_{K_{AT}}\left[t_{A}\|\text{ID}_{B}\|K_{AB}\right]\text{;}
+\]
+\item $\mathbf{T}$ invia a $\mathbf{B}$ un timestamp $t_{T}$, un identificativo
+del mittente $\text{ID}_{A}$ e la chiave da trasferire $K_{A\rightarrow B}$,
+cifrando il messaggio con la chiave per comunicare con $\mathbf{B}$:
+\[
+E_{K_{BT}}\left[t_{T}\|\text{ID}_{A}\|K_{AB}\right]\text{;}
+\]
+\end{enumerate}
+Il timestamp serve per evitare gli attacchi di replica (l'attaccante
+dovrebbe conoscere le KEK per modificare il contenuto dei messaggi);
+il fatto che l'autorità fidata si occupi di rinnovare il timestamp
+rappresenta una potenziale minaccia.
+
+\subsection{Man-in-the-middle al protocollo della rana dalla bocca larga}
+
+Immaginiamo di avere sulla rete un altro utente malevolo \textbf{M},
+il quale vuole estendere la validità della KEK: una chiave di sessione
+come la KEK deve avere durata limitata, sia per evitare di concedere
+all'attaccante il tempo per trovarla, sia perché se compromessa è
+desiderabile sostituirla il prima possibile.
+\begin{enumerate}
+\item $\mathbf{M}$ osserva uno scambio di messaggi tra $\mathbf{A}$ e
+$\mathbf{T}$ e tra $\mathbf{T}$ e $\mathbf{B}$;
+\item $\mathbf{M}$ impersona $\mathbf{B}$, e chiede a $\mathbf{T}$ di
+condividere una chiave $K_{AB}$ con $\mathbf{A}$:
+\[
+E_{K_{BT}}\left[t_{T}\|\text{ID}_{A}\|K_{AB}\right]\text{;}
+\]
+\item $\mathbf{T}$ riceve un messaggio valido e quindi invia la chiave
+ad $\mathbf{A}$, aggiornando il timestamp del messaggio:
+\[
+E_{K_{AT}}\left[t_{T}^{\prime}\|\text{ID}_{B}\|K_{AB}\right]
+\]
+$\mathbf{A}$ crede che il messaggio ricevuto da $\mathbf{T}$ sia
+valido, quindi la chiave $K_{AB}$ rimane valida per un tempo $t_{T}^{\prime}>t_{T}$,
+e per un certo intervallo di tempo successivo;
+\item $\mathbf{M}$ impersona $\mathbf{A}$, e riceve il messaggio contenente
+la chiave $K_{AB}$ e un timestamp $t_{T}^{\prime\prime}>t_{T}^{\prime}$:
+\[
+E_{K_{BT}}\left[t_{T}^{\prime\prime}\|\text{ID}_{A}\|K_{AB}\right]
+\]
+così facendo la chiave $K_{AB}$ rimarrà valida per un intervallo
+di tempo successivo a $t_{T}^{\prime\prime}$;
+\item $\mathbf{M}$ ripete i passi dal $\left(2\right)$ al $\left(4\right)$.
+\end{enumerate}
+Con questa procedura, è possibile indurre gli utenti a usare in modo
+indefinito la stessa chiave $K_{AB}$.
+
+\subsection{Protocollo Needham-Schroeder}
+
+Poniamo il caso di avere un'autorità fidata \textbf{T}, che abbia
+già distribuito agli utenti \textbf{A} e \textbf{B} le KEK:
+\begin{enumerate}
+\item $\mathbf{A}$ invia a $\mathbf{T}$ in chiaro il suo ID, quello dell'utente
+col quale vuole comunicare ($\mathbf{B}$) e un nonce $r_{1}$:
+\[
+\text{ID}_{A}\|\text{ID}_{B}\|r_{1}\text{;}
+\]
+\item $\mathbf{T}$ risponde ad $\mathbf{A}$ cifrando con la KEK relativa,
+inviando una chiave di sessione estratta $K_{S}$, lo stesso nonce
+, l'ID del destinatario e il messaggio che egli riceverà (cifrato
+con la KEK relativa): 
+\[
+E_{K_{AT}}\left[K_{S}\|\text{ID}_{B}\|r_{1}\|E_{K_{BT}}\left[K_{S}\|\text{ID}_{A}\right]\right]\text{;}
+\]
+\item $\mathbf{A}$ estrae l'ultima stringa $E_{K_{BT}}\left[K_{S}\|\text{ID}_{A}\right]$
+(che non può decifrare), e la manda a $\mathbf{B}$, il quale possiede
+la KEK per estrarre dal messaggio la chiave di sessione $K_{S}$ che
+userà per comunicare con $\mathbf{A}$ (il messaggio contiene $\text{ID}_{A}$);
+\item $\mathbf{B}$ invia ad $\mathbf{A}$ un nonce cifrato con la chiave
+di sessione: $E_{K_{S}}\left[r_{2}\right]$;
+\item $\mathbf{A}$ risponde a $\mathbf{B}$ col nonce meno 1: $E_{K_{S}}\left[r_{2}-1\right]$.
+\end{enumerate}
+
 \appendix
 
 \chapter{Introduzione alla crittografia}

@@ -18241,6 +18241,808 @@ T
 .
 \end_layout
 
+\begin_layout Section
+Distribuire la chiave
+\end_layout
+
+\begin_layout Standard
+Anche se siamo in possesso di un algoritmo crittografico perfettamente implement
+ato, la debolezza si nasconde nella password utilizzata per la cifratura:
+ in questo senso, la maggior parte degli attacchi prende come bersaglio
+ la password stessa, poiché computazionalmente fattibile.
+\end_layout
+
+\begin_layout Standard
+Un'altra problematica riguarda la sicurezza della trasmissione dei segreti
+ condivisi (per esempio chiavi simmetriche) dalle due parti che vogliono
+ comunicare, quando esse sono distanti.
+ Con la crittografia a chiave pubblica il problema della trasmissione dei
+ segreti è risolto, tuttavia è impossibile fidarsi della provenienza di
+ una chiave pubblica senza ulteriori informazioni correlate.
+\end_layout
+
+\begin_layout Standard
+Affrontiamo ora il problema della distribuzione delle chiavi pubbliche a
+ un gruppo di utenti, considerando che il canale di comunicazione sia osservato
+ da 
+\series bold
+O
+\series default
+, il quale può anche ripetere i messaggi ascoltati sul canale.
+\end_layout
+
+\begin_layout Subsection
+Shamir-Massey-Omura (3
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+--
+\end_layout
+
+\end_inset
+
+pass protocol)
+\end_layout
+
+\begin_layout Standard
+Questo protocollo permette di trasferire una chiave segreta 
+\begin_inset Formula $\bar{K}$
+\end_inset
+
+ tra due parti 
+\begin_inset Formula $A,\,B$
+\end_inset
+
+ tramite un canale non sicuro:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ sceglie e pubblica un primo 
+\begin_inset Formula $p$
+\end_inset
+
+ tale da rendere difficile il problema del logaritmo discreto in 
+\begin_inset Formula $\mathbb{Z}_{p}^{*}$
+\end_inset
+
+ e abbastanza grande da rappresentare 
+\begin_inset Formula $\bar{K}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A},\,\mathbf{B}$
+\end_inset
+
+ scelgono ciascuno un numero segreto casuale, coprimo rispetto a 
+\begin_inset Formula $p-1$
+\end_inset
+
+ (
+\begin_inset Formula $\mcd a{p-1}=1\land\mcd b{p-1}=1$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A},\,\mathbf{B}$
+\end_inset
+
+ calcolano rispettivamente 
+\begin_inset Formula $\mod{a^{-1}}{\left(p-1\right)}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mod{b^{-1}}{\left(p-1\right)}$
+\end_inset
+
+;
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A\rightarrow B}$
+\end_inset
+
+ invia 
+\begin_inset Formula $\cgm{K_{1}}{\bar{K}^{a}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A\leftarrow B}$
+\end_inset
+
+ invia 
+\begin_inset Formula $\cgm{K_{2}\equiv K_{1}^{b}}{\bar{K}^{ab}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A\rightarrow B}$
+\end_inset
+
+ invia 
+\begin_inset Formula $\cgm{K_{3}\equiv K_{2}^{a^{-1}}}{\bar{K}^{aba^{-1}}}p$
+\end_inset
+
+;
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ calcola 
+\begin_inset Formula $\cgm{\bar{K}\equiv K_{3}^{b^{-1}}}{\bar{K}^{aba^{-1}b^{-1}}}p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Possiamo generalizzare il protocollo usando RSA (o un'altra funzione crittografi
+ca che goda di proprietà commutativa) invece dell'elevamento a potenza descritto
+, usando l'intero 
+\begin_inset Formula $n$
+\end_inset
+
+ prodotto di due primi invece del primo 
+\begin_inset Formula $p$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Schema di Blom per pre-distribuzione
+\end_layout
+
+\begin_layout Standard
+Utilizziamo questo algoritmo quando dobbiamo distribuire a un gran numero
+ di utenti di una rete altrettante chiavi, tramite un'autorità fidata 
+\series bold
+T
+\series default
+:
+\end_layout
+
+\begin_layout Enumerate
+Assegniamo a ogni utente un numero pubblico 
+\begin_inset Formula $\mod{r_{U}\in\mathbb{U}}p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ sceglie tre numeri 
+\begin_inset Formula $a,\,b,\,c$
+\end_inset
+
+ segreti, casuali e residui modulo 
+\begin_inset Formula $p$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ calcola, per ogni utente 
+\begin_inset Formula $r_{U}$
+\end_inset
+
+, le quantità:
+\begin_inset Formula 
+\[
+\cgm{a_{U}}{a+b\cdot r_{U}}p,\qquad\cgm{b_{U}}{b+c\cdot r_{U}}p
+\]
+
+\end_inset
+
+e li invia all'utente 
+\begin_inset Formula $r_{U}$
+\end_inset
+
+ su un canale 
+\bar under
+sicuro
+\bar default
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{\forall r_{U}\in\mathbb{U}}$
+\end_inset
+
+ calcolano il polinomio 
+\begin_inset Formula $g_{U}\left(x\right)=a_{U}+b_{U}\cdot x$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Ora consideriamo due utenti 
+\begin_inset Formula $A$
+\end_inset
+
+ e 
+\begin_inset Formula $B$
+\end_inset
+
+ con i rispettivi numeri 
+\begin_inset Formula $r_{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $r_{B}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Itemize
+se 
+\begin_inset Formula $A$
+\end_inset
+
+ vuole comunicare con 
+\begin_inset Formula $B$
+\end_inset
+
+, deve computare 
+\begin_inset Formula $g_{A}\left(r_{B}\right)=K_{A\rightarrow B}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Itemize
+se 
+\begin_inset Formula $B$
+\end_inset
+
+ vuole comunicare con 
+\begin_inset Formula $A$
+\end_inset
+
+, deve computare 
+\begin_inset Formula $g_{B}\left(r_{A}\right)=K_{A\leftarrow B}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Standard
+inoltre si può dimostrare che 
+\begin_inset Formula $K_{A\rightarrow B}\equiv K_{A\leftarrow B}$
+\end_inset
+
+, per cui la chiave può essere usata per un crittosistema a chiave simmetrica.
+\end_layout
+
+\begin_layout Subsection
+Cooperazione degli utenti
+\end_layout
+
+\begin_layout Standard
+Se sue utenti 
+\begin_inset Formula $A$
+\end_inset
+
+ e 
+\begin_inset Formula $B$
+\end_inset
+
+ scambiano i propri numeri ricevuti da 
+\begin_inset Formula $T$
+\end_inset
+
+, entrambi vengono a conoscenza di 
+\begin_inset Formula $a_{A},\,b_{A},\,a_{B},\,b_{B}$
+\end_inset
+
+: in tal caso potranno computare i tre numeri segreti 
+\begin_inset Formula $a,\,b,\,c$
+\end_inset
+
+ selezionati da 
+\begin_inset Formula $T$
+\end_inset
+
+, e quindi scoprire le chiavi per comunicare con tutti gli altri utenti.
+\end_layout
+
+\begin_layout Section
+Distribuzione autenticata
+\end_layout
+
+\begin_layout Standard
+Trattiamo qui il secondo problema introdotto nella sezione precedente, ovvero
+ la fiducia nelle chiavi ricevute dall'autorità fidata 
+\series bold
+T
+\series default
+: infatti un osservatore 
+\begin_inset Formula $\mathbf{O}$
+\end_inset
+
+ che intercetta e ripete un messaggio inviato da 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ sarà scambiato per quest'ultimo dal destinatario del messaggio, il quale
+ potrebbe essere indotto a instaurare una chiave con 
+\begin_inset Formula $\mathbf{O}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Per contrastare un simile attacco è opportuno autenticare gli utenti; inoltre
+ si impiegano delle 
+\emph on
+key encryption key
+\emph default
+ (KEK) per cifrare la comunicazione delle chiavi instaurate con l'autorità
+ fidata.
+\end_layout
+
+\begin_layout Standard
+Un'altro
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Un timestamp è una stringa che rappresenta l'informazione sul tempo di sistema
+ di un dispositivo
+\end_layout
+
+\end_inset
+
+ metodo consiste nell'identificazione dei messaggi, tramite numero di sequenza
+ (bisogna tenerne traccia), 
+\emph on
+timestamp
+\emph default
+ (le parti che vogliono comunicare devono essere sincronizzate) o nonce
+ (è necessario uno schema di 
+\emph on
+challenge-response
+\emph default
+).
+\end_layout
+
+\begin_layout Subsection
+Protocollo della rana dalla bocca larga
+\end_layout
+
+\begin_layout Standard
+Si tratta di un protocollo di distribuzione autenticata della chiave tramite
+ un'autorità fidata 
+\series bold
+T
+\series default
+, che sfrutta i timestamp e si basa sull'ipotesi che le KEK tra gli utenti
+ e 
+\series bold
+T
+\series default
+ siano già state distribuite:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ sceglie una chiave di sessione 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+ per comunicare con 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+, e chiede a 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ di inviargliela in modo sicuro;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ invia a 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ un timestamp 
+\begin_inset Formula $t_{A}$
+\end_inset
+
+, un identificativo del destinatario 
+\begin_inset Formula $\text{ID}_{B}$
+\end_inset
+
+ e la chiave che vuole trasferire 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+, cifrando il messaggio con la chiave per comunicare con 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+E_{K_{AT}}\left[t_{A}\|\text{ID}_{B}\|K_{AB}\right]\text{;}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ invia a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ un timestamp 
+\begin_inset Formula $t_{T}$
+\end_inset
+
+, un identificativo del mittente 
+\begin_inset Formula $\text{ID}_{A}$
+\end_inset
+
+ e la chiave da trasferire 
+\begin_inset Formula $K_{A\rightarrow B}$
+\end_inset
+
+, cifrando il messaggio con la chiave per comunicare con 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+E_{K_{BT}}\left[t_{T}\|\text{ID}_{A}\|K_{AB}\right]\text{;}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Il timestamp serve per evitare gli attacchi di replica (l'attaccante dovrebbe
+ conoscere le KEK per modificare il contenuto dei messaggi); il fatto che
+ l'autorità fidata si occupi di rinnovare il timestamp rappresenta una potenzial
+e minaccia.
+\end_layout
+
+\begin_layout Subsection
+Man-in-the-middle al protocollo della rana dalla bocca larga
+\end_layout
+
+\begin_layout Standard
+Immaginiamo di avere sulla rete un altro utente malevolo 
+\series bold
+M
+\series default
+, il quale vuole estendere la validità della KEK: una chiave di sessione
+ come la KEK deve avere durata limitata, sia per evitare di concedere all'attacc
+ante il tempo per trovarla, sia perché se compromessa è desiderabile sostituirla
+ il prima possibile.
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ osserva uno scambio di messaggi tra 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ e tra 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ e 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ impersona 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+, e chiede a 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ di condividere una chiave 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+ con 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+E_{K_{BT}}\left[t_{T}\|\text{ID}_{A}\|K_{AB}\right]\text{;}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ riceve un messaggio valido e quindi invia la chiave ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+, aggiornando il timestamp del messaggio:
+\begin_inset Formula 
+\[
+E_{K_{AT}}\left[t_{T}^{\prime}\|\text{ID}_{B}\|K_{AB}\right]
+\]
+
+\end_inset
+
+
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ crede che il messaggio ricevuto da 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ sia valido, quindi la chiave 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+ rimane valida per un tempo 
+\begin_inset Formula $t_{T}^{\prime}>t_{T}$
+\end_inset
+
+, e per un certo intervallo di tempo successivo;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ impersona 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+, e riceve il messaggio contenente la chiave 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+ e un timestamp 
+\begin_inset Formula $t_{T}^{\prime\prime}>t_{T}^{\prime}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+E_{K_{BT}}\left[t_{T}^{\prime\prime}\|\text{ID}_{A}\|K_{AB}\right]
+\]
+
+\end_inset
+
+così facendo la chiave 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+ rimarrà valida per un intervallo di tempo successivo a 
+\begin_inset Formula $t_{T}^{\prime\prime}$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{M}$
+\end_inset
+
+ ripete i passi dal 
+\begin_inset Formula $\left(2\right)$
+\end_inset
+
+ al 
+\begin_inset Formula $\left(4\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Con questa procedura, è possibile indurre gli utenti a usare in modo indefinito
+ la stessa chiave 
+\begin_inset Formula $K_{AB}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Protocollo Needham-Schroeder
+\end_layout
+
+\begin_layout Standard
+Poniamo il caso di avere un'autorità fidata 
+\series bold
+T
+\series default
+, che abbia già distribuito agli utenti 
+\series bold
+A
+\series default
+ e 
+\series bold
+B
+\series default
+ le KEK:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ invia a 
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ in chiaro il suo ID, quello dell'utente col quale vuole comunicare (
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+) e un nonce 
+\begin_inset Formula $r_{1}$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\text{ID}_{A}\|\text{ID}_{B}\|r_{1}\text{;}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{T}$
+\end_inset
+
+ risponde ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ cifrando con la KEK relativa, inviando una chiave di sessione estratta
+ 
+\begin_inset Formula $K_{S}$
+\end_inset
+
+, lo stesso nonce , l'ID del destinatario e il messaggio che egli riceverà
+ (cifrato con la KEK relativa): 
+\begin_inset Formula 
+\[
+E_{K_{AT}}\left[K_{S}\|\text{ID}_{B}\|r_{1}\|E_{K_{BT}}\left[K_{S}\|\text{ID}_{A}\right]\right]\text{;}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ estrae l'ultima stringa 
+\begin_inset Formula $E_{K_{BT}}\left[K_{S}\|\text{ID}_{A}\right]$
+\end_inset
+
+ (che non può decifrare), e la manda a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+, il quale possiede la KEK per estrarre dal messaggio la chiave di sessione
+ 
+\begin_inset Formula $K_{S}$
+\end_inset
+
+ che userà per comunicare con 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ (il messaggio contiene 
+\begin_inset Formula $\text{ID}_{A}$
+\end_inset
+
+);
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ invia ad 
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ un nonce cifrato con la chiave di sessione: 
+\begin_inset Formula $E_{K_{S}}\left[r_{2}\right]$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\mathbf{A}$
+\end_inset
+
+ risponde a 
+\begin_inset Formula $\mathbf{B}$
+\end_inset
+
+ col nonce meno 1: 
+\begin_inset Formula $E_{K_{S}}\left[r_{2}-1\right]$
+\end_inset
+
+.
+\end_layout
+
 \begin_layout Chapter
 \start_of_appendix
 Introduzione alla crittografia
