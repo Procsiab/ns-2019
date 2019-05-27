@@ -4554,6 +4554,346 @@ di sessione: $E_{K_{S}}\left[r_{2}\right]$;
 \item $\mathbf{A}$ risponde a $\mathbf{B}$ col nonce meno 1: $E_{K_{S}}\left[r_{2}-1\right]$.
 \end{enumerate}
 
+\chapter{Autenticazione e autorizzazione}
+
+\section{Caratteristiche dell'autenticazione}
+
+Autenticare\marginpar{La definizione di autenticazione è enunciata nel RFC 4949 (IETF)}
+vuol dir garantire l'identità di un utente, di un dispositivo o di
+una sorgente di informazioni; autorizzare vuol dire determinare le
+risorse e i servizi che una entità autorizzata è in grado di usare
+(l'autorizzazzione implica l'autenticazione).
+
+L'autenticazione è costituita da tre fasi principali:
+\begin{enumerate}
+\item \noun{registrazione}: l'utente deve essere registrato (per esempio
+in una base di dati) e associato a delle ceredenziali;
+\item \noun{identificazione}: il candidato si presenta al verificatore (per
+esempio il server) come un certo utente, fornendogli un identificatore;
+\item \noun{verifica}: il candidato deve provare di essere chi afferma,
+(per esempio tramite password, rispondendo a una sfida, ecc\ldots).
+\end{enumerate}
+Possiamo classificare l'autenticazione in base al tipo di connessione
+col servizio richiesto:
+\begin{itemize}
+\item locale (l'utente accede localmente alle risorse);
+\item diretta (l'utente accede a un sistema remoto);
+\item indiretta (l'autenticazione è delegata a una terza parte);
+\item off-line (il successo dell'autenticazione viene determinato senza
+contattare l'utente o una terza parte).
+\end{itemize}
+Inoltre, l'autenticazione può essere effettuata attraverso i seguenti
+mezzi (\emph{fattori}):
+\begin{itemize}
+\item qualcosa che sai (PIN, password);
+\item qualcosa che hai (smart card, token hardware);
+\item qualcosa che sei (impronta digitale, scansione retina);
+\item qualcosa che fai (timbro vocale, scrittura a mano).
+\end{itemize}
+Spesso per migliorare la sicurezza di questi sistemi si combinano
+due o tre fattori di autenticazione.
+
+Per garantire la sicurezza dell'autenticazioneè necessario garantire
+che: le credenziali \uline{non} siano trasmesse in chiaro (un osservatore
+del canale può intercettarle), e le credenziali \uline{non} siano
+salvate in chiaro (se il sistema viene compromesso, l'attaccante le
+ottiene).
+
+\section{Username e password}
+
+\subsection{Debolezze della password}
+
+Sistema più comune di autenticazione, che incarna il Teorema~\ref{thm:Principio-di-Kerchoffs}:
+il nome utente può essere pubblicato, ma la password va mantenuta
+segreta. Per questo motivo viene trasmessa e memorizzata sotto forma
+di \emph{digest} (prodotto di una funzione di hash).
+
+In pratica, per ottenere la password che corrisponde al digest memorizzato
+o trasmesso, dobbiamo tentare tutte le possibili stringhe come input
+della funzione di hash coinvolta, fino ad ottenere una collisione
+o la password corretta, e questo richiede un numero di tentativi proporzionale
+al numero di bit del digest.
+
+Pur procedendo a caso, se abbiamo un digest di $n$ bit e calcoliamo$2^{n}$
+hash per altrettante stringhe in input differenti, la probabilità
+di trovare la corrispondenza è comunque inferiore a 1.
+
+Ovviamente, la probabilità di successo si innalza drasticamente quando
+la password è la parola di una lingua e ci sono le condizioni per
+mettere in pratica un attacco del vocabolario.
+
+\subsection{Entropia della password}
+
+Una password è tanto più sicura quanta più informazione segreta essa
+contiene; dalla teoria dell'informazione di Shannon, sappiamo che
+la misura di informazione in un messaggio è la sua entropia (misura
+del ``disordine''); a grandi linee possiamo affermare che:
+\begin{quotation}
+\emph{L'entropia di un messaggio è l'impredicibilità del suo stato
+o, in modo equivalente, del suo contenuto informativo, o del contenuto
+informativo medio di una sorgente di informazioni; un messaggio contiene
+tanta più informazione quanto più è impredicibile.}
+\end{quotation}
+\begin{defn}
+Consideriamo una sorgente $X$ (priva di memoria, la probabilità di
+ottenere un determinato messaggio è indipendente dai messaggi già
+estratti) del messaggio $\overline{x}$, definito su un alfabeto finito
+di $N$ simboli:
+\[
+\overline{x}\in\left\{ x_{1},\,\ldots,\,x_{N}\right\} 
+\]
+La probabilità che il messaggio assuma valore $\overline{x}=x_{i}$
+per $i\in\left[1,\,\ldots,\,N\right]$ sarà definita come:
+\[
+p_{i}=P\left(\overline{x}=x_{i}\right)
+\]
+la relativa distribuzione di probabilità quasi sempre non è uniforme
+e dipende soprattutto dal linguaggio che usa l'alfabeto.
+
+Chiamiamo quantità di \emph{informazione}, e la misuriamo in bit,
+la seguente funzione relativa a un messaggio $\overline{x}=x_{i}$:
+\begin{equation}
+\mathbb{I}\left(\overline{x}\right)\coloneqq-\log_{2}\left(p_{i}\right)\geq0\label{eq:Quantit=0000E0-informazione}
+\end{equation}
+
+L'informazione media di una sorgente, per carattere sull'alfabeto,
+è chiamata \emph{entropia di sorgente} e si indica come:
+\begin{equation}
+\mathbb{H}\left(X\right)\coloneqq-\serie{i=1}N{p_{i}\cdot\log_{2}\left(p_{i}\right)}\geq0\label{eq:Entropia-sorgente}
+\end{equation}
+\end{defn}
+\begin{example}
+Consideriamo\marginpar{American Standard Code for Information Interchange, si pronuncia /$^{\prime}$\ae ski:/}
+una password alfabetica, che usi caratteri definiti tramite 7 bit;
+dei $2^{7}=128$ caratteri ASCII, 32 sono di controllo (non stampabili
+e non usati nelle password) e i restanti 95 simboli saranno l'alfabeto
+$\vec{a}$ che useremo.
+
+Applicando la formula (\ref{eq:Entropia-sorgente}) su una sorgente
+di informazione $A$ con tale alfabeto, in cui i simboli in uscita
+abbiano distribuzione di probabilità uniforme, otteniamo:
+\[
+\mathbb{H}\left(A\right)=\log_{2}\left(95\right)\simeq6.57\,\text{bit}/\text{carattere}
+\]
+Segue che una password di 10 caratteri ricavata dalla sorgente $A$
+avrà circa 65.7~bit di informazione; inoltre possiamo verificare
+che, usando un alfabeto latino di 26 lettere più lo spazio, la quantità
+d'informazione relativa sarà di circa 4.75~bit$/$carattere.
+
+Infine, osservando che i simboli non hanno tutti la stessa probabilità
+di apparire all'interno di una determinata lingua (si può determinare
+la distribuzione di probabilità di una certa lingua, da usare nella
+formula per l'entropia della sorgente), possiamo ottenere un'entropia
+media per carattere ancora più bassa.
+
+Inoltre è ragionevole aspettarsi che caratteri successivi estratti
+da una sorgente siano correlati (digrammi, trigrammi): questo abbassa
+ancora di più l'entropia finale di un determinato messaggio; prendendo
+un testo in lingua italiana sufficientemente lungo come ``I promessi
+sposi'' (A. Manzoni) ed estraendo cinque simboli dalla sorgente $P$
+(che usa alfabeto di 21 lettere) otteniamo:
+\[
+\mathbb{H}_{5}\left(P\right)\simeq1.87\,\text{bit}/\text{carattere}
+\]
+Shannon dimostrò che, preso un testo in lingua inglese come sorgente
+$E$, l'entropia media che ne risulta è:
+\[
+0.6<\mathbb{H}\left(E\right)<1.3\,\text{bit}/\text{carattere}
+\]
+\end{example}
+L'entropia di una passphrase o password ad oggi è in media circa 2~bit$/$carattere.
+
+\subsection{Attacchi alle password}
+
+Possiamo ottenere una password attaccando la sua memorizzazione o
+trasmissione, nei seguenti modi:
+\begin{itemize}
+\item \emph{sniffing} (intercettazione del traffico sul canale dove avviene
+l'autenticazione);
+\item on-line \emph{guessing} (generazione e invio di molte password al
+server per l'autenticazione);
+\item off-line \emph{guessing} (generazione di password per attaccare la
+memorizzazione non sicura, teoricamente senza limiti di tempo e spazio);
+\item altro (social engineering, shoulder surfing, \emph{phishing}, \emph{keylogging},
+ecc\ldots).
+\end{itemize}
+
+\section{Sfida e risposta}
+
+\subsection{Motivazioni e implementazione}
+
+Risolve il problema della trasmissione sicura delle credenziali, che
+in questo protocollo non viene effettuata: un segreto viene condiviso
+in qualche maniera tra client e server, e il client deve dimostrare
+di conoscerlo, rispondendo in maniera adeguata a una sfida.
+
+La sfida viene risolta nel modo seguente:
+\begin{enumerate}
+\item client e server condividono lo stesso segreto $K$;
+\item Il server invia al client un numero pseudo-casuale $S$;
+\item il client invia indietro una risposta costruita come
+\begin{enumerate}
+\item cifratura simmetrica della sfida $E_{K}\left(S\right)$, tramite segreto
+$K$;
+\item il digest della sfida concatenata al segreto $h\left(S\|K\right)$;
+\item cifratura della sfida tramite chiave privata $K_{p}$, $E_{K_{p}}\left(S\right)$
+(il server deve possedere la chiave pubblica associata $K_{\ell}$).
+\end{enumerate}
+\end{enumerate}
+Oltre\marginpar{Chiamiamo OTP (One Time Password) una password mono-uso}
+alla procedura che usa un segreto condiviso, un protocollo di sfida
+e risposta (challenge-response) può essere implementato tramite chiavi
+di sessione mono-uso; si pone tuttavia il problema della generazione
+e del trasferimento sicuro di queste chiavi da server a client.
+
+\subsection{Schema di Lamport per la catena di hash}
+
+Consideriamo un client \textbf{A} e un server \textbf{B}, quest'ultimo
+vuole autenticare \textbf{A}; il client conosce il proprio nome sul
+server e la password $p_{A}$, mentre il server conosce il digest
+della funzione di hash calcolata $n$ volte ricorsivamente su $p_{A}$
+(dove $n$ è un numero grande, e che indichiamo con $h_{n}\left(p_{A}\right)$);
+è evidentemente necessaria una fase di instaurazione delle chiavi
+nella quale al server viene inviato il nome dell'utente $A$ accoppiato
+col digest $h_{n}\left(p_{A}\right)$.
+
+L'autenticazione si svolge nel modo seguente:
+\begin{enumerate}
+\item \textbf{A} invia il proprio nome utente in chiaro a \textbf{B};
+\item \textbf{B} risponde ad \textbf{A} inviando $n$ in chiaro;
+\item \textbf{A} invia $h_{n-1}\left(p_{A}\right)$ a \textbf{B};
+\item \textbf{B} computa $h_{n}\left(p_{A}\right)=h\left(h_{n-1}\left(p_{A}\right)\right)$,
+e lo confronta col valore abbinato al nome utente $A$;
+\item in caso di successo, \textbf{B} aggiorna il valore associato al nome
+utente $A$, rimpiazzandolo con $h_{n-1}\left(p_{A}\right)$, e alla
+prossima richiesta di autenticazione da \textbf{A} invierà l'intero
+$n-1$.
+\end{enumerate}
+La sicurezza dell'algoritmo si basa sull'unidirezionalità della funzione
+di hash $h\left(\circ\right)$ e sulla grandezza di $n$.
+
+\subsection*{Schema di Lamport con due server di autenticazione}
+
+In un contesto con due server \textbf{B} e \textbf{C} a cui l'utente
+\textbf{A} si vuole autenticare, è possibile che ciascuno di essi
+invii al client un intero $n$ differente; in tal caso, un osservatore
+sul canale vedrà le coppie $n_{B},\,h_{n_{B}-1}\left(p_{A}\right)$
+e $n_{C},\,h_{n_{C}-1}\left(p_{A}\right)$; se effettivamente i due
+interi sono diversi e inoltre siamo nel caso $n_{B}=n_{C}+1$, allora
+l'osservatore potrà presentarsi al server \textbf{C} inviando il nome
+utente $A$ e il digest $h_{n_{C}-1}\left(p_{A}\right)$.
+
+Per far fronte a questa debolezza basta usare un sale unico per ciascun
+server, per salvare le password $p$ degli utenti; in questo modo
+i digest destinati a un server saranno rifiutati dagli altri.
+
+\subsection*{Attacco del piccolo \emph{n}}
+
+Quando il server sceglie l'intero $n$, determina il tempo di vita
+dell'algoritmo; supponiamo che un osservatore \textbf{O} sul canale
+riesca a impersonare il server \textbf{B}: egli attende la richiesta
+di autenticazione da parte di \textbf{A}, e risponde con un intero
+piccolo (per esempio $n=50$).
+
+L'osservatore otterrà l'informazione $h_{49}\left(p_{A}\right)$ e,
+se il server vero sta usando $n=1000$, allora \textbf{O} potrà usarla
+per generare tutti i digest fino a $h_{1000}\left(p_{A}\right)$,
+per autenticarsi le prossime $1000-50=950$ volte col server vero
+al posto di \textbf{A}.
+
+\subsection{Token di sicurezza}
+
+Si tratta di un dispositivo fisico o di un software che genera una
+password mono-uso basandosi sul tempo (OTP valida entro una finestra
+di tempo, usata per sincronizzare il tempo del token col server) o
+su un contatore (generato in modo incrementale secondo una sequenza,
+permette di sincronizzarla col server).
+
+Per aumentarne la sicurezza, i token sono spesso abbinati al fattore
+di autenticazione della conoscenza (PIN o password da abbinare alla
+OTP); questa procedura viene chiamata autenticazione a due fattori
+e si indica con la sigla 2FA.
+
+\subsection{Biometrica}
+
+Si utilizza per evitare all'utente di ricordare una passphrase lunga,
+tuttavia si tratta di sistemi ancora deboli e non in grado costituire
+il singolo fattore di autenticazione di un sistema.
+
+Le applicazioni di questo fattore sono le seguenti:
+\begin{itemize}
+\item autenticazione (confermare la dichiarata identità di un utente);
+\item identificazione (associare un campione dato con un utente o un piccolo
+gruppo dalle caratteristiche simili);
+\item unicità (dato un campione, possiamo determinare se l'utente sia già
+registrato).
+\end{itemize}
+Il fattore biometrico viene a sua volta suddiviso in base alle modalità
+di acquisizione del campione:
+\begin{itemize}
+\item statico (qualcosa che sei, caratteristiche fisiche):
+\item dinamico (qualcosa che fai, pattern di comportamento).
+\end{itemize}
+La ricerca dei campioni nella base di dati degli utenti registrati
+viene effettuata per corrispondenza migliore: dal momento che l'informazione
+biometrica digitalizzata è molto ingombrante, su di essa viene calcolato
+un modello semplificato basato su caratteristiche comuni a tutti i
+campioni, e poi confrontato coi dati registrati.
+
+Il confronto viene effettuato calcolando la distanza tra campione
+e dato registrato, e il campione viene accettato solo se questa distanza
+è inferiore a una certa soglia di accettazione.
+
+Le caratteristiche fisiche che vengono campionate come fattore biometrico
+possono essere: impronte digitali, forma della mano, iride o retina,
+volto, immagine termica, analisi dell'odore, DNA, (fattori statici)
+oppure riconoscimento vocale, dinamica e pattern di scrittura (fattori
+dinamici), ecc\ldots
+
+\subsection*{Accuratezza e prestazioni del fattore biometrico}
+\begin{defn}
+Chiamiamo tasso di falsa accettazione (fase acceptance rate) e lo
+indichiamo con la sigla FAR, la misura della probabilità che il sistema
+permetta l'accesso a un utente non autorizzato (falso positivo); il
+suo valore si ottiene come:
+\[
+{\scriptstyle \text{FAR}}\coloneqq\frac{\text{falsi positivi accettati}}{\text{tentativi di identificazione}}
+\]
+\end{defn}
+%
+\begin{defn}
+Chiamiamo tasso di falso rifiuto (false rejection rate) e lo indichiamo
+con la sigla FRR, la misura della probabilità che il sistema neghi
+l'accesso a un utente autorizzato e registrato (falso negativo); il
+suo valore si ottiene come:
+\[
+{\scriptstyle \text{FRR}}\coloneqq\frac{\text{falsi negativi rifiutati}}{\text{tentativi di identificazione}}
+\]
+\end{defn}
+Fissato un metodo per acquisire campioni biometrici, e una metrica
+per modellizzarli ed effettuare confronti tra loro calcolandone la
+distanza, possiamo regolare la soglia di decisione basandoci sui parametri
+${\scriptstyle \text{FAR}}$ e ${\scriptstyle \text{FRR}}$: il minimo
+della somma o del prodotto delle due probabilità (punto di incontro
+delle relative curve in $\mathbb{R}^{2}$) viene scelto come soglia
+di accettazione per il sistema.
+
+I sistemi biometrici attuali non ammettono valori ${\scriptstyle \text{FAR}}$
+e ${\scriptstyle \text{FRR}}$ tali da permettere di usare questo
+fattore di autenticazione da solo; i problemi di accuratezza di cui
+soffre sono classificati come segue:
+\begin{itemize}
+\item rumore nella misurazione e inconsistenza dei dati acquisiti (sensore
+per impronte digitali sporco o polpastrello ferito);
+\item variazioni intra-classe (la foto del volto cambia a seconda della
+luce ambientale);
+\item similitudine inter-classe (persone con volti molto simili);
+\item non-universalità (non tutti gli individui presentano qualità adeguata
+per le caratteristiche fisiche misurate, come l'assenza di impronte
+digitali per una persona priva di mani);
+\item \emph{spoofing} (ingannare il sensore inducendo un falso positivo).
+\end{itemize}
+
 \appendix
 
 \chapter{Introduzione alla crittografia}

@@ -19044,6 +19044,1065 @@ E_{K_{AT}}\left[K_{S}\|\text{ID}_{B}\|r_{1}\|E_{K_{BT}}\left[K_{S}\|\text{ID}_{A
 \end_layout
 
 \begin_layout Chapter
+Autenticazione e autorizzazione
+\end_layout
+
+\begin_layout Section
+Caratteristiche dell'autenticazione
+\end_layout
+
+\begin_layout Standard
+Autenticare
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+La definizione di autenticazione è enunciata nel RFC 4949 (IETF)
+\end_layout
+
+\end_inset
+
+ vuol dir garantire l'identità di un utente, di un dispositivo o di una
+ sorgente di informazioni; autorizzare vuol dire determinare le risorse
+ e i servizi che una entità autorizzata è in grado di usare (l'autorizzazzione
+ implica l'autenticazione).
+\end_layout
+
+\begin_layout Standard
+L'autenticazione è costituita da tre fasi principali:
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+registrazione
+\noun default
+: l'utente deve essere registrato (per esempio in una base di dati) e associato
+ a delle ceredenziali;
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+identificazione
+\noun default
+: il candidato si presenta al verificatore (per esempio il server) come
+ un certo utente, fornendogli un identificatore;
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+verifica
+\noun default
+: il candidato deve provare di essere chi afferma, (per esempio tramite
+ password, rispondendo a una sfida, ecc
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ldots
+\end_layout
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Possiamo classificare l'autenticazione in base al tipo di connessione col
+ servizio richiesto:
+\end_layout
+
+\begin_layout Itemize
+locale (l'utente accede localmente alle risorse);
+\end_layout
+
+\begin_layout Itemize
+diretta (l'utente accede a un sistema remoto);
+\end_layout
+
+\begin_layout Itemize
+indiretta (l'autenticazione è delegata a una terza parte);
+\end_layout
+
+\begin_layout Itemize
+off-line (il successo dell'autenticazione viene determinato senza contattare
+ l'utente o una terza parte).
+\end_layout
+
+\begin_layout Standard
+Inoltre, l'autenticazione può essere effettuata attraverso i seguenti mezzi
+ (
+\emph on
+fattori
+\emph default
+):
+\end_layout
+
+\begin_layout Itemize
+qualcosa che sai (PIN, password);
+\end_layout
+
+\begin_layout Itemize
+qualcosa che hai (smart card, token hardware);
+\end_layout
+
+\begin_layout Itemize
+qualcosa che sei (impronta digitale, scansione retina);
+\end_layout
+
+\begin_layout Itemize
+qualcosa che fai (timbro vocale, scrittura a mano).
+\end_layout
+
+\begin_layout Standard
+Spesso per migliorare la sicurezza di questi sistemi si combinano due o
+ tre fattori di autenticazione.
+\end_layout
+
+\begin_layout Standard
+Per garantire la sicurezza dell'autenticazioneè necessario garantire che:
+ le credenziali 
+\bar under
+non
+\bar default
+ siano trasmesse in chiaro (un osservatore del canale può intercettarle),
+ e le credenziali 
+\bar under
+non
+\bar default
+ siano salvate in chiaro (se il sistema viene compromesso, l'attaccante
+ le ottiene).
+\end_layout
+
+\begin_layout Section
+Username e password
+\end_layout
+
+\begin_layout Subsection
+Debolezze della password
+\end_layout
+
+\begin_layout Standard
+Sistema più comune di autenticazione, che incarna il Teorema
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "thm:Principio-di-Kerchoffs"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+: il nome utente può essere pubblicato, ma la password va mantenuta segreta.
+ Per questo motivo viene trasmessa e memorizzata sotto forma di 
+\emph on
+digest
+\emph default
+ (prodotto di una funzione di hash).
+\end_layout
+
+\begin_layout Standard
+In pratica, per ottenere la password che corrisponde al digest memorizzato
+ o trasmesso, dobbiamo tentare tutte le possibili stringhe come input della
+ funzione di hash coinvolta, fino ad ottenere una collisione o la password
+ corretta, e questo richiede un numero di tentativi proporzionale al numero
+ di bit del digest.
+\end_layout
+
+\begin_layout Standard
+Pur procedendo a caso, se abbiamo un digest di 
+\begin_inset Formula $n$
+\end_inset
+
+ bit e calcoliamo
+\begin_inset Formula $2^{n}$
+\end_inset
+
+ hash per altrettante stringhe in input differenti, la probabilità di trovare
+ la corrispondenza è comunque inferiore a 1.
+\end_layout
+
+\begin_layout Standard
+Ovviamente, la probabilità di successo si innalza drasticamente quando la
+ password è la parola di una lingua e ci sono le condizioni per mettere
+ in pratica un attacco del vocabolario.
+\end_layout
+
+\begin_layout Subsection
+Entropia della password
+\end_layout
+
+\begin_layout Standard
+Una password è tanto più sicura quanta più informazione segreta essa contiene;
+ dalla teoria dell'informazione di Shannon, sappiamo che la misura di informazio
+ne in un messaggio è la sua entropia (misura del 
+\begin_inset Quotes eld
+\end_inset
+
+disordine
+\begin_inset Quotes erd
+\end_inset
+
+); a grandi linee possiamo affermare che:
+\end_layout
+
+\begin_layout Quotation
+
+\emph on
+L'entropia di un messaggio è l'impredicibilità del suo stato o, in modo
+ equivalente, del suo contenuto informativo, o del contenuto informativo
+ medio di una sorgente di informazioni; un messaggio contiene tanta più
+ informazione quanto più è impredicibile.
+\end_layout
+
+\begin_layout Definition
+Consideriamo una sorgente 
+\begin_inset Formula $X$
+\end_inset
+
+ (priva di memoria, la probabilità di ottenere un determinato messaggio
+ è indipendente dai messaggi già estratti) del messaggio 
+\begin_inset Formula $\overline{x}$
+\end_inset
+
+, definito su un alfabeto finito di 
+\begin_inset Formula $N$
+\end_inset
+
+ simboli:
+\begin_inset Formula 
+\[
+\overline{x}\in\left\{ x_{1},\,\ldots,\,x_{N}\right\} 
+\]
+
+\end_inset
+
+La probabilità che il messaggio assuma valore 
+\begin_inset Formula $\overline{x}=x_{i}$
+\end_inset
+
+ per 
+\begin_inset Formula $i\in\left[1,\,\ldots,\,N\right]$
+\end_inset
+
+ sarà definita come:
+\begin_inset Formula 
+\[
+p_{i}=P\left(\overline{x}=x_{i}\right)
+\]
+
+\end_inset
+
+la relativa distribuzione di probabilità quasi sempre non è uniforme e dipende
+ soprattutto dal linguaggio che usa l'alfabeto.
+\end_layout
+
+\begin_layout Definition
+Chiamiamo quantità di 
+\emph on
+informazione
+\emph default
+, e la misuriamo in bit, la seguente funzione relativa a un messaggio 
+\begin_inset Formula $\overline{x}=x_{i}$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{equation}
+\mathbb{I}\left(\overline{x}\right)\coloneqq-\log_{2}\left(p_{i}\right)\geq0\label{eq:Quantità-informazione}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+L'informazione media di una sorgente, per carattere sull'alfabeto, è chiamata
+ 
+\emph on
+entropia di sorgente
+\emph default
+ e si indica come:
+\begin_inset Formula 
+\begin{equation}
+\mathbb{H}\left(X\right)\coloneqq-\serie{i=1}N{p_{i}\cdot\log_{2}\left(p_{i}\right)}\geq0\label{eq:Entropia-sorgente}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Example
+Consideriamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+American Standard Code for Information Interchange, si pronuncia 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+/$^{
+\backslash
+prime}$
+\backslash
+ae ski:/
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ una password alfabetica, che usi caratteri definiti tramite 7 bit; dei
+ 
+\begin_inset Formula $2^{7}=128$
+\end_inset
+
+ caratteri ASCII, 32 sono di controllo (non stampabili e non usati nelle
+ password) e i restanti 95 simboli saranno l'alfabeto 
+\begin_inset Formula $\vec{a}$
+\end_inset
+
+ che useremo.
+\end_layout
+
+\begin_layout Example
+Applicando la formula 
+\begin_inset CommandInset ref
+LatexCommand eqref
+reference "eq:Entropia-sorgente"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+ su una sorgente di informazione 
+\begin_inset Formula $A$
+\end_inset
+
+ con tale alfabeto, in cui i simboli in uscita abbiano distribuzione di
+ probabilità uniforme, otteniamo:
+\begin_inset Formula 
+\[
+\mathbb{H}\left(A\right)=\log_{2}\left(95\right)\simeq6.57\,\text{bit}/\text{carattere}
+\]
+
+\end_inset
+
+Segue che una password di 10 caratteri ricavata dalla sorgente 
+\begin_inset Formula $A$
+\end_inset
+
+ avrà circa 65.7
+\begin_inset space ~
+\end_inset
+
+bit di informazione; inoltre possiamo verificare che, usando un alfabeto
+ latino di 26 lettere più lo spazio, la quantità d'informazione relativa
+ sarà di circa 4.75
+\begin_inset space ~
+\end_inset
+
+bit
+\begin_inset Formula $/$
+\end_inset
+
+carattere.
+\end_layout
+
+\begin_layout Example
+Infine, osservando che i simboli non hanno tutti la stessa probabilità di
+ apparire all'interno di una determinata lingua (si può determinare la distribuz
+ione di probabilità di una certa lingua, da usare nella formula per l'entropia
+ della sorgente), possiamo ottenere un'entropia media per carattere ancora
+ più bassa.
+\end_layout
+
+\begin_layout Example
+Inoltre è ragionevole aspettarsi che caratteri successivi estratti da una
+ sorgente siano correlati (digrammi, trigrammi): questo abbassa ancora di
+ più l'entropia finale di un determinato messaggio; prendendo un testo in
+ lingua italiana sufficientemente lungo come 
+\begin_inset Quotes eld
+\end_inset
+
+I promessi sposi
+\begin_inset Quotes erd
+\end_inset
+
+ (A.
+ Manzoni) ed estraendo cinque simboli dalla sorgente 
+\begin_inset Formula $P$
+\end_inset
+
+ (che usa alfabeto di 21 lettere) otteniamo:
+\begin_inset Formula 
+\[
+\mathbb{H}_{5}\left(P\right)\simeq1.87\,\text{bit}/\text{carattere}
+\]
+
+\end_inset
+
+Shannon dimostrò che, preso un testo in lingua inglese come sorgente 
+\begin_inset Formula $E$
+\end_inset
+
+, l'entropia media che ne risulta è:
+\begin_inset Formula 
+\[
+0.6<\mathbb{H}\left(E\right)<1.3\,\text{bit}/\text{carattere}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+L'entropia di una passphrase o password ad oggi è in media circa 2
+\begin_inset space ~
+\end_inset
+
+bit
+\begin_inset Formula $/$
+\end_inset
+
+carattere.
+\end_layout
+
+\begin_layout Subsection
+Attacchi alle password
+\end_layout
+
+\begin_layout Standard
+Possiamo ottenere una password attaccando la sua memorizzazione o trasmissione,
+ nei seguenti modi:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+sniffing
+\emph default
+ (intercettazione del traffico sul canale dove avviene l'autenticazione);
+\end_layout
+
+\begin_layout Itemize
+on-line 
+\emph on
+guessing
+\emph default
+ (generazione e invio di molte password al server per l'autenticazione);
+\end_layout
+
+\begin_layout Itemize
+off-line 
+\emph on
+guessing
+\emph default
+ (generazione di password per attaccare la memorizzazione non sicura, teoricamen
+te senza limiti di tempo e spazio);
+\end_layout
+
+\begin_layout Itemize
+altro (social engineering, shoulder surfing, 
+\emph on
+phishing
+\emph default
+, 
+\emph on
+keylogging
+\emph default
+, ecc
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ldots
+\end_layout
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Section
+Sfida e risposta
+\end_layout
+
+\begin_layout Subsection
+Motivazioni e implementazione
+\end_layout
+
+\begin_layout Standard
+Risolve il problema della trasmissione sicura delle credenziali, che in
+ questo protocollo non viene effettuata: un segreto viene condiviso in qualche
+ maniera tra client e server, e il client deve dimostrare di conoscerlo,
+ rispondendo in maniera adeguata a una sfida.
+\end_layout
+
+\begin_layout Standard
+La sfida viene risolta nel modo seguente:
+\end_layout
+
+\begin_layout Enumerate
+client e server condividono lo stesso segreto 
+\begin_inset Formula $K$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+Il server invia al client un numero pseudo-casuale 
+\begin_inset Formula $S$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+il client invia indietro una risposta costruita come
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+cifratura simmetrica della sfida 
+\begin_inset Formula $E_{K}\left(S\right)$
+\end_inset
+
+, tramite segreto 
+\begin_inset Formula $K$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+il digest della sfida concatenata al segreto 
+\begin_inset Formula $h\left(S\|K\right)$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+cifratura della sfida tramite chiave privata 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+, 
+\begin_inset Formula $E_{K_{p}}\left(S\right)$
+\end_inset
+
+ (il server deve possedere la chiave pubblica associata 
+\begin_inset Formula $K_{\ell}$
+\end_inset
+
+).
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Oltre
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Chiamiamo OTP (One Time Password) una password mono-uso
+\end_layout
+
+\end_inset
+
+ alla procedura che usa un segreto condiviso, un protocollo di sfida e risposta
+ (challenge-response) può essere implementato tramite chiavi di sessione
+ mono-uso; si pone tuttavia il problema della generazione e del trasferimento
+ sicuro di queste chiavi da server a client.
+\end_layout
+
+\begin_layout Subsection
+Schema di Lamport per la catena di hash
+\end_layout
+
+\begin_layout Standard
+Consideriamo un client 
+\series bold
+A
+\series default
+ e un server 
+\series bold
+B
+\series default
+, quest'ultimo vuole autenticare 
+\series bold
+A
+\series default
+; il client conosce il proprio nome sul server e la password 
+\begin_inset Formula $p_{A}$
+\end_inset
+
+, mentre il server conosce il digest della funzione di hash calcolata 
+\begin_inset Formula $n$
+\end_inset
+
+ volte ricorsivamente su 
+\begin_inset Formula $p_{A}$
+\end_inset
+
+ (dove 
+\begin_inset Formula $n$
+\end_inset
+
+ è un numero grande, e che indichiamo con 
+\begin_inset Formula $h_{n}\left(p_{A}\right)$
+\end_inset
+
+); è evidentemente necessaria una fase di instaurazione delle chiavi nella
+ quale al server viene inviato il nome dell'utente 
+\begin_inset Formula $A$
+\end_inset
+
+ accoppiato col digest 
+\begin_inset Formula $h_{n}\left(p_{A}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+L'autenticazione si svolge nel modo seguente:
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia il proprio nome utente in chiaro a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ risponde ad 
+\series bold
+A
+\series default
+ inviando 
+\begin_inset Formula $n$
+\end_inset
+
+ in chiaro;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia 
+\begin_inset Formula $h_{n-1}\left(p_{A}\right)$
+\end_inset
+
+ a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ computa 
+\begin_inset Formula $h_{n}\left(p_{A}\right)=h\left(h_{n-1}\left(p_{A}\right)\right)$
+\end_inset
+
+, e lo confronta col valore abbinato al nome utente 
+\begin_inset Formula $A$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+in caso di successo, 
+\series bold
+B
+\series default
+ aggiorna il valore associato al nome utente 
+\begin_inset Formula $A$
+\end_inset
+
+, rimpiazzandolo con 
+\begin_inset Formula $h_{n-1}\left(p_{A}\right)$
+\end_inset
+
+, e alla prossima richiesta di autenticazione da 
+\series bold
+A
+\series default
+ invierà l'intero 
+\begin_inset Formula $n-1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+La sicurezza dell'algoritmo si basa sull'unidirezionalità della funzione
+ di hash 
+\begin_inset Formula $h\left(\circ\right)$
+\end_inset
+
+ e sulla grandezza di 
+\begin_inset Formula $n$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection*
+Schema di Lamport con due server di autenticazione
+\end_layout
+
+\begin_layout Standard
+In un contesto con due server 
+\series bold
+B
+\series default
+ e 
+\series bold
+C
+\series default
+ a cui l'utente 
+\series bold
+A
+\series default
+ si vuole autenticare, è possibile che ciascuno di essi invii al client
+ un intero 
+\begin_inset Formula $n$
+\end_inset
+
+ differente; in tal caso, un osservatore sul canale vedrà le coppie 
+\begin_inset Formula $n_{B},\,h_{n_{B}-1}\left(p_{A}\right)$
+\end_inset
+
+ e 
+\begin_inset Formula $n_{C},\,h_{n_{C}-1}\left(p_{A}\right)$
+\end_inset
+
+; se effettivamente i due interi sono diversi e inoltre siamo nel caso 
+\begin_inset Formula $n_{B}=n_{C}+1$
+\end_inset
+
+, allora l'osservatore potrà presentarsi al server 
+\series bold
+C
+\series default
+ inviando il nome utente 
+\begin_inset Formula $A$
+\end_inset
+
+ e il digest 
+\begin_inset Formula $h_{n_{C}-1}\left(p_{A}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Per far fronte a questa debolezza basta usare un sale unico per ciascun
+ server, per salvare le password 
+\begin_inset Formula $p$
+\end_inset
+
+ degli utenti; in questo modo i digest destinati a un server saranno rifiutati
+ dagli altri.
+\end_layout
+
+\begin_layout Subsection*
+Attacco del piccolo 
+\emph on
+n
+\end_layout
+
+\begin_layout Standard
+Quando il server sceglie l'intero 
+\begin_inset Formula $n$
+\end_inset
+
+, determina il tempo di vita dell'algoritmo; supponiamo che un osservatore
+ 
+\series bold
+O
+\series default
+ sul canale riesca a impersonare il server 
+\series bold
+B
+\series default
+: egli attende la richiesta di autenticazione da parte di 
+\series bold
+A
+\series default
+, e risponde con un intero piccolo (per esempio 
+\begin_inset Formula $n=50$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+L'osservatore otterrà l'informazione 
+\begin_inset Formula $h_{49}\left(p_{A}\right)$
+\end_inset
+
+ e, se il server vero sta usando 
+\begin_inset Formula $n=1000$
+\end_inset
+
+, allora 
+\series bold
+O
+\series default
+ potrà usarla per generare tutti i digest fino a 
+\begin_inset Formula $h_{1000}\left(p_{A}\right)$
+\end_inset
+
+, per autenticarsi le prossime 
+\begin_inset Formula $1000-50=950$
+\end_inset
+
+ volte col server vero al posto di 
+\series bold
+A
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+Token di sicurezza
+\end_layout
+
+\begin_layout Standard
+Si tratta di un dispositivo fisico o di un software che genera una password
+ mono-uso basandosi sul tempo (OTP valida entro una finestra di tempo, usata
+ per sincronizzare il tempo del token col server) o su un contatore (generato
+ in modo incrementale secondo una sequenza, permette di sincronizzarla col
+ server).
+\end_layout
+
+\begin_layout Standard
+Per aumentarne la sicurezza, i token sono spesso abbinati al fattore di
+ autenticazione della conoscenza (PIN o password da abbinare alla OTP);
+ questa procedura viene chiamata autenticazione a due fattori e si indica
+ con la sigla 2FA.
+\end_layout
+
+\begin_layout Subsection
+Biometrica
+\end_layout
+
+\begin_layout Standard
+Si utilizza per evitare all'utente di ricordare una passphrase lunga, tuttavia
+ si tratta di sistemi ancora deboli e non in grado costituire il singolo
+ fattore di autenticazione di un sistema.
+\end_layout
+
+\begin_layout Standard
+Le applicazioni di questo fattore sono le seguenti:
+\end_layout
+
+\begin_layout Itemize
+autenticazione (confermare la dichiarata identità di un utente);
+\end_layout
+
+\begin_layout Itemize
+identificazione (associare un campione dato con un utente o un piccolo gruppo
+ dalle caratteristiche simili);
+\end_layout
+
+\begin_layout Itemize
+unicità (dato un campione, possiamo determinare se l'utente sia già registrato).
+\end_layout
+
+\begin_layout Standard
+Il fattore biometrico viene a sua volta suddiviso in base alle modalità
+ di acquisizione del campione:
+\end_layout
+
+\begin_layout Itemize
+statico (qualcosa che sei, caratteristiche fisiche):
+\end_layout
+
+\begin_layout Itemize
+dinamico (qualcosa che fai, pattern di comportamento).
+\end_layout
+
+\begin_layout Standard
+La ricerca dei campioni nella base di dati degli utenti registrati viene
+ effettuata per corrispondenza migliore: dal momento che l'informazione
+ biometrica digitalizzata è molto ingombrante, su di essa viene calcolato
+ un modello semplificato basato su caratteristiche comuni a tutti i campioni,
+ e poi confrontato coi dati registrati.
+\end_layout
+
+\begin_layout Standard
+Il confronto viene effettuato calcolando la distanza tra campione e dato
+ registrato, e il campione viene accettato solo se questa distanza è inferiore
+ a una certa soglia di accettazione.
+\end_layout
+
+\begin_layout Standard
+Le caratteristiche fisiche che vengono campionate come fattore biometrico
+ possono essere: impronte digitali, forma della mano, iride o retina, volto,
+ immagine termica, analisi dell'odore, DNA, (fattori statici) oppure riconoscime
+nto vocale, dinamica e pattern di scrittura (fattori dinamici), ecc
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ldots
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection*
+Accuratezza e prestazioni del fattore biometrico
+\end_layout
+
+\begin_layout Definition
+Chiamiamo tasso di falsa accettazione (fase acceptance rate) e lo indichiamo
+ con la sigla FAR, la misura della probabilità che il sistema permetta l'accesso
+ a un utente non autorizzato (falso positivo); il suo valore si ottiene
+ come:
+\begin_inset Formula 
+\[
+{\scriptstyle \text{FAR}}\coloneqq\frac{\text{falsi positivi accettati}}{\text{tentativi di identificazione}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Separator plain
+\end_inset
+
+
+\end_layout
+
+\begin_layout Definition
+Chiamiamo tasso di falso rifiuto (false rejection rate) e lo indichiamo
+ con la sigla FRR, la misura della probabilità che il sistema neghi l'accesso
+ a un utente autorizzato e registrato (falso negativo); il suo valore si
+ ottiene come:
+\begin_inset Formula 
+\[
+{\scriptstyle \text{FRR}}\coloneqq\frac{\text{falsi negativi rifiutati}}{\text{tentativi di identificazione}}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Fissato un metodo per acquisire campioni biometrici, e una metrica per modellizz
+arli ed effettuare confronti tra loro calcolandone la distanza, possiamo
+ regolare la soglia di decisione basandoci sui parametri 
+\begin_inset Formula ${\scriptstyle \text{FAR}}$
+\end_inset
+
+ e 
+\begin_inset Formula ${\scriptstyle \text{FRR}}$
+\end_inset
+
+: il minimo della somma o del prodotto delle due probabilità (punto di incontro
+ delle relative curve in 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+) viene scelto come soglia di accettazione per il sistema.
+\end_layout
+
+\begin_layout Standard
+I sistemi biometrici attuali non ammettono valori 
+\begin_inset Formula ${\scriptstyle \text{FAR}}$
+\end_inset
+
+ e 
+\begin_inset Formula ${\scriptstyle \text{FRR}}$
+\end_inset
+
+ tali da permettere di usare questo fattore di autenticazione da solo; i
+ problemi di accuratezza di cui soffre sono classificati come segue:
+\end_layout
+
+\begin_layout Itemize
+rumore nella misurazione e inconsistenza dei dati acquisiti (sensore per
+ impronte digitali sporco o polpastrello ferito);
+\end_layout
+
+\begin_layout Itemize
+variazioni intra-classe (la foto del volto cambia a seconda della luce ambiental
+e);
+\end_layout
+
+\begin_layout Itemize
+similitudine inter-classe (persone con volti molto simili);
+\end_layout
+
+\begin_layout Itemize
+non-universalità (non tutti gli individui presentano qualità adeguata per
+ le caratteristiche fisiche misurate, come l'assenza di impronte digitali
+ per una persona priva di mani);
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+spoofing
+\emph default
+ (ingannare il sensore inducendo un falso positivo).
+\end_layout
+
+\begin_layout Chapter
 \start_of_appendix
 Introduzione alla crittografia
 \end_layout
