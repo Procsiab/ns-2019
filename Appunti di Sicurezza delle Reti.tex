@@ -122,6 +122,13 @@
     \else
       \newtheorem{sol}{\protect\solutionname}[chapter]
     \fi
+\newenvironment{lyxlist}[1]
+	{\begin{list}{}
+		{\settowidth{\labelwidth}{#1}
+		 \setlength{\leftmargin}{\labelwidth}
+		 \addtolength{\leftmargin}{\labelsep}
+		 \renewcommand{\makelabel}[1]{##1\hfil}}}
+	{\end{list}}
 
 \@ifundefined{date}{}{\date{}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
@@ -4528,7 +4535,7 @@ di tempo successivo a $t_{T}^{\prime\prime}$;
 Con questa procedura, è possibile indurre gli utenti a usare in modo
 indefinito la stessa chiave $K_{AB}$.
 
-\subsection{Protocollo Needham-Schroeder}
+\subsection{Protocollo Needham-Schroeder\label{subsec:Protocollo-Needham-Schroeder}}
 
 Poniamo il caso di avere un'autorità fidata \textbf{T}, che abbia
 già distribuito agli utenti \textbf{A} e \textbf{B} le KEK:
@@ -4893,6 +4900,484 @@ per le caratteristiche fisiche misurate, come l'assenza di impronte
 digitali per una persona priva di mani);
 \item \emph{spoofing} (ingannare il sensore inducendo un falso positivo).
 \end{itemize}
+
+\section{Kerberos}
+
+Questo protocollo fornisce un servizio centralizzato per la distribuzione
+delle chiavi e l'autenticazione indiretta in un ambiente distribuito
+e non fidato (si dà per scontata la presenza di osservatori sul canale
+e il tentativo di impersonare gli utenti legittimi).
+
+I suoi requisiti di implementazione sono:
+\begin{itemize}
+\item gli utenti accedano ai servizi tramite la rete;
+\item i server limitano l'accesso agli utenti autorizzati e autenticano
+le richieste per i singoli servizi;
+\item basato sul protocollo Needham-Schroeder (§~\ref{subsec:Protocollo-Needham-Schroeder}),
+con l'impiego di un server fidato per l'autenticazione;
+\item usa solo crittografia simmetrica (nessuna chiave pubblica);
+\item richiede la sincronizzazione del tempo su tutte le macchine coinvolte.
+\end{itemize}
+L'idea alla sua base è avere un server per autenticare gli utenti
+e un server per autenticare l'accesso al servizio richiesto.
+
+\subsection{Richiesta di autenticazione}
+
+Consideriamo un utente \textbf{C} che vuole autenticarsi tramite il
+server di autenticazione \textbf{A} (quest'ultimo deve essere stato
+inizializzato correttamente con le chiavi simmetriche):
+\begin{enumerate}
+\item \textbf{C} invia ad \textbf{A} il proprio ID, la propria password
+e l'ID del server al quale vuole accedere ($\text{ID}_{C}\|p_{C}\|\text{ID}_{S}$);
+\item \textbf{A} risponde a \textbf{C} con un \emph{ticket} $\bar{t}$ (messaggio
+che solo il server di autenticazione può creare ed è valido per uno
+specifico utente $\text{ID}_{C}$ su uno specifico server $\text{ID}_{S}$);
+\item \textbf{C} invia ad \textbf{S} (server identificato da $\text{ID}_{S}$)
+il ticket e il proprio nome ($\text{ID}_{C}\|\bar{t}$).
+\end{enumerate}
+Il primo problema di questa implementazione è rappresentato dall'invio
+della password dell'utente in chiaro; inoltre con questa implementazione
+ogni volta che si vuole richiedere il servizio è necessario usare
+un ticket (sarebbe più comodo per l'utente avere a disposizione una
+sessione al cui interno usare liberamente il servizio).
+
+\subsection{Ticket granting server}
+
+Introduciamo i seguenti cambiamenti all'algoritmo mostrato nella precedente
+sezione:
+\begin{itemize}
+\item non trasmettiamo la password dell'utente in chiaro;
+\item usiamo un ticket granting server (\textbf{T}), che distribuisce a
+un utente autorizzato un ticket per ottenere un altro servizio richiesto;
+\begin{itemize}
+\item ticket granting ticket ($\bar{t}_{G}$) permette di richiedere il
+ticket di un servizio;
+\item ticket di servizio ($\bar{t}_{S}$) permette di richiedere uno specifico
+servizio.
+\end{itemize}
+\end{itemize}
+Implementiamo il protocollo con i nuovi elementi introdotti:
+\begin{enumerate}
+\item l'utente \textbf{C}, che si vuole autenticare, chiede un ticket al
+server \textbf{A}, inviandogli $\text{ID}_{C}\|\text{ID}_{T}$;
+\item il server di autenticazione \textbf{A} risponde con un ticket $\bar{t}_{G}$
+cifrato con la chiave simmetrica condivisa con \textbf{C} ($E_{K_{C,A}}\left(\bar{t}_{G}\right)$);
+\item \textbf{C} chiede a \textbf{T} un ticket per usare un servizio sul
+server \textbf{S}, inviandogli $\text{ID}_{C}\|\text{ID}_{S}\|\bar{t}_{G}$
+(il ticket ricevuto da \textbf{T} può essere estratto solo dal vero
+\textbf{C}, poiché è necessario decifrare usando la chiave simmetrica
+$K_{C,A}$ condivisa tra utente e server di autenticazione);
+\item il server \textbf{T} risponde con il ticket $\bar{t}_{S}$ se ha ricevuto
+un $\bar{t}_{G}$ coretto;
+\item l'utente \textbf{C} si rivolge al server \textbf{S} che fornisce il
+servizio desiderato, inviandogli il ticket e il proprio nome ($\text{ID}_{C}\|\bar{t}_{S}$).
+\end{enumerate}
+Ogni volta che un utente inizia una nuova sessione di autenticazione,
+dovrà ripetere i passi 1-2; ogni volta che l'utente vuole accedere
+a un servizio differente, ripeterà i passi 3-4; per ogni sessione
+di servizio avviata dall'utente, esso dovrà ripetere il passo 5.
+
+I due ticket sono costruiti come segue:
+\begin{itemize}
+\item $\bar{t}_{G}=E_{K_{T,A}}\left(\text{ID}_{C}\|\text{ID}_{A}\|\text{ID}_{T}\|t_{s1}\|\ell_{1}\right)$;
+\item $\bar{t}_{S}=E_{K_{S,T}}\left(\text{ID}_{C}\|\text{ID}_{A}\|\text{ID}_{S}\|t_{s2}\|\ell_{2}\right)$.
+\end{itemize}
+Nella struttura dei ticket abbiamo $t_{si}$ che rappresenta il timestamp
+$i$-esimo (data di rilascio del ticket), e $\ell_{i}$ che rappresenta
+il tempo di vita $i$-esimo di un ticket. Se i tempi di vita dei ticket
+sono troppo corti o troppo lunghi, l'utente dovrà fornire spesso la
+password oppure ci si espone ad attacchi di replica:
+\begin{itemize}
+\item il ticket $\bar{t}_{G}$ può essere osservato sul canale e replicato
+per richiedere il ticket $\bar{t}_{S}$, impersonando l'utente;
+\item il ticket $\bar{t}_{S}$ può essere osservato sul canale e replicato
+per richiedere un servizio, impersonando l'utente;
+\item basta usare l'indirizzo IP dell'utente \textbf{C} per impersonarlo.
+\end{itemize}
+Per evitare questo tipo di attacchi bisogna autenticare client con
+server e vice versa.
+
+\subsection{Mutua autenticazione (Kerberos v4)}
+
+Introduciamo i seguenti cambiamenti all'algoritmo mostrato nella precedente
+sezione:
+\begin{itemize}
+\item utilizziamo i timestamp anche in fase di autenticazione;
+\item inviamo i ticket assieme a un timestamp e cifriamo il tutto;
+\item usiamo delle stringhe contenenti la cifratura di di ID del client
+e del server di autenticazione assieme a un timestamp, e chiamiamole
+\emph{authenticator}.
+\end{itemize}
+Implementiamo il protocollo con i nuovi elementi introdotti:
+\begin{enumerate}
+\item \textbf{C} invia ad \textbf{A} il messaggio $\text{ID}_{C}\|\text{ID}_{T}\|t_{s1}$;
+\item \textbf{A} risponde a \textbf{C} con $E_{K_{C,A}}\left(K_{C,T}\|\text{ID}_{T}\|t_{s2}\|\ell_{2}\|\bar{t}_{G}\right)$;
+\item \textbf{C} invia a \textbf{T} il messaggio $\text{ID}_{S}\|\bar{t}_{G}\|\mathbb{A}_{C1}$;
+\item \textbf{T} risponde con $E_{K_{C,T}}\left(K_{C,S}\|\text{ID}_{S}\|t_{s4}\|\bar{t}_{S}\right)$;
+\item \textbf{C} invia ad \textbf{S} il messaggio $\bar{t}_{S}\|\mathbb{A}_{C2}$;
+\item \textbf{S} risponde con $E_{K_{C,S}}\left(t_{s5}+1\right)$.
+\end{enumerate}
+I due authenticator sono costruiti come:
+\begin{itemize}
+\item $\mathbb{A}_{C1}=E_{K_{C,T}}\left(\text{ID}_{C}\|\text{ID}_{A}\|t_{s3}\right)$;
+\item $\mathbb{A}_{C2}=E_{K_{C,S}}\left(\text{ID}_{C}\|\text{ID}_{A}\|t_{s5}\right)$.
+\end{itemize}
+
+\subsection{Reami}
+
+Un reame Kerberos consiste in un server di autenticazione, un TGS,
+uno o più server che espongono servizi e infine un gruppo di utenti
+che li richiedono; possiamo configurare la rete per contenere più
+di un reame e per effettuare l'autenticazione inter-reame, permettendo
+a utenti di un reame di usare servizi situati in un'altro reame.
+
+\subsection{Miglioramenti e limitazioni di Kerberos v5}
+
+Al contrario della versione 4 che usa la cifratura simmetrica DES,
+la versione successiva permette di adottare qualunque sistema di cifratura;
+inoltre Kerberos v5 non dipende dal protocollo IP, usa uno stile fisso
+per l'ordinamento dei Byte nel messaggio, specifica esplicitamente
+inizio e fine validità per i token e infine permette l'inoltro dell'autenticazione
+(un server a cui è autenticato un client può autenticarsi a sua volta
+a un'altro server).
+
+\chapter{Certificati e protocolli di rete}
+
+\section{Infrastruttura a chiave pubblica (PKI)}
+
+\subsection{PKI e certificati}
+
+Nella cifratura a chiave pubblica, la chiave usata per cifrare è pubblica
+e disponibile a tutti; la chiave per decifrare è privata (non viene
+condivisa) e anche se ricavabile dalla pubblica, il costo computazionale
+rende il problema irrisolvibile in pratica. Il punto debole di questo
+meccanismo è la fiducia nella chiave pubblica: proprio perché si tratta
+di una informazione pubblica, è necessario che sia autenticata.
+
+Questo problema viene risolto dall'infrastruttura a chiave pubblica
+(public key inrastructure, PKI), un insieme di procedure e regole
+per generare, pubblicare e certificare le chiavi pubbliche; essa si
+bassa su \emph{certificati} (documenti elettronici) che legano la
+chiave pubblica all'entità che l'ha generata; un certificato garantisce
+quindi l'autenticità di una chiave.
+
+Il processo che determina la validità di un certificato si chiama
+\emph{validazione}; questo implica che sarà necessario fidarsi di
+un'autorità di certificazione (certification authority, CA) che emette
+certificati firmati da lei stessa.
+
+Possiamo classificare i certificati nel modo seguente:
+\begin{itemize}
+\item i \emph{certificati d'identità} forniscono e garantiscono le informazioni
+sull'identità di un'entità (indirizzo, chiave pubblica, ecc\ldots);
+\item i \emph{certificati credenziali} forniscono e garantiscono le informazioni
+sui diritti di accesso e di autorizzazione per un servizio o risorsa.
+\end{itemize}
+
+\subsection{Fidarsi di un certificato}
+
+Tra le informazioni contenute in un certificato, quelle principali
+sono il nome del soggetto del certificato, la sua chiave pubblica
+e una firma (digest) delle due informazioni appena enunciate, firmata
+con la chiave privata della CA (tutti hanno la sua chiave pubblica
+e possono verificare che sia stata la CA a firmare):
+\[
+{\scriptstyle \text{CERT}}\left(A\right)\coloneqq E_{CA}\left(A,\,K_{A},\,E_{K_{CA}^{-1}}\left(h\left(A,\,K_{A}\right)\right)\right)
+\]
+La chiave pubblica delle CA di livello più alto viene inserita nel
+browser o nel sistema operativo, dunque bisognerà riporre fiducia
+in questi software per fidarsi delle chiavi con le quali sono distribuiti;
+in ogni caso, fidarsi della CA implica soltanto il riporre fiducia
+nelle informazioni che essa ha firmato, non vuol dire fidarsi della
+CA in quanto praticamente affidabile.
+
+Dal momento che le CA di alto livello sono poche e le entità che vogliono
+essere certificate sono numerose, spesso le CA firmano certificati
+per delle autorità di registrazione (registration authority, RA),
+le quali a loro volta possono firmare i certificati di RA di livello
+più basso; si viene così a formare una struttura ad albero, che racchiude
+catene di fiducia (catene di certificati), e permette di fidarsi del
+certificato foglia se si ripone fiducia nel certificato radice.
+
+\subsection{Certificati X.509}
+
+Si tratta di uno standard raccomandato dall'Unione Internazionale
+per le Telecomunicazioni (ITU); al contrario degli standard, non si
+incorre in sanzioni se non si seguono (è illegale vendere un prodotto
+non conforme agli standard approvati dall'ente nazionale di competenza).
+
+La serie di raccomandazioni dell'ITU X.500 specifica il servizio di
+rubrica per gli utenti, e X.509 definisce i metodi di autenticazione
+per tali utenti, tramite certificati.
+
+I certificati X.509 hanno una struttura costituita dai seguenti campi:
+\begin{itemize}
+\item versione
+\item numero di serie (ogni certificato ha uno univoco, rispetto alla sue
+CA emittente);
+\item nome della CA;
+\item periodo di validità;
+\item nome del soggetto (entità di cui si certifica la chiave pubblica);
+\item chiave pubblica del soggetto;
+\item firma (specifica l'algoritmo di firma).
+\end{itemize}
+Tramite il numero di serie è possibile revocare un certificato che
+non sia ancora scaduto, ponendolo in una lista di revoca; questo pone
+il problema di dover controllare le revoche effettuate, attraverso
+la lista di revoca che viene salvata periodicamente in una \emph{cache}.
+\begin{example}
+\emph{Sia dato il certificato dell'utente $A$, costruito secondo
+le raccomandazioni X.509:}
+\[
+{\scriptstyle \text{CERT}}\left(A\right)=\left(A,\,K_{A},\,h_{K_{CA}^{-1}}\left(A,\,K_{A}\right)\right)
+\]
+\emph{Sappiamo che cifratura e firma usano l'algoritmo RSA con parametri
+$n=221$, $K_{CA}=35$, $K_{A}=25$, $A=200$; inoltre la funzione
+di hash $h\left(\circ\right)$ è definita come:}
+\[
+\forall x,\,y\in\mathbb{Z}_{n}\,:\,h\left(x,\,y\right)=\mod{\left(x\oplus\left(y\ll3\right)\oplus\left(y\ll4\right)\right)}n
+\]
+
+\emph{Verificare la correttezza dei dati nel contesto dell'algoritmo
+RSA.}
+\end{example}
+$\checked$Controlliamo che $n$ sia valido, controllando che sia
+costituito da due fattori primi $p$ e $q$:
+\[
+n=221=13\cdot17
+\]
+Calcoliamo ora il suo toziente e il toziente del toziente:
+\[
+\varphi\left(221\right)=12\cdot16=2^{6}\cdot3=192;\qquad\varphi\left(\varphi\left(221\right)\right)=\varphi\left(192\right)=\left(2^{6}-2^{5}\right)\cdot\left(3-1\right)=64
+\]
+Verifichiamo che le chiavi pubbliche $K_{CA},\,K_{A}$ siano invertibili
+in modulo $\varphi\left(n\right)$:
+\[
+\begin{array}{c}
+\overset{35}{\overbrace{7\cdot5}}\perp\overset{192}{\overbrace{2^{6}\cdot3}}\implies\cgm{35^{-1}}{11}{192}\\
+\overset{25}{\overbrace{5^{2}}}\perp\overset{192}{\overbrace{2^{6}\cdot3}}\implies\cgm{25^{-1}}{169}{192}
+\end{array}
+\]
+
+\emph{Calcolare la firma digitale associata al certificato.}
+
+$\checked$Per prima cosa dobbiamo calcolare il digest della funzione
+$h\left(A,\,K_{A}\right)$ esprimendo nome utente e chiave pubblica
+associata su 8~bit, applicando la funzione di hash proposta dal quesito:
+\[
+\begin{array}{ll}
+11001000_{2}=200_{10} & \left(A\right)\\
+00011001_{2}=25_{10} & \left(K_{A}\right)\\
+11001000 & K_{A}\ll3\\
+10010001 & K_{A}\ll4
+\end{array}
+\]
+Calcoliamo ora il digest applicando la somma bit a bit:
+\[
+\begin{array}{rl}
+\cancel{11001000} & \oplus\\
+\cancel{11001000} & \oplus\\
+\underline{10010001} & =\\
+10010001 & \left(145\right)
+\end{array}
+\]
+Infine possiamo ottenere la firma di $h\left(200,\,25\right)=145$
+usando la chiave $\cgm{K_{CA}^{-1}\equiv25^{-1}}{11}{192}$:
+\[
+\cgm{145^{11}}{202}{221}
+\]
+
+Concludiamo che i valori che costituiscono il certificato sono $C_{A}=\left(200,\,25,\,202\right)$;
+possiamo verificare la chiave pubblica tramite la firma contenuta
+nel certificato:
+\[
+\cgm{\left[h_{K_{CA}^{-1}}\left(A,\,K_{A}\right)\right]^{K_{CA}}}{h\left(A,\,K_{A}\right)}n\rightarrow\cgm{202^{35}}{145}{221}
+\]
+Abbiamo ottenuto nuovamente il digest, verificando la congruenza e
+la validità della firma (solo la CA poteva calcolare la firma poiché
+solo essa conosce l'inverso di $\mod{K_{CA}}n$). \demo
+
+\section{Protocolli di rete sicuri}
+
+I protocolli di rete sono organizzati a strati, per questo motivo
+abbiamo le seguenti alternative nel localizzare i protocolli di sicurezza
+sullo \emph{stack di rete}:
+\begin{itemize}
+\item livello di rete (IPSec);
+\begin{itemize}
+\item trasparente alle applicazioni e agli utenti;
+\item soluzione generale che garantisce la cifratura di tutto il traffico;
+\item cifra solamente il traffico selezionato, evitando overhead non necessario.
+\end{itemize}
+\item livello di trasporto (TLS);
+\begin{itemize}
+\item usa connessioni TCP per inviare i dati cifrati;
+\item deve essere integrato nelle applicazioni specifiche che usano TCP.
+\end{itemize}
+\item livello applicativo.
+\end{itemize}
+
+\subsection{Transport Level Security (TLS)}
+
+Usa TCP per trasportare i dati cifrati, sfruttando le garanzie di
+integrità che esso offre; esso è implementato come un insieme di protocolli
+basati su TCP, di cui il principale è chiamato \emph{Record Protocol}
+(fornisce servizi di trasporto sicuro ai livelli superiori). È documentato
+nell'RFC 5246.
+
+Gli altri servizi che si basano sul Record Protocol e costituiscono
+TLS sono:
+\begin{itemize}
+\item Handshake Protocol (negozia le chiavi di sessione);
+\item Change Cipher Spec Protocol (cambia o seleziona algoritmo di cifratura
+per una connessione);
+\item Alert Protocol (distribuisce avvisi sulla connessione TLS agli altri
+peer);
+\item Heartbit Protocol (mantiene attiva la connessione, ritardando il timeout).
+\end{itemize}
+Il TLS implementa, oltre al concetto di connessione (già presente
+in TCP) anche il concetto di \emph{sessione}: con l'Handshake Protocol
+si inizia una sessione, la quale può avere più connessioni al proprio
+interno; inoltre la sessione mantiene un set di chiavi che possono
+essere usate dalle connessioni instaurate nel suo contesto. Queste
+chiavi saranno rinnovate all'apertura di una nuova sessione; il concetto
+di sessione evita la negoziazione costosa dei parametri di sicurezza
+ad ogni nuova connessione.
+
+Lo stato della sessione è costituito da:
+\begin{itemize}
+\item identificatore della sessione;
+\item certificato X.509 del peer (opzionale);
+\item algoritmo di compressione (usato sui dati prima della cifratura);
+\item specifica del cifrario (algoritmo per la cifratura);
+\item master secret (segreto da 48~Byte condiviso tra client e server);
+\end{itemize}
+Le singole connessioni possiedono uno stato definito dai seguenti
+parametri:
+\begin{itemize}
+\item numero casuale per server/client (generato per ogni connessione);
+\item segreto MAC per il server (usato per autenticare i messaggi del server);
+\item segreto MAC per il client (usato per autenticare i messaggi del client);
+\item chiave simmetrica del server (chiave simmetrica per cifrare sul server
+e decifrare sul client);
+\item chiave simmetrica del client (chiave simmetrica per cifrare sul client
+e decifrare sul server);
+\item vettori di inizializzazione;
+\item numeri di sequenza.
+\end{itemize}
+I servizi che il TLS Record Protocol sono i seguenti:
+\begin{lyxlist}{00.00.0000}
+\item [{\textbf{Confidenzialità}}] lo Handshake Protocol definisce una
+chiave segreta condivisa usata per la crittografia del \emph{payload}
+TLS;
+\item [{\textbf{Integrità}}] lo Handshake Protocol inoltre definisce una
+chiave segreta usata come codice per autenticare i messaggi (MAC).
+\end{lyxlist}
+In ordine le operazioni che il Record Protocol effettua sono:
+\begin{enumerate}
+\item segmentazione dei dati applicativi da inviare sul canale sicuro (c'è
+una finestra massima per i pacchetti TLS);
+\item i segmenti vengono compressi con l'algoritmo di compressione negoziato
+tramite Handshake Protocol;
+\item al segmento compresso viene concatenato un HMAC calcolato a partire
+dal messaggio da inviare, usando il segreto pattuito con Handshake
+Protocol;
+\item il frammento compresso con HMAC viene cifrato con l'algoritmo pattuito
+tramite Handshake Protocol;
+\item al segmento cifrato viene anteposto un \emph{header} TLS per Record
+Protocol: esso sarà a sua volta il payload di un pacchetto TCP.
+\end{enumerate}
+L'header TLS contiene il campo \texttt{Content type} (tipo di contenuto),
+che può indicare HTTPS o uno dei quattro protocolli su cui si basa
+Record Protocol.
+
+\subsection{Handshake TLS}
+
+L'instaurazione di una sessione TLS è preceduta dal seguente procedimento,
+chiamato \emph{handshake}:
+\begin{enumerate}
+\item client e server stabiliscono i protocolli per l'instaurazione della
+chiave, per la cifratura e per l'autenticazione dei messaggi;
+\item il server si autentica (eventualmente inviando il proprio certificato)
+e invia le chiavi per la cifratura al client;
+\item il client si autentica (eventualmente inviando il proprio certificato)
+e invia le chiavi per la cifratura al server;
+\item client e server scelgono l'algoritmo di cifratura con cui usare le
+chiavi instaurate, e l'inizializzazione viene finalizzata.
+\end{enumerate}
+In generale, considerati un client \textbf{C} e un server \textbf{S},
+le chiavi crittografiche vengono generate con la seguente procedura:
+\begin{itemize}
+\item \textbf{C} invia ad \textbf{S} in chiaro un numero casuale $r_{C}$
+di 32~Byte, di cui i primi 4 siano un timestamp;
+\item \textbf{S} invia a \textbf{C} in chiaro un numero casuale $r_{S}$
+di 32~Byte, di cui i primi 4 siano un timestamp;
+\item \textbf{C} invia ad \textbf{S} un numero casuale $S_{{\scriptscriptstyle \text{PM}}}$
+di 48~Byte cifrato con RSA e chiamato \emph{pre-master secret};
+\item \textbf{C} e \textbf{S} calcolano il numero $S_{{\scriptscriptstyle \text{M}}}$
+che dipende dai tre numeri scambiati e si ottiene concatenando i 3
+blocchi seguenti:
+\[
+S_{{\scriptscriptstyle \text{M}}}=\begin{cases}
+{\scriptstyle \text{MD5}}\left(S_{{\scriptscriptstyle \text{PM}}}\|{\scriptstyle \text{SHA1}}\left(A\|S_{{\scriptscriptstyle \text{PM}}}\|r_{C}\|r_{S}\right)\right)\\
+{\scriptstyle \text{MD5}}\left(S_{{\scriptscriptstyle \text{PM}}}\|{\scriptstyle \text{SHA1}}\left(BB\|S_{{\scriptscriptstyle \text{PM}}}\|r_{C}\|r_{S}\right)\right)\\
+{\scriptstyle \text{MD5}}\left(S_{{\scriptscriptstyle \text{PM}}}\|{\scriptstyle \text{SHA1}}\left(CCC\|S_{{\scriptscriptstyle \text{PM}}}\|r_{C}\|r_{S}\right)\right)
+\end{cases}
+\]
+dove ciascuno dei blocchi è costituito da 128~bit (16~Byte);
+\item \textbf{C} e \textbf{S} calcolano il proprio blocco di chiavi di sessione
+a partire dal segreto $S_{{\scriptscriptstyle \text{M}}}$ (6 chiavi
+segrete, la metà per cifrare da client a server e vice-versa);
+\begin{itemize}
+\item chiave di cifratura;
+\item chiave per MAC;
+\item vettore di inizializzazione se il cifrario è usato in modo concatenato
+(CBC).
+\end{itemize}
+\end{itemize}
+
+\subsection{HTTPS}
+
+Si tratta di un protocollo applicativo che combina HTTP con TLS per
+garantire una comunicazione sicura tra client e server; è documentato
+nell'RFC 2818. Quando viene richiesta una risorsa tramite HTTPS, vengono
+cifrati i seguenti elementi:
+\begin{itemize}
+\item l'URL del documento richiesto;
+\item il contenuto del documento;
+\item i contenuti dei moduli del browser;
+\item i \emph{cookie} inviati dal client al server e vice-versa;
+\item l'header HTTP.
+\end{itemize}
+L'agente che ha il ruolo di client HTTP agisce anche come client TLS,
+prima avviando un handshake TLS e poi effettuando la richiesta HTTP
+tramite il canale sicuro; una connessione HTTP ha tre ``strati'':
+\begin{itemize}
+\item HTTP
+\begin{itemize}
+\item un client richiede una connessione HTTP a un server, e tale richiesta
+è inviata allo strato inferiore;
+\end{itemize}
+\item TLS
+\begin{itemize}
+\item una sessione TLS è stabilita tra client e server;
+\item la richiesta per stabilire la connessione comincia con una connessione
+allo strato inferiore;
+\end{itemize}
+\item TCP
+\begin{itemize}
+\item una connessione è stabilita tra le entità TCP di client e server.
+\end{itemize}
+\end{itemize}
+Infine, possiamo chiudere una connessione HTTPS partendo dallo ``strato''
+superiore e terminando ciascuna connessione in cascata verso gli strati
+inferiori; a livello di HTTP, la connessione si chiude tramite l'header
+\texttt{Connection: close}, mentre a livello di TLS si usa l'Alert
+Protocol per inviare l'avviso di chiusura.
+
+Se la connessione HTTPS si interrompe in modo inaspettato sullo strato
+TCP, questo può indicare un errore di implementazione o un possibile
+attacco: in ogni caso è opportuno mostrare un errore.
 
 \appendix
 
