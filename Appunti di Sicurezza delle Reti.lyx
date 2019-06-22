@@ -1054,7 +1054,7 @@ L'algoritmo di Euclide presentato nella sottosezione precedente può essere
 : esse avranno i primi due valori ben definiti, come
 \begin_inset Formula 
 \begin{equation}
-x_{0}=,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
+x_{0}=0,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
 \end{equation}
 
 \end_inset
@@ -2163,7 +2163,7 @@ per
 \end_inset
 
 : 
-\begin_inset Formula $\mod{25}7=3\implies\cgm x37$
+\begin_inset Formula $\mod{25}7=3\implies\cgm x47$
 \end_inset
 
 
@@ -2175,7 +2175,7 @@ Dalle due congruenze più semplici ottenute possiamo scrivere il sistema
 \[
 \cgm x{25}{42}\implies\begin{cases}
 \cgm x16\\
-\cgm x37
+\cgm x47
 \end{cases}
 \]
 
@@ -2724,7 +2724,7 @@ cizio siamo in
 \begin_inset Formula $2\cdot\log_{2}\left(11\right)\simeq4$
 \end_inset
 
-.
+ passi.
 \begin_inset ERT
 status open
 
@@ -4088,7 +4088,7 @@ dove
 \begin_inset Formula $\beta$
 \end_inset
 
-sono potenze di 
+ sono potenze di 
 \begin_inset Formula $\alpha$
 \end_inset
 
@@ -4162,7 +4162,7 @@ noprefix "false"
 \begin_inset Formula $\ord{\beta}=p-1$
 \end_inset
 
-) quando si ha
+) quando si ha 
 \begin_inset Formula $\mcd{p-1}i=1$
 \end_inset
 
@@ -5751,16 +5751,16 @@ name "prop:Proprietà-fondamentali-cifrari-Shannon"
 
 \end_inset
 
-Non solo ogni bit della chiave ha effetto su 
+Non solo ogni bit del blocco in chiaro hanno effetto su 
 \bar under
 tutti
 \bar default
- i bit del blocco cifrato, ma anche tutti i bit della chiave hanno effetto
- su 
+ i bit della chiave, ma anche tutti i bit della chiave hanno effetto su
+ 
 \bar under
 ogni
 \bar default
- bit del blocco cifrato.
+ bit del blocco in chiaro.
 \end_layout
 
 \begin_layout Chapter
@@ -5784,8 +5784,9 @@ L'algoritmo Data Encryption Standard (DES) nasce negli anni '70 per soddisfare
 
 \begin_layout Standard
 L'algoritmo di IBM conteneva delle tabelle di sostituzione, che furono modificat
-e dall'NBS: questo portò a pensare, per molti anni, che il governo introdotto
- una trapdoor nelle tabelle di sostituzione, tuttavia non fu mai trovata.
+e dall'NBS: questo portò a pensare, per molti anni, che il governo avesse
+ introdotto una trapdoor nelle tabelle di sostituzione, tuttavia non fu
+ mai trovata.
 \end_layout
 
 \begin_layout Standard
@@ -6839,7 +6840,7 @@ Per maggiore semplicità, analizziamo il caso di Rijndael con chiave a 128bit,
 \end_layout
 
 \begin_layout Standard
-Ogni round del Rijndael è composto d 4 livelli, che operano sulla matrice
+Ogni round del Rijndael è composto da 4 livelli, che operano sulla matrice
  
 \begin_inset Formula $4\times4$
 \end_inset
@@ -9091,7 +9092,20 @@ Tuttavia i componenti che costituiscono i circuiti del trasmettitore e del
 jitter
 \emph default
 , o rumore di fase).
- Si usa quindi un circuito chiamato 
+ Si usa quindi un circuito chia
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+mato 
 \emph on
 clock recovery
 \emph default
@@ -9117,8 +9131,8 @@ ive identical digits, ovvero cifre identiche consecutive)
 
 \end_inset
 
- problema del clock recovery è l'incapacità dei estrarre il sincronismo
- da una sequenza di cifre uguali (tutti 1 o 0).
+ problema del clock recovery è l'incapacità di estrarre il sincronismo da
+ una sequenza di cifre uguali (tutte 1 o 0).
  VI sono due strade per ovviare al problema:
 \end_layout
 
@@ -9651,8 +9665,21 @@ Trattiamo l'algoritmo di cifratura a chiave pubblica Rivest-Shamir-Adleman
  La peculiarità degli algoritmi a chiave pubblica è la condivisione di una
  chiave pubblica con chiunque voglia cifrare un messaggio, il quale potrà
  essere decifrato solo dalla chiave privata, custodita dal destinatario.
- La generazione della coppia di chiavi pubblica e privata è realizzata mediante
- una funzione unidirezionale (si veda 
+ La generazione della coppia di chia
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+vi pubblica e privata è realizzata mediante una funzione unidirezionale
+ (si veda 
 \begin_inset CommandInset ref
 LatexCommand formatted
 reference "subsec:Funzioni-di-hash"

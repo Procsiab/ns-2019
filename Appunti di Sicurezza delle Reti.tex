@@ -383,7 +383,7 @@ essere esteso, impiegando nel suo svolgimento due successioni $\left\{ x_{k}\rig
 e $\left\{ y_{k}\right\} $: esse avranno i primi due valori ben definiti,
 come
 \begin{equation}
-x_{0}=,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
+x_{0}=0,\,x_{1}=1;\;y_{0}=1,\,y_{1}=0\label{eq:Premessa-successioni-Euclide-esteso}
 \end{equation}
 
 Facendo corrispondere ai passi (\ref{eq:Algoritmo-Euclide}) gli elementi
@@ -655,13 +655,13 @@ prendiamo $\cgm x{25}{42}$; possiamo esprimere $x=25+6\cdot\left(7\cdot k\right)
 da cui ricaviamo
 \begin{itemize}
 \item per $x=25+6\cdot\left(7\cdot k\right)$: $\mod{25}6=1\implies\cgm x16$
-\item per $x=25+7\cdot\left(6\cdot k\right)$: $\mod{25}7=3\implies\cgm x37$
+\item per $x=25+7\cdot\left(6\cdot k\right)$: $\mod{25}7=3\implies\cgm x47$
 \end{itemize}
 Dalle due congruenze più semplici ottenute possiamo scrivere il sistema
 \[
 \cgm x{25}{42}\implies\begin{cases}
 \cgm x16\\
-\cgm x37
+\cgm x47
 \end{cases}
 \]
 Il teorema cinese del resto afferma che:
@@ -788,7 +788,8 @@ Otterremo infine:
 Il vantaggio di questo metodo è il fatto che si basa solo sull'operazione
 di elevamento al quadrato di numeri piccoli (relativamente al modulo,
 nell'esercizio siamo in $\mathbb{Z}_{26}$). In totale, saranno necessari
-(per questo caso dell'esercizio) $2\cdot\log_{2}\left(11\right)\simeq4$.\demo
+(per questo caso dell'esercizio) $2\cdot\log_{2}\left(11\right)\simeq4$
+passi.\demo
 
 \section{Teorema piccolo di Fermat}
 \begin{thm}
@@ -1030,7 +1031,7 @@ valere
 \ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
 \end{equation}
 dove $i$ è l'esponente a cui elevare $\alpha$ per ottenere $\beta$.
-Questo si verifica perché i $\beta$sono potenze di $\alpha$, ed
+Questo si verifica perché i $\beta$ sono potenze di $\alpha$, ed
 essendo $\ord{\alpha}=p-1$ ($\alpha$ è radice primitiva) necessariamente
 l'ordine di $\beta$ sarà un sottomultiplo di $p-1$, determinato
 da (\ref{eq:Elemento-primitivo-MCD})
@@ -1039,8 +1040,8 @@ Gli elementi primitivi di $\mathbb{Z}_{p}^{*}$ sono in numero $\varphi\left(p-1\
 infatti saranno tutti gli elementi di $\mathbb{Z}_{p}^{*}$. coprimi
 rispetto a $p-1$, per cui si verifica la condizione (\ref{eq:Elemento-primitivo-MCD}).
 Notiamo infatti che $\beta$ è una radice primitiva di $p$ (vale
-$\ord{\beta}=p-1$) quando si ha$\mcd{p-1}i=1$; concludiamo che il
-numero di elementi primitivi $\beta$ di un insieme $\mathbb{Z}_{p}^{*}$
+$\ord{\beta}=p-1$) quando si ha $\mcd{p-1}i=1$; concludiamo che
+il numero di elementi primitivi $\beta$ di un insieme $\mathbb{Z}_{p}^{*}$
 è il numero di elementi coprimi rispetto a $p-1$ (valore ottenuto
 dalla funzione toziente di $p-1$).
 \end{rem}
@@ -1467,9 +1468,9 @@ $1/2$.
 Queste due proprietà si riassumono nella seguente affermazione:
 \begin{prop}
 \label{prop:Propriet=0000E0-fondamentali-cifrari-Shannon}Non solo
-ogni bit della chiave ha effetto su \uline{tutti} i bit del blocco
-cifrato, ma anche tutti i bit della chiave hanno effetto su \uline{ogni}
-bit del blocco cifrato.
+ogni bit del blocco in chiaro hanno effetto su \uline{tutti} i
+bit della chiave, ma anche tutti i bit della chiave hanno effetto
+su \uline{ogni} bit del blocco in chiaro.
 \end{prop}
 
 \chapter{Cifrario DES}
@@ -1485,8 +1486,8 @@ bando, a cui risponde IBM con l'algoritmo LUCIFER.
 
 L'algoritmo di IBM conteneva delle tabelle di sostituzione, che furono
 modificate dall'NBS: questo portò a pensare, per molti anni, che il
-governo introdotto una trapdoor nelle tabelle di sostituzione, tuttavia
-non fu mai trovata.
+governo avesse introdotto una trapdoor nelle tabelle di sostituzione,
+tuttavia non fu mai trovata.
 
 Infine il DES fu pubblicato come standard nel '77; col progredire
 della potenza di calcolo nei calcolatori, questo algoritmo è divenuto
@@ -1877,7 +1878,7 @@ per definire il campo è $P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1$.
 L'ottetto di zeri non è invertibile, tuttavia deve essere ammissibile
 nel cifrario: si consideri l'elemento nullo come inverso di sé stesso.
 
-Ogni round del Rijndael è composto d 4 livelli, che operano sulla
+Ogni round del Rijndael è composto da 4 livelli, che operano sulla
 matrice $4\times4$ che rappresenta il blocco da 128bit:
 \begin{itemize}
 \item Substitute Byte (SB): tabella di sostituzione, simile alle S-Box del
@@ -2492,7 +2493,7 @@ Tuttavia i componenti che costituiscono i circuiti del trasmettitore
 e del ricevitore, a causa della propria tolleranza di fabbricazione,
 non possono essere allineati in partenza sulla frequenza di trasmissione
 (sarà sempre presente uno sfasamento del segnale ricevuto, chiamato
-\emph{jitter}, o rumore di fase). Si usa quindi un circuito chiamato
+\emph{jitter}, o rumore di fase). Si usa quindi un circuito chia\-mato
 \emph{clock recovery}, che estrae il sincronismo dal segnale ricevuto;
 questo è usato come base per generare un segnale di clock che pilota
 un campionatore, facendolo agire esattamente a metà del periodo di
@@ -2500,8 +2501,8 @@ cifra ($T/2$); per estrarre il clock si utilizzano i fronti di salita
 e discesa del segnale in ricezione.
 
 Il\marginpar{Un test a livello fisico che si effettua sul ricevitore è chiamato
-CID (consecutive identical digits, ovvero cifre identiche consecutive)} problema del clock recovery è l'incapacità dei estrarre il sincronismo
-da una sequenza di cifre uguali (tutti 1 o 0). VI sono due strade
+CID (consecutive identical digits, ovvero cifre identiche consecutive)} problema del clock recovery è l'incapacità di estrarre il sincronismo
+da una sequenza di cifre uguali (tutte 1 o 0). VI sono due strade
 per ovviare al problema:
 \begin{enumerate}
 \item usare una modulazione differente per codificare il segnale nel canale
@@ -2620,8 +2621,8 @@ Trattiamo l'algoritmo di cifratura a chiave pubblica Rivest-Shamir-Adleman
 (RSA). La peculiarità degli algoritmi a chiave pubblica è la condivisione
 di una chiave pubblica con chiunque voglia cifrare un messaggio, il
 quale potrà essere decifrato solo dalla chiave privata, custodita
-dal destinatario. La generazione della coppia di chiavi pubblica e
-privata è realizzata mediante una funzione unidirezionale (si veda
+dal destinatario. La generazione della coppia di chia\-vi pubblica
+e privata è realizzata mediante una funzione unidirezionale (si veda
 \subsecref{Funzioni-di-hash}); in questo modo, si ricava la chiave
 pubblica da quella privata. In questo modo chi entrerà in possesso
 della chiave pubblica non sarà in grado di ricavarne la chiave privata.
