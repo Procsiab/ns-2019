@@ -2710,9 +2710,9 @@ modo la sicurezza dell'algoritmo, e permette di calcolare $d$ (la
 chiave privata).
 \end{rem}
 \begin{example}
-Sia dato il composto $n=p\cdot q=11413$, prodotto di due primi, e
-il suo toziente sia noto $\varphi\left(n\right)=$$\left(p-1\right)\left(q-1\right)=11200$.
-Calcolare i due primi $p$ e $q$.
+\emph{Sia dato il composto $n=p\cdot q=11413$, prodotto di due primi,
+e il suo toziente sia noto $\varphi\left(n\right)=$$\left(p-1\right)\left(q-1\right)=11200$.
+Calcolare i due primi $p$ e $q$.}
 \end{example}
 $\checked$Analizziamo la relazione $n-\varphi\left(n\right)+1$,
 con le seguenti riscritture:
@@ -2773,9 +2773,9 @@ a $m$ cifre, per il limite imposto dal modulo di $\varphi\left(n\right)$
 \end{rem}
 Abbiamo enunciato nelle sezioni precedenti che la scelta di $p$ e
 $q$ deve essere fatta prendendo due primi grandi (nella pratica si
-usano numero di 150 cifra, ottenendo un $n$ di 300 cifre). per la
+usano numeri di 150 cifre, ottenendo un $n$ di 300 cifre). per la
 scelta dell'esponente di cifratura, bisogna evitare invece un $e$
-troppo piccolo, il quale favorirebbe va velocità di cifratura ma sicuramente
+troppo piccolo, il quale favorirebbe la velocità di cifratura ma sicuramente
 causerebbe la comparsa di un $d$ molto grande. Nella scelta di $e$
 bisogna anche tenere a mente l'ipotesi che esso sia $e\perp\varphi\left(n\right)$.
 
@@ -3140,8 +3140,9 @@ dalla grandezza del fattore più grande di $p-1$.
 
 \subsection{Algoritmo baby step, giant step\label{subsec:Baby-step-giant-step}}
 
-Consideriamo le ipotesi per il problema descritto dall'equazione (\ref{eq:Equazione-congruenziale-log-discreto}),
-e scegliamo un intero $N\tc N^{2}\geq p-1$; segue che:
+Consideriamo le ipotesi per il pro\-blema descritto dall'equazione
+(\ref{eq:Equazione-congruenziale-log-discreto}), e scegliamo un intero
+$N\tc N^{2}\geq p-1$; segue che:
 \[
 N=\left\lfloor \sqrt{p-1}\right\rfloor +1
 \]
@@ -3152,8 +3153,8 @@ sviluppate come:
 \begin{array}{ccccc}
 \boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
 0 & 1 &  & 0 & \beta\\
-1 & \alpha &  & 1 & \beta\cdot a^{-N}\\
-2 & \alpha^{2} &  & 2 & \beta\cdot a^{-2N}\\
+1 & \alpha &  & 1 & \beta\cdot\alpha^{-N}\\
+2 & \alpha^{2} &  & 2 & \beta\cdot\alpha-2N\\
 \vdots & \vdots &  & \vdots & \vdots
 \end{array}
 \]
@@ -3320,7 +3321,7 @@ dalla Proposizione \ref{prop:Propriet=0000E0-fondamentali-cifrari-Shannon});
 e uscita, risulta non-invertibile per definizione);
 \item essere\marginpar{La proprietà di unidirezionalità è anche detta \emph{resistenza alla
 contro-immagine}} unidirezionale (non deve essere possibile trovare nemmeno una uscita
-delle infinite che producono certo ingresso);
+delle infinite che producono un certo ingresso);
 \item non esista una coppia di messaggi differenti $m_{1}\neq m_{1}$, tali
 che i loro hash siano uguali, ovvero (detta $h\left(m\right)$ la
 funzione di hash del messaggio $m$)
@@ -3363,7 +3364,7 @@ Questa funzione non è invertibile, poiché esistono infiniti messaggi
 che producono la stessa uscita della funzione ($\forall k\tc h\left(x\right)=\mod{\left(x+k\cdot n\right)}n$);
 per quanto appena osservato, tale funzione non è unidirezionale, poiché
 è possibile trovare uno qualunque di quegli infiniti messaggi che
-producono la stessa uscita (basta provare un $x+k\cdot n$). Per lo
+producono la stessa uscita (basta trovare un $x+k\cdot n$). Per lo
 stesso motivo, è possibile trovare una collisione (per esempio $h\left(x\right)=h\left(x+n\right)$).
 
 \subsubsection*{Funzione $\left(2\right)$}
@@ -4116,7 +4117,7 @@ Il suo toziente può essere calcolato come:
 \[
 \varphi\left(323\right)=\left(17-1\right)\cdot\left(19-1\right)=16\cdot18=\boxed{288}=2^{5}\cdot3^{2}
 \]
-Tra i fattori di 288 on compare $e=17$, dunque l'esponente di cifratura
+Tra i fattori di 288 non compare $e=17$, dunque l'esponente di cifratura
 sarà primo relativo rispetto al toziente dell'intero $n$.
 
 Possiamo decifrare un messaggio cifrato qualunque, data la facilità
@@ -4447,7 +4448,7 @@ per cui la chiave può essere usata per un crittosistema a chiave simmetrica.
 
 \subsection{Cooperazione degli utenti}
 
-Se sue utenti $A$ e $B$ scambiano i propri numeri ricevuti da $T$,
+Se due utenti $A$ e $B$ scambiano i propri numeri ricevuti da $T$,
 entrambi vengono a conoscenza di $a_{A},\,b_{A},\,a_{B},\,b_{B}$:
 in tal caso potranno computare i tre numeri segreti $a,\,b,\,c$ selezionati
 da $T$, e quindi scoprire le chiavi per comunicare con tutti gli
@@ -4463,8 +4464,8 @@ del messaggio, il quale potrebbe essere indotto a instaurare una chiave
 con $\mathbf{O}$.
 
 Per contrastare un simile attacco è opportuno autenticare gli utenti;
-inoltre si impiegano delle \emph{key encryption key} (KEK) per cifrare
-la comunicazione delle chiavi instaurate con l'autorità fidata.
+inoltre si im\-piegano delle \emph{key encryption key} (KEK) per
+cifrare la comunicazione delle chiavi instaurate con l'autorità fidata.
 
 Un'altro\marginpar{Un timestamp è una stringa che rappresenta l'informazione sul tempo
 di sistema di un dispositivo} metodo consiste nell'identificazione dei messaggi, tramite numero

@@ -10057,6 +10057,8 @@ Per effettuare la decifratura (operazione adibita alla chiave privata) è
 \end_layout
 
 \begin_layout Example
+
+\emph on
 Sia dato il composto 
 \begin_inset Formula $n=p\cdot q=11413$
 \end_inset
@@ -10397,8 +10399,8 @@ Abbiamo enunciato nelle sezioni precedenti che la scelta di
 \begin_inset Formula $q$
 \end_inset
 
- deve essere fatta prendendo due primi grandi (nella pratica si usano numero
- di 150 cifra, ottenendo un 
+ deve essere fatta prendendo due primi grandi (nella pratica si usano numeri
+ di 150 cifre, ottenendo un 
 \begin_inset Formula $n$
 \end_inset
 
@@ -10407,7 +10409,7 @@ Abbiamo enunciato nelle sezioni precedenti che la scelta di
 \begin_inset Formula $e$
 \end_inset
 
- troppo piccolo, il quale favorirebbe va velocità di cifratura ma sicuramente
+ troppo piccolo, il quale favorirebbe la velocità di cifratura ma sicuramente
  causerebbe la comparsa di un 
 \begin_inset Formula $d$
 \end_inset
@@ -12052,7 +12054,20 @@ name "subsec:Baby-step-giant-step"
 \end_layout
 
 \begin_layout Standard
-Consideriamo le ipotesi per il problema descritto dall'equazione 
+Consideriamo le ipotesi per il pro
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+blema descritto dall'equazione 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:Equazione-congruenziale-log-discreto"
@@ -12096,8 +12111,8 @@ Costruiamo ora due successioni
 \begin{array}{ccccc}
 \boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
 0 & 1 &  & 0 & \beta\\
-1 & \alpha &  & 1 & \beta\cdot a^{-N}\\
-2 & \alpha^{2} &  & 2 & \beta\cdot a^{-2N}\\
+1 & \alpha &  & 1 & \beta\cdot\alpha^{-N}\\
+2 & \alpha^{2} &  & 2 & \beta\cdot\alpha-2N\\
 \vdots & \vdots &  & \vdots & \vdots
 \end{array}
 \]
@@ -12895,7 +12910,7 @@ resistenza alla contro-immagine
 \end_inset
 
  unidirezionale (non deve essere possibile trovare nemmeno una uscita delle
- infinite che producono certo ingresso);
+ infinite che producono un certo ingresso);
 \end_layout
 
 \begin_layout Itemize
@@ -13042,7 +13057,7 @@ Questa funzione non è invertibile, poiché esistono infiniti messaggi che
 
 ); per quanto appena osservato, tale funzione non è unidirezionale, poiché
  è possibile trovare uno qualunque di quegli infiniti messaggi che producono
- la stessa uscita (basta provare un 
+ la stessa uscita (basta trovare un 
 \begin_inset Formula $x+k\cdot n$
 \end_inset
 
@@ -17152,7 +17167,7 @@ Il suo toziente può essere calcolato come:
 
 \end_inset
 
-Tra i fattori di 288 on compare 
+Tra i fattori di 288 non compare 
 \begin_inset Formula $e=17$
 \end_inset
 
@@ -18575,7 +18590,7 @@ Cooperazione degli utenti
 \end_layout
 
 \begin_layout Standard
-Se sue utenti 
+Se due utenti 
 \begin_inset Formula $A$
 \end_inset
 
@@ -18630,7 +18645,20 @@ T
 
 \begin_layout Standard
 Per contrastare un simile attacco è opportuno autenticare gli utenti; inoltre
- si impiegano delle 
+ si im
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+piegano delle 
 \emph on
 key encryption key
 \emph default
