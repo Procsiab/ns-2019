@@ -9258,7 +9258,7 @@ Consideriamo la successione LFSR definita dal polinomio:
 
 \begin_inset Formula 
 \[
-P\left(Y\right)=Y^{3}+X+1
+P\left(Y\right)=Y^{3}+Y+1
 \]
 
 \end_inset
@@ -12346,7 +12346,7 @@ Il metodo Diffie-Hellman permette di scambiare una chiave simmetrica attraverso
 \end_inset
 
  è costruita come 
-\begin_inset Formula $\mod{\left(\alpha^{x}\right)^{y}}p$
+\begin_inset Formula $\mod{\left(\alpha^{y}\right)^{x}}p$
 \end_inset
 
 ;
@@ -12365,7 +12365,7 @@ Il metodo Diffie-Hellman permette di scambiare una chiave simmetrica attraverso
 \end_inset
 
  è costruita come 
-\begin_inset Formula $\mod{\left(\alpha^{y}\right)^{x}}p$
+\begin_inset Formula $\mod{\left(\alpha^{x}\right)^{y}}p$
 \end_inset
 
 .
@@ -19406,11 +19406,15 @@ entropia di sorgente
 \end_layout
 
 \begin_layout Example
+
+\emph on
 Consideriamo
 \begin_inset Marginal
 status collapsed
 
 \begin_layout Plain Layout
+
+\emph on
 American Standard Code for Information Interchange, si pronuncia 
 \begin_inset ERT
 status open
@@ -19441,7 +19445,7 @@ ae ski:/
 \begin_inset Formula $\vec{a}$
 \end_inset
 
- che useremo.
+ che useremo; ottenere l'entropia di una password così formata.
 \end_layout
 
 \begin_layout Example
@@ -19495,13 +19499,27 @@ Infine, osservando che i simboli non hanno tutti la stessa probabilità di
 ione di probabilità di una certa lingua, da usare nella formula per l'entropia
  della sorgente), possiamo ottenere un'entropia media per carattere ancora
  più bassa.
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+demo
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Example
-Inoltre è ragionevole aspettarsi che caratteri successivi estratti da una
- sorgente siano correlati (digrammi, trigrammi): questo abbassa ancora di
- più l'entropia finale di un determinato messaggio; prendendo un testo in
- lingua italiana sufficientemente lungo come 
+È ragionevole aspettarsi che caratteri successivi estratti da una sorgente
+ siano correlati (digrammi, trigrammi): questo abbassa ancora di più l'entropia
+ finale di un determinato messaggio; prendendo un testo in lingua italiana
+ sufficientemente lungo come 
 \begin_inset Quotes eld
 \end_inset
 
@@ -19618,9 +19636,21 @@ Motivazioni e implementazione
 
 \begin_layout Standard
 Risolve il problema della trasmissione sicura delle credenziali, che in
- questo protocollo non viene effettuata: un segreto viene condiviso in qualche
- maniera tra client e server, e il client deve dimostrare di conoscerlo,
- rispondendo in maniera adeguata a una sfida.
+ questo protocollo non viene effettuata: un segre
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+to viene condiviso in qualche maniera tra client e server, e il client deve
+ dimostrare di conoscerlo, rispondendo in maniera adeguata a una sfida.
 \end_layout
 
 \begin_layout Standard
@@ -19976,10 +20006,22 @@ Token di sicurezza
 
 \begin_layout Standard
 Si tratta di un dispositivo fisico o di un software che genera una password
- mono-uso basandosi sul tempo (OTP valida entro una finestra di tempo, usata
- per sincronizzare il tempo del token col server) o su un contatore (generato
- in modo incrementale secondo una sequenza, permette di sincronizzarla col
- server).
+ mono-uso basandosi sul tempo (OTP valida entro una fine
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+stra di tempo, usata per sincronizzare il tempo del token col server) o
+ su un contatore (generato in modo incrementale secondo una sequenza, permette
+ di sincronizzarla col server).
 \end_layout
 
 \begin_layout Standard
@@ -20180,7 +20222,7 @@ I suoi requisiti di implementazione sono:
 \end_layout
 
 \begin_layout Itemize
-gli utenti accedano ai servizi tramite la rete;
+gli utenti accedono ai servizi tramite la rete;
 \end_layout
 
 \begin_layout Itemize
@@ -20722,7 +20764,7 @@ Nella cifratura a chiave pubblica, la chiave usata per cifrare è pubblica
 \begin_layout Standard
 Questo problema viene risolto dall'infrastruttura a chiave pubblica (public
  key inrastructure, PKI), un insieme di procedure e regole per generare,
- pubblicare e certificare le chiavi pubbliche; essa si bassa su 
+ pubblicare e certificare le chiavi pubbliche; essa si basa su 
 \emph on
 certificati
 \emph default
@@ -20834,7 +20876,7 @@ versione
 \end_layout
 
 \begin_layout Itemize
-numero di serie (ogni certificato ha uno univoco, rispetto alla sue CA emittente
+numero di serie (ogni certificato ha uno univoco, rispetto alla sua CA emittente
 );
 \end_layout
 
@@ -21254,8 +21296,20 @@ I servizi che il TLS Record Protocol sono i seguenti:
 \series bold
 Confidenzialità
 \series default
- lo Handshake Protocol definisce una chiave segreta condivisa usata per
- la crittografia del 
+ lo Handshake Protocol definisce una chiave segreta condivisa usa
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+ta per la crittografia del 
 \emph on
 payload
 \emph default

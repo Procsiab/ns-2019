@@ -2537,7 +2537,7 @@ dei dati confusi.\bigskip{}
 \begin{example}
 \emph{Consideriamo la successione LFSR definita dal polinomio:}
 \[
-P\left(Y\right)=Y^{3}+X+1
+P\left(Y\right)=Y^{3}+Y+1
 \]
 \emph{Implementare uno scrambler descritto da $P\left(Y\right)$.}
 \end{example}
@@ -3201,9 +3201,9 @@ intero $x\in\left[1,\,p-2\right]$, e invia a $\mathbf{B}$ $\mod{\alpha^{x}}p$;
 \item $\mathbf{A}\leftarrow\mathbf{B}$: $\mathbf{B}$ sceglie a caso un
 intero $y\in\left[1,\,p-2\right]$, e invia ad $\mathbf{A}$ $\mod{\alpha^{y}}p$;
 \item $K_{\mathbf{A}\rightarrow\mathbf{B}}$: la chiave che $\mathbf{A}$
-usa per scrivere a $\mathbf{B}$ è costruita come $\mod{\left(\alpha^{x}\right)^{y}}p$;
+usa per scrivere a $\mathbf{B}$ è costruita come $\mod{\left(\alpha^{y}\right)^{x}}p$;
 \item $K_{\mathbf{A}\leftarrow\mathbf{B}}$: la chiave che $\mathbf{B}$
-usa per rispondere ad $\mathbf{A}$ è costruita come $\mod{\left(\alpha^{y}\right)^{x}}p$.
+usa per rispondere ad $\mathbf{A}$ è costruita come $\mod{\left(\alpha^{x}\right)^{y}}p$.
 \end{enumerate}
 Si verifica facilmente che le chiavi generate con questo algoritmo
 sono uguali:
@@ -4672,11 +4672,12 @@ L'informazione media di una sorgente, per carattere sull'alfabeto,
 \end{equation}
 \end{defn}
 \begin{example}
-Consideriamo\marginpar{American Standard Code for Information Interchange, si pronuncia /$^{\prime}$\ae ski:/}
-una password alfabetica, che usi caratteri definiti tramite 7 bit;
-dei $2^{7}=128$ caratteri ASCII, 32 sono di controllo (non stampabili
-e non usati nelle password) e i restanti 95 simboli saranno l'alfabeto
-$\vec{a}$ che useremo.
+\emph{Consideriamo}\marginpar{\emph{American Standard Code for Information Interchange, si pronuncia
+/$^{\prime}$\ae ski:/}}\emph{ una password alfabetica, che usi caratteri definiti tramite
+7 bit; dei $2^{7}=128$ caratteri ASCII, 32 sono di controllo (non
+stampabili e non usati nelle password) e i restanti 95 simboli saranno
+l'alfabeto $\vec{a}$ che useremo; ottenere l'entropia di una password
+così formata.}
 
 Applicando la formula (\ref{eq:Entropia-sorgente}) su una sorgente
 di informazione $A$ con tale alfabeto, in cui i simboli in uscita
@@ -4693,12 +4694,12 @@ Infine, osservando che i simboli non hanno tutti la stessa probabilità
 di apparire all'interno di una determinata lingua (si può determinare
 la distribuzione di probabilità di una certa lingua, da usare nella
 formula per l'entropia della sorgente), possiamo ottenere un'entropia
-media per carattere ancora più bassa.
+media per carattere ancora più bassa. \demo
 
-Inoltre è ragionevole aspettarsi che caratteri successivi estratti
-da una sorgente siano correlati (digrammi, trigrammi): questo abbassa
-ancora di più l'entropia finale di un determinato messaggio; prendendo
-un testo in lingua italiana sufficientemente lungo come ``I promessi
+È ragionevole aspettarsi che caratteri successivi estratti da una
+sorgente siano correlati (digrammi, trigrammi): questo abbassa ancora
+di più l'entropia finale di un determinato messaggio; prendendo un
+testo in lingua italiana sufficientemente lungo come ``I promessi
 sposi'' (A. Manzoni) ed estraendo cinque simboli dalla sorgente $P$
 (che usa alfabeto di 21 lettere) otteniamo:
 \[
@@ -4732,7 +4733,7 @@ ecc\ldots).
 \subsection{Motivazioni e implementazione}
 
 Risolve il problema della trasmissione sicura delle credenziali, che
-in questo protocollo non viene effettuata: un segreto viene condiviso
+in questo protocollo non viene effettuata: un segre\-to viene condiviso
 in qualche maniera tra client e server, e il client deve dimostrare
 di conoscerlo, rispondendo in maniera adeguata a una sfida.
 
@@ -4813,7 +4814,7 @@ al posto di \textbf{A}.
 \subsection{Token di sicurezza}
 
 Si tratta di un dispositivo fisico o di un software che genera una
-password mono-uso basandosi sul tempo (OTP valida entro una finestra
+password mono-uso basandosi sul tempo (OTP valida entro una fine\-stra
 di tempo, usata per sincronizzare il tempo del token col server) o
 su un contatore (generato in modo incrementale secondo una sequenza,
 permette di sincronizzarla col server).
@@ -4912,7 +4913,7 @@ e il tentativo di impersonare gli utenti legittimi).
 
 I suoi requisiti di implementazione sono:
 \begin{itemize}
-\item gli utenti accedano ai servizi tramite la rete;
+\item gli utenti accedono ai servizi tramite la rete;
 \item i server limitano l'accesso agli utenti autorizzati e autenticano
 le richieste per i singoli servizi;
 \item basato sul protocollo Needham-Schroeder (§~\ref{subsec:Protocollo-Needham-Schroeder}),
@@ -5059,9 +5060,9 @@ di una informazione pubblica, è necessario che sia autenticata.
 Questo problema viene risolto dall'infrastruttura a chiave pubblica
 (public key inrastructure, PKI), un insieme di procedure e regole
 per generare, pubblicare e certificare le chiavi pubbliche; essa si
-bassa su \emph{certificati} (documenti elettronici) che legano la
-chiave pubblica all'entità che l'ha generata; un certificato garantisce
-quindi l'autenticità di una chiave.
+basa su \emph{certificati} (documenti elettronici) che legano la chiave
+pubblica all'entità che l'ha generata; un certificato garantisce quindi
+l'autenticità di una chiave.
 
 Il processo che determina la validità di un certificato si chiama
 \emph{validazione}; questo implica che sarà necessario fidarsi di
@@ -5115,7 +5116,7 @@ per tali utenti, tramite certificati.
 I certificati X.509 hanno una struttura costituita dai seguenti campi:
 \begin{itemize}
 \item versione
-\item numero di serie (ogni certificato ha uno univoco, rispetto alla sue
+\item numero di serie (ogni certificato ha uno univoco, rispetto alla sua
 CA emittente);
 \item nome della CA;
 \item periodo di validità;
@@ -5270,7 +5271,7 @@ e decifrare sul server);
 I servizi che il TLS Record Protocol sono i seguenti:
 \begin{lyxlist}{00.00.0000}
 \item [{\textbf{Confidenzialità}}] lo Handshake Protocol definisce una
-chiave segreta condivisa usata per la crittografia del \emph{payload}
+chiave segreta condivisa usa\-ta per la crittografia del \emph{payload}
 TLS;
 \item [{\textbf{Integrità}}] lo Handshake Protocol inoltre definisce una
 chiave segreta usata come codice per autenticare i messaggi (MAC).
