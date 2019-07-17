@@ -21655,6 +21655,854 @@ Se la connessione HTTPS si interrompe in modo inaspettato sullo strato TCP,
  in ogni caso è opportuno mostrare un errore.
 \end_layout
 
+\begin_layout Section
+Posta elettronica sicura
+\end_layout
+
+\begin_layout Subsection
+Simple Mail Transfer Protocol (SMTP)
+\end_layout
+
+\begin_layout Standard
+All'interno dell'RFC 5598 vi è la specifica dell'architettura per l'
+\emph on
+Internet Email
+\emph default
+, fondata su agenti chiamati MTA (Mail Transfer Agent), che trasferiscono
+ i messaggi tra loro fino a consegnarli alla destinazione corretta.
+ I messaggi di posta elettronica scambiati usando questa architettura vengono
+ inviati in chiaro, attraverso una connessione TCP, tramite il protocollo
+ SMTP (Simple Mail Transfer Protocol).
+\end_layout
+
+\begin_layout Standard
+In pratica, il protocollo si basa su una conversazione tra client e server,
+ basata su comandi testuali (in codifica ASCII); la porta predefinita per
+ le connessioni in ingresso a un server SMTP è la numero 25.
+\end_layout
+
+\begin_layout Subsection
+STARTTLS
+\end_layout
+
+\begin_layout Standard
+La prima strategia che è stata usata per rendere SMTP sicuro si basava sull'uso
+ di TLS per cifrare la comunicazione col server: l'RFC 3207 definisce l'estensio
+ne dell'SMTP sicuro sopra TLS.
+\end_layout
+
+\begin_layout Standard
+Questa estensione si basa sull'implementazione del comando 
+\family typewriter
+STARTTLS
+\family default
+, utilizzato nel modo seguente:
+\end_layout
+
+\begin_layout Itemize
+il server risponde all'handshake del client con un codice 
+\family typewriter
+250 STARTTLS
+\family default
+, suggerendo al client l'uso dell'estensione sicura;
+\end_layout
+
+\begin_layout Itemize
+il client invia al server il comando STARTTLS per avviare la connessione
+ sicura tramite TLS; il server assegnerà la porta 587 alla connessione 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+
+
+\family typewriter
+SMTP
+\begin_inset space ~
+\end_inset
+
++
+\begin_inset space ~
+\end_inset
+
+TLS
+\family default
+;
+\end_layout
+
+\begin_layout Itemize
+se il server risponde col codice 
+\family typewriter
+220
+\family default
+, viene instaurata una connessione TLS tra le due parti.
+\end_layout
+
+\begin_layout Standard
+Esiste un approccio differente (deprecato) implementato sotto forma di SMTPS,
+ che utilizza una connessione TLS sulla porta 465 del server e all'interno
+ di essa viene effettuata la comunicazione SMTP.
+ 
+\end_layout
+
+\begin_layout Subsection
+Post Office Protocol (POP3)
+\end_layout
+
+\begin_layout Standard
+Se vogliamo interrogare il server con la nostra casella email (MTA) per
+ scaricare i messaggi di posta e cancellarli dal server, possiamo usare
+ il protocollo per la ricezione POP3; esso sfrutta una connessione sulla
+ porta standard 110, trasferendo in chiaro ciascuna informazione (anche
+ la password!); per questo motivo è stata introdotta l'estensione con l'implemen
+tazione del comando STARTTLS, la quale permette di instaurare una connessione
+ cifrata dopo l'handshake iniziale.
+\end_layout
+
+\begin_layout Standard
+Esiste anche la variante POP3S, che permette di collegarsi al server tramite
+ una connessione TLS sulla porta 995.
+\end_layout
+
+\begin_layout Subsection
+Internet Mail Access Protocol (IMAP)
+\end_layout
+
+\begin_layout Standard
+Se 
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+In generale, IMAP offre più funzioni e autenticazione più forte rispetto
+ a POP3
+\end_layout
+
+\end_inset
+
+vogliamo controllare i messaggi di posta presenti nella casella email senza
+ rimuoverli dal server (MTA), allora possiamo usare il protocollo IMAP,
+ connettendoci con TCP alla porta 143 del server e inviandogli i comandi
+ adatti; è opportuno utilizzare l'estensione sicura di IMAP, che sfrutta
+ l'implementazione del comando STARTTLS.
+\end_layout
+
+\begin_layout Standard
+Possiamo inoltre usare la variante IMAPS, che permette di collegarci al
+ server tramite una connessione TLS sulla porta 993.
+\end_layout
+
+\begin_layout Subsection
+Struttura dei messaggi
+\end_layout
+
+\begin_layout Standard
+L'RFC 5322 definisce gli standard per i messaggi testuali di posta elettronica,
+ caratterizzati dalla suddivisione del contenuto (solo testuale, ASCII a
+ 7bit) in 
+\emph on
+envelope
+\emph default
+ (comprende i metadati come data di invio, mittente, destinatario, ecc
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+ldots
+\end_layout
+
+\end_inset
+
+) e 
+\emph on
+content
+\emph default
+ (comprende il testo del mesaggio vero e proprio).
+\end_layout
+
+\begin_layout Standard
+Successivamente, per risolvere il problema dell'invio di file binari che
+ avessero biso
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+gno di una codifica a 8bit rispetto ai 7bit concessi da ASCII, è stata aggiunta
+ l'estensione 
+\series bold
+MIME
+\series default
+ (Multipurpose Internet Mail Extension) al protocollo SMTP: essa permette
+ di convertire una codifica in 8bit in un'altra solo testuale a 7bit, permettend
+o il trasferimento di file binari e digitali attraverso il protocollo SMTP.
+\end_layout
+
+\begin_layout Subsection
+Minacce alla sicurezza della posta elettronica
+\end_layout
+
+\begin_layout Standard
+Possiamo riassumere le minacce alla sicurezza dell'Internet Email nelle
+ seguenti categorie:
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+Autenticità
+\noun default
+: il mittente potrebbe non essere quello rappresentato dal metadato nell'header
+ del messaggio;
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+Integrità
+\noun default
+: il messaggio che è arrivato al destinatario potrebbe essere stato modificato
+ durante l'inoltro tra i Mail Transfer Agent;
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+Confidenzialità
+\noun default
+: il contenuto del messaggio potrebbe essere stato letto da un soggetto
+ differente da quello associato all'account del destinatario;
+\end_layout
+
+\begin_layout Enumerate
+
+\noun on
+Disponibilità
+\noun default
+: potrebbe essere possibile negare agli utenti la disponibilità del servizio
+ di inoltro e consegna dei messaggi.
+\end_layout
+
+\begin_layout Standard
+Per risolvere o mitigare questi problemi, sono state introdotte le seguenti
+ estensioni o varianti dei protocolli mostrati in precedenza:
+\end_layout
+
+\begin_layout Itemize
+usare STARTTLS sia per l'SMTP sia per la ricezione dei messaggi (POP / IMAP),
+ garantendo autenticità, integrità, confidenzialità e non-ripudio;
+\end_layout
+
+\begin_layout Itemize
+usare S/MIME per trasmettere file binari garantendo l'integrità del contenuto
+ del messaggio;
+\end_layout
+
+\begin_layout Itemize
+usare DNSSEC per garantire autenticità e integrità della comunicazione col
+ servizio DNS per determinare il Mail Transfer Agent col quale comunicare;
+\end_layout
+
+\begin_layout Itemize
+usare DANE per autenticare le chiavi pubbliche associate ai nomi dei domini;
+\end_layout
+
+\begin_layout Itemize
+usare SPF per autorizzare solo a un determinato intervallo di indirizzi
+ IP per essere mittenti verso un server mail specifico;
+\end_layout
+
+\begin_layout Itemize
+usare DKIM per permettere a un MTA di firmare campi specifici dell'header
+ e il contenuto di un messaggio, e di verificare la sua integrità;
+\end_layout
+
+\begin_layout Itemize
+usare DMARC per segnalare ai mittenti l'efficacia delle loro politiche SPF
+ e DKIM, e segnalare ai destinatari quali azioni è opportuno intraprendere
+ nel caso di vari scenari di attacchi.
+\end_layout
+
+\begin_layout Subsection
+Pretty Good Privacy (PGP)
+\end_layout
+
+\begin_layout Standard
+Sistema alternativo all'S/MIME, che offre delle funzionalità simili ma le
+ implementa diversamente; in particolare S/MIME si basa su certificati per
+ autenticare gli utenti, mentre PGP usa il principio del 
+\begin_inset Quotes eld
+\end_inset
+
+
+\emph on
+web of trust
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+ (si si fida della chiave pubblica firmata da qualcuno di cui ci si fida).
+\end_layout
+
+\begin_layout Standard
+PGP permette di autenticare e cifrare i messaggi, combinando anche queste
+ funzionalità; esse sono realizzate come segue.
+\end_layout
+
+\begin_layout Subsection*
+Autenticazione del messaggio
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ calcola il digest 
+\begin_inset Formula $\overline{m}$
+\end_inset
+
+ del messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ da autenticare (per esempio) usando l'hash SHA-1;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ firma il digest, usando (di solito) RSA, elevando 
+\begin_inset Formula $\overline{m}$
+\end_inset
+
+ all'esponente segreto 
+\begin_inset Formula $\mod dn$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia a 
+\series bold
+B
+\series default
+ in chiaro la firma del digest 
+\begin_inset Formula $\mod{\overline{m}^{d}}n$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ si fida della chiave pubblica di 
+\series bold
+A
+\series default
+, e verifica la firma ricevuta elevandola all'esponente pubblico 
+\begin_inset Formula $\mod en$
+\end_inset
+
+ e poi confrontando il risultato col digest del messaggio;
+\end_layout
+
+\begin_layout Enumerate
+Se 
+\begin_inset Formula $\mod{\left(\overline{m}^{d}\right)^{e}}n$
+\end_inset
+
+ corrisponde al digest del messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ e 
+\series bold
+B
+\series default
+ si fida della chiave pubblica di 
+\series bold
+A
+\series default
+, il messaggio è considerato autenticato e viene accettato.
+\end_layout
+
+\begin_layout Subsection*
+Cifratura del messaggio
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ genera la chiave di sessione simmetrica 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ come un numero casuale di 128 bit (essa sarà usata una volta sola);
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ cifra il messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ con la chiave di sessione con 3DES, poi cifra la chiave di sessione 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ con RSA;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia 
+\begin_inset Formula $m$
+\end_inset
+
+ e 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ cifrati a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ decifra la chiave di sessione 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ e a sua volta usa la chiave di sessione per decifrare il messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In questo algoritmo di cifratura viene usata una chiave simmetrica per cifrare
+ il messaggio, per velocizzare la decifratura (la sicurezza dell'algoritmo
+ non viene compromessa da questa scelta, poiché la chiave simmetrica è comunque
+ inviata dopo essere stata cifrata con RSA).
+ Si osserva che non è richiesta la fiducia nel mittente del messaggio.
+\end_layout
+
+\begin_layout Subsection*
+Autenticazione e cifratura
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ 
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Scegliamo di firmare prima e cifrare poi per mitigare alcuni tipi di attacchi;
+ per maggiori informazioni fare riferimento al seguente articolo: 
+\emph on
+
+\begin_inset CommandInset href
+LatexCommand href
+name "Defective Signs & Encryption"
+target "http://world.std.com/~dtd/sign_encrypt/sign_encrypt7.html"
+literal "false"
+
+\end_inset
+
+
+\emph default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+footnotemark
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+calcola il digest 
+\begin_inset Formula $\overline{m}$
+\end_inset
+
+ del suo messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+, e firma il digest con RSA, ottenendo 
+\begin_inset Formula $\text{sig}\left(\overline{m}\right)\coloneqq\mod{\overline{m}^{d}}n$
+\end_inset
+
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ genera una chiave di sessione simmetrica 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ con 128 bit casuali;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ cifra 
+\begin_inset Formula $\text{sig}\left(\overline{m}\right)\|m$
+\end_inset
+
+ tramite chiave di sessione 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ usando (per esempio) 3DES, poi cifra 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ tramite RSA;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+A
+\series default
+ invia messaggio con firma e chiave di sessione cifrati a 
+\series bold
+B
+\series default
+;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ decifra la chiave di sessione 
+\begin_inset Formula $k_{s}$
+\end_inset
+
+ (tramite la propria chiave privata), e a sua volta la usa per decifrare
+ il messaggio con firma;
+\end_layout
+
+\begin_layout Enumerate
+
+\series bold
+B
+\series default
+ verifica che la firma RSA 
+\begin_inset Formula $\text{sig}\left(\overline{m}\right)$
+\end_inset
+
+ corrisponda a quella del messaggio 
+\begin_inset Formula $m$
+\end_inset
+
+ (usando la chiave pubblica di 
+\series bold
+A
+\series default
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+footnotetext{
+\backslash
+url{http://world.std.com/~dtd/sign_encrypt/sign_encrypt7.html}}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+IPSec
+\end_layout
+
+\begin_layout Standard
+Protocollo di sicurezza per il livello di rete, che fornisce il servizio
+ di trasporto dei pacchetti IP in maniera sicura; risulta trasparente ai
+ livelli superiori dello stack di rete.
+ Questo protocollo ricopre tre aree funzionali:
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+autenticazione
+\emph default
+: verifica del mittente e dell'integrità dei pacchetti;
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+confidenzialità
+\emph default
+: il contenuto dei pacchetti è cifrato;
+\end_layout
+
+\begin_layout Itemize
+
+\emph on
+gestione delle chiavi
+\emph default
+: scambio sicuro delle chiavi affidabili.
+\end_layout
+
+\begin_layout Standard
+IPSec prevede varie applicazioni e tipi di trasporto differenti; noi siamo
+ interessati al tunneling.
+\end_layout
+
+\begin_layout Subsection
+Tunneling
+\end_layout
+
+\begin_layout Standard
+Consiste nel prendere un pacchetto IP, cifrarlo, au
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+tenticarlo, e usarlo come payload di un'altro pacchetto IP; questo nuovo
+ pacchetto ha la struttura di un pacchetto IP, dunque può viaggiare in una
+ rete di dispositivi che non conoscono necessariamente IPSec.
+\end_layout
+
+\begin_layout Standard
+La comunicazione in 
+\emph on
+tunnel mode
+\emph default
+ viene realizzata da una funzione combinata di au
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+tenticazione e cifratura chiamata 
+\emph on
+ESP
+\emph default
+ (Encapsulating Security Payload, il pacchetto ESP diventa payload del pacchetto
+ autenticato), assieme allo scambio delle chiavi.
+\end_layout
+
+\begin_layout Standard
+In pratica la tunnel mode realizza una 
+\emph on
+VPN
+\emph default
+ sicura (Virtual Private Network, rete privata virtuale) attraverso Internet.
+\end_layout
+
+\begin_layout Standard
+Oltre a poter mettere in sicurezza tutto il traffico perimetrale di una
+ rete se implementato su un 
+\emph on
+firewall
+\emph default
+ ed essere trasparente a utenti e applicazioni, IPSec viene applicato per
+ mettere in sicurezza il traffico dei protocolli di routing (come OSPF).
+\end_layout
+
+\begin_layout Subsection*
+Transport mode
+\end_layout
+
+\begin_layout Standard
+In questa modalità di funzionamento, IPSec fornisce protezione ai protocolli
+ di livello superiore, ovvero il payload dei pacchetti IP viene estratto
+ e cifrato.
+ Al contrario, la tunnel mode protegge l'intero pacchetto IP, compreso l'header
+ e altri metadati.
+\end_layout
+
+\begin_layout Subsection*
+Tunnel mode
+\end_layout
+
+\begin_layout Standard
+Per realizzare questa modalità di funzionamento la specifica prevede di:
+\end_layout
+
+\begin_layout Itemize
+aggiungere al pacchetto IP campi addizionali per il protocollo ESP;
+\end_layout
+
+\begin_layout Itemize
+l'intero pacchetto IP insieme ai campi addizionali sono cifrati e considerati
+ il payload di un nuovo pacchetto IP;
+\end_layout
+
+\begin_layout Itemize
+nessun dispositivo intermedio è in grado di osservare il payload di questo
+ pacchetto;
+\end_layout
+
+\begin_layout Itemize
+ESP cifra e (opzionalmente) autentica il pacchetto IP interno (payload).
+\end_layout
+
+\begin_layout Standard
+Se i due nodi che comunicano via IPSec sono parte di una SA (Security Associatio
+n, per esempio due 
+\emph on
+gateway
+\emph default
+, router o firewall che implementano IPSec), i nodi ad essi connessi sulla
+ rete locale non hanno necessità di implementare IPSec.
+\end_layout
+
+\begin_layout Subsection
+Security policy
+\end_layout
+
+\begin_layout Standard
+La cifratura e l'autenticazione in IPSec viene determinata pacchetto per
+ pacchetto, in base a un'insieme di regole chiamato 
+\emph on
+security policy
+\emph default
+; queste regole sono determinate dall'interazione tra due database:
+\end_layout
+
+\begin_layout Itemize
+SAD (Security Association Database): memorizza le SA registrate e i parametri
+ SPI corrispondenti;
+\end_layout
+
+\begin_layout Itemize
+SPD (Security Policy Database): memorizza le regole relative a ciascuna
+ SA, sotto forma di sottoinsiemi di traffico IP e relazioni uno-a-molti.
+\end_layout
+
+\begin_layout Standard
+In ciascun pacchetto IP, la SA corrispondente è identificata da indirizzo
+ di destinazione e i parametri SPI (Security Parameters Index) nell'header
+ dell'estensione ESP; 
+\end_layout
+
+\begin_layout Subsection
+Internet Key Exchange (IKE)
+\end_layout
+
+\begin_layout Standard
+Insieme di protocolli per generare e trasferire le chiavi necessarie alla
+ comunicazione sicura con IPSec; in particolare, vengono usati certificati
+ X.509 e lo scambio Diffie-Hellman per instaurare un segreto di sessione
+ condiviso, derivando due paia di chiavi per ciascuna comunicazione (una
+ chiave per trasmissione e una per ricezione, due paia per ridondanza).
+\end_layout
+
+\begin_layout Standard
+Per configurare una SA si usano:
+\end_layout
+
+\begin_layout Itemize
+il protocollo di instaurazione della chiave di Oakley (generico, simile
+ a Diffie-Hellman);
+\end_layout
+
+\begin_layout Itemize
+il protocollo di instaurazione delle SA chiamato ISAKMP (RFC 2408), che
+ fornisce un 
+\emph on
+framework
+\emph default
+ per lo scambio delle chiavi e per l'autenticazione.
+\end_layout
+
 \begin_layout Chapter
 \start_of_appendix
 Introduzione alla crittografia

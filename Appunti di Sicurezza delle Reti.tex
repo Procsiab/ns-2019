@@ -1,4 +1,4 @@
-%% LyX 2.3.2 created this file.  For more info, see http://www.lyx.org/.
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
 %% Do not edit unless you really know what you are doing.
 \RequirePackage{fix-cm}
 \documentclass[12pt,italian]{amsbook}
@@ -5381,6 +5381,275 @@ Protocol per inviare l'avviso di chiusura.
 Se la connessione HTTPS si interrompe in modo inaspettato sullo strato
 TCP, questo può indicare un errore di implementazione o un possibile
 attacco: in ogni caso è opportuno mostrare un errore.
+
+\section{Posta elettronica sicura}
+
+\subsection{Simple Mail Transfer Protocol (SMTP)}
+
+All'interno dell'RFC 5598 vi è la specifica dell'architettura per
+l'\emph{Internet Email}, fondata su agenti chiamati MTA (Mail Transfer
+Agent), che trasferiscono i messaggi tra loro fino a consegnarli alla
+destinazione corretta. I messaggi di posta elettronica scambiati usando
+questa architettura vengono inviati in chiaro, attraverso una connessione
+TCP, tramite il protocollo SMTP (Simple Mail Transfer Protocol).
+
+In pratica, il protocollo si basa su una conversazione tra client
+e server, basata su comandi testuali (in codifica ASCII); la porta
+predefinita per le connessioni in ingresso a un server SMTP è la numero
+25.
+
+\subsection{STARTTLS}
+
+La prima strategia che è stata usata per rendere SMTP sicuro si basava
+sull'uso di TLS per cifrare la comunicazione col server: l'RFC 3207
+definisce l'estensione dell'SMTP sicuro sopra TLS.
+
+Questa estensione si basa sull'implementazione del comando \texttt{STARTTLS},
+utilizzato nel modo seguente:
+\begin{itemize}
+\item il server risponde all'handshake del client con un codice \texttt{250
+STARTTLS}, suggerendo al client l'uso dell'estensione sicura;
+\item il client invia al server il comando STARTTLS per avviare la connessione
+sicura tramite TLS; il server assegnerà la porta 587 alla connessione
+\\\texttt{SMTP~+~TLS};
+\item se il server risponde col codice \texttt{220}, viene instaurata una
+connessione TLS tra le due parti.
+\end{itemize}
+Esiste un approccio differente (deprecato) implementato sotto forma
+di SMTPS, che utilizza una connessione TLS sulla porta 465 del server
+e all'interno di essa viene effettuata la comunicazione SMTP. 
+
+\subsection{Post Office Protocol (POP3)}
+
+Se vogliamo interrogare il server con la nostra casella email (MTA)
+per scaricare i messaggi di posta e cancellarli dal server, possiamo
+usare il protocollo per la ricezione POP3; esso sfrutta una connessione
+sulla porta standard 110, trasferendo in chiaro ciascuna informazione
+(anche la password!); per questo motivo è stata introdotta l'estensione
+con l'implementazione del comando STARTTLS, la quale permette di instaurare
+una connessione cifrata dopo l'handshake iniziale.
+
+Esiste anche la variante POP3S, che permette di collegarsi al server
+tramite una connessione TLS sulla porta 995.
+
+\subsection{Internet Mail Access Protocol (IMAP)}
+
+Se \marginpar{In generale, IMAP offre più funzioni e autenticazione più forte rispetto
+a POP3}vogliamo controllare i messaggi di posta presenti nella casella email
+senza rimuoverli dal server (MTA), allora possiamo usare il protocollo
+IMAP, connettendoci con TCP alla porta 143 del server e inviandogli
+i comandi adatti; è opportuno utilizzare l'estensione sicura di IMAP,
+che sfrutta l'implementazione del comando STARTTLS.
+
+Possiamo inoltre usare la variante IMAPS, che permette di collegarci
+al server tramite una connessione TLS sulla porta 993.
+
+\subsection{Struttura dei messaggi}
+
+L'RFC 5322 definisce gli standard per i messaggi testuali di posta
+elettronica, caratterizzati dalla suddivisione del contenuto (solo
+testuale, ASCII a 7bit) in \emph{envelope} (comprende i metadati come
+data di invio, mittente, destinatario, ecc\ldots) e \emph{content}
+(comprende il testo del mesaggio vero e proprio).
+
+Successivamente, per risolvere il problema dell'invio di file binari
+che avessero biso\-gno di una codifica a 8bit rispetto ai 7bit concessi
+da ASCII, è stata aggiunta l'estensione \textbf{MIME} (Multipurpose
+Internet Mail Extension) al protocollo SMTP: essa permette di convertire
+una codifica in 8bit in un'altra solo testuale a 7bit, permettendo
+il trasferimento di file binari e digitali attraverso il protocollo
+SMTP.
+
+\subsection{Minacce alla sicurezza della posta elettronica}
+
+Possiamo riassumere le minacce alla sicurezza dell'Internet Email
+nelle seguenti categorie:
+\begin{enumerate}
+\item \noun{Autenticità}: il mittente potrebbe non essere quello rappresentato
+dal metadato nell'header del messaggio;
+\item \noun{Integrità}: il messaggio che è arrivato al destinatario potrebbe
+essere stato modificato durante l'inoltro tra i Mail Transfer Agent;
+\item \noun{Confidenzialità}: il contenuto del messaggio potrebbe essere
+stato letto da un soggetto differente da quello associato all'account
+del destinatario;
+\item \noun{Disponibilità}: potrebbe essere possibile negare agli utenti
+la disponibilità del servizio di inoltro e consegna dei messaggi.
+\end{enumerate}
+Per risolvere o mitigare questi problemi, sono state introdotte le
+seguenti estensioni o varianti dei protocolli mostrati in precedenza:
+\begin{itemize}
+\item usare STARTTLS sia per l'SMTP sia per la ricezione dei messaggi (POP
+/ IMAP), garantendo autenticità, integrità, confidenzialità e non-ripudio;
+\item usare S/MIME per trasmettere file binari garantendo l'integrità del
+contenuto del messaggio;
+\item usare DNSSEC per garantire autenticità e integrità della comunicazione
+col servizio DNS per determinare il Mail Transfer Agent col quale
+comunicare;
+\item usare DANE per autenticare le chiavi pubbliche associate ai nomi dei
+domini;
+\item usare SPF per autorizzare solo a un determinato intervallo di indirizzi
+IP per essere mittenti verso un server mail specifico;
+\item usare DKIM per permettere a un MTA di firmare campi specifici dell'header
+e il contenuto di un messaggio, e di verificare la sua integrità;
+\item usare DMARC per segnalare ai mittenti l'efficacia delle loro politiche
+SPF e DKIM, e segnalare ai destinatari quali azioni è opportuno intraprendere
+nel caso di vari scenari di attacchi.
+\end{itemize}
+
+\subsection{Pretty Good Privacy (PGP)}
+
+Sistema alternativo all'S/MIME, che offre delle funzionalità simili
+ma le implementa diversamente; in particolare S/MIME si basa su certificati
+per autenticare gli utenti, mentre PGP usa il principio del ``\emph{web
+of trust}'' (si si fida della chiave pubblica firmata da qualcuno
+di cui ci si fida).
+
+PGP permette di autenticare e cifrare i messaggi, combinando anche
+queste funzionalità; esse sono realizzate come segue.
+
+\subsection*{Autenticazione del messaggio}
+\begin{enumerate}
+\item \textbf{A} calcola il digest $\overline{m}$ del messaggio $m$ da
+autenticare (per esempio) usando l'hash SHA-1;
+\item \textbf{A} firma il digest, usando (di solito) RSA, elevando $\overline{m}$
+all'esponente segreto $\mod dn$;
+\item \textbf{A} invia a \textbf{B} in chiaro la firma del digest $\mod{\overline{m}^{d}}n$;
+\item \textbf{B} si fida della chiave pubblica di \textbf{A}, e verifica
+la firma ricevuta elevandola all'esponente pubblico $\mod en$ e poi
+confrontando il risultato col digest del messaggio;
+\item Se $\mod{\left(\overline{m}^{d}\right)^{e}}n$ corrisponde al digest
+del messaggio $m$ e \textbf{B} si fida della chiave pubblica di \textbf{A},
+il messaggio è considerato autenticato e viene accettato.
+\end{enumerate}
+
+\subsection*{Cifratura del messaggio}
+\begin{enumerate}
+\item \textbf{A} genera la chiave di sessione simmetrica $k_{s}$ come un
+numero casuale di 128 bit (essa sarà usata una volta sola);
+\item \textbf{A} cifra il messaggio $m$ con la chiave di sessione con 3DES,
+poi cifra la chiave di sessione $k_{s}$ con RSA;
+\item \textbf{A} invia $m$ e $k_{s}$ cifrati a \textbf{B};
+\item \textbf{B} decifra la chiave di sessione $k_{s}$ e a sua volta usa
+la chiave di sessione per decifrare il messaggio $m$.
+\end{enumerate}
+In questo algoritmo di cifratura viene usata una chiave simmetrica
+per cifrare il messaggio, per velocizzare la decifratura (la sicurezza
+dell'algoritmo non viene compromessa da questa scelta, poiché la chiave
+simmetrica è comunque inviata dopo essere stata cifrata con RSA).
+Si osserva che non è richiesta la fiducia nel mittente del messaggio.
+
+\subsection*{Autenticazione e cifratura}
+\begin{enumerate}
+\item \textbf{A} \marginpar{Scegliamo di firmare prima e cifrare poi per mitigare alcuni tipi
+di attacchi; per maggiori informazioni fare riferimento al seguente
+articolo: \emph{\protect\href{http://world.std.com/~dtd/sign_encrypt/sign_encrypt7.html}{Defective Signs \& Encryption}}\footnotemark}calcola il digest $\overline{m}$ del suo messaggio $m$, e firma
+il digest con RSA, ottenendo $\text{sig}\left(\overline{m}\right)\coloneqq\mod{\overline{m}^{d}}n$;
+\item \textbf{A} genera una chiave di sessione simmetrica $k_{s}$ con 128
+bit casuali;
+\item \textbf{A} cifra $\text{sig}\left(\overline{m}\right)\|m$ tramite
+chiave di sessione $k_{s}$ usando (per esempio) 3DES, poi cifra $k_{s}$
+tramite RSA;
+\item \textbf{A} invia messaggio con firma e chiave di sessione cifrati
+a \textbf{B};
+\item \textbf{B} decifra la chiave di sessione $k_{s}$ (tramite la propria
+chiave privata), e a sua volta la usa per decifrare il messaggio con
+firma;
+\item \textbf{B} verifica che la firma RSA $\text{sig}\left(\overline{m}\right)$
+corrisponda a quella del messaggio $m$ (usando la chiave pubblica
+di \textbf{A}).
+\end{enumerate}
+\footnotetext{\url{http://world.std.com/~dtd/sign_encrypt/sign_encrypt7.html}}
+
+\section{IPSec}
+
+Protocollo di sicurezza per il livello di rete, che fornisce il servizio
+di trasporto dei pacchetti IP in maniera sicura; risulta trasparente
+ai livelli superiori dello stack di rete. Questo protocollo ricopre
+tre aree funzionali:
+\begin{itemize}
+\item \emph{autenticazione}: verifica del mittente e dell'integrità dei
+pacchetti;
+\item \emph{confidenzialità}: il contenuto dei pacchetti è cifrato;
+\item \emph{gestione delle chiavi}: scambio sicuro delle chiavi affidabili.
+\end{itemize}
+IPSec prevede varie applicazioni e tipi di trasporto differenti; noi
+siamo interessati al tunneling.
+
+\subsection{Tunneling}
+
+Consiste nel prendere un pacchetto IP, cifrarlo, au\-tenticarlo,
+e usarlo come payload di un'altro pacchetto IP; questo nuovo pacchetto
+ha la struttura di un pacchetto IP, dunque può viaggiare in una rete
+di dispositivi che non conoscono necessariamente IPSec.
+
+La comunicazione in \emph{tunnel mode} viene realizzata da una funzione
+combinata di au\-tenticazione e cifratura chiamata \emph{ESP} (Encapsulating
+Security Payload, il pacchetto ESP diventa payload del pacchetto autenticato),
+assieme allo scambio delle chiavi.
+
+In pratica la tunnel mode realizza una \emph{VPN} sicura (Virtual
+Private Network, rete privata virtuale) attraverso Internet.
+
+Oltre a poter mettere in sicurezza tutto il traffico perimetrale di
+una rete se implementato su un \emph{firewall} ed essere trasparente
+a utenti e applicazioni, IPSec viene applicato per mettere in sicurezza
+il traffico dei protocolli di routing (come OSPF).
+
+\subsection*{Transport mode}
+
+In questa modalità di funzionamento, IPSec fornisce protezione ai
+protocolli di livello superiore, ovvero il payload dei pacchetti IP
+viene estratto e cifrato. Al contrario, la tunnel mode protegge l'intero
+pacchetto IP, compreso l'header e altri metadati.
+
+\subsection*{Tunnel mode}
+
+Per realizzare questa modalità di funzionamento la specifica prevede
+di:
+\begin{itemize}
+\item aggiungere al pacchetto IP campi addizionali per il protocollo ESP;
+\item l'intero pacchetto IP insieme ai campi addizionali sono cifrati e
+considerati il payload di un nuovo pacchetto IP;
+\item nessun dispositivo intermedio è in grado di osservare il payload di
+questo pacchetto;
+\item ESP cifra e (opzionalmente) autentica il pacchetto IP interno (payload).
+\end{itemize}
+Se i due nodi che comunicano via IPSec sono parte di una SA (Security
+Association, per esempio due \emph{gateway}, router o firewall che
+implementano IPSec), i nodi ad essi connessi sulla rete locale non
+hanno necessità di implementare IPSec.
+
+\subsection{Security policy}
+
+La cifratura e l'autenticazione in IPSec viene determinata pacchetto
+per pacchetto, in base a un'insieme di regole chiamato \emph{security
+policy}; queste regole sono determinate dall'interazione tra due database:
+\begin{itemize}
+\item SAD (Security Association Database): memorizza le SA registrate e
+i parametri SPI corrispondenti;
+\item SPD (Security Policy Database): memorizza le regole relative a ciascuna
+SA, sotto forma di sottoinsiemi di traffico IP e relazioni uno-a-molti.
+\end{itemize}
+In ciascun pacchetto IP, la SA corrispondente è identificata da indirizzo
+di destinazione e i parametri SPI (Security Parameters Index) nell'header
+dell'estensione ESP; 
+
+\subsection{Internet Key Exchange (IKE)}
+
+Insieme di protocolli per generare e trasferire le chiavi necessarie
+alla comunicazione sicura con IPSec; in particolare, vengono usati
+certificati X.509 e lo scambio Diffie-Hellman per instaurare un segreto
+di sessione condiviso, derivando due paia di chiavi per ciascuna comunicazione
+(una chiave per trasmissione e una per ricezione, due paia per ridondanza).
+
+Per configurare una SA si usano:
+\begin{itemize}
+\item il protocollo di instaurazione della chiave di Oakley (generico, simile
+a Diffie-Hellman);
+\item il protocollo di instaurazione delle SA chiamato ISAKMP (RFC 2408),
+che fornisce un \emph{framework} per lo scambio delle chiavi e per
+l'autenticazione.
+\end{itemize}
 
 \appendix
 
