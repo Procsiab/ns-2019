@@ -283,7 +283,7 @@ la loro relazione come $a\perp b$; da questa relazione segue che
 due numeri coprimi non hanno fattori in comune.
 
 Escluso il numero 2, tutti i primi sono dispari, e sono divisi in
-due classi: preso un numero primo $p$, esso appartiene a una delle
+due classi; preso un numero primo $p$, esso appartiene a una delle
 seguenti classi:
 \begin{itemize}
 \item $\cgm p14$
@@ -567,7 +567,7 @@ che 5 e 11 sono primi relativi, usiamo il prodotto invece della divisione:
 \]
 L'inverso di un numero $n$ è quel numero $m$ tale che $n\cdot m=1$;
 dunque cerchiamo l'elemento di $\mathbb{Z}_{11}$ che moltiplicato
-per 5 risulta 1; troviamo $m\cdot5=1\parallel_{\mathbb{Z}_{11}}\implies m=9$,
+per 5 risulta 1; troviamo $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$,
 da cui segue che
 \[
 \cgm x{7\cdot9}{11}
@@ -683,7 +683,7 @@ delle congruenze\emph{
 }
 \end{thm}
 Il teorema afferma che, quanto introdotto all'inizio della sezione,
-può valere nel senso opposto in alcune condizioni specifiche.Osserviamo
+può valere nel senso opposto in alcune condizioni specifiche. Osserviamo
 l'applicazione del teorema in un esempio.
 \begin{example}
 \emph{Sia dato il seguente insieme di congruenze:}
@@ -714,7 +714,7 @@ da cui, rispetto a $\overline{k}$ otteniamo
 \[
 \cgm{\overline{k}}{\left(a-b\right)\cdot m^{-1}}n
 \]
-Il valore $\overline{k}$ corrisponde al $c$ del Teorema \ref{thm:Teorema-cinese-del-resto},
+Il valore $\overline{k}$ permette di ottenere $c=b+\overline{k}\cdot m$:
 esso infatti è congruente sia ad $a$ in modulo $n$, sia a $b$ in
 modulo $m$.\demo
 \end{example}
@@ -732,7 +732,7 @@ Se abbiamo il seguente sistema di congruenze
 \begin{cases}
 \cgm x{a_{1}}{m_{1}}\\
 \cgm x{a_{2}}{m_{2}}\\
-\\
+\quad\vdots\\
 \cgm x{a_{N}}{m_{N}}
 \end{cases}
 \]
@@ -788,7 +788,7 @@ Otterremo infine:
 Il vantaggio di questo metodo è il fatto che si basa solo sull'operazione
 di elevamento al quadrato di numeri piccoli (relativamente al modulo,
 nell'esercizio siamo in $\mathbb{Z}_{26}$). In totale, saranno necessari
-(per questo caso dell'esercizio) $2\cdot\log_{2}\left(11\right)\simeq4$
+(per questo caso dell'esercizio) $\left\lceil \log_{2}\left(11\right)\right\rceil =4$
 passi.\demo
 
 \section{Teorema piccolo di Fermat}
@@ -902,8 +902,8 @@ per cui possiamo scomporre $7^{803}$ nel modo seguente:
 
 \section{Principio fondamentale}
 
-Se abbiamo gli interi $a,\,b,\,n,\,x,\,y$ e $n>0$, tali che $a\perp n$,
-allora se $\cgm xy{\varphi\left(n\right)}$ vale
+Se abbiamo gli interi $a,\,b,\,n,\,x,\,y$ tali che $a\perp n$ e
+$n>0$, allora se $\cgm xy{\varphi\left(n\right)}$ vale
 \begin{equation}
 \cgm{a^{x}}{b^{y}}n\label{eq:Principio-fondamentale}
 \end{equation}
@@ -953,10 +953,10 @@ $n>0$ più piccolo tale che
 Il teorema piccolo di Fermat (\ref{eq:Teorema-piccolo-Fermat}) ci
 assicura che vale sempre $n\leq p-1$, ma non è detto che sia proprio
 $n=p-1$. Chiamiamo quindi $\alpha$ l'elemento primitivo $a\in\mathbb{Z}_{p}^{*}$
-se e solo se l'ordine di $a$ è 1, ovvero non esiste nessun altro
+se e solo se l'ordine di $a$ è $p-1$, ovvero non esiste nessun altro
 intero $n$ per cui $\cgm{a^{n}}1p$; in altri termini vale
 \begin{equation}
-\cgm{a^{n}}1p\iff n=1\label{eq:Condizione-elemento-primitivo}
+\cgm{a^{n}}1p\iff n=p-1\label{eq:Condizione-elemento-primitivo}
 \end{equation}
 Se l'ordine di $a$ fosse proprio $p-1$, allora preso $\alpha^{i}$
 l'elemento primitivo, presi tutti gli interi $i\in\left[1,\,p-1\right]$,
@@ -977,17 +977,17 @@ e inoltre l'ordine di $\alpha$ è pari a $n=p-1$.}
 $\checked$Per trovare se $\alpha$ sia effettivamente una radice
 primitiva di $p$, calcoliamo gli elementi:
 \[
-\left\{ \forall i\in\left[0,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
+\left\{ \forall i\in\left[1,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
 \]
 Otteniamo quindi:
 \[
 \begin{array}{c}
-\cgm{3^{0}}17\\
 \cgm{3^{1}}37\\
 \cgm{3^{2}}27\\
 \cgm{3^{3}}67\\
 \cgm{3^{4}}47\\
 \cgm{3^{5}}57\\
+\cgm{3^{6}}17\\
 \vdots
 \end{array}
 \]
@@ -1000,11 +1000,10 @@ $p$ di un certo insieme $\mathbb{Z}_{p}^{*}$.\demo
 \begin{example}
 \emph{Trovare se $\alpha=2$ sia una radice primitiva di $p=7$.}
 \end{example}
-$\checked$Calcolando di nuovo gli $\alpha^{i}$ con $i\in\left[0,\,p-1\right]$
+$\checked$Calcolando di nuovo gli $\alpha^{i}$ con $i\in\left[1,\,p-1\right]$
 otteniamo
 \[
 \begin{array}{c}
-\cgm{2^{0}}17\\
 \cgm{2^{1}}27\\
 \cgm{2^{2}}47\\
 \cgm{2^{3}}17\\
@@ -1025,8 +1024,8 @@ $\cgm{\beta}{\alpha^{i}}p$ con $1\leq i\leq p-1$, questi $\beta$
 sono tutti e soli gli elementi di $\mathbb{Z}_{p}^{*}$. Se ora prendiamo
 un elemento primitivo di $\mathbb{Z}_{p}^{*}$ espresso come $\beta$
 (tramite la precedente congruenza), il suo ordine sarà dipendente
-dall'esponente $i$ usato per ottenerlo a partire da $\alpha,$e dovrà
-valere
+dall'esponente $i$ usato per ottenerlo a partire da $\alpha$, e
+dovrà valere
 \begin{equation}
 \ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
 \end{equation}
@@ -1238,7 +1237,7 @@ Abbiamo chiamato gli elementi di $\mathbb{Z}_{p}^{*}$ residui modulo
 $p$; i residui quadratici sono residui che corrispondono anche al
 quadrato di qualche elemento dello stesso insieme $\mathbb{Z}_{p}^{*}$.
 
-Chiamiamo $a_{q}\in\mathbb{Z}_{p}^{*}$i residui quadratici per cui
+Chiamiamo $a_{q}\in\mathbb{Z}_{p}^{*}$ i residui quadratici per cui
 valga
 \[
 \cgm{a_{q}}{\left(\pm b\right)^{2}}p
@@ -1246,7 +1245,7 @@ valga
 con $b\in\mathbb{Z}_{p}^{*}$ un elemento dell'insieme a cui appartiene
 anche $a_{q}$.
 
-Osserviamo che $p\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $,
+Osserviamo che $b\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $,
 poiché i residui a partire da $\frac{p-1}{2}+1$ sono i residui negativi
 dei precedenti dal minore al maggiore ($-1=p-1$).
 \begin{example}
@@ -1683,7 +1682,7 @@ di questo modo si basa unicamente su quella della funzione di cifratura
 (in caso di ottima diffusione e confusione, un attaccante non può
 sapere se a IV sta venendo sommato un intero e quale esso sia).
 
-LE funzioni di cifratura e decifratura sono definite come:
+Le funzioni di cifratura e decifratura sono definite come:
 \[
 c_{i}=p_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right),\quad p_{i}=c_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right)
 \]
@@ -2308,7 +2307,7 @@ primo; scegliamo il primo $p=2\cdot p_{1}+1$
 primo; scegliamo il primo $q=2\cdot q_{1}+1$
 \item deve valere $p\neq q$, e $p,\,q\gg1$
 \end{itemize}
-Scegliendo i due primi col criterio appena mostrato, si otterrà in
+Scegliendo i due primi col criterio appena mostrato, si otterrà il
 periodo più lungo possibile.
 
 \section{Successioni LFSR\label{sec:Successioni-LFSR}}
@@ -2418,9 +2417,9 @@ P\left(Y\right)\text{ irriducibile}\land2^{M}-1\text{ primo}\implies\left\{ x_{M
 
 \section{Stato della successione}
 
-Supponiamo di prendere il polinomio $P\left(Y\right)$ irriducibile
-(\ref{eq:polinomio-LFSR-M}), allora possiamo definire il campo di
-Galois con questo polinomio:
+Supponiamo\marginpar{Tutti i conti effettuati in questa sezione sono in modulo $P\left(Y\right)$}
+di prendere il polinomio $P\left(Y\right)$ irriducibile (\ref{eq:polinomio-LFSR-M}),
+allora possiamo definire il campo di Galois con questo polinomio:
 \[
 \mathcal{GF}\left(2^{M}\right)=\mod{\mathbb{Z}_{2}\left[Y\right]}{P\left(Y\right)}
 \]
@@ -2446,10 +2445,13 @@ un residuo in modulo $P\left(Y\right)$, rispetto allo stato iniziale:
 \]
 Chiediamoci dunque sotto quali condizioni $s_{j}\left(Y\right)=s_{0}\left(Y\right)$,
 o in altre parole quanto vale il passo al quale inizia il secondo
-periodo; questo si verifica quando $\cgm{Y^{j}}1{P\left(Y\right)}$.
-Ci interessa il $j$ per cui questa congruenza è vera, quindi ci interessa
-l'intero minimo per cui $Y$ (elemento del campo) elevato a quell'intero
-dia 1 come residuo: in pratica cerchiamo l'ordine dell'elemento $Y$:
+periodo; questo si verifica quando %
+\begin{minipage}[t]{1\columnwidth}%
+$\cgm{Y^{j}}1{P\left(Y\right)}$%
+\end{minipage}. Ci interessa il $j$ per cui questa congruenza è vera, quindi ci
+interessa l'intero minimo per cui $Y$ (elemento del campo) elevato
+a quell'intero dia 1 come residuo: in pratica cerchiamo l'ordine dell'elemento
+$Y$:
 \[
 s_{j}\left(Y\right)=s_{0}\left(Y\right)\implies j=\ord Y,\,Y\in\mathcal{GF}\left(2^{M}\right)
 \]
@@ -2502,7 +2504,7 @@ e discesa del segnale in ricezione.
 
 Il\marginpar{Un test a livello fisico che si effettua sul ricevitore è chiamato
 CID (consecutive identical digits, ovvero cifre identiche consecutive)} problema del clock recovery è l'incapacità di estrarre il sincronismo
-da una sequenza di cifre uguali (tutte 1 o 0). VI sono due strade
+da una sequenza di cifre uguali (tutte 1 o 0). Vi sono due strade
 per ovviare al problema:
 \begin{enumerate}
 \item usare una modulazione differente per codificare il segnale nel canale
@@ -2562,7 +2564,7 @@ Lo scrambler è implementato dal circuito ne \figref{scrambler-auto-sincronizzant
 \end{minipage}
 
 Uno scrambler come quello realizzato nell'esempio, avrà periodo massimo
-7, nel caso in cui l'ingresso sia costituito da una sequenza si cifre
+7, nel caso in cui l'ingresso sia costituito da una sequenza di cifre
 uguali.
 
 Per effettuare l'operazione inversa dello scrambling, basta invertire
@@ -2790,7 +2792,7 @@ inoltre è facile calcolare il suo valore, tramite square and multiply
 (si veda \secref{Square-=000026-multiply}).
 
 Un altro approccio consiste nello scegliere un $d$ sufficientemente
-robusto (50 cifre sono sufficienti), e a partire da esso si calcola
+robusto (50 cifre sono sufficenti), e a partire da esso si calcola
 $e$ effettuando l'inverso in modulo $\varphi\left(n\right)$.
 
 \section{Test di primalità}
@@ -2935,7 +2937,7 @@ densità di primi intorno a $x$:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnot
 \delta\left(x\right)=\frac{1}{\ln\left(x\right)}\label{eq:Densit=0000E0-interi-primi}
 \end{equation}
 La densità calcolata attorno a $10^{100}$ si traduce nella seguente
-osservazione: prendendo a caso un intero di 10 cifre, la probabilità
+osservazione: prendendo a caso un intero di 100 cifre, la probabilità
 che sia primo è circa $1/230$.
 
 \section{Fattorizzazione}
@@ -2987,7 +2989,7 @@ Consideriamo un primo $p$, in tal caso $p-1$ sarà pari, quindi composto:
 p-1=2\cdot\prod_{i=1}^{i=\ldots}q_{i}
 \]
 Possiamo sfruttare questa osservazione solo quando i fattori $q_{i}$
-sono piccoli: se abbiamo almeno un fattore $q_{i}$ grande, l'algoritmo
+sono piccoli: se ab\-biamo almeno un fattore $q_{i}$ grande, l'algoritmo
 di Pollard non semplifica il problema della fattorizzazione.
 
 Dato un intero $n$ da fattorizzare, si scelga una base $a>1$, poi
@@ -3019,9 +3021,7 @@ $\checked$Scegliamo la base $a=2$, e costruiamo la successione (\ref{eq:Successi
 \cgm{b_{4}}{64^{4}}{11413}, & d_{4}=\mcd{105}{11413}=1\\
 \cgm{b_{5}}{106^{5}}{11413}, & d_{5}=\mcd{-309}{11413}=1\\
 \cgm{b_{6}}{-309^{6}}{11413}, & d_{6}=\mcd{9992}{11413}=1\\
-\cgm{b_{7}}{9993^{7}}{11413}, & d_{7}=\mcd{5085}{11413}=1\\
-\cgm{b_{8}}{5086^{8}}{11413}, & d_{8}=\mcd{-1017}{11413}=1\\
-\cgm{b_{9}}{-1016^{9}}{11413}, & d_{9}=\mcd{5537}{11413}=\boxed{113}
+\cgm{b_{7}}{9993^{7}}{11413}, & d_{7}=\mcd{5085}{11413}=\boxed{113}
 \end{array}
 \]
 Otteniamo che un fattore non banale di $n$ è proprio $p=d_{9}=113$,
@@ -3147,14 +3147,14 @@ $N\tc N^{2}\geq p-1$; segue che:
 N=\left\lfloor \sqrt{p-1}\right\rfloor +1
 \]
 Costruiamo ora due successioni $\left\{ \alpha^{j}\right\} $ e $\left\{ \beta\cdot\alpha^{-N\cdot k}\right\} $
-tali che $0\leq j<N$ e $0\leq k<N$>; le successioni così fatte saranno
+tali che $0\leq j<N$ e $0\leq k<N$; le successioni così fatte saranno
 sviluppate come:
 \[
 \begin{array}{ccccc}
-\boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
+\boldsymbol{j} & \boldsymbol{\alpha^{j}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
 0 & 1 &  & 0 & \beta\\
 1 & \alpha &  & 1 & \beta\cdot\alpha^{-N}\\
-2 & \alpha^{2} &  & 2 & \beta\cdot\alpha-2N\\
+2 & \alpha^{2} &  & 2 & \beta\cdot\alpha^{-2N}\\
 \vdots & \vdots &  & \vdots & \vdots
 \end{array}
 \]
@@ -3236,6 +3236,8 @@ computazionale.
 
 \section{Crittosistema a chiave pubblica El Gamal}
 
+\subsection{Algoritmo}
+
 Consideriamo un mittente $\mathbf{A}$ e un destinatario $\mathbf{B}$;
 ipotizziamo che un attaccante $\mathbf{O}$ possa osservare tutto
 il traffico che transita sul canale tra $\mathbf{A}$ e $\mathbf{B}$,
@@ -3276,6 +3278,9 @@ Possiamo calcolare $r^{-a}$ sia passando per l'inverso di $r$ elevato
 ad $a$, sia considerando che $\cgm{r^{-a}}{r^{p-1-a}}p$, per il
 Teorema \ref{thm:Teorema-piccolo-Fermat}.
 \end{rem}
+
+\subsection{Attacco del nonce ripetuto}
+
 Ipotizziamo di utilizzare lo stesso nonce due volte; chiamiamo $m_{i}$
 il testo in chiaro, $c_{i}$ il messaggio cifrato, e $m_{1}\neq m_{2}$,
 allora dalla cifratura si ottiene:
@@ -3308,7 +3313,7 @@ corrispondenza.
 \subsection{Definizione e proprietà}
 
 Una \marginpar{Le funzioni di hash sono state introdotte nella sottosezione §\ref{subsec:Funzioni-di-hash}}[0.5cm]funzione
-di hash è una funzione matematica che prende in ingresso un messaggio
+di hash è una funzione mate\-matica che prende in ingresso un messaggio
 di lunghezza arbitraria, e produce una uscita (di solito corta) di
 lunghezza prefissata.
 
@@ -3466,11 +3471,11 @@ persone, almeno due abbiano il compleanno nello stesso giorno:
 1-\left(1-\frac{1}{365}\right)\cdot\left(1-\frac{2}{365}\right)\cdot\ldots\cdot\left(1-\frac{99}{365}\right)\underset{N\gg r}{\sim}1-e^{-r^{2}/2N}\rightarrow1-e^{-10000/730}\simeq0.999999
 \]
 Nel caso in esame si ha $r=100$ e $N=365$; se invece vogliamo ottenere
-il numero di persone $r$ che rende la probabilità di avere almeno
-una coppia con lo stesso compleanno, possiamo usare al contrario la
-formula approssimata appena enunciata:
+il numero di persone $r$ che renda $1/2$ la probabilità di avere
+almeno una coppia con lo stesso compleanno, possiamo usare al contrario
+la formula approssimata appena enunciata:
 \[
-1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r^{2}\simeq1.17\sqrt{N}
+1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r\simeq1.17\sqrt{N}
 \]
 Quando $r$ è circa uguale alla radice di $N$, la probabilità di
 collisioni è superiore al 50\%.
@@ -3498,7 +3503,7 @@ se $r$ vale:
 \[
 r\simeq\sqrt{2^{60}}=2^{30}\simeq10^{10}
 \]
-In pratica, nel caso di un hash a 60bit, possiamo generare un miliardo
+In pratica, nel caso di un hash a 60bit, possiamo generare dieci miliardi
 di variazioni per un messaggio legittimo e un miliardo di variazioni
 per un messaggio malevolo (modificando virgole, spazi o lettere maiuscole,
 in modo che un osservatore distratto non noti la differenza); dalla
@@ -3573,7 +3578,7 @@ verificabile pubblicamente \textemdash~è l'opposto della cifratura
 in un crittosistema a chiave pubblica: firmando con la chiave segreta
 si permette a tutti di verificare la firma decifrandola con la chiave
 pubblica; questo garantisce che solo chi è in possesso della chiave
-privata associata alla forma, possa generarla.
+privata associata alla firma, possa generarla.
 
 Si firma l'hash del messaggio per evitare di avere una firma molto
 lunga (pari o maggiore della lunghezza del messaggio) e questo non
@@ -3667,7 +3672,7 @@ ha un messaggio $m$ che vuole far firmare ad \textbf{A} (se il messaggio
 è più lungo di $p$, deve essere spezzato blocchi di dimensione $p$,
 dato che l'algoritmo opera in $\mathbb{Z}_{p}^{*}$):
 \begin{itemize}
-\item A pubblica un primo $p$ e un intero $\alpha$;
+\item \textbf{A} pubblica un primo $p$ e un intero $\alpha$;
 \begin{itemize}
 \item $p$ tale da rendere intrattabile il problema del logaritmo discreto
 in $\mathbb{Z}_{p}^{*}$;
@@ -3687,7 +3692,8 @@ tale che $k\perp p-1$, da considerarsi come nonce;
 \item $\cgm r{\alpha^{k}}p$;
 \item $\cgm s{k^{-1}\left(m-a\cdot r\right)}{\left(p-1\right)}$;
 \end{itemize}
-\item B verifica la firma $\left(r,\,s\right)$ usando solo dati pubblici;
+\item \textbf{B} verifica la firma $\left(r,\,s\right)$ usando solo dati
+pubblici;
 \begin{itemize}
 \item la firma risulta corretta se si verifica la congruenza $\cgms{\beta^{r}\cdot r^{s}}{\alpha^{m}}p?$;
 \end{itemize}
@@ -4080,7 +4086,7 @@ con tutte le celle $\overset{\bullet}{M}_{i,k}$.
 Possiamo notare che l'uscita ha proprio periodo 7; infatti lo stato
 delle celle di memoria al passo 7 è uguale a quello al passo 0.
 
-SI noti che, nella tabella del descrambler, le tre celle di memoria
+Si noti che, nella tabella del descrambler, le tre celle di memoria
 sono state inizializzate in modo arbitrario ($M_{1}M_{2}M_{3}=100$),
 inoltre sono stati necessari 3 passi per avere la traduzione corretta
 della sequenza \textemdash~lo scrambler auto-sincronizzante descritto
@@ -4263,8 +4269,8 @@ usato per l'elevamento a potenza in El Gamal.
 
 In generale, mittente e destinatario devono scambiare un segreto,
 e possono comunicare solo a distanza, tramite un canale non sicuro;
-sembrerebbe che la soluzione sia essere usare un crittosistema a chiave
-pubblica, tuttavia:
+sembrerebbe che la soluzione sia usare un crittosistema a chiave pubblica,
+tuttavia:
 \begin{itemize}
 \item gli algoritmi per implementare i crittosistemi a chiave asimmetrica
 sono computazionalmente più onerosi delle controparti a chiave simmetrica.
@@ -4435,7 +4441,10 @@ modulo $p$;
 \cgm{a_{U}}{a+b\cdot r_{U}}p,\qquad\cgm{b_{U}}{b+c\cdot r_{U}}p
 \]
 e li invia all'utente $r_{U}$ su un canale \uline{sicuro};
-\item $\mathbf{\forall r_{U}\in\mathbb{U}}$ calcolano il polinomio $g_{U}\left(x\right)=a_{U}+b_{U}\cdot x$.
+\item ciascun utente, usando il proprio $r_{U}$, calcola il polinomio 
+\[
+g_{U}\left(r_{U}\right)=a_{U}+b_{U}\cdot r_{U}
+\]
 \end{enumerate}
 Ora consideriamo due utenti $A$ e $B$ con i rispettivi numeri $r_{A}$
 e $r_{B}$:
@@ -4512,8 +4521,9 @@ desiderabile sostituirla il prima possibile.
 \begin{enumerate}
 \item $\mathbf{M}$ osserva uno scambio di messaggi tra $\mathbf{A}$ e
 $\mathbf{T}$ e tra $\mathbf{T}$ e $\mathbf{B}$;
-\item $\mathbf{M}$ impersona $\mathbf{B}$, e chiede a $\mathbf{T}$ di
-condividere una chiave $K_{AB}$ con $\mathbf{A}$:
+\item $\mathbf{M}$ impersona $\mathbf{B}$, e replicando il messaggio inviato
+da $\mathbf{T}$ a \textbf{B}, chiede a \textbf{T} di condividere
+nuovamente la stessa chiave $K_{AB}$ con $\mathbf{A}$:
 \[
 E_{K_{BT}}\left[t_{T}\|\text{ID}_{A}\|K_{AB}\right]\text{;}
 \]
@@ -4525,8 +4535,10 @@ E_{K_{AT}}\left[t_{T}^{\prime}\|\text{ID}_{B}\|K_{AB}\right]
 $\mathbf{A}$ crede che il messaggio ricevuto da $\mathbf{T}$ sia
 valido, quindi la chiave $K_{AB}$ rimane valida per un tempo $t_{T}^{\prime}>t_{T}$,
 e per un certo intervallo di tempo successivo;
-\item $\mathbf{M}$ impersona $\mathbf{A}$, e riceve il messaggio contenente
-la chiave $K_{AB}$ e un timestamp $t_{T}^{\prime\prime}>t_{T}^{\prime}$:
+\item $\mathbf{M}$ impersona $\mathbf{A}$, e invia nuovamente a \textbf{T}
+il messaggio appena osservato (quello col timestamp $t^{\prime}$);
+\textbf{B} riceve il messaggio contenente la chiave $K_{AB}$ e un
+timestamp $t_{T}^{\prime\prime}>t_{T}^{\prime}$:
 \[
 E_{K_{BT}}\left[t_{T}^{\prime\prime}\|\text{ID}_{A}\|K_{AB}\right]
 \]
@@ -4570,13 +4582,13 @@ di sessione: $E_{K_{S}}\left[r_{2}\right]$;
 Autenticare\marginpar{La definizione di autenticazione è enunciata nel RFC 4949 (IETF)}
 vuol dir garantire l'identità di un utente, di un dispositivo o di
 una sorgente di informazioni; autorizzare vuol dire determinare le
-risorse e i servizi che una entità autorizzata è in grado di usare
+risorse e i servizi che una entità autenticata è in grado di usare
 (l'autorizzazzione implica l'autenticazione).
 
 L'autenticazione è costituita da tre fasi principali:
 \begin{enumerate}
 \item \noun{registrazione}: l'utente deve essere registrato (per esempio
-in una base di dati) e associato a delle ceredenziali;
+in una base di dati) e associato a delle credenziali;
 \item \noun{identificazione}: il candidato si presenta al verificatore (per
 esempio il server) come un certo utente, fornendogli un identificatore;
 \item \noun{verifica}: il candidato deve provare di essere chi afferma,
@@ -4602,8 +4614,8 @@ mezzi (\emph{fattori}):
 Spesso per migliorare la sicurezza di questi sistemi si combinano
 due o tre fattori di autenticazione.
 
-Per garantire la sicurezza dell'autenticazioneè necessario garantire
-che: le credenziali \uline{non} siano trasmesse in chiaro (un osservatore
+Per garantire la sicurezza dell'autenticazione è necessario che:\marginpar{Ci si riferisce ai dati trasmessi e salvati rispettivamente con \emph{``in
+transit''} e \emph{``at rest''}} le credenziali \uline{non} siano trasmesse in chiaro (un osservatore
 del canale può intercettarle), e le credenziali \uline{non} siano
 salvate in chiaro (se il sistema viene compromesso, l'attaccante le
 ottiene).
@@ -4623,8 +4635,8 @@ della funzione di hash coinvolta, fino ad ottenere una collisione
 o la password corretta, e questo richiede un numero di tentativi proporzionale
 al numero di bit del digest.
 
-Pur procedendo a caso, se abbiamo un digest di $n$ bit e calcoliamo$2^{n}$
-hash per altrettante stringhe in input differenti, la probabilità
+Pur procedendo a caso, se abbiamo un digest di $n$ bit e calcoliamo
+$2^{n}$ hash per altrettante stringhe in input differenti, la probabilità
 di trovare la corrispondenza è comunque inferiore a 1.
 
 Ovviamente, la probabilità di successo si innalza drasticamente quando
@@ -4646,8 +4658,8 @@ tanta più informazione quanto più è impredicibile.}
 \begin{defn}
 Consideriamo una sorgente $X$ (priva di memoria, la probabilità di
 ottenere un determinato messaggio è indipendente dai messaggi già
-estratti) del messaggio $\overline{x}$, definito su un alfabeto finito
-di $N$ simboli:
+estratti) dalla quale estraiamo il messaggio $\overline{x}$, definito
+su un alfabeto finito di $N$ simboli:
 \[
 \overline{x}\in\left\{ x_{1},\,\ldots,\,x_{N}\right\} 
 \]
@@ -5724,7 +5736,7 @@ uscita, per cercare di ricavare informazioni sull'implementazione.
 \subsection*{Sicurezza e segretezza}
 
 Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura
-sul fatto che i possibili avversari non ne conoscessero il funzionamento;
+sul fatto che i possibili avversari non ne conoscessero il funzio\-namento;
 il crittografo olandese Auguste Kerckhoffs, enunciò ne \emph{`La cryptographie
 militaire'} (1883) il principio di Kerchoffs:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
 \textbf{\footnotesize{}Principio di Kerchoffs}{\footnotesize{}\index{Kerchoffs, principio di@{\footnotesize{}Kerchoffs, principio di}}\label{thm:Principio-di-Kerchoffs}}}[0.7cm]
@@ -5952,11 +5964,12 @@ nel quale solo gli elementi primi relativi rispetto a $n$ hanno l'inverso.
 \end{rem}
 %
 \begin{rem}
-Per definire un campo di Galois $p^{n}$ abbiamo bisogno di un polinomio
-irriducibile di grado $n$; tuttavia vi è più di un solo polinomio
-irriducibile, fissato il grado. Si verifica che, usando polinomi irriducibili
-diversi dello stesso grado, si ottiene lo stesso campo di Galois da
-entrambi: esso è uno e uno solo, da (\ref{eq:GF-p^n-cardinalit=0000E0}).
+\label{oss:Definizione-GF-grado-p^n-1}Per definire un campo di Galois
+$p^{n}$ abbiamo bisogno di un polinomio irriducibile di grado $n$;
+tuttavia vi è più di un solo polinomio irriducibile, fissato il grado.
+Si verifica che, usando polinomi irriducibili diversi dello stesso
+grado, si ottiene lo stesso campo di Galois da entrambi: esso è uno
+e uno solo, da (\ref{eq:GF-p^n-cardinalit=0000E0}).
 
 Dal punto di vista algebrico, si ottengono due campi \emph{isomorfi},
 ovvero le relazioni biunivoche tra elementi di uno stesso insieme
@@ -5974,7 +5987,7 @@ per il polinomio irriducibile $P\left(x\right)$:\marginpar{\rule[0.5ex]{3cm}{1pt
 
 \section{Polinomi come elementi generatori}
 
-Come visto nell'Osservazione \ref{oss:Analogia-GF-insieme-residui},
+Come visto nell'Osservazione \ref{oss:Definizione-GF-grado-p^n-1},
 il grado massimo di $R\left(x\right)$ sarà $n-1$, mentre i possibili
 polinomi di grado fino a $n-1$ sono in totale $p^{n}$. Nella stessa
 Osservazione, abbiamo mostrato un'analogia tra l'insieme dei residui
@@ -5986,7 +5999,7 @@ Possiamo estendere questa analogia al concetto di radice primitiva
 ci saranno dei polinomi $g\left(x\right)$, chiamati elementi generatori,
 tali che
 \[
-\cgm{g\left(x\right)^{n}}1{P\left(x\right)}
+\cgm{g\left(x\right)^{k}}1{P\left(x\right)}
 \]
 Il minimo $n$ per il quale si verifica la precedente condizione è
 chiamato ordine (\ref{eq:Ordine-di-intero}) del campo, e vale:
@@ -6010,8 +6023,8 @@ $\varphi\left(p-1\right)$ & $\varphi\left(p^{n}-1\right)$\tabularnewline
 \begin{rem}
 Chiediamoci se esiste un caso in cui tutti gli elementi di un insieme
 $\mathbb{Z}_{p}$ sono anche elementi generatori; dovrebbe valere
-$\varphi\left(p-1\right)=p-1$, ma questo è impossibile, poiché $q$
-è primo e $q-1$ risulta pari.
+$\varphi\left(p-1\right)=p-1$, ma questo è impossibile, poiché $p$
+è primo e $p-1$ risulta pari.
 
 Nel campo $\mod{\mathbb{Z}_{p}\left[x\right]}{P\left(x\right)}$ invece
 deve valere $\varphi\left(p^{n}-1\right)=p^{n}-1$, e ciò è possibile
@@ -6030,7 +6043,7 @@ P\left(x\right)=x^{8}+x^{4}+x^{3}+x^{2}+x+1
 Gli elementi del campo, resti della divisione con $P\left(x\right)$,
 avranno grado massimo 7; possiamo scriverli come
 \[
-R\left(x\right)=b_{7}\cdot x^{7}+b_{7}\cdot x^{7}+\ldots+b_{1}\cdot x+b_{0}
+R\left(x\right)=b_{7}\cdot x^{7}+b_{6}\cdot x^{6}+\ldots+b_{1}\cdot x+b_{0}
 \]
 I coefficienti di un polinomio $R\left(x\right)\in\mathcal{GF}\left(256\right)$
 sono 8 e sono tutti in modulo 2 (valgono 0 o 1): essi possono essere
@@ -6054,10 +6067,10 @@ La funzione $\mu\left(\right)$ si chiama funzione di Möbius ed è
 definita nel modo seguente:\marginpar{\rule[0.5ex]{3cm}{1pt}\textbf{\footnotesize{}}\protect \\
 \textbf{\footnotesize{}Funzione di Möbius}{\footnotesize{}\index{Möbius, funzione di@{\footnotesize{}Möbius, funzione di}}}}[0.7cm]
 \begin{equation}
-\mu\left(n\right)=\begin{cases}
-0 & n=\text{ prodotto di primi, almeno uno ripetuto}\\
-1 & n=1\\
-\left(-1\right)^{k} & n=\text{ prodotto di \ensuremath{k} primi distinti}
+\mu\left(x\right)=\begin{cases}
+0 & x=\text{ prodotto di primi, almeno uno ripetuto}\\
+1 & x=1\\
+\left(-1\right)^{k} & x=\text{ prodotto di \ensuremath{k} primi distinti}
 \end{cases}\label{eq:Funzione-Mobius}
 \end{equation}
 

@@ -645,7 +645,7 @@ primi relativi
 \end_layout
 
 \begin_layout Standard
-Escluso il numero 2, tutti i primi sono dispari, e sono divisi in due classi:
+Escluso il numero 2, tutti i primi sono dispari, e sono divisi in due classi;
  preso un numero primo 
 \begin_inset Formula $p$
 \end_inset
@@ -1790,7 +1790,7 @@ L'inverso di un numero
 \end_inset
 
  che moltiplicato per 5 risulta 1; troviamo 
-\begin_inset Formula $m\cdot5=1\parallel_{\mathbb{Z}_{11}}\implies m=9$
+\begin_inset Formula $m\cdot5=1|_{\mathbb{Z}_{11}}\implies m=9$
 \end_inset
 
 , da cui segue che
@@ -2288,8 +2288,8 @@ primi relativi
 
 \begin_layout Standard
 Il teorema afferma che, quanto introdotto all'inizio della sezione, può
- valere nel senso opposto in alcune condizioni specifiche.Osserviamo l'applicazio
-ne del teorema in un esempio.
+ valere nel senso opposto in alcune condizioni specifiche.
+ Osserviamo l'applicazione del teorema in un esempio.
 \end_layout
 
 \begin_layout Example
@@ -2392,21 +2392,11 @@ Il valore
 \begin_inset Formula $\overline{k}$
 \end_inset
 
- corrisponde al 
-\begin_inset Formula $c$
+ permette di ottenere 
+\begin_inset Formula $c=b+\overline{k}\cdot m$
 \end_inset
 
- del Teorema 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "thm:Teorema-cinese-del-resto"
-plural "false"
-caps "false"
-noprefix "false"
-
-\end_inset
-
-, esso infatti è congruente sia ad 
+: esso infatti è congruente sia ad 
 \begin_inset Formula $a$
 \end_inset
 
@@ -2537,7 +2527,7 @@ status open
 \begin{cases}
 \cgm x{a_{1}}{m_{1}}\\
 \cgm x{a_{2}}{m_{2}}\\
-\\
+\quad\vdots\\
 \cgm x{a_{N}}{m_{N}}
 \end{cases}
 \]
@@ -2721,7 +2711,7 @@ cizio siamo in
 
 ).
  In totale, saranno necessari (per questo caso dell'esercizio) 
-\begin_inset Formula $2\cdot\log_{2}\left(11\right)\simeq4$
+\begin_inset Formula $\left\lceil \log_{2}\left(11\right)\right\rceil =4$
 \end_inset
 
  passi.
@@ -3358,12 +3348,12 @@ Se abbiamo gli interi
 \begin_inset Formula $a,\,b,\,n,\,x,\,y$
 \end_inset
 
- e 
-\begin_inset Formula $n>0$
+ tali che 
+\begin_inset Formula $a\perp n$
 \end_inset
 
-, tali che 
-\begin_inset Formula $a\perp n$
+ e 
+\begin_inset Formula $n>0$
 \end_inset
 
 , allora se 
@@ -3659,7 +3649,11 @@ noprefix "false"
 \begin_inset Formula $a$
 \end_inset
 
- è 1, ovvero non esiste nessun altro intero 
+ è 
+\begin_inset Formula $p-1$
+\end_inset
+
+, ovvero non esiste nessun altro intero 
 \begin_inset Formula $n$
 \end_inset
 
@@ -3670,7 +3664,7 @@ noprefix "false"
 ; in altri termini vale
 \begin_inset Formula 
 \begin{equation}
-\cgm{a^{n}}1p\iff n=1\label{eq:Condizione-elemento-primitivo}
+\cgm{a^{n}}1p\iff n=p-1\label{eq:Condizione-elemento-primitivo}
 \end{equation}
 
 \end_inset
@@ -3854,7 +3848,7 @@ Per trovare se
 , calcoliamo gli elementi:
 \begin_inset Formula 
 \[
-\left\{ \forall i\in\left[0,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
+\left\{ \forall i\in\left[1,\,p-1\right]\,:\,\cgm{\beta}{\alpha^{i}}p\right\} 
 \]
 
 \end_inset
@@ -3863,12 +3857,12 @@ Otteniamo quindi:
 \begin_inset Formula 
 \[
 \begin{array}{c}
-\cgm{3^{0}}17\\
 \cgm{3^{1}}37\\
 \cgm{3^{2}}27\\
 \cgm{3^{3}}67\\
 \cgm{3^{4}}47\\
 \cgm{3^{5}}57\\
+\cgm{3^{6}}17\\
 \vdots
 \end{array}
 \]
@@ -3948,14 +3942,13 @@ Calcolando di nuovo gli
 \end_inset
 
  con 
-\begin_inset Formula $i\in\left[0,\,p-1\right]$
+\begin_inset Formula $i\in\left[1,\,p-1\right]$
 \end_inset
 
  otteniamo
 \begin_inset Formula 
 \[
 \begin{array}{c}
-\cgm{2^{0}}17\\
 \cgm{2^{1}}27\\
 \cgm{2^{2}}47\\
 \cgm{2^{3}}17\\
@@ -4060,10 +4053,10 @@ e
 \end_inset
 
  usato per ottenerlo a partire da 
-\begin_inset Formula $\alpha,$
+\begin_inset Formula $\alpha$
 \end_inset
 
-e dovrà valere
+, e dovrà valere
 \begin_inset Formula 
 \begin{equation}
 \ord{\beta}=\frac{p-1}{\mcd{p-1}i}\label{eq:Elemento-primitivo-MCD}
@@ -5120,7 +5113,7 @@ Chiamiamo
 \begin_inset Formula $a_{q}\in\mathbb{Z}_{p}^{*}$
 \end_inset
 
-i residui quadratici per cui valga
+ i residui quadratici per cui valga
 \begin_inset Formula 
 \[
 \cgm{a_{q}}{\left(\pm b\right)^{2}}p
@@ -5141,7 +5134,7 @@ con
 
 \begin_layout Standard
 Osserviamo che 
-\begin_inset Formula $p\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $
+\begin_inset Formula $b\in\left\{ 1,\,2,\,\ldots,\,\frac{p-1}{2}\right\} $
 \end_inset
 
 , poiché i residui a partire da 
@@ -6345,7 +6338,7 @@ non
 \end_layout
 
 \begin_layout Standard
-LE funzioni di cifratura e decifratura sono definite come:
+Le funzioni di cifratura e decifratura sono definite come:
 \begin_inset Formula 
 \[
 c_{i}=p_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right),\quad p_{i}=c_{i}\oplus E_{k}\left(\text{IV}^{\left(i\right)}\right)
@@ -8269,7 +8262,7 @@ deve valere
 \end_layout
 
 \begin_layout Standard
-Scegliendo i due primi col criterio appena mostrato, si otterrà in periodo
+Scegliendo i due primi col criterio appena mostrato, si otterrà il periodo
  più lungo possibile.
 \end_layout
 
@@ -8824,7 +8817,21 @@ Stato della successione
 \end_layout
 
 \begin_layout Standard
-Supponiamo di prendere il polinomio 
+Supponiamo
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Tutti i conti effettuati in questa sezione sono in modulo 
+\begin_inset Formula $P\left(Y\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ di prendere il polinomio 
 \begin_inset Formula $P\left(Y\right)$
 \end_inset
 
@@ -8959,7 +8966,31 @@ Chiediamoci dunque sotto quali condizioni
 
 , o in altre parole quanto vale il passo al quale inizia il secondo periodo;
  questo si verifica quando 
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
 \begin_inset Formula $\cgm{Y^{j}}1{P\left(Y\right)}$
+\end_inset
+
+
+\end_layout
+
 \end_inset
 
 .
@@ -9133,7 +9164,7 @@ ive identical digits, ovvero cifre identiche consecutive)
 
  problema del clock recovery è l'incapacità di estrarre il sincronismo da
  una sequenza di cifre uguali (tutte 1 o 0).
- VI sono due strade per ovviare al problema:
+ Vi sono due strade per ovviare al problema:
 \end_layout
 
 \begin_layout Enumerate
@@ -9414,7 +9445,7 @@ name "fig:scrambler-auto-sincronizzante-3"
 
 \begin_layout Standard
 Uno scrambler come quello realizzato nell'esempio, avrà periodo massimo
- 7, nel caso in cui l'ingresso sia costituito da una sequenza si cifre uguali.
+ 7, nel caso in cui l'ingresso sia costituito da una sequenza di cifre uguali.
 \end_layout
 
 \begin_layout Standard
@@ -10474,7 +10505,7 @@ Un altro approccio consiste nello scegliere un
 \begin_inset Formula $d$
 \end_inset
 
- sufficientemente robusto (50 cifre sono sufficienti), e a partire da esso
+ sufficientemente robusto (50 cifre sono sufficenti), e a partire da esso
  si calcola 
 \begin_inset Formula $e$
 \end_inset
@@ -11139,7 +11170,7 @@ La densità calcolata attorno a
 \begin_inset Formula $10^{100}$
 \end_inset
 
- si traduce nella seguente osservazione: prendendo a caso un intero di 10
+ si traduce nella seguente osservazione: prendendo a caso un intero di 100
  cifre, la probabilità che sia primo è circa 
 \begin_inset Formula $1/230$
 \end_inset
@@ -11395,7 +11426,20 @@ Possiamo sfruttare questa osservazione solo quando i fattori
 \begin_inset Formula $q_{i}$
 \end_inset
 
- sono piccoli: se abbiamo almeno un fattore 
+ sono piccoli: se ab
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+biamo almeno un fattore 
 \begin_inset Formula $q_{i}$
 \end_inset
 
@@ -11543,9 +11587,7 @@ noprefix "false"
 \cgm{b_{4}}{64^{4}}{11413}, & d_{4}=\mcd{105}{11413}=1\\
 \cgm{b_{5}}{106^{5}}{11413}, & d_{5}=\mcd{-309}{11413}=1\\
 \cgm{b_{6}}{-309^{6}}{11413}, & d_{6}=\mcd{9992}{11413}=1\\
-\cgm{b_{7}}{9993^{7}}{11413}, & d_{7}=\mcd{5085}{11413}=1\\
-\cgm{b_{8}}{5086^{8}}{11413}, & d_{8}=\mcd{-1017}{11413}=1\\
-\cgm{b_{9}}{-1016^{9}}{11413}, & d_{9}=\mcd{5537}{11413}=\boxed{113}
+\cgm{b_{7}}{9993^{7}}{11413}, & d_{7}=\mcd{5085}{11413}=\boxed{113}
 \end{array}
 \]
 
@@ -12105,14 +12147,14 @@ Costruiamo ora due successioni
 \begin_inset Formula $0\leq k<N$
 \end_inset
 
->; le successioni così fatte saranno sviluppate come:
+; le successioni così fatte saranno sviluppate come:
 \begin_inset Formula 
 \[
 \begin{array}{ccccc}
-\boldsymbol{j} & \boldsymbol{\alpha^{i}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
+\boldsymbol{j} & \boldsymbol{\alpha^{j}} & \boldsymbol{} & \boldsymbol{k} & \boldsymbol{\beta\cdot\alpha^{-N\cdot k}}\\
 0 & 1 &  & 0 & \beta\\
 1 & \alpha &  & 1 & \beta\cdot\alpha^{-N}\\
-2 & \alpha^{2} &  & 2 & \beta\cdot\alpha-2N\\
+2 & \alpha^{2} &  & 2 & \beta\cdot\alpha^{-2N}\\
 \vdots & \vdots &  & \vdots & \vdots
 \end{array}
 \]
@@ -12512,6 +12554,10 @@ Dati
 Crittosistema a chiave pubblica El Gamal
 \end_layout
 
+\begin_layout Subsection
+Algoritmo
+\end_layout
+
 \begin_layout Standard
 Consideriamo un mittente 
 \begin_inset Formula $\mathbf{A}$
@@ -12736,6 +12782,10 @@ noprefix "false"
 .
 \end_layout
 
+\begin_layout Subsection
+Attacco del nonce ripetuto
+\end_layout
+
 \begin_layout Standard
 Ipotizziamo di utilizzare lo stesso nonce due volte; chiamiamo 
 \begin_inset Formula $m_{i}$
@@ -12863,9 +12913,21 @@ status open
 
 \end_inset
 
-funzione di hash è una funzione matematica che prende in ingresso un messaggio
- di lunghezza arbitraria, e produce una uscita (di solito corta) di lunghezza
- prefissata.
+funzione di hash è una funzione mate
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+matica che prende in ingresso un messaggio di lunghezza arbitraria, e produce
+ una uscita (di solito corta) di lunghezza prefissata.
 \end_layout
 
 \begin_layout Standard
@@ -13481,11 +13543,15 @@ Nel caso in esame si ha
 \begin_inset Formula $r$
 \end_inset
 
- che rende la probabilità di avere almeno una coppia con lo stesso compleanno,
- possiamo usare al contrario la formula approssimata appena enunciata:
+ che renda 
+\begin_inset Formula $1/2$
+\end_inset
+
+ la probabilità di avere almeno una coppia con lo stesso compleanno, possiamo
+ usare al contrario la formula approssimata appena enunciata:
 \begin_inset Formula 
 \[
-1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r^{2}\simeq1.17\sqrt{N}
+1-e^{-r^{2}/2N}=0.5\rightarrow\frac{r^{2}}{2N}=\ln\left(2\right)\rightarrow r\simeq1.17\sqrt{N}
 \]
 
 \end_inset
@@ -13616,10 +13682,10 @@ r\simeq\sqrt{2^{60}}=2^{30}\simeq10^{10}
 
 \end_inset
 
-In pratica, nel caso di un hash a 60bit, possiamo generare un miliardo di
- variazioni per un messaggio legittimo e un miliardo di variazioni per un
- messaggio malevolo (modificando virgole, spazi o lettere maiuscole, in
- modo che un osservatore distratto non noti la differenza); dalla 
+In pratica, nel caso di un hash a 60bit, possiamo generare dieci miliardi
+ di variazioni per un messaggio legittimo e un miliardo di variazioni per
+ un messaggio malevolo (modificando virgole, spazi o lettere maiuscole,
+ in modo che un osservatore distratto non noti la differenza); dalla 
 \begin_inset CommandInset ref
 LatexCommand eqref
 reference "eq:Paradosso-compleanno-prob-corrispondenza"
@@ -14015,7 +14081,7 @@ textemdash
 è l'opposto della cifratura in un crittosistema a chiave pubblica: firmando
  con la chiave segreta si permette a tutti di verificare la firma decifrandola
  con la chiave pubblica; questo garantisce che solo chi è in possesso della
- chiave privata associata alla forma, possa generarla.
+ chiave privata associata alla firma, possa generarla.
 \end_layout
 
 \begin_layout Standard
@@ -14506,7 +14572,11 @@ A
 \end_layout
 
 \begin_layout Itemize
-A pubblica un primo 
+
+\series bold
+A
+\series default
+ pubblica un primo 
 \begin_inset Formula $p$
 \end_inset
 
@@ -14613,7 +14683,11 @@ A produce la firma
 
 \end_deeper
 \begin_layout Itemize
-B verifica la firma 
+
+\series bold
+B
+\series default
+ verifica la firma 
 \begin_inset Formula $\left(r,\,s\right)$
 \end_inset
 
@@ -17019,7 +17093,7 @@ Possiamo notare che l'uscita ha proprio periodo 7; infatti lo stato delle
 \end_layout
 
 \begin_layout Solution
-SI noti che, nella tabella del descrambler, le tre celle di memoria sono
+Si noti che, nella tabella del descrambler, le tre celle di memoria sono
  state inizializzate in modo arbitrario (
 \begin_inset Formula $M_{1}M_{2}M_{3}=100$
 \end_inset
@@ -17724,7 +17798,7 @@ come i due fattori primi in RSA, o l'esponente usato per l'elevamento a
 \begin_layout Standard
 In generale, mittente e destinatario devono scambiare un segreto, e possono
  comunicare solo a distanza, tramite un canale non sicuro; sembrerebbe che
- la soluzione sia essere usare un crittosistema a chiave pubblica, tuttavia:
+ la soluzione sia usare un crittosistema a chiave pubblica, tuttavia:
 \end_layout
 
 \begin_layout Itemize
@@ -18515,14 +18589,19 @@ sicuro
 \end_layout
 
 \begin_layout Enumerate
-\begin_inset Formula $\mathbf{\forall r_{U}\in\mathbb{U}}$
+ciascun utente, usando il proprio 
+\begin_inset Formula $r_{U}$
 \end_inset
 
- calcolano il polinomio 
-\begin_inset Formula $g_{U}\left(x\right)=a_{U}+b_{U}\cdot x$
+, calcola il polinomio 
+\begin_inset Formula 
+\[
+g_{U}\left(r_{U}\right)=a_{U}+b_{U}\cdot r_{U}
+\]
+
 \end_inset
 
-.
+
 \end_layout
 
 \begin_layout Standard
@@ -18851,11 +18930,19 @@ ante il tempo per trovarla, sia perché se compromessa è desiderabile sostituir
 \begin_inset Formula $\mathbf{B}$
 \end_inset
 
-, e chiede a 
+, e replicando il messaggio inviato da 
 \begin_inset Formula $\mathbf{T}$
 \end_inset
 
- di condividere una chiave 
+ a 
+\series bold
+B
+\series default
+, chiede a 
+\series bold
+T
+\series default
+ di condividere nuovamente la stessa chiave 
 \begin_inset Formula $K_{AB}$
 \end_inset
 
@@ -18917,7 +19004,19 @@ E_{K_{AT}}\left[t_{T}^{\prime}\|\text{ID}_{B}\|K_{AB}\right]
 \begin_inset Formula $\mathbf{A}$
 \end_inset
 
-, e riceve il messaggio contenente la chiave 
+, e invia nuovamente a 
+\series bold
+T
+\series default
+ il messaggio appena osservato (quello col timestamp 
+\begin_inset Formula $t^{\prime}$
+\end_inset
+
+); 
+\series bold
+B
+\series default
+ riceve il messaggio contenente la chiave 
 \begin_inset Formula $K_{AB}$
 \end_inset
 
@@ -19126,7 +19225,7 @@ La definizione di autenticazione è enunciata nel RFC 4949 (IETF)
 
  vuol dir garantire l'identità di un utente, di un dispositivo o di una
  sorgente di informazioni; autorizzare vuol dire determinare le risorse
- e i servizi che una entità autorizzata è in grado di usare (l'autorizzazzione
+ e i servizi che una entità autenticata è in grado di usare (l'autorizzazzione
  implica l'autenticazione).
 \end_layout
 
@@ -19140,7 +19239,7 @@ L'autenticazione è costituita da tre fasi principali:
 registrazione
 \noun default
 : l'utente deve essere registrato (per esempio in una base di dati) e associato
- a delle ceredenziali;
+ a delle credenziali;
 \end_layout
 
 \begin_layout Enumerate
@@ -19227,7 +19326,38 @@ Spesso per migliorare la sicurezza di questi sistemi si combinano due o
 \end_layout
 
 \begin_layout Standard
-Per garantire la sicurezza dell'autenticazioneè necessario garantire che:
+Per garantire la sicurezza dell'autenticazione è necessario che:
+\begin_inset Marginal
+status collapsed
+
+\begin_layout Plain Layout
+Ci si riferisce ai dati trasmessi e salvati rispettivamente con 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+in transit
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ e 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+at rest
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
  le credenziali 
 \bar under
 non
@@ -19285,7 +19415,7 @@ Pur procedendo a caso, se abbiamo un digest di
 \begin_inset Formula $n$
 \end_inset
 
- bit e calcoliamo
+ bit e calcoliamo 
 \begin_inset Formula $2^{n}$
 \end_inset
 
@@ -19332,7 +19462,8 @@ Consideriamo una sorgente
 \end_inset
 
  (priva di memoria, la probabilità di ottenere un determinato messaggio
- è indipendente dai messaggi già estratti) del messaggio 
+ è indipendente dai messaggi già estratti) dalla quale estraiamo il messaggio
+ 
 \begin_inset Formula $\overline{x}$
 \end_inset
 
@@ -22802,8 +22933,20 @@ Sicurezza e segretezza
 
 \begin_layout Standard
 Giulio Cesare basava la sicurezza del proprio algoritmo di cifratura sul
- fatto che i possibili avversari non ne conoscessero il funzionamento; il
- crittografo olandese Auguste Kerckhoffs, enunciò ne 
+ fatto che i possibili avversari non ne conoscessero il funzio
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+namento; il crittografo olandese Auguste Kerckhoffs, enunciò ne 
 \emph on
 `La cryptographie militaire'
 \emph default
@@ -23766,6 +23909,12 @@ Questo vale se
 \end_layout
 
 \begin_layout Remark
+\begin_inset CommandInset label
+LatexCommand label
+name "oss:Definizione-GF-grado-p^n-1"
+
+\end_inset
+
 Per definire un campo di Galois 
 \begin_inset Formula $p^{n}$
 \end_inset
@@ -23881,7 +24030,7 @@ Polinomi come elementi generatori
 Come visto nell'Osservazione 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "oss:Analogia-GF-insieme-residui"
+reference "oss:Definizione-GF-grado-p^n-1"
 plural "false"
 caps "false"
 noprefix "false"
@@ -23944,7 +24093,7 @@ noprefix "false"
 , chiamati elementi generatori, tali che
 \begin_inset Formula 
 \[
-\cgm{g\left(x\right)^{n}}1{P\left(x\right)}
+\cgm{g\left(x\right)^{k}}1{P\left(x\right)}
 \]
 
 \end_inset
@@ -24095,11 +24244,11 @@ Chiediamoci se esiste un caso in cui tutti gli elementi di un insieme
 \end_inset
 
 , ma questo è impossibile, poiché 
-\begin_inset Formula $q$
+\begin_inset Formula $p$
 \end_inset
 
  è primo e 
-\begin_inset Formula $q-1$
+\begin_inset Formula $p-1$
 \end_inset
 
  risulta pari.
@@ -24192,7 +24341,7 @@ Gli elementi del campo, resti della divisione con
 , avranno grado massimo 7; possiamo scriverli come
 \begin_inset Formula 
 \[
-R\left(x\right)=b_{7}\cdot x^{7}+b_{7}\cdot x^{7}+\ldots+b_{1}\cdot x+b_{0}
+R\left(x\right)=b_{7}\cdot x^{7}+b_{6}\cdot x^{6}+\ldots+b_{1}\cdot x+b_{0}
 \]
 
 \end_inset
@@ -24364,10 +24513,10 @@ status open
 
 \begin_inset Formula 
 \begin{equation}
-\mu\left(n\right)=\begin{cases}
-0 & n=\text{ prodotto di primi, almeno uno ripetuto}\\
-1 & n=1\\
-\left(-1\right)^{k} & n=\text{ prodotto di \ensuremath{k} primi distinti}
+\mu\left(x\right)=\begin{cases}
+0 & x=\text{ prodotto di primi, almeno uno ripetuto}\\
+1 & x=1\\
+\left(-1\right)^{k} & x=\text{ prodotto di \ensuremath{k} primi distinti}
 \end{cases}\label{eq:Funzione-Mobius}
 \end{equation}
 
