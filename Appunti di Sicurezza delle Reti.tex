@@ -323,9 +323,9 @@ $m<n$, vogliamo calcolare $\mcd mn$. Tramite questo algoritmo otteniamo
 il risultato desiderato, senza passare per la scomposizione in fattori
 primi di $m$ e $n$; definendo la seguente successione:
 \begin{align}
-\mcd mn & =\mcd{\mod nm}n\label{eq:Successione-Euclide}\\
- & =\mcd{\mod{\left(\mod nm\right)}n}n\nonumber \\
- & =\mcd 0n=n\nonumber 
+\mcd mn & =\mcd{\mod nm}m\label{eq:Successione-Euclide}\\
+ & \,\,\,\vdots\nonumber \\
+ & =\mcd 0d=d\nonumber 
 \end{align}
 
 Osserviamo come calcolare questa successione con un esempio.
@@ -2649,7 +2649,7 @@ di $\mathbb{Z}_{n}$; le funzioni di cifratura e decifratura sono
 definite come:
 \begin{equation}
 \begin{array}{c}
-\cgm c{p^{e}}n\\
+\cgm c{m^{e}}n\\
 \cgm m{c^{d}}n
 \end{array}\label{eq:RSA-cifra-decifra}
 \end{equation}
@@ -3089,7 +3089,7 @@ poiché 3 non è una radice primitiva in $\mathbb{Z}_{11}^{*}$.\demo
 \begin{rem}
 In generale non abbiamo un algoritmo efficiente che risolva il logaritmo
 discreto per un primo $p$ arbitrario. Quindi la funzione logaritmo
-discreto non è unidirezionale; infatti, dato $\beta$, non si riesce
+discreto z è unidirezionale; infatti, dato $\beta$, non si riesce
 a calcolare $x$ in modo semplice. Questo rende il logaritmo discreto
 una funzione adatta a essere usata in un cifrario a chiave pubblica.
 \end{rem}

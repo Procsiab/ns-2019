@@ -812,9 +812,9 @@ La funzione principale di questo algoritmo, è calcolare il massimo comune
 ; definendo la seguente successione:
 \begin_inset Formula 
 \begin{align}
-\mcd mn & =\mcd{\mod nm}n\label{eq:Successione-Euclide}\\
- & =\mcd{\mod{\left(\mod nm\right)}n}n\nonumber \\
- & =\mcd 0n=n\nonumber 
+\mcd mn & =\mcd{\mod nm}m\label{eq:Successione-Euclide}\\
+ & \,\,\,\vdots\nonumber \\
+ & =\mcd 0d=d\nonumber 
 \end{align}
 
 \end_inset
@@ -9808,7 +9808,7 @@ Il messaggio in chiaro
 \begin_inset Formula 
 \begin{equation}
 \begin{array}{c}
-\cgm c{p^{e}}n\\
+\cgm c{m^{e}}n\\
 \cgm m{c^{d}}n
 \end{array}\label{eq:RSA-cifra-decifra}
 \end{equation}
@@ -11900,7 +11900,7 @@ In generale non abbiamo un algoritmo efficiente che risolva il logaritmo
 \end_inset
 
  arbitrario.
- Quindi la funzione logaritmo discreto non è unidirezionale; infatti, dato
+ Quindi la funzione logaritmo discreto z è unidirezionale; infatti, dato
  
 \begin_inset Formula $\beta$
 \end_inset
