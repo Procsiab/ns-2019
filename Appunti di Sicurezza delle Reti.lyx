@@ -1736,8 +1736,11 @@ dove la frazione
 \begin_inset Formula $7+11,\,7+22,\,\ldots\,,7+k\cdot11$
 \end_inset
 
-; il primo numero che sia un multiplo di 5 si ha per 3; abbiamo ottenuto
- che 
+; il primo numero che sia un multiplo di 5 si ha per 
+\begin_inset Formula $k=3$
+\end_inset
+
+; abbiamo ottenuto che 
 \begin_inset Formula $\left[7=40\right]\ni\mathbb{Z}_{11}$
 \end_inset
 
@@ -4662,7 +4665,7 @@ noprefix "false"
 Infine effettuiamo l'elevamento a potenza della radice per ottenere il segno:
 \begin_inset Formula 
 \[
-\mod{8^{2}}{11}=\mod 9{11}=-2
+\mod{8^{2}}{11}=\cgm 9{\sqrt{-2}}{11}
 \]
 
 \end_inset
@@ -5241,7 +5244,7 @@ demo
 \end_layout
 
 \begin_layout Remark
-Un modo più rapido per ottenere i residui quadratici consiste nel sfruttare
+Un modo più rapido per ottenere i residui quadratici consiste nello sfruttare
  il fatto che essi saranno i quadrati dei primi 
 \begin_inset Formula $\frac{p-1}{2}$
 \end_inset
@@ -5374,7 +5377,7 @@ Il cifrario di Cesare utilizza uno scorrimento dell'alfabeto, la chiave
 
 \end_inset
 
-Si verifica nel caso dell'alfabeto inglese vale 
+Nel caso dell'alfabeto inglese vale 
 \begin_inset Formula $n=26$
 \end_inset
 
@@ -5744,7 +5747,7 @@ name "prop:Proprietà-fondamentali-cifrari-Shannon"
 
 \end_inset
 
-Non solo ogni bit del blocco in chiaro hanno effetto su 
+Non solo ogni bit del blocco in chiaro ha effetto su 
 \bar under
 tutti
 \bar default
@@ -6107,10 +6110,6 @@ Essa lavora su un blocco di 64bit, e produce un'altro blocco altrettanto
 zare l'hardware dell'epoca ('70).
 \end_layout
 
-\begin_layout Standard
-La seguente tabella di look-up realizza la permutazione iniziale del DES:
-\end_layout
-
 \begin_layout Subsection*
 Funzione 
 \begin_inset Formula $\boldsymbol{f}$
@@ -6221,7 +6220,7 @@ c_{i}=E_{k}\left(p_{i}\right),\quad p_{i}=E_{k}\left(c_{i}\right)
 \end_inset
 
 Risulta facile individuare i blocchi ripetuti, inoltre è possibile costruire
- una tabella con le corrispondenze tra blocchi i chiaro e blocchi cifrati.
+ una tabella con le corrispondenze tra blocchi in chiaro e blocchi cifrati.
 \end_layout
 
 \begin_layout Subsection*
@@ -6638,7 +6637,7 @@ non è invertibile (ci sono infiniti messaggi con lo stesso hash in uscita
 \end_layout
 
 \begin_layout Itemize
-sia unidirezionale (presa una uscita 
+è unidirezionale (presa una uscita 
 \begin_inset Formula $y\left(x\right)$
 \end_inset
 
@@ -6650,7 +6649,7 @@ sia unidirezionale (presa una uscita
 \end_layout
 
 \begin_layout Itemize
-goda di ottima diffusione.
+gode di ottima diffusione.
 \end_layout
 
 \begin_layout Standard
@@ -7606,7 +7605,7 @@ Normalmente, la sequenza di bit
 \begin_inset Formula $\left\{ b_{i}\right\} $
 \end_inset
 
- ha una statistica ben fatta (probabilità circa
+ ha una statistica ben fatta (probabilità circa 
 \begin_inset Formula $\nicefrac{1}{2}$
 \end_inset
 
@@ -8156,7 +8155,7 @@ Concludiamo che il periodo
 \begin_inset Formula $\tau$
 \end_inset
 
- sarà uno tra i possibili divisori di 30, a seconda dal 
+ sarà uno tra i possibili divisori di 30, a seconda del 
 \begin_inset Formula $x_{0}$
 \end_inset
 
@@ -8173,7 +8172,7 @@ Concludiamo che il periodo
 \end_inset
 
  si ha esattamente 
-\begin_inset Formula $\pi=10$
+\begin_inset Formula $\tau=10$
 \end_inset
 
 .
@@ -8203,7 +8202,7 @@ Per avere un periodo lungo di una sequenza BBS, è necessario scegliere un
 \end_inset
 
  tale che 
-\begin_inset Formula $\pi=\lambda\left(\lambda\left(n\right)\right)\gg1$
+\begin_inset Formula $\tau=\lambda\left(\lambda\left(n\right)\right)\gg1$
 \end_inset
 
 ; perché ciò si verifichi, scegliamo 
@@ -10436,7 +10435,7 @@ Abbiamo enunciato nelle sezioni precedenti che la scelta di
 \end_inset
 
  di 300 cifre).
- per la scelta dell'esponente di cifratura, bisogna evitare invece un 
+ Per la scelta dell'esponente di cifratura, bisogna evitare invece un 
 \begin_inset Formula $e$
 \end_inset
 
@@ -11598,10 +11597,10 @@ Otteniamo che un fattore non banale di
 \end_inset
 
  è proprio 
-\begin_inset Formula $p=d_{9}=113$
+\begin_inset Formula $p=d_{7}=113$
 \end_inset
 
-, mentre il secondo fattore di 
+, mentre il secondo fattore vale 
 \begin_inset Formula $q=n/p=101$
 \end_inset
 
@@ -11900,8 +11899,7 @@ In generale non abbiamo un algoritmo efficiente che risolva il logaritmo
 \end_inset
 
  arbitrario.
- Quindi la funzione logaritmo discreto z è unidirezionale; infatti, dato
- 
+ Quindi la funzione logaritmo discreto è unidirezionale; infatti dato 
 \begin_inset Formula $\beta$
 \end_inset
 
@@ -12535,7 +12533,7 @@ Dati
 \begin_inset Formula $c$
 \end_inset
 
-, tutti residui modulo 
+, tutti e tre residui modulo 
 \begin_inset Formula $p$
 \end_inset
 
@@ -12567,7 +12565,20 @@ Consideriamo un mittente
 \begin_inset Formula $\mathbf{B}$
 \end_inset
 
-; ipotizziamo che un attaccante 
+; ipotiz
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+ziamo che un attaccante 
 \begin_inset Formula $\mathbf{O}$
 \end_inset
 
@@ -12689,7 +12700,7 @@ Consideriamo un mittente
 :
 \begin_inset Formula 
 \[
-\cgm{t\cdot r^{-a}\equiv\left(\beta^{k}\cdot m\right)\left(\alpha^{k}\right)^{-a}\equiv\left(\cancel{\alpha^{a\cdot k}}\cdot m\right)\left(\cancel{\alpha^{a\cdot k}}\right)}{\boxed{m}}p.
+\cgm{t\cdot r^{-a}\equiv\left(\beta^{k}\cdot m\right)\left(\alpha^{k}\right)^{-a}\equiv\left(\cancel{\alpha^{a\cdot k}}\cdot m\right)\left(\cancel{\alpha^{-a\cdot k}}\right)}{\boxed{m}}p.
 \]
 
 \end_inset
@@ -13036,7 +13047,7 @@ debolmente resistente alle collisioni
 \end_layout
 
 \begin_layout Standard
-Ottenere la resistenza debole alle collisioni è più difficile: infatti essa
+Ottenere la resistenza debole alle collisioni è più facile: infatti essa
  fornisce un grado di libertà in meno rispetto alla resistenza forte (uno
  dei due messaggi viene fissato).
 \end_layout
@@ -13416,7 +13427,7 @@ La funzione
 
 \end_deeper
 \begin_layout Enumerate
-assegniamo 
+assegnamo 
 \begin_inset Formula $A=H_{0},\,B=H_{1},\,C=H_{2},\,D=H_{3},\,E=H_{4}$
 \end_inset
 
@@ -13641,8 +13652,8 @@ status open
 \end_layout
 
 \begin_layout Standard
-Possiamo adottare questo principio per attaccare la firma digitale tramite
- hash.
+Possiamo adottare questo principio per attaccare la firma digitale basata
+ su hash.
  Sia data una funzione di hash con lunghezza 60bit: vi saranno in totale
  
 \begin_inset Formula $2^{60}\simeq10^{19}=N$
@@ -14519,10 +14530,10 @@ Firma di El Gamal
 \end_layout
 
 \begin_layout Standard
-Seguendo l'applicazione della firma RSA, l'algoritmo per la firma di El
- Gamal si applica firmando con la chiave privata e verificando la firma
- tramite la chiave pubblica; in questo caso la chiave privata può essere
- ottenuta a partire da quella pubblica solo risolvendo il problema del logaritmo
+Seguendo la struttura della firma RSA, l'algoritmo per la firma di El Gamal
+ si applica firmando con la chiave privata e verificando la firma tramite
+ la chiave pubblica; in questo caso la chiave privata può essere ottenuta
+ a partire da quella pubblica solo risolvendo il problema del logaritmo
  discreto.
 \end_layout
 
@@ -14852,7 +14863,7 @@ Dal punto di vista di un osservatore esterno, quando A emette due firme
 
 \end_inset
 
-La seconda relazione è il frutto della differenza tra le prime due; possiamo
+La terza congruenza è il frutto della differenza tra le prime due; possiamo
  calcolare 
 \begin_inset Formula $k$
 \end_inset
@@ -17832,7 +17843,20 @@ e valore economico alla sua credibilità, dunque la fiducia nei suoi confronti
 
 \begin_layout Standard
 Distinguiamo e analizziamo nelle sezioni successive gli algoritmi delle
- seguenti categorie:
+ seguenti ca
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+-
+\end_layout
+
+\end_inset
+
+tegorie:
 \end_layout
 
 \begin_layout Enumerate
@@ -18370,8 +18394,8 @@ ato, la debolezza si nasconde nella password utilizzata per la cifratura:
 
 \begin_layout Standard
 Un'altra problematica riguarda la sicurezza della trasmissione dei segreti
- condivisi (per esempio chiavi simmetriche) dalle due parti che vogliono
- comunicare, quando esse sono distanti.
+ condivisi (per esempio chiavi simmetriche) tra due parti che vogliono comunicar
+e, quando esse sono distanti.
  Con la crittografia a chiave pubblica il problema della trasmissione dei
  segreti è risolto, tuttavia è impossibile fidarsi della provenienza di
  una chiave pubblica senza ulteriori informazioni correlate.
@@ -20727,8 +20751,8 @@ inviamo i ticket assieme a un timestamp e cifriamo il tutto;
 \end_layout
 
 \begin_layout Itemize
-usiamo delle stringhe contenenti la cifratura di di ID del client e del
- server di autenticazione assieme a un timestamp, e chiamiamole 
+usiamo delle stringhe contenenti la cifratura di ID del client e del server
+ di autenticazione assieme a un timestamp, e chiamiamole 
 \emph on
 authenticator
 \emph default
@@ -21418,7 +21442,7 @@ numeri di sequenza.
 \end_layout
 
 \begin_layout Standard
-I servizi che il TLS Record Protocol sono i seguenti:
+I servizi che il TLS Record Protocol implementa sono i seguenti:
 \end_layout
 
 \begin_layout Labeling
@@ -21714,7 +21738,7 @@ l'header HTTP.
 \begin_layout Standard
 L'agente che ha il ruolo di client HTTP agisce anche come client TLS, prima
  avviando un handshake TLS e poi effettuando la richiesta HTTP tramite il
- canale sicuro; una connessione HTTP ha tre 
+ canale sicuro; una connessione HTTPS ha tre 
 \begin_inset Quotes eld
 \end_inset
 
